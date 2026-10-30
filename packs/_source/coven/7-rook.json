@@ -2,10 +2,13 @@
   "key": "7-rook",
   "name": "Rook",
   "type": "guardian",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/witch-ward/assets/tokens/rook.webp",
   "prototypeToken": {
     "actorLink": true,
-    "disposition": 1
+    "disposition": 1,
+    "texture": {
+      "src": "systems/witch-ward/assets/tokens/rook.webp"
+    }
   },
   "system": {
     "heart": 3,

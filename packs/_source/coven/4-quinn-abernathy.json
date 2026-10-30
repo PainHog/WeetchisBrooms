@@ -2,10 +2,13 @@
   "key": "4-quinn-abernathy",
   "name": "Quinn Abernathy",
   "type": "witch",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/witch-ward/assets/tokens/quinn-abernathy.webp",
   "prototypeToken": {
     "actorLink": true,
-    "disposition": 1
+    "disposition": 1,
+    "texture": {
+      "src": "systems/witch-ward/assets/tokens/quinn-abernathy.webp"
+    }
   },
   "system": {
     "heart": 3,

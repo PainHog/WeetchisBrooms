@@ -2,10 +2,13 @@
   "key": "6-noor-haddad",
   "name": "Noor Haddad",
   "type": "witch",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/witch-ward/assets/tokens/noor-haddad.webp",
   "prototypeToken": {
     "actorLink": true,
-    "disposition": 1
+    "disposition": 1,
+    "texture": {
+      "src": "systems/witch-ward/assets/tokens/noor-haddad.webp"
+    }
   },
   "system": {
     "heart": 2,

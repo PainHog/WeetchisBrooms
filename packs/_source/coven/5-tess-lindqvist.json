@@ -2,10 +2,13 @@
   "key": "5-tess-lindqvist",
   "name": "Tess Lindqvist",
   "type": "witch",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/witch-ward/assets/tokens/tess-lindqvist.webp",
   "prototypeToken": {
     "actorLink": true,
-    "disposition": 1
+    "disposition": 1,
+    "texture": {
+      "src": "systems/witch-ward/assets/tokens/tess-lindqvist.webp"
+    }
   },
   "system": {
     "heart": 1,

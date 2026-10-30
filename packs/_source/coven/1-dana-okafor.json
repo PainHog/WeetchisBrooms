@@ -2,10 +2,13 @@
   "key": "1-dana-okafor",
   "name": "Dana Okafor",
   "type": "witch",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/witch-ward/assets/tokens/dana-okafor.webp",
   "prototypeToken": {
     "actorLink": true,
-    "disposition": 1
+    "disposition": 1,
+    "texture": {
+      "src": "systems/witch-ward/assets/tokens/dana-okafor.webp"
+    }
   },
   "system": {
     "heart": 2,

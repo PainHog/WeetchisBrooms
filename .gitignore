@@ -27,3 +27,6 @@ book/dist/*.pass1.pdf
 book/dist/*.pass2.pdf
 book/dist/*.print.html
 book/dist/*.html
+
+# Token art generator scratch (SVG sources, PNGs, contact sheet)
+tools/vtt-art/out/

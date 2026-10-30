@@ -2,10 +2,13 @@
   "key": "3-june-takeda",
   "name": "June Takeda",
   "type": "witch",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/witch-ward/assets/tokens/june-takeda.webp",
   "prototypeToken": {
     "actorLink": true,
-    "disposition": 1
+    "disposition": 1,
+    "texture": {
+      "src": "systems/witch-ward/assets/tokens/june-takeda.webp"
+    }
   },
   "system": {
     "heart": 2,
