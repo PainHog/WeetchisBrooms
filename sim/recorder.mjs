@@ -10,7 +10,7 @@ export function newCell() {
     reasons: {}, rounds: [], scenes: [], anyDown: 0, witchesDown: 0, witchCount: 0, guardianDown: 0, guardianRuns: 0,
     rolls: { critical: 0, success: 0, partial: 0, failure: 0 },
     magicFrac: [], lifeAnswered: 0, wardFrac: [], potionsMade: 0, potionsUsed: 0, weaknessAtShowdown: 0,
-    vanquishTries: 0, doomAtShowdown: [], callUsed: 0, pressured: 0, vanquishRolls: 0, vanquishHits: 0, use: {},
+    unmakeTries: 0, doomAtShowdown: [], callUsed: 0, pressured: 0, unmakeRolls: 0, unmakeHits: 0, use: {},
     power: Object.fromEntries(POWER_KEYS.map(p => [p, { n: 0, win: 0, loss: 0, down: 0, damage: 0 }])),
   };
 }
@@ -34,12 +34,12 @@ export function record(cell, ep) {
   cell.potionsMade += ep.potionsMade;
   cell.potionsUsed += ep.potionsUsed;
   if (ep.weaknessAtShowdown) cell.weaknessAtShowdown++;
-  cell.vanquishTries += ep.vanquishTries;
+  cell.unmakeTries += ep.unmakeTries;
   cell.doomAtShowdown.push(ep.doomAtShowdown);
   if (ep.callUsed) cell.callUsed++;
   for (const [k, v] of Object.entries(ep.use)) cell.use[k] = (cell.use[k] || 0) + v;
   if (ep.forced && (ep.carefulRounds > 0 || ep.seen)) cell.pressured++;
-  for (const v of ep.vanquishLog) { cell.vanquishRolls++; if (v.result === "success" || v.result === "critical") cell.vanquishHits++; }
+  for (const v of ep.unmakeLog) { cell.unmakeRolls++; if (v.result === "success" || v.result === "critical") cell.unmakeHits++; }
   for (const p of ep.powers) {
     const s = cell.power[p];
     s.n++;
@@ -53,7 +53,7 @@ export function record(cell, ep) {
 export function merge(cells) {
   const out = newCell();
   for (const c of cells) {
-    for (const k of ["runs", "win", "partial", "loss", "seen", "forced", "innocentLost", "anyDown", "witchesDown", "witchCount", "guardianDown", "guardianRuns", "lifeAnswered", "potionsMade", "potionsUsed", "weaknessAtShowdown", "vanquishTries", "callUsed", "pressured", "vanquishRolls", "vanquishHits"]) out[k] += c[k];
+    for (const k of ["runs", "win", "partial", "loss", "seen", "forced", "innocentLost", "anyDown", "witchesDown", "witchCount", "guardianDown", "guardianRuns", "lifeAnswered", "potionsMade", "potionsUsed", "weaknessAtShowdown", "unmakeTries", "callUsed", "pressured", "unmakeRolls", "unmakeHits"]) out[k] += c[k];
     for (const k of Object.keys(out.rolls)) out.rolls[k] += c.rolls[k];
     for (const [k, v] of Object.entries(c.reasons)) out.reasons[k] = (out.reasons[k] || 0) + v;
     for (const [k, v] of Object.entries(c.use)) out.use[k] = (out.use[k] || 0) + v;
@@ -90,7 +90,7 @@ export function summary(c) {
     doomAtShowdown: mean(c.doomAtShowdown),
     pressured: pct(c.pressured, c.forced),
     callUsed: pct(c.callUsed, c.runs - c.guardianRuns),
-    vanquishHit: pct(c.vanquishHits, c.vanquishRolls),
+    unmakeHit: pct(c.unmakeHits, c.unmakeRolls),
     use: Object.fromEntries(Object.entries(c.use).map(([k, v]) => [k, v / c.runs])),
     guardianRuns: c.guardianRuns,
     reasons: Object.fromEntries(Object.entries(c.reasons).map(([k, v]) => [k, pct(v, c.runs)])),

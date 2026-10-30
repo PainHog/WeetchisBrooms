@@ -7,7 +7,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Attack** | Any attempt to damage the threat (a roll against its Defence), or the threat's go at a character. Not a stat. |
 | **Casting** | Using a Power, a spell, a potion or a guardian gift. Casting where ordinary people can see raises Exposure (except Hide). |
 | **Book, the** | The coven's spellbook, kept at home. Research there gives +1 die; destroyed threats get a page. Not the show's book or its name. |
-| **Broken** | A threat whose Toughness is full: it stops attacking, Doom stops, and it flees at the end of the next round unless Vanquished. |
+| **Broken** | A threat whose Toughness is full: it stops attacking, Doom stops, and it flees at the end of the next round unless the Unmaking destroys it. |
 | **Clue** | One step of the investigation. Half the Clues tell the coven what the threat is and where; all of them reveal its Weakness. |
 | **Coven** | The group of witches (2–5), plus the guardian if a player plays it. Family by blood or by choice. |
 | **Craft** | The rating for spells and potions. |
@@ -17,7 +17,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Difficulty** | The number of successes a roll needs (1–4). |
 | **Doom** | The threat's plan, 12 boxes. Rises after every scene and round. Has the Showdown mark at 5. |
 | **Down** | A character whose Hurt boxes are full: out of action until healed below full. Never dead. |
-| **Driven off / fled** | A Broken threat that got away before the Vanquish worked. It can come back. |
+| **Driven off / fled** | A Broken threat that got away before the Unmaking worked. It can come back. |
 | **Episode** | One session's story, from opening to closing. |
 | **Exposure** | How close ordinary people are to seeing magic. When full, the coven is **Seen**. |
 | **Failure** | Fewer successes than half the Difficulty. It doesn't work and there's a cost. |
@@ -43,13 +43,13 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Seen** | Exposure is full; the episode's result drops one step, and any further rise in Exposure becomes Doom +1. |
 | **Showdown** | The fight with the threat. |
 | **Showdown mark** | Doom 5: if Doom reaches it, the threat comes to the coven in a public place. |
-| **Spell** | Reveal, Bind, Blast, Shelter, Hide or the Vanquish (Craft, 1 Magic). |
+| **Spell** | Reveal, Bind, Blast, Shelter, Hide or the Unmaking (Craft, 1 Magic). |
 | **Storyteller** | The person running the game. |
 | **Surge** | A Power's bigger effect, 2 Magic, once per scene. |
 | **Threat** | The episode's enemy: a demon, a spirit, a rogue witch, a cursed thing or a creature. |
 | **Toughness** | The damage that Breaks a threat. |
-| **Vanquish** | The joined spell that destroys a Broken threat. |
+| **Unmaking** | The joined spell that destroys a Broken threat. |
 | **Ward** | The guardian's points, 5 per episode. (Only this meaning in the rules; the title's "Ward" is protection in general.) |
-| **Weakness** | What the coven learns with all the Clues. Without it the threat's Defence is 1 higher and the Vanquish is 2 harder; with it, attacks that work do 1 more damage. |
+| **Weakness** | What the coven learns with all the Clues. Without it the threat's Defence is 1 higher and the Unmaking is 2 harder; with it, attack rolls that work do 1 more damage. |
 | **Witch** | A player character with a Power. |
 | **Wits** | The rating for noticing, searching and research. |

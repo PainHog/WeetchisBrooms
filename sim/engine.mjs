@@ -14,7 +14,7 @@ import { fits, members } from "./character.mjs";
 const LIFE_FIT_CHANCE = 1 / 3; // a lead that matches the witch's job or role
 const POTION_ORDER = ["blasting", "healing", "binding"];
 
-export function playEpisode({ coven, label, settings, rng }) {
+export function playEpisode({ coven, label, settings, rng, season = {} }) {
   const N = settings.numbers[label];
   const R = settings.rules;
   const J = settings.judgement;
@@ -31,7 +31,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     veiledScene: -1, veiledShowdown: false,
     innocent: { present: false, safe: false, lost: false, guard: null, held: false },
     threat: null, round: 0, magicThisRound: false, ended: null,
-    brewed: 0, potionsUsed: 0, vanquishTries: 0, vanquishLog: [], cluesAtShowdown: 0, doomAtShowdown: 0,
+    brewed: 0, potionsUsed: 0, unmakeTries: 0, unmakeLog: [], cluesAtShowdown: 0, doomAtShowdown: 0,
     rolls: { critical: 0, success: 0, partial: 0, failure: 0 },
     rollsByPhase: { investigation: 0, showdown: 0 },
     damageBy: Object.fromEntries(all.map(c => [c.id, 0])),
@@ -39,6 +39,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     use: {},
   };
   const half = () => Math.ceil(st.cluesNeeded / 2);
+  if (season.bookPage) st.clues = half(); // "next time, start with half the Clues"
   const weakness = () => st.clues >= st.cluesNeeded;
   const standing = list => list.filter(c => !c.down);
 
@@ -73,7 +74,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     if (st.seen) return; // stays full once Seen
     st.exposure = Math.max(0, st.exposure - k);
   }
-  /** Magic a witch keeps back in the showdown for the Vanquish (1 to join, 1 for a die). */
+  /** Magic a witch keeps back in the showdown for the Unmaking (1 to join, 1 for a die). */
   const RESERVE = 2;
   /** Magic a character is willing to spend on extra dice right now. */
   function spareMagic(ch, keep) {
@@ -232,8 +233,11 @@ export function playEpisode({ coven, label, settings, rng }) {
     const life = ch.kind === "witch" && rng.next() < LIFE_FIT_CHANCE ? 1 : 0;
     let sense = 0;
     const gd = coven.guardian;
-    if (gd && !gd.down && st.senseScene !== st.scene && gd.ward >= 4 && ch !== gd && life + bookDie < R.bonusCap) {
-      spend(gd, 1, "ward"); st.senseScene = st.scene; sense = 1; use("gift:sense"); // Sense: "+1 die on a lead this scene"
+    let senseClue = false;
+    if (gd && !gd.down && st.senseScene !== st.scene && gd.ward >= 4 && ch !== gd && (R.senseClue || R.senseOutside || life + bookDie < R.bonusCap)) {
+      spend(gd, 1, "ward"); st.senseScene = st.scene; use("gift:sense");
+      if (R.senseClue) senseClue = true; // "a lead this scene that succeeds gives 1 more Clue"
+      else sense = 1;                    // v0.5: +1 die
     }
     // Sight and Wild Surge on a lead: one more Clue.
     let surged = false;
@@ -241,10 +245,12 @@ export function playEpisode({ coven, label, settings, rng }) {
     // Veil Surge: no Exposure from magic this scene, when Exposure is high.
     const magical = fits(ch, opt.kind) || !!opt.spell;
     if (ch.power === "veil" && magical && opt.pub && st.exposure >= N.exposureMax - 2 && surgeOk(ch, 2)) { surge(ch); st.veiledScene = st.scene; }
-    const r = roll(ch, { rating: opt.rating, action: opt.kind, difficulty: N.leadD, free: life + bookDie + sense, buy: spareMagic(ch, 3) > 0 ? 1 : 0, spell: !!opt.spell });
+    const outside = R.senseOutside ? sense : 0; // Sense's die can sit outside the +2 limit
+    const r = roll(ch, { rating: opt.rating, action: opt.kind, difficulty: N.leadD, free: life + bookDie + (R.senseOutside ? 0 : sense), joiners: outside, buy: spareMagic(ch, 3) > 0 ? 1 : 0, spell: !!opt.spell });
     let gain = r.result === RESULT.CRITICAL ? 2 : works(r.result) ? 1 : 0;
     if (surged && works(r.result)) gain += 1;
     if (opt.spell && (r.result === RESULT.SUCCESS || r.result === RESULT.CRITICAL)) gain += R.revealBonus;
+    if (senseClue && (r.result === RESULT.SUCCESS || r.result === RESULT.CRITICAL)) gain += 1;
     st.clues = Math.min(st.cluesNeeded, st.clues + gain);
     if (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE) investigationCost(ch, r.usedMagic, opt.pub);
   }
@@ -252,8 +258,10 @@ export function playEpisode({ coven, label, settings, rng }) {
   function potionCap() { return R.potionCap === "witches" ? w : R.potionCap === "characters" ? n : R.potionCap; }
   function brewLimit() { return P.brew === "cap" ? 99 : { none: 0, one: 1, two: 2 }[P.brew]; }
   function brew(ch) {
+    const wildSurge = R.wildBrew && ch.power === "wild" && surgeOk(ch, 3) && P.magic === "spendy" ? (surge(ch), true) : false;
     const r = roll(ch, { rating: "craft", action: "brew", difficulty: N.leadD });
-    const made = r.result === RESULT.CRITICAL ? R.potionYield + 1 : works(r.result) ? R.potionYield : 0;
+    let made = r.result === RESULT.CRITICAL ? R.potionYield + 1 : r.result === RESULT.SUCCESS ? R.potionYield : r.result === RESULT.PARTIAL ? R.brewPartial : 0;
+    if (wildSurge && works(r.result)) made += 1; // Wild: "1 more potion"
     for (let i = 0; i < made; i++) { if (coven.potions.length >= potionCap()) break; const k = pick(POTION_ORDER); coven.potions.push(k); use(`brewed:${k}`); } // "at most one potion per witch"
     st.brewed += 1;
     st.potionsMade = (st.potionsMade || 0) + made;
@@ -287,7 +295,7 @@ export function playEpisode({ coven, label, settings, rng }) {
       if (ch.magic > 0) { ch.magicLost = 1; ch.magic -= 1; } else hurt(ch, 1);
     }
     st.threat = {
-      toughness: N.tWitch * w + N.tGuardian * g + toughnessExtra(),
+      toughness: N.tWitch * w + N.tGuardian * g + toughnessExtra() + (season.toughnessBonus || 0), // a returning threat: +2 each time
       damage: 0, broken: false, brokenRound: null, skip: 0,
       lastHurtBy: null, hold: false, defenceMod: 0,
       attacks: settings.size.attacks[settings.size.attacksBy === "w" ? w : n],
@@ -397,6 +405,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     fightCost(gd, r.result);
   }
 
+  function threatDanger() { return N.attack + (season.dangerBonus || 0); }
   function effectiveDefence() { return Math.max(0, N.defence + st.threat.defenceMod + (weakness() ? 0 : R.noWeaknessDefence)); }
   function effectiveDefenceSafe() { return st.threat ? effectiveDefence() : N.defence; }
 
@@ -420,15 +429,18 @@ export function playEpisode({ coven, label, settings, rng }) {
       // A Broken threat stays until the end of the next round, so the coven waits for a round where
       // everyone can join, unless it would flee first.
       const fresh = st.round > T.brokenRound || J.brokenFlees === "thisRound";
-      return fresh ? vanquish(ch, acted) : undefined;
+      return fresh ? unmake(ch, acted) : undefined;
     }
     const careful = carefulRound();
     // Free potion (no action, one per character per round), when the rule allows it.
+    let usedPotion = false;
     if (R.potionFree && !careful) {
+      const before = coven.potions.length;
       const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - 1);
       if (needHeal.length && coven.potions.includes("healing")) { usePotion("healing"); heal(maxBy(needHeal, x => x.hurt * 10 + attackPool(x).pool), R.potionHeal); }
-      else if (coven.potions.includes("blasting")) { usePotion("blasting"); damageThreat(ch, R.potionBlast); if (T.broken) return; }
+      else if (!R.blastingBoost && coven.potions.includes("blasting")) { usePotion("blasting"); damageThreat(ch, R.potionBlast); if (T.broken) return; }
       else if (coven.potions.includes("binding") && T.skip === 0) { usePotion("binding"); T.skip += 1; }
+      usedPotion = coven.potions.length < before;
     }
     // Healing potion on a Down witch.
     const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - 1);
@@ -467,10 +479,13 @@ export function playEpisode({ coven, label, settings, rng }) {
     // Attack.
     const opt = attackPool(ch, !careful);
     if (opt.spell) { spend(ch, 1); use("spell:blast"); } else use("attack"); // Blast or a plain attack
+    let boost = false;
+    if (R.blastingBoost && R.potionFree && !careful && !usedPotion && coven.potions.includes("blasting")) { usePotion("blasting"); boost = true; }
     let surged = null;
     if (!careful && (ch.power === "force" || ch.power === "flame") && surgeOk(ch, RESERVE)) { surge(ch); surged = ch.power; }
     const r = roll(ch, { rating: opt.rating, action: "attack", difficulty: Math.max(1, effectiveDefence()), power: !careful, spell: opt.spell, buy: Math.min(2, spareMagic(ch, RESERVE)) });
     let dmg = R.damage[r.result] + (opt.spell && works(r.result) ? R.blastBonus : 0) + (weakness() && works(r.result) ? R.weaknessDamage : 0);
+    if (boost && works(r.result)) dmg += R.potionBlast; // Blasting: "2 more damage on your attack this round if it works"
     if (surged === "flame" && works(r.result)) dmg += 2;
     if (surged === "force" && works(r.result)) T.skip += 1;
     damageThreat(ch, dmg);
@@ -484,8 +499,8 @@ export function playEpisode({ coven, label, settings, rng }) {
     if (st.place === "public") st.magicThisRound = true;
   }
 
-  /** "The Vanquish (only against a Broken threat)." */
-  function vanquish(ch, acted) {
+  /** "The Unmaking (only against a Broken threat)." */
+  function unmake(ch, acted) {
     const avail = standing(coven.witches).filter(x => !acted.has(x));
     const leaders = avail.filter(x => x.magic >= 1);
     if (!leaders.length) return; // nobody can pay for the spell this round
@@ -495,17 +510,17 @@ export function playEpisode({ coven, label, settings, rng }) {
     for (const j of joiners) { spend(j, 1); if (!j.down) acted.add(j); }
     const gd = coven.guardian;
     let gJoin = 0;
-    if (R.guardianVanquish && gd && !gd.down && gd.ward >= 1) { spend(gd, 1, "ward"); gJoin = R.guardianVanquish; } // joins without an action
+    if (R.guardianUnmake && gd && !gd.down && gd.ward >= 1) { spend(gd, 1, "ward"); gJoin = R.guardianUnmake; } // joins without an action
     acted.add(leader);
     // Extra dice for the leader: the leader's own Magic, then helpers' Magic, inside the +2 cap.
     let extra = spend(leader, Math.min(R.bonusCap, leader.magic));
     for (const h of coven.witches) { if (extra >= R.bonusCap) break; if (h !== leader && h.magic >= 1) extra += spend(h, 1); }
-    st.vanquishTries++;
-    use("spell:vanquish");
-    const d = (R.vanquishByWitches ? w + N.vanquishAdd : N.vanquishD + (settings.size.vanquishMod[w] || 0)) + (weakness() ? 0 : R.noWeaknessVanquish);
-    const r = roll(leader, { rating: "craft", action: "vanquish", difficulty: d, free: extra, joiners: joiners.length * R.vanquishJoinDice + gJoin, spell: true });
-    st.vanquishLog.push({ pool: r.pool, d, result: r.result, joiners: joiners.length + gJoin });
-    if (R.vanquishNeedsSuccess) {
+    st.unmakeTries++;
+    use("spell:unmake");
+    const d = (R.unmakeByWitches ? w + N.unmakeAdd : N.unmakeD + (settings.size.unmakeMod[w] || 0)) + (weakness() ? 0 : R.noWeaknessUnmake);
+    const r = roll(leader, { rating: "craft", action: "unmake", difficulty: d, free: extra, joiners: joiners.length * R.unmakeJoinDice + gJoin, spell: true });
+    st.unmakeLog.push({ pool: r.pool, d, result: r.result, joiners: joiners.length + gJoin });
+    if (R.unmakeNeedsSuccess) {
       if (r.result === RESULT.SUCCESS || r.result === RESULT.CRITICAL) return end("destroyed");
       return; // the threat holds on; no extra cost
     }
@@ -518,8 +533,9 @@ export function playEpisode({ coven, label, settings, rng }) {
 
   function threatActs() {
     const T = st.threat;
+    let lost = 0;
     for (let i = 0; i < T.attacks; i++) {
-      if (T.skip > 0) { T.skip--; continue; } // "loses its next attack"
+      if (T.skip > 0 && lost < R.maxLostAttacks) { T.skip--; lost++; continue; } // "loses its next attack" (at most one a round)
       const d = rng.d6();
       if (d === 6) {
         if (innocentLoose()) {
@@ -566,7 +582,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     const danger = tgt.hurt + hit >= tgt.hurtMax;
     const held = st.heldAttack && tgt.kind === "guardian";
     st.heldAttack = false;
-    const r = roll(tgt, { rating: "nerve", action: "defend", difficulty: N.attack, power: !careful, free: held ? R.holdDice : 0, buy: danger ? Math.min(2, spareMagic(tgt, RESERVE)) : 0 });
+    const r = roll(tgt, { rating: "nerve", action: "defend", difficulty: threatDanger(), power: !careful, free: held ? R.holdDice : 0, buy: danger ? Math.min(2, spareMagic(tgt, RESERVE)) : 0 });
     const h = r.result === RESULT.FAILURE ? hit : r.result === RESULT.PARTIAL ? 1 : 0;
     hurt(tgt, h);
   }
@@ -601,7 +617,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     ward: coven.guardian ? { spent: coven.guardian.wardSpent, had: coven.guardian.wardStart } : null,
     callUsed: st.callUsed, carefulRounds: st.carefulRounds, use: st.use,
     potionsMade: st.potionsMade || 0, potionsUsed: st.potionsUsed, brewed: st.brewed,
-    vanquishTries: st.vanquishTries, vanquishLog: st.vanquishLog,
+    unmakeTries: st.unmakeTries, unmakeLog: st.unmakeLog,
     rolls: st.rolls, rollsByPhase: st.rollsByPhase,
     damageBy: Object.fromEntries(coven.witches.map(x => [x.power, st.damageBy[x.id]])),
   };

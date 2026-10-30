@@ -29,7 +29,7 @@ test("the roll reads as CORE-RULES says", () => {
   assert.equal(readRoll([4, 4], 2, { successFace: 5 }).result, RESULT.FAILURE);
 });
 
-test("extra dice are capped at +2; Vanquish joiners are not", () => {
+test("extra dice are capped at +2; Unmaking joiners are not", () => {
   assert.equal(poolSize({ rating: 3, powerFits: true, extra: 5 }), 7);
   assert.equal(poolSize({ rating: 2, extra: 1, joiners: 6 }), 9);
 });
@@ -103,4 +103,13 @@ test("a grid cell runs and counts every episode", () => {
   const cell = runCell({ label: "standard", players: 4, guardian: true, runs: 50, seed: 3, settings: baseSettings() });
   assert.equal(cell.runs, 50);
   assert.equal(cell.win + cell.partial + cell.loss, 50);
+});
+
+test("a season plays every episode, the same way for the same seed", async () => {
+  const { playSeason } = await import("./season.mjs");
+  const run = () => playSeason({ witches: 3, guardian: true, label: "standard", episodes: 6, settings: baseSettings(), rng: makeRng(11, "season") });
+  const a = run(), b = run();
+  assert.equal(a.length, 6);
+  assert.deepEqual(a.map(e => [e.result, e.reason, e.returning]), b.map(e => [e.result, e.reason, e.returning]));
+  for (const ep of a) assert.ok(["win", "partial", "loss"].includes(ep.result));
 });

@@ -10,16 +10,16 @@
 
 /** CORE-RULES "[T] Numbers", per difficulty label. */
 export const NUMBERS = {
-  easy:     { leadD: 1, defence: 1, attack: 1, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 5, cluesPer: 3, cluesAdd: 0, vanquishAdd: 0 },
-  standard: { leadD: 2, defence: 2, attack: 3, hit: 2, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, vanquishAdd: 0 },
-  hard:     { leadD: 2, defence: 2, attack: 3, hit: 3, tWitch: 5, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, vanquishAdd: 0 },
+  easy:     { leadD: 1, defence: 1, attack: 1, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 5, cluesPer: 3, cluesAdd: 0, unmakeAdd: 0 },
+  standard: { leadD: 2, defence: 2, attack: 3, hit: 2, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, unmakeAdd: 0 },
+  hard:     { leadD: 2, defence: 2, attack: 3, hit: 3, tWitch: 5, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, unmakeAdd: 0 },
 };
 
-/** CORE-RULES per-size rows: threat attacks per round (by characters) and Vanquish Difficulty change (by witches). */
+/** CORE-RULES per-size rows: threat attacks per round (by characters) and Unmaking Difficulty change (by witches). */
 export const SIZE = {
   attacks: { 2: 1, 3: 1, 4: 2, 5: 2 },
   attacksBy: "n",   // count characters (n) or witches only (w) when looking up attacks per round
-  vanquishMod: { 2: 0, 3: 0, 4: 0, 5: 0 },
+  unmakeMod: { 2: 0, 3: 0, 4: 0, 5: 0 },
   toughnessMod: { 2: 0, 3: 3, 4: 0, 5: 0 }, // "Against 3 witches and no guardian player, the threat has 3 more Toughness"
   toughnessBy: "allWitches", // extra Toughness only against a coven with no guardian player ("allWitches"), or by characters (n) or witches (w)
 };
@@ -38,7 +38,15 @@ export const RULES = {
   ward: 5,
   damage: { critical: 3, success: 2, partial: 1, failure: 0 },
   surgeCost: 2,
-  noWeaknessVanquish: 2, // "+2 without the Weakness"
+  noWeaknessUnmake: 2, // "+2 without the Weakness"
+  blastingBoost: true,  // Blasting: 2 more damage on your attack this round if it works (v0.5: 2 damage with no roll)
+  maxLostAttacks: 1,    // the threat loses at most this many attacks a round, whatever the cause (99 = no limit)
+  brewPartial: 1,       // potions a Partial brew makes (v0.5: the same as a success)
+  senseClue: false,     // Sense: a lead this scene that succeeds gives 1 more Clue (instead of a die)
+  senseOutside: true,   // Sense's die doesn't count toward the +2 limit (v0.5: it did)
+  wildBrew: true,       // Wild's Surge on a brew makes 1 more potion
+  seasonToughness: 1,  // season: the threat has this much more Toughness per witch for every growth step the coven has taken
+  seasonDanger: 0,     // season: +1 Danger every this many growth steps (0 = never)
   seenToDoom: true,     // once Seen, any further Exposure rise becomes +1 Doom instead
   potionCap: "characters", // most potions the coven can carry: "characters" (one per character), "witches" (one per witch) or a number (99 = no cap)
   hideQuiet: true,      // casting Hide never raises Exposure (v0.4: it counted as casting)
@@ -55,11 +63,11 @@ export const RULES = {
   revealBonus: 1,          // extra Clue Reveal gives on a Success or Critical (v0.1: 0)
   blastBonus: 1,           // extra damage Blast does on a Partial or better (v0.1: 0)
   voiceClue: true,         // Voice's Surge can instead give 1 more Clue on a talking lead (v0.1: false)
-  vanquishByWitches: true,  // Vanquish Difficulty = number of witches + the label's vanquishAdd (instead of the label's vanquishD)
-  vanquishJoinDice: 2,      // dice each joining witch adds
-  vanquishNeedsSuccess: true, // only a full success destroys the threat (a Partial is a miss, with no extra cost)
-  // Rule switches (the defaults are CORE-RULES v0.2; v0.1 was: vanquishByWitches false, vanquishJoinDice 1, vanquishNeedsSuccess false, guardianVanquish 0, holdDice 0)
-  guardianVanquish: 0,     // dice the guardian adds when it joins the Vanquish for 1 Ward (0 = it can't join)
+  unmakeByWitches: true,  // Unmaking Difficulty = number of witches + the label's unmakeAdd (instead of the label's unmakeD)
+  unmakeJoinDice: 2,      // dice each joining witch adds
+  unmakeNeedsSuccess: true, // only a full success destroys the threat (a Partial is a miss, with no extra cost)
+  // Rule switches (the defaults are CORE-RULES v0.2; v0.1 was: unmakeByWitches false, unmakeJoinDice 1, unmakeNeedsSuccess false, guardianUnmake 0, holdDice 0)
+  guardianUnmake: 0,     // dice the guardian adds when it joins the Unmaking for 1 Ward (0 = it can't join)
   mendFree: false,         // Mend needs no action (once per round)
   holdDice: 0,             // extra defence dice for the guardian against an attack it drew with Hold
 };
@@ -103,7 +111,7 @@ export const POLICY = {
   magic: {
     default: "spendy",
     values: ["spendy", "careful"],
-    doc: "spendy: in the showdown spend everything above 2 Magic (kept for the Vanquish); in investigation spend above 3. careful: keep 3 in the showdown and spend nothing in investigation.",
+    doc: "spendy: in the showdown spend everything above 2 Magic (kept for the Unmaking); in investigation spend above 3. careful: keep 3 in the showdown and spend nothing in investigation.",
   },
   go: {
     default: "gamble",

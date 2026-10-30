@@ -13,6 +13,8 @@ import { baseSettings, withPreset, JUDGEMENT, POLICY, NUMBERS, SIZE } from "./pa
 import { POWERS, POWER_KEYS } from "./character.mjs";
 import { rollOdds } from "../module/logic/rules.mjs";
 import { GAPS, MODELLED } from "./notes.mjs";
+import { playSeason } from "./season.mjs";
+import { makeRng } from "./rng.mjs";
 
 const args = Object.fromEntries(process.argv.slice(2).reduce((a, v, i, arr) => (v.startsWith("--") ? [...a, [v.slice(2), arr[i + 1]]] : a), []));
 const RUNS = +(args.runs || 2000);
@@ -55,7 +57,7 @@ const lines = [];
 const out = s => lines.push(s);
 out("# Witch & Ward: simulator report");
 out("");
-out(`Rules: \`docs/CORE-RULES.md\` v0.5. Command: \`node sim/run.mjs --runs ${RUNS} --seed ${SEED} --sweep-runs ${SWEEP_RUNS}\`. ${RUNS.toLocaleString("en")} episodes per cell, ${(RUNS * allCells.length).toLocaleString("en")} in all. Same seed, same report.`);
+out(`Rules: \`docs/CORE-RULES.md\` v0.6. Command: \`node sim/run.mjs --runs ${RUNS} --seed ${SEED} --sweep-runs ${SWEEP_RUNS}\`. ${RUNS.toLocaleString("en")} episodes per cell, ${(RUNS * allCells.length).toLocaleString("en")} in all. Same seed, same report.`);
 out("");
 out("A **cell** is one difficulty label, one number of players (3, 4 or 5), with or without a guardian player. With a guardian player, one player plays the guardian and the rest play witches. **Win / Partial / Loss** are the episode results from CORE-RULES \"The end\".");
 out("");
@@ -114,7 +116,7 @@ const shape = [
   ["Weakness known when the showdown starts", L => pctS(S[L].weaknessAtShowdown)],
   ["Showdown mark reached: public fight with the innocent there", L => pctS(S[L].forced)],
   ["Showdown rounds: median / 90% / most", L => `${S[L].roundsMedian} / ${S[L].roundsP90} / ${S[L].roundsMax}`],
-  ["Vanquish rolls that destroy the threat", L => pctS(S[L].vanquishHit)],
+  ["Unmaking rolls that destroy the threat", L => pctS(S[L].unmakeHit)],
   ["Seen (Exposure full)", L => pctS(S[L].seen)],
   ["Public fights where Exposure pressed (a round without magic, or Seen)", L => pctS(S[L].pressured)],
   ["Innocent lost", L => pctS(S[L].innocentLost)],
@@ -165,7 +167,7 @@ out("");
 const USE = [
   ["Leads followed out in the city", "lead"], ["Book research at home", "research"], ["Reveal (spell)", "spell:reveal"], ["Life answered", "life"], ["Rest", "rest"],
   ["Hide (spell)", "spell:hide"], ["Plain attacks (Nerve)", "attack"], ["Blast (spell)", "spell:blast"], ["Bind (spell)", "spell:bind"], ["Study the threat", "study"],
-  ["Guard the innocent (rounds)", "guard"], ["Vanquish attempts", "spell:vanquish"],
+  ["Guard the innocent (rounds)", "guard"], ["Unmaking attempts", "spell:unmake"],
   ...POWER_KEYS.map(p => [`Surge: ${POWERS[p].name}`, `surge:${p}`]),
   ["Potions brewed: Blasting / Healing / Binding", ["brewed:blasting", "brewed:healing", "brewed:binding"]],
   ["Potions used: Blasting / Healing / Binding", ["potion:blasting", "potion:healing", "potion:binding"]],
@@ -238,7 +240,7 @@ for (const [k, d] of Object.entries(JUDGEMENT)) for (const v of d.values) if (v 
 for (const [k, d] of Object.entries(POLICY)) for (const v of d.values) if (v !== d.default) sweepRow(`players: ${k}`, String(v), { ...settings, policy: { ...settings.policy, [k]: v } });
 sweepRow("preset", "generous (every open rule read for the players)", withPreset(settings, "generous"));
 sweepRow("preset", "strict (every open rule read against them)", withPreset(settings, "strict"));
-sweepRow("rules", "v0.1 Vanquish (1 die per joiner, fixed Difficulty, Partial destroys)", { ...settings, rules: { ...settings.rules, vanquishByWitches: false, vanquishJoinDice: 1, vanquishNeedsSuccess: false }, numbers: Object.fromEntries(Object.entries(settings.numbers).map(([k, v]) => [k, { ...v, vanquishD: { easy: 2, standard: 3, hard: 3 }[k] }])) });
+sweepRow("rules", "v0.1 Unmaking (1 die per joiner, fixed Difficulty, Partial destroys)", { ...settings, rules: { ...settings.rules, unmakeByWitches: false, unmakeJoinDice: 1, unmakeNeedsSuccess: false }, numbers: Object.fromEntries(Object.entries(settings.numbers).map(([k, v]) => [k, { ...v, unmakeD: { easy: 2, standard: 3, hard: 3 }[k] }])) });
 sweepRow("rules", "v0.2 innocent (not held at the start of a public showdown)", { ...settings, rules: { ...settings.rules, innocentHeld: 0 } });
 sweepRow("rules", "v0.2 Weakness (no Defence +1 without it, no extra damage with it)", { ...settings, rules: { ...settings.rules, noWeaknessDefence: 0, weaknessDamage: 0 } });
 sweepRow("rules", "v0.3 potions (using one is an action, brewing is its own action, one potion per brew)", { ...settings, rules: { ...settings.rules, potionFree: false, brewWithBook: false, potionYield: 1 } });
@@ -251,14 +253,33 @@ for (const [k, d] of Object.entries(JUDGEMENT)) out(`- **judgement: ${k}** — $
 for (const [k, d] of Object.entries(POLICY)) out(`- **players: ${k}** — ${d.doc}`);
 out("");
 
+// ---------------------------------------------------------------- seasons
+out("## 11. Seasons");
+out("");
+const SEASON_RUNS = Math.max(200, Math.round(SWEEP_RUNS));
+out(`Eight episodes in a row with the same coven (${SEASON_RUNS.toLocaleString("en")} seasons each for 3 witches, 3 witches + guardian, and 5 witches, pooled), carrying over Scars, growth, Book pages and returning threats as CORE-RULES "The end" says. Each threat is one of 6 kinds at random unless one that wasn't destroyed is due back (two episodes later). Win / Loss by episode:`);
+out("");
+out("| Label | " + Array.from({ length: 8 }, (_, i) => `Ep ${i + 1}`).join(" | ") + " |");
+out("|---|" + "---|".repeat(8));
+for (const L of ["standard", "hard"]) {
+  const by = Array.from({ length: 8 }, () => ({ win: 0, loss: 0, n: 0 }));
+  for (const [p, g] of [[3, false], [4, true], [5, false]]) for (let i = 0; i < SEASON_RUNS; i++) {
+    for (const ep of playSeason({ witches: g ? p - 1 : p, guardian: g, label: L, episodes: 8, settings, rng: makeRng(SEED, "season", L, p, g, i) })) {
+      const b = by[ep.episode - 1]; b.n++; if (ep.result === "win") b.win++; if (ep.result === "loss") b.loss++;
+    }
+  }
+  out(`| ${NAME[L]} | ${by.map(b => `${f0((100 * b.win) / b.n)} / ${f0((100 * b.loss) / b.n)}`).join(" | ")} |`);
+}
+out("");
+
 // ---------------------------------------------------------------- findings
-out("## 11. Rule gaps and findings");
+out("## 12. Rule gaps and findings");
 out("");
 out("| Kind | Finding | Rules passage | Reading used | Settled |");
 out("|---|---|---|---|---|");
 for (const g of GAPS) out(`| ${g.kind} | ${g.title} | ${g.ref} | ${g.reading} | ${g.fixed} |`);
 out("");
-out("## 12. What is and isn't modelled");
+out("## 13. What is and isn't modelled");
 out("");
 out("Modelled:");
 out("");
@@ -268,11 +289,11 @@ out("Not modelled:");
 out("");
 for (const m of MODELLED.no) out(`- ${m}`);
 out("");
-out("## 13. The numbers used");
+out("## 14. The numbers used");
 out("");
 out("| | " + LABELS.map(L => NAME[L]).join(" | ") + " |");
 out("|---|---|---|---|");
-for (const k of ["leadD", "defence", "attack", "hit", "tWitch", "cluesPer", "cluesAdd", "mark", "doomMax", "exposureMax", "vanquishAdd"]) out(`| ${k} | ${LABELS.map(L => NUMBERS[L][k]).join(" | ")} |`);
+for (const k of ["leadD", "defence", "attack", "hit", "tWitch", "cluesPer", "cluesAdd", "mark", "doomMax", "exposureMax", "unmakeAdd"]) out(`| ${k} | ${LABELS.map(L => NUMBERS[L][k]).join(" | ")} |`);
 out("");
 out(`Threat attacks per round by characters: ${Object.entries(SIZE.attacks).filter(([n]) => n >= 3).map(([n, a]) => `${n}: ${a}`).join(", ")}. Extra Toughness by characters: ${Object.entries(SIZE.toughnessMod).map(([n, a]) => `${n}: ${a}`).join(", ")}.`);
 out("");

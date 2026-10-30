@@ -67,7 +67,7 @@ export function readRoll(faces, difficulty, opts = {}) {
 
 /**
  * Size of a pool (CORE-RULES "Extra dice"): the rating, +2 when the Power
- * fits, plus extra dice capped at +2 from all other sources together. Vanquish
+ * fits, plus extra dice capped at +2 from all other sources together. Unmaking
  * joiners are outside the cap ("joiners don't count toward the +2 limit").
  */
 export function poolSize({ rating = 0, powerFits = false, extra = 0, joiners = 0, powerDice = 2, bonusCap = ROLL_DEFAULTS.bonusCap } = {}) {
