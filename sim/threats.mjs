@@ -47,7 +47,7 @@ const FIX = {
       const c = VC.lureAttack, s = c.pooled.hard, w = cellsOf(["hard"]).map(x => c.cell[x.key].win);
       const ok = inRange(s.win, TARGETS.hard.win) && w.every(x => Math.abs(x - WIN_TARGET.hard) <= OFF);
       const cost = lureRows.find(r => r[0] === "lureCost")[2];
-      return `Make Lure an attack with a side effect, as Chapter 10 advises for any move: "Lure: one attack; then the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action." Tested (§8): Low Tide ${f1(s.win)}% win, ${f1(s.loss)}% loss, cells ${f1(Math.min(...w))}–${f1(Math.max(...w))}%, ${ok ? "back on target" : "closer but not fully on target"}, level with "two different characters" (${f1(P("twoAttacks", "hard").win)}%). Settling Lure's Partial the strict way instead (the usual 1 Hurt on a Partial or Failure) gives ${f1(cost.win)}%. Hard sits at the top of its band with any one-attack move (§3), so either fix lands Low Tide near 60%, not in the middle.`;
+      return `Make Lure an attack with a side effect, as Chapter 10 advises for any move: "Lure: one attack; then the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action." Tested (§8): Low Tide ${f1(s.win)}% win, ${f1(s.loss)}% loss, cells ${f1(Math.min(...w))}–${f1(Math.max(...w))}%, ${ok ? "back on target" : "closer but not fully on target"}, ${sgn(s.win - P("twoAttacks", "hard").win)} points from "two different characters" (${f1(P("twoAttacks", "hard").win)}%). Settling Lure's Partial the strict way instead (the usual 1 Hurt on a Partial or Failure) gives ${f1(cost.win)}%. Hard sits at the top of its band with any one-attack move (§3), so either fix lands Low Tide near 60%, not in the middle.`;
     },
     weak: () => `The same fix: with an attack in it, Lure can't do less than a plain attack (tested in §8: ${LABELS.map(L => `${NAME[L]} ${sgn(-worth("lureAttack", L, VC))}`).join(", ")} points against a plain attack).`,
     dead: () => "See the note under this table.",
@@ -60,7 +60,10 @@ const FIX = {
     dead: () => "See the note under this table.",
   },
   quietMan: {
-    rider: () => `None needed for balance: Hush is already the strongest of the six, because it is two attacks. The rider rarely bites, because a hushed witch still makes a plain Nerve attack and loses only her Power's 2 dice or a spell.`,
+    rider: () => {
+      const strongest = ["standard", "hard"].every(L => SIX.every(m => P("quietMan", L).win <= P(m, L).win));
+      return `None needed for balance: ${strongest ? "Hush is already the hardest of the six at Standard and Hard, because it is two attacks" : "Hush is two attacks, as strong as the book's yardstick"}. The rider rarely bites, because a hushed witch still makes a plain Nerve attack and loses only her Power's 2 dice or a spell.`;
+    },
     dead: () => "See the note under this table.",
   },
   ashWidow: { dead: () => "See the note under this table." },
@@ -81,7 +84,7 @@ const fx = f => (typeof f === "function" ? f() : f);
 const f0 = x => x.toFixed(0);
 const f1 = x => x.toFixed(1);
 const pctS = x => `${f0(x)}%`;
-const sgn = x => `${x >= 0 ? "+" : "−"}${f1(Math.abs(x))}`;
+const sgn = x => (Math.abs(x) < 0.05 ? "0.0" : `${x > 0 ? "+" : "−"}${f1(Math.abs(x))}`);
 const inRange = (x, [a, b]) => x >= a - 1e-9 && x <= b + 1e-9;
 const mark = ok => (ok ? "yes" : "**no**");
 const wpl = s => `${pctS(s.win)} / ${pctS(s.partial)} / ${pctS(s.loss)}`;
@@ -237,12 +240,12 @@ for (const e of EPISODES) {
   const offCells = cellsOf([L]).filter(c => cellOff(e.move, c));
   const pushedCells = cellsOf([L]).filter(c => cellOff(e.move, c) && !cellOff("generic", c));
   const pushed = Math.abs(s.win - g.win) > OFF || cellsOf([L]).some(c => Math.abs(C(e.move, c.key).win - C("generic", c.key).win) > OFF);
-  const cellList = cs => cs.map(c => `${c.p}${c.g ? "+guardian" : ""} (${pctS(C(e.move, c.key).win)})`).join(", ");
-  if (pushed) flag("move pushes episode off target", `${e.n}. ${e.name}: ${short(e.move)}`, `Win ${pctS(s.win)} against ${pctS(g.win)} with the generic move.`, FIX[e.move]?.off);
+  const cellList = cs => cs.map(c => `${c.p} players${c.g ? " with a guardian player" : ""} (${f1(C(e.move, c.key).win)}%)`).join(", ");
+  if (pushed) flag("move pushes episode off target", `${e.n}. ${e.name}: ${short(e.move)}`, `Win ${f1(s.win)}% against ${f1(g.win)}% with the generic move.`, FIX[e.move]?.off);
   if (!inRange(s.win, TARGETS[L].win) || offCells.length) {
-    const why = pushedCells.length ? `${short(e.move)} pushes ${cellList(pushedCells)} out of the ±${OFF} band; the generic move keeps them in.` : `The generic move is off in the same way (${pctS(g.win)} pooled), so the label, not the move, is the cause.`;
+    const why = pushedCells.length ? `${short(e.move)} pushes ${cellList(pushedCells)} out of the ±${OFF} band, and the pooled win from ${f1(g.win)}% with the generic move to ${f1(s.win)}%.` : `The generic move is off in the same way (${f1(g.win)}% pooled), so the label, not the move, is the cause.`;
     flag(pushedCells.length ? "move pushes cells off target" : "episode off target (label)", `${e.n}. ${e.name} (${NAME[L]}, ${short(e.move)})`,
-      `Win ${pctS(s.win)} (target ${TARGETS[L].win.join("–")}%).${offCells.length ? ` Cells more than ${OFF} points off: ${cellList(offCells)}.` : ""} ${why}`, pushedCells.length ? FIX[e.move]?.off : FIX.label[L]);
+      `Win ${f1(s.win)}% (target ${TARGETS[L].win.join("–")}%).${offCells.length ? ` Cells more than ${OFF} points off: ${cellList(offCells)}.` : ""} ${why}`, pushedCells.length ? FIX[e.move]?.off : FIX.label[L]);
   }
 }
 // Dead, dominated and dominant moves.
@@ -308,7 +311,7 @@ out("### Candidate fixes (not in the book)");
 out("");
 out("The smallest wording changes for the flagged moves (section 7), run over the whole grid like the moves above.");
 out("");
-out("| Candidate | Win / Loss (E; S; H) | Win vs plain (E / S / H) | Win vs two attacks (E / S / H) | A witch Down (E / S / H) | Cells (E; S; H) |");
+out("| Move | Win / Loss (E; S; H) | Win vs plain (E / S / H) | Win vs two attacks (E / S / H) | A witch Down (E / S / H) | Cells (E; S; H) |");
 out("|---|---|---|---|---|---|");
 for (const m of ["plain", "twoAttacks", ...CAND]) {
   const d = m in THREATS.moves ? THREATS.moves[m] : THREATS.candidates[m];
