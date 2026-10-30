@@ -1,0 +1,113 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "points": [
+    {
+      "key": "front-door",
+      "label": "The front door, with the lamp over it that has never gone out",
+      "x": 350,
+      "y": 1850
+    },
+    {
+      "key": "front-room",
+      "label": "The front room: sofas that don't match, a fireplace, a bay window onto the street",
+      "x": 600,
+      "y": 1520
+    },
+    {
+      "key": "hall",
+      "label": "The hall (Rook stands here in human shape)",
+      "x": 350,
+      "y": 1450
+    },
+    {
+      "key": "kitchen",
+      "label": "The kitchen: long table, old range, shelves of jars. Potions are brewed here",
+      "x": 500,
+      "y": 1080
+    },
+    {
+      "key": "walled-garden",
+      "label": "The back door and the walled garden: herbs, an apple tree, a bench under it",
+      "x": 550,
+      "y": 520
+    },
+    {
+      "key": "back-bedroom",
+      "label": "Back bedroom (the lodger's room)",
+      "x": 1500,
+      "y": 880
+    },
+    {
+      "key": "bathroom",
+      "label": "The bathroom: a claw-foot bath, knocking pipes, a mirror that fogs over",
+      "x": 1650,
+      "y": 1150
+    },
+    {
+      "key": "front-bedroom",
+      "label": "Front bedroom (the gran's room)",
+      "x": 1600,
+      "y": 1550
+    },
+    {
+      "key": "small-room",
+      "label": "The small room over the stairs",
+      "x": 1300,
+      "y": 1720
+    },
+    {
+      "key": "the-book",
+      "label": "The Book on its lectern (research happens here)",
+      "x": 2500,
+      "y": 1290
+    },
+    {
+      "key": "old-trunks",
+      "label": "Old trunks: clothes, letters, tools and keepsakes. Some are locked",
+      "x": 2250,
+      "y": 800
+    },
+    {
+      "key": "round-window",
+      "label": "The round window: it looks down on the street and the lamp",
+      "x": 2500,
+      "y": 1760
+    }
+  ],
+  "tokens": {
+    "coven": [
+      [
+        500,
+        1600
+      ],
+      [
+        700,
+        1300
+      ],
+      [
+        400,
+        1100
+      ],
+      [
+        500,
+        500
+      ],
+      [
+        300,
+        1400
+      ],
+      [
+        1600,
+        1600
+      ],
+      [
+        2600,
+        1300
+      ]
+    ],
+    "threat": null,
+    "innocent": null
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "points": [
+    {
+      "key": "way-market-street",
+      "label": "The Market Street arch: a striped arch at the bottom of the hill, the busiest way in (a way in and out)",
+      "x": 550,
+      "y": 1800
+    },
+    {
+      "key": "way-harbour-steps",
+      "label": "The Harbour Steps: a stone stair from the food yard down to the harbour road (a way in and out)",
+      "x": 2500,
+      "y": 1750
+    },
+    {
+      "key": "way-coopers-lane",
+      "label": "Cooper's Lane: a narrow back alley behind the chip shop (a way in and out)",
+      "x": 150,
+      "y": 150
+    },
+    {
+      "key": "way-bell-street",
+      "label": "Through the market hall to Bell Street, by the side doors (a way in and out)",
+      "x": 2200,
+      "y": 300
+    },
+    {
+      "key": "st-brides-steps",
+      "label": "St Bride's steps: Grace's broadcast desk, with speakers playing her show to the whole market",
+      "x": 1500,
+      "y": 850
+    },
+    {
+      "key": "market-hall",
+      "label": "St Bride's market hall: the covered hall with its iron roof, full of stalls, with side doors onto Bell Street",
+      "x": 1500,
+      "y": 300
+    },
+    {
+      "key": "lanes-of-stalls",
+      "label": "The lanes of stalls: food, records, second-hand clothes and fortune-tellers, under strings of fairy lights",
+      "x": 600,
+      "y": 1300
+    },
+    {
+      "key": "food-yard",
+      "label": "The food yard: long tables, a small stage and the salt-fish stall",
+      "x": 2500,
+      "y": 1350
+    },
+    {
+      "key": "salt-fish-stall",
+      "label": "The salt-fish stall, with its salt bins",
+      "x": 2250,
+      "y": 1650
+    },
+    {
+      "key": "chip-shop",
+      "label": "The chip shop on Cooper's Lane (Bea Santos lives in the flat above)",
+      "x": 500,
+      "y": 450
+    },
+    {
+      "key": "the-crowd",
+      "label": "The crowd in front of St Bride's steps",
+      "x": 1500,
+      "y": 1250
+    }
+  ],
+  "tokens": {
+    "coven": [
+      [
+        300,
+        1700
+      ],
+      [
+        400,
+        1700
+      ],
+      [
+        500,
+        1700
+      ],
+      [
+        600,
+        1700
+      ],
+      [
+        700,
+        1700
+      ],
+      [
+        500,
+        1600
+      ],
+      [
+        600,
+        1600
+      ]
+    ],
+    "threat": [
+      1400,
+      600
+    ],
+    "innocent": [
+      1400,
+      700
+    ]
+  }
+}

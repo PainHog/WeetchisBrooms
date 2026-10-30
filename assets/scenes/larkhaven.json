@@ -1,0 +1,51 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "gridless": true,
+  "points": [
+    {
+      "key": "lantern-house",
+      "label": "The Lantern House (Old Town): the coven's home. The Book is in the attic (lead 5)",
+      "x": 1700,
+      "y": 1010
+    },
+    {
+      "key": "st-brides",
+      "label": "St Bride's market hall and the Friday night market (Old Town): the market lanes (lead 3), the steps of St Bride's (lead 6), and the public place",
+      "x": 1480,
+      "y": 1185
+    },
+    {
+      "key": "beas-flat",
+      "label": "Bea Santos's flat over the chip shop on Cooper's Lane (Old Town): lead 1",
+      "x": 1395,
+      "y": 1145
+    },
+    {
+      "key": "radio-larkhaven",
+      "label": "The Radio Larkhaven studio (Old Town), where Grace Ellery hosts the late show: lead 2",
+      "x": 1270,
+      "y": 1040
+    },
+    {
+      "key": "voice-clinic",
+      "label": "The voice clinic at Larkhaven General: lead 4",
+      "x": 960,
+      "y": 950
+    },
+    {
+      "key": "bus-stop",
+      "label": "The bus stop for the Heights, where the trail of grey threads leads (lead 3)",
+      "x": 1885,
+      "y": 1250
+    },
+    {
+      "key": "radio-tower",
+      "label": "The old radio tower (the Heights), next to the observatory: the Quiet Man's hidden place",
+      "x": 1640,
+      "y": 225
+    }
+  ],
+  "tokens": null
+}
