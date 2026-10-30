@@ -9,7 +9,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { runGrid, runCell, LABELS, PLAYERS, cellKey } from "./grid.mjs";
 import { merge, summary } from "./recorder.mjs";
-import { baseSettings, withPreset, JUDGEMENT, POLICY, NUMBERS, SIZE } from "./params.mjs";
+import { baseSettings, withPreset, JUDGEMENT, POLICY, NUMBERS, SIZE, TARGETS, WIN_TARGET } from "./params.mjs";
 import { POWERS, POWER_KEYS } from "./character.mjs";
 import { rollOdds } from "../module/logic/rules.mjs";
 import { GAPS, MODELLED } from "./notes.mjs";
@@ -26,11 +26,7 @@ const f0 = x => x.toFixed(0);
 const f1 = x => x.toFixed(1);
 const pctS = x => `${f0(x)}%`;
 const NAME = { easy: "Easy", standard: "Standard", hard: "Hard" };
-const TARGET = {
-  easy: { win: [85, 95], loss: [0, 5], down: [0, 15] },
-  standard: { win: [70, 80], loss: [5, 15], down: [25, 100], seen: [5, 15] },
-  hard: { win: [55, 60], loss: [15, 30], down: [40, 100] },
-};
+const TARGET = TARGETS;
 const inRange = (x, [a, b]) => x >= a - 1e-9 && x <= b + 1e-9;
 const mark = ok => (ok ? "yes" : "**no**");
 
@@ -68,7 +64,7 @@ out("");
 out("| Target (DESIGN Q16) | Easy | Standard | Hard | On target? |");
 out("|---|---|---|---|---|");
 const cellWins = L => PLAYERS.flatMap(p => [C(L, p, false).win, C(L, p, true).win]);
-const winT = { easy: 90, standard: 75, hard: 57.5 };
+const winT = WIN_TARGET;
 const rowsT = [
   ["Win: Easy ~90%, Standard ~75%, Hard 55–60%", L => pctS(S[L].win), LABELS.every(L => inRange(S[L].win, TARGET[L].win)) ],
   ["Loss: Easy ≤5%, Standard 5–15%, Hard 15–30%", L => pctS(S[L].loss), LABELS.every(L => inRange(S[L].loss, TARGET[L].loss)) ],

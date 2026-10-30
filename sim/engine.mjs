@@ -37,6 +37,8 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     damageBy: Object.fromEntries(all.map(c => [c.id, 0])),
     callUsed: false, senseScene: -1, carefulRounds: 0,
     use: {},
+    muted: new Set(), // Hush: characters who can't cast on this round's turn
+    lost: new Set(),  // Lure: characters who lose this round's turn
   };
   const half = () => Math.ceil(st.cluesNeeded / 2);
   if (season.bookPage) st.clues = half(); // "next time, start with half the Clues"
@@ -105,7 +107,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (usedMagic && isPublic) { if (st.veiledScene !== st.scene) raiseExposure(1); else hurt(ch, 1); } // under Veil, the cost is 1 Hurt
     else hurt(ch, 1);
   }
-  const use = k => { st.use[k] = (st.use[k] || 0) + 1; };
+  const use = (k, by = 1) => { st.use[k] = (st.use[k] || 0) + by; };
   const pick = arr => arr[Math.floor(rng.next() * arr.length)];
   const maxBy = (arr, f) => arr.reduce((best, x) => (best === null || f(x) > f(best) ? x : best), null);
   const minBy = (arr, f) => arr.reduce((best, x) => (best === null || f(x) < f(best) ? x : best), null);
@@ -319,7 +321,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   /** Free a held innocent: Nerve against Defence; a Partial or better frees them. */
   function freeInnocent(ch) {
     use("free");
-    const careful = carefulRound();
+    const careful = carefulRound() || st.muted.has(ch); // Hush: Force left off
     const r = roll(ch, { rating: "nerve", action: "free", difficulty: Math.max(1, effectiveDefence()), power: !careful, buy: ch.kind === "witch" ? Math.min(2, spareMagic(ch, RESERVE)) : 0 });
     if (R.freeNeedsSuccess ? r.result === RESULT.SUCCESS || r.result === RESULT.CRITICAL : works(r.result)) st.innocent.held = false;
     fightCost(ch, r.result);
@@ -341,8 +343,16 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (st.round === 1 && R.threatFirst && !T.broken) threatActs(); // "In round 1 the threat acts first."
     if (standing(coven.witches).length === 0) return end("allDown");
     const acted = new Set();
+    // Hush and Lure land on a character's next turn: this round's for everyone standing now
+    // (in round 1 the threat has just acted; in later rounds it acted after everyone's turn).
+    st.muted = new Set();
+    st.lost = new Set();
+    for (const c of standing(all)) {
+      if (c.lured) { c.lured = false; st.lost.add(c); acted.add(c); use("lure:lostTurn"); } // "they lose their next action"
+      if (c.hushed) { c.hushed = false; st.muted.add(c); use("hush:mutedTurn"); }        // "can't cast on their next action"
+    }
     const gd = coven.guardian;
-    if (gd && !gd.down) { guardianAct(gd); acted.add(gd); }
+    if (gd && !gd.down && !acted.has(gd)) { guardianAct(gd); acted.add(gd); }
     // A held innocent: up to two witches try to free them.
     if (st.innocent.held && !T.broken) {
       const cands = standing(coven.witches).filter(x => !acted.has(x)).sort((a, b) => freePool(b) - freePool(a));
@@ -350,7 +360,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     }
     // Pick a guard for a loose innocent nobody is carrying out.
     if (innocentLoose() && !st.threat.broken) {
-      const cands = standing(coven.witches);
+      const cands = standing(coven.witches).filter(x => !st.lost.has(x)); // a lured witch has no action to guard with
       if (cands.length > 1) {
         const guard = minBy(cands, x => attackPool(x).pool);
         st.innocent.guard = guard; acted.add(guard); use("guard");
@@ -394,12 +404,13 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   }
 
   function guardianAct(gd) {
-    if (R.mendFree) { const t = mendTarget(); if (t && gd.ward >= 1) mend(gd, t); } // no action, once a round
+    const mute = st.muted.has(gd); // Hush: no gift on this turn (Hold isn't casting)
+    if (R.mendFree && !mute) { const t = mendTarget(); if (t && gd.ward >= 1) mend(gd, t); } // no action, once a round
     if (st.innocent.held && !st.threat.broken) return freeInnocent(gd); // free them first
-    if (innocentLoose() && gd.ward >= 1) { // Carry the innocent out
+    if (innocentLoose() && gd.ward >= 1 && !mute) { // Carry the innocent out
       spend(gd, 1, "ward"); st.innocent.safe = true; use("gift:carry"); if (st.place === "public") st.magicThisRound = true; return;
     }
-    if (!R.mendFree) { const t = mendTarget(); if (t && gd.ward >= 1) return mend(gd, t); }
+    if (!R.mendFree && !mute) { const t = mendTarget(); if (t && gd.ward >= 1) return mend(gd, t); }
     // Hold: Nerve against Defence; the threat's next attack must target the guardian.
     if (gd.hurt > gd.hurtMax - 3) return; // too hurt to draw attacks: it stays back
     use("gift:hold");
@@ -434,7 +445,8 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       const fresh = st.round > T.brokenRound || J.brokenFlees === "thisRound";
       return fresh ? unmake(ch, acted) : undefined;
     }
-    const careful = carefulRound();
+    const muted = st.muted.has(ch);         // Hush: no casting on this turn
+    const careful = carefulRound() || muted; // either way: no Power, spell or potion
     // Free potion (no action, one per character per round), when the rule allows it.
     let usedPotion = false;
     if (R.potionFree && !careful) {
@@ -451,9 +463,9 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       usePotion("healing"); heal(maxBy(needHeal, x => x.hurt * 10 + attackPool(x).pool), R.potionHeal); return;
     }
     // Veil in a public showdown: Hide with a Surge, so the rest of the showdown is unseen.
-    if (ch.power === "veil" && st.place === "public" && !veiledNow() && !st.seen && ch.magic >= RESERVE + 1 + R.surgeCost) return hide(ch);
+    if (ch.power === "veil" && !muted && st.place === "public" && !veiledNow() && !st.seen && ch.magic >= RESERVE + 1 + R.surgeCost) return hide(ch);
     // Voice in a public showdown with Exposure climbing: Hide.
-    if (ch.power === "voice" && st.place === "public" && !st.seen && !veiledNow() && st.exposure >= N.exposureMax - 2 && ch.magic >= RESERVE + 1) return hide(ch);
+    if (ch.power === "voice" && !muted && st.place === "public" && !st.seen && !veiledNow() && st.exposure >= N.exposureMax - 2 && ch.magic >= RESERVE + 1) return hide(ch);
     // Study the threat if the Weakness is still unknown.
     if (!weakness()) {
       const studiers = standing(coven.witches).filter(x => !acted.has(x));
@@ -510,7 +522,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
 
   /** "The Unmaking (only against a Broken threat)." */
   function unmake(ch, acted) {
-    const avail = standing(coven.witches).filter(x => !acted.has(x));
+    const avail = standing(coven.witches).filter(x => !acted.has(x) && !st.muted.has(x)); // Hush: can't lead or join as their action
     const leaders = avail.filter(x => x.magic >= 1);
     if (!leaders.length) return; // nobody can pay for the spell this round
     const leader = maxBy(leaders, x => x.ratings.craft);
@@ -553,17 +565,109 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
           if (guard && !guard.down) { attackOn(guard, 0); continue; } // "the threat must attack you instead"
           st.innocent.lost = true; continue; // "it takes the innocent instead"
         }
-        if (J.signature === "heavy") { attackOn(target(4), 1); continue; }
-        const a = target(1);
-        attackOn(a, 0);
-        const others = standing(all).filter(x => x !== a);
-        if (others.length) attackOn(maxBy(others, x => x.hurt), 0);
+        signature();
         continue;
       }
+      if (d >= R.signatureFrom) { signature(); continue; } // test switch only (default 6: never reached)
       attackOn(target(d), 0);
     }
     if (!R.bankLostAttacks) T.skip = 0; // "any more are wasted"
     T.lostLastRound = lost > 0;
+  }
+
+  /**
+   * The threat's signature move (Ch 10 stat blocks; readings in params.mjs THREATS).
+   * "generic" is the code REPORT.md has always used, unchanged.
+   */
+  function signature() {
+    const move = settings.threat || "generic";
+    const TJ = settings.threatJudgement || {};
+    const T = st.threat;
+    use("sig:move");
+    switch (move) {
+      case "generic": {
+        if (J.signature === "heavy") { attackOn(target(4), 1); return; }
+        const a = target(1);
+        attackOn(a, 0);
+        const others = standing(all).filter(x => x !== a);
+        if (others.length) attackOn(maxBy(others, x => x.hurt), 0);
+        return;
+      }
+      case "plain": attackOn(target(4), 0); return; // yardstick: an ordinary 4–5 attack
+      case "twoAttacks":                            // "attack two different characters" (ruling 63)
+      case "quietMan": {                            // Hush: …"the first one he hurts can't cast on their next action"
+        let hushed = false;
+        for (const t of moveTargets(2)) {
+          if (t.down) continue;
+          const r = attackOn(t, 0);
+          if (move === "quietMan" && !hushed && r && r.hurt > 0) { hushed = true; r.who.hushed = true; use("hush:hushed"); }
+        }
+        return;
+      }
+      case "ashWidow": {                            // Cinders: "attack every character, but Hit is 1"
+        for (const t of moveTargets(99)) {
+          if (t.down) continue;
+          use("cinders:attack");
+          const r = attackOn(t, 0, 1);
+          if (r) use("cinders:hurt", r.hurt);
+        }
+        return;
+      }
+      case "mirrorThief": {                         // Borrowed Face: "the witch with the most Magic left"
+        const gd = coven.guardian;
+        let t = null;
+        if (T.hold && gd && !gd.down) { T.hold = false; st.heldAttack = true; t = gd; } // under Hold: the guardian (ruling 82)
+        else {
+          const ws = standing(coven.witches);
+          if (!ws.length) return;
+          const most = Math.max(...ws.map(x => x.magic));
+          t = pick(ws.filter(x => x.magic === most));
+        }
+        const r = attackOn(t, 0);
+        if (r && r.result === RESULT.FAILURE) { // "on a Failure they also lose 1 Magic" (the guardian: 1 Ward)
+          if (r.who.kind === "guardian") { if (r.who.ward > 0) { r.who.ward -= 1; use("face:ward"); } }
+          else if (r.who.magic > 0) { r.who.magic -= 1; use("face:magic"); }
+        }
+        return;
+      }
+      case "nightNurse": {                          // Drain: "if it does any Hurt, the threat clears 2 damage"
+        const r = attackOn(target(4), 0);
+        if (r && r.hurt > 0) { const c = Math.min(2, T.damage); T.damage -= c; use("drain:fired"); use("drain:cleared", c); }
+        return;
+      }
+      case "vesperCrane": {                         // Turned Spell: "one attack with Hit 1 higher"
+        const r = attackOn(target(4), 1);
+        if (r && r.result === RESULT.FAILURE) use("turned:failure");
+        return;
+      }
+      case "drownedChoir": {                        // Lure: not an attack; Hold, Shield and Sight's miss don't touch it
+        const up = standing(all);
+        if (!up.length) return;
+        const low = Math.min(...up.map(x => x.ratings.heart));
+        const t = pick(up.filter(x => x.ratings.heart === low));
+        use("lure:roll");
+        const buy = TJ.lureDice === "none" ? 0 : Math.min(2, spareMagic(t, RESERVE));
+        const r = roll(t, { rating: "heart", action: "lure", difficulty: threatDanger(), power: false, buy });
+        if (r.result === RESULT.FAILURE && !t.lured) { t.lured = true; use("lure:failure"); }
+        if (TJ.lureCost === "hurt" && (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE)) hurt(t, 1);
+        return;
+      }
+      default: throw new Error(`unknown threat ${move}`);
+    }
+  }
+
+  /**
+   * Targets for a move that names "two different characters" or "every character":
+   * the guardian first under Hold (which is then used up), then the most Hurt, then the
+   * next most Hurt, all standing; ties at random (the Storyteller picks).
+   */
+  function moveTargets(k) {
+    const T = st.threat;
+    const gd = coven.guardian;
+    const out = [];
+    if (T.hold && gd && !gd.down) { T.hold = false; st.heldAttack = true; out.push(gd); }
+    const rest = rng.shuffle(standing(all).filter(x => !out.includes(x))).sort((a, b) => b.hurt - a.hurt); // stable sort keeps the shuffled tie order
+    return [...out, ...rest].slice(0, k);
   }
 
   function target(d) {
@@ -576,10 +680,11 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     return pick(up.filter(x => x.hurt === most)); // "whoever is most hurt and still standing"
   }
 
-  function attackOn(tgt, hitBonus) {
-    if (!tgt) return;
-    const hit = N.hit + hitBonus;
-    if (st.shelter.has(tgt)) return;
+  /** One attack. Returns who took it, the Hurt done and the defence result (null if it missed). `hitIs` sets Hit outright (Cinders). */
+  function attackOn(tgt, hitBonus, hitIs = null) {
+    if (!tgt) return null;
+    const hit = hitIs ?? N.hit + hitBonus;
+    if (st.shelter.has(tgt)) return { who: tgt, hurt: 0, result: null };
     // Guardian Shield: take an attack that would put a witch Down.
     const gd = coven.guardian;
     if (gd && !gd.down && tgt.kind === "witch" && gd.ward >= 1 && (st.shieldsRound !== st.round || st.shieldsUsed < R.shieldPerRound) && tgt.hurt + hit >= tgt.hurtMax && gd.hurt + hit < gd.hurtMax) {
@@ -590,7 +695,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     // Sight Surge: "one attack this round misses".
     if (tgt.hurt + hit >= tgt.hurtMax && !carefulRound()) {
       const seer = standing(coven.witches).find(x => x.power === "sight" && surgeOk(x, 0));
-      if (seer) { surge(seer); return; }
+      if (seer) { surge(seer); return { who: tgt, hurt: 0, result: null }; }
     }
     const careful = carefulRound();
     const danger = tgt.hurt + hit >= tgt.hurtMax;
@@ -599,6 +704,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     const r = roll(tgt, { rating: "nerve", action: "defend", difficulty: threatDanger(), power: !careful, free: held ? R.holdDice : 0, buy: danger ? Math.min(2, spareMagic(tgt, RESERVE)) : 0 });
     const h = r.result === RESULT.FAILURE ? hit : r.result === RESULT.PARTIAL ? 1 : 0;
     hurt(tgt, h);
+    return { who: tgt, hurt: h, result: r.result };
   }
 
   function end(reason) {

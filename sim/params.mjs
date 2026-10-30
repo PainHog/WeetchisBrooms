@@ -24,6 +24,15 @@ export const SIZE = {
   toughnessBy: "allWitches", // extra Toughness only against a coven with no guardian player ("allWitches"), or by characters (n) or witches (w)
 };
 
+/** DESIGN Q16 targets (REPORT.md §1). Win and loss in % of episodes; `down` = episodes with a witch Down. */
+export const TARGETS = {
+  easy: { win: [85, 95], loss: [0, 5], down: [0, 15] },
+  standard: { win: [70, 80], loss: [5, 15], down: [25, 100], seen: [5, 15] },
+  hard: { win: [55, 60], loss: [15, 30], down: [40, 100] },
+};
+/** The win each cell should be within 5 points of. */
+export const WIN_TARGET = { easy: 90, standard: 75, hard: 57.5 };
+
 /** CORE-RULES fixed numbers. */
 export const RULES = {
   successFace: 4,       // "Each 4, 5 or 6 is a success."
@@ -79,6 +88,7 @@ export const RULES = {
   guardianUnmake: 0,     // dice the guardian adds when it joins the Unmaking for 1 Ward (0 = it can't join)
   mendFree: false,         // Mend needs no action (once per round)
   holdDice: 0,             // extra defence dice for the guardian against an attack it drew with Hold
+  signatureFrom: 6,        // lowest d6 face that uses the signature move (5 = a 5 uses it too; the innocent is still only a 6). Not in the book: REPORT-threats.md tests it
 };
 
 /** What the core rules leave to the Storyteller or leave undefined. */
@@ -154,6 +164,93 @@ export const POLICY = {
   },
 };
 
+/**
+ * The threat's signature move: what a 6 on the move table does when the
+ * innocent isn't there and free. This is content, not a judgement call, so it
+ * isn't swept in REPORT.md; `node sim/threats.mjs` runs every value and writes
+ * REPORT-threats.md. "generic" (the default) is the move REPORT.md has always
+ * used, so the main report doesn't move.
+ *
+ * THREATS.readings holds the readings that apply to every move; each move's
+ * `doc` holds its own.
+ */
+export const THREATS = {
+  default: "generic",
+  readings: [
+    "A move picks only standing characters, when it starts; a target who goes Down during the move isn't attacked again (rulings 63, 81).",
+    "\"One attack\" is aimed like a 4–5: the most Hurt, standing. \"Two different characters\" are the most Hurt, then the next most Hurt, both standing (ruling 63).",
+    "Ties go to the Storyteller; the simulator picks at random (ruling 63).",
+    "Hold: an attacking move puts the guardian first and uses Hold up; a move that isn't an attack (Lure) ignores Hold, which stays for the next attack (rulings 64, 82).",
+    "A 6 still goes for a free innocent instead of the move (attacking their guard, or taking them), as before (Ch 7, ruling 85).",
+    "\"Next action\" (Hush, Lure) is the character's next turn: this round's in round 1, when the threat acts first, and next round's after that, when everyone has had their turn. A Down character keeps it until they are back up and take a turn (ruling 63).",
+    "The player policies are REPORT.md's; nobody plays around a move (for example, nobody keeps Heart high against Lure or Magic low against Borrowed Face).",
+  ],
+  values: ["generic", "plain", "twoAttacks", "quietMan", "ashWidow", "mirrorThief", "nightNurse", "vesperCrane", "drownedChoir"],
+  moves: {
+    generic: {
+      name: "Generic (REPORT.md)", short: "generic", yardstick: true,
+      doc: "What REPORT.md uses: judgement.signature. With the default 'double', the first attack is aimed like a 1–3 (whoever hurt it last, else the most Hurt) and the second at the most Hurt of the rest; 'heavy' is one attack with Hit 1 higher.",
+      ref: "CORE-RULES The threat: '6 its signature move (if it has none, it attacks two different characters)'",
+    },
+    plain: {
+      name: "No move (a plain attack)", short: "plain", yardstick: true,
+      doc: "Not in the book. A 6 is one ordinary attack aimed like a 4–5. The floor: a move that does no better than this doesn't matter.",
+      ref: "Yardstick only",
+    },
+    twoAttacks: {
+      name: "Two different characters", short: "two attacks", yardstick: true,
+      doc: "The move for a threat with none, read by ruling 63: attack the most Hurt, then the next most Hurt, both standing. The book's yardstick for a new move ('about as strong as attack two different characters'). It is Hush without the 'can't cast'.",
+      ref: "Ch 7 move table; Ch 10 'Making your own threat'; REVIEW 63",
+    },
+    quietMan: {
+      name: "The Quiet Man: Hush", short: "Hush", threat: "The Quiet Man", episode: 1,
+      doc: "Attack two different characters (the most Hurt, then the next most Hurt). The first of them, in that order, who takes any Hurt can't cast on their next action. Under Shield, the guardian took the attack, so it is the one hurt. Can't cast = on that turn no Power dice, no Surge, no spell (so no leading or joining the Unmaking as their action), no potion and no guardian gift that takes an action (Mend, Carry). Not stopped: things outside their turn (defence rolls and their Power dice, Sight's miss, helping, Shield, a Down witch joining the Unmaking) and acts that aren't casting (a plain Nerve attack, freeing or studying with the Power left off, guarding, Hold). A second Hush before that turn changes nothing.",
+      ref: "Ch 10 The Quiet Man; REVIEW 63, 64",
+    },
+    ashWidow: {
+      name: "The Ash Widow: Cinders", short: "Cinders", threat: "The Ash Widow", episode: 2,
+      doc: "Attack every standing character, the guardian included, each at Hit 1 (so a Partial and a Failure both do 1 Hurt). Order: the guardian first under Hold, then the most Hurt first; the order only matters for Shield (once a round: the guardian may take one witch's attack as well as its own) and Sight's miss (once a showdown).",
+      ref: "Ch 10 The Ash Widow; REVIEW 63, 64",
+    },
+    mirrorThief: {
+      name: "The Mirror Thief: Borrowed Face", short: "Borrowed Face", threat: "The Mirror Thief", episode: null,
+      doc: "Attack the standing witch with the most Magic left (ties at random) at the normal Hit; on a Failure they also lose 1 Magic (none if they have none). Under Hold it attacks the guardian, which loses 1 Ward instead. Under Shield the guardian takes the attack and, on a Failure, loses 1 Ward (read like ruling 82). Lost Magic isn't counted as spent.",
+      ref: "Ch 10 The Mirror Thief; REVIEW 81, 82",
+    },
+    nightNurse: {
+      name: "The Night Nurse: Drain", short: "Drain", threat: "The Night Nurse", episode: null,
+      doc: "One attack aimed like a 4–5 (most Hurt, standing; the guardian under Hold). If it does any Hurt (a Partial or a Failure, to whoever takes it, Shield included), the threat clears up to 2 of its marked damage, never below 0.",
+      ref: "Ch 10 The Night Nurse; REVIEW 63",
+    },
+    vesperCrane: {
+      name: "Vesper Crane: Turned Spell", short: "Turned Spell", threat: "Vesper Crane", episode: null,
+      doc: "One attack aimed like a 4–5 with Hit 1 higher (a Partial is still 1 Hurt). The same as the generic 'heavy' reading.",
+      ref: "Ch 10 Vesper Crane; REVIEW 63",
+    },
+    drownedChoir: {
+      name: "The Drowned Choir: Lure", short: "Lure", threat: "The Drowned Choir", episode: 3,
+      doc: "The standing character with the lowest Heart (the guardian included; ties at random) rolls Heart against Danger. No Power fits it and it isn't casting. On a Failure they lose their next action: that turn they do nothing (no action, so no potion either; they can still help, defend and use Sight's miss). Not an attack, so Shield, Hold and Sight's miss don't touch it and Hold stays for the next attack. A second Lure before that turn changes nothing. See threatJudgement for the Partial and the dice.",
+      ref: "Ch 10 The Drowned Choir; REVIEW 63, 81, 82",
+    },
+  },
+};
+
+/** What the signature moves leave open. Swept for the episodes in REPORT-threats.md. */
+export const THREAT_JUDGEMENT = {
+  lureCost: {
+    default: "none",
+    values: ["none", "hurt"],
+    doc: "Lure's roll: only what the move says (none: a Failure loses the next action, a Partial does nothing), or the general Cost rule on top (hurt: a Partial or a Failure also costs 1 Hurt, as any showdown roll does). The defence table says 'That is all the Hurt the roll does'; Lure has no such line.",
+    ref: "Ch 2 Costs: 'In a showdown: 1 Hurt'; Ch 10 The Drowned Choir",
+  },
+  lureDice: {
+    default: "spare",
+    values: ["spare", "none"],
+    doc: "Players: a lured witch spends spare Magic (above the 2 kept for the Unmaking) on up to +2 dice, as for a defence that could put them Down (spare), or rolls Heart alone (none).",
+    ref: "Policy, not a rule",
+  },
+};
+
 export function defaults(table) {
   return Object.fromEntries(Object.entries(table).map(([k, v]) => [k, v.default]));
 }
@@ -166,6 +263,8 @@ export function baseSettings(overrides = {}) {
     rules: { ...RULES },
     judgement: defaults(JUDGEMENT),
     policy: defaults(POLICY),
+    threat: THREATS.default,
+    threatJudgement: defaults(THREAT_JUDGEMENT),
     ...overrides,
   };
 }
