@@ -281,6 +281,11 @@ export async function threatTurn() {
     let t = E.attackTarget(s, d6, coven);
     if (t.rule === "hold" && !t.candidates.length) t = E.attackTarget({ ...s, hold: false }, d6, coven); // the guardian is Down
     if (t.rule === "hold") s = { ...s, hold: false };
+    if (t.rule === "signature" && s.hold) { // Hold: the guardian is the signature move's first target
+      const g = t.candidates.filter(c => c.guardian);
+      t = { ...t, candidates: [...g, ...t.candidates.filter(c => !c.guardian)] };
+      s = { ...s, hold: false };
+    }
     if (t.rule === "guard") t = { ...t, candidates: coven.filter(c => !c.down) }; // whoever is guarding
     if (t.takesInnocent) s = { ...s, innocent: "lost" };
     const sig = t.rule === "signature" ? `: ${esc(threat?.system.signature ?? "Attacks two different characters.")}` : "";

@@ -32,10 +32,10 @@ const DIST = join(BOOK, "dist");
 
 /* ------------------------------------------------------------ the book -- */
 const BOOK_TITLE = "Witch & Ward";             // curly apostrophe, as in the chapters
-const BOOK_DESCRIPTION = "A tabletop roleplaying game by Richard Moore";   // PLACEHOLDER — the real subtitle is not written yet
+const BOOK_DESCRIPTION = "A roleplaying game of witches, everyday life and the threat of the week";
 const AUTHOR = "Richard Moore";
-const VERSION = "0.1";
-const FILE_STEM = "Witch_and_Ward";        // → Witch_and_Ward_v0.1.pdf
+const VERSION = "0.9";
+const FILE_STEM = "Witch_and_Ward";        // → Witch_and_Ward_v0.9.pdf
 const HTML_NAME = "witch-ward.html";   // the self-contained print HTML (digital build only)
 // An ornament anchored in the top-left corner of the Table of Contents page
 // (an art name from book/art/, or null for none). Art direction is undecided.

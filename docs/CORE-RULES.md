@@ -37,7 +37,7 @@ Until the chapters exist, this page is the rules. The numbers marked **[T]** are
 **The end.** The episode ends at once (the round's later steps don't happen) when the threat is destroyed, flees, or Doom fills, when every witch is Down at the end of a showdown round, or when the coven **retreats** (at the start of any round; everyone leaves together).
 - **Win:** destroyed, and the innocent safe. **Partial:** it fled, or it was destroyed but the innocent was lost. **Loss:** Doom filled, every witch Down, or retreat.
 - **Seen** drops the result one step (a Loss stays a Loss).
-- Nobody dies from the dice. A witch who is Down when the coven loses gets a **Scar**: 1 Hurt at the start of the next episode.
+- Nobody dies from the dice. A witch who is Down when the coven loses (except by retreating) gets a **Scar**: 1 Hurt at the start of the next episode.
 - **Season:** destroyed threats get a page in the Book (next time, start with half the Clues). A threat that wasn't destroyed comes back later with 2 more Toughness. After every second episode, each witch raises one rating by 1 (most 4). After the 2nd and the 4th episodes, threats also get 2 more Toughness per witch (so 4 more per witch from the 5th episode on).
 
 **[T] Numbers** (w = witches, n = witches plus the guardian, if a player plays it)

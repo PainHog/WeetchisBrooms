@@ -102,7 +102,7 @@ export async function finishEpisode(reason) {
 /** Record the end: Scars for witches Down in a Loss, a chat card, the closing phase. */
 async function closeEpisode(s) {
   const lines = [];
-  if (s.result === "loss") {
+  if (s.result === "loss" && s.ended !== "retreat") { // retreating gives no Scars
     for (const a of covenActors(s)) if (a.type === "witch" && a.system.down) { await a.update({ "system.scar": true }); lines.push(`${a.name} was Down: a Scar (1 Hurt at the start of the next episode).`); }
   }
   if (s.seen) lines.push("The coven was Seen: the result dropped one step.");

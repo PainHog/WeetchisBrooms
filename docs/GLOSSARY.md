@@ -30,6 +30,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Hurt** | Damage to a character: 4 boxes for a witch, 5 for the guardian. Used instead of "Harm", which another of Richard's books uses. |
 | **In its grip** | The innocent at the start of a public showdown. Lost if still in the threat's grip at the end of the first round. |
 | **Innocent** | The person the threat wants this episode. |
+| **Label** | An episode's difficulty: Easy, Standard or Hard. It sets the threat's numbers from the table. Not the same as a roll's Difficulty. |
 | **Lead** | An investigation action that can find Clues. |
 | **Life** | A witch's everyday job or role. It calls once per episode. |
 | **Magic** | A witch's points, 5 per episode. (Using magic in general is **casting**.) |
