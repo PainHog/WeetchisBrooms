@@ -1,6 +1,6 @@
 # Witch & Ward: core rules (one page, v0.9)
 
-Until the chapters exist, this page is the rules. The numbers marked **[T]** are in the table at the bottom; the simulator set them (`sim/REPORT.md`). Every change is logged in `book/REVIEW.md`.
+The chapters (`book/src/chapters/`) are now the full rules; this page is the approved one-page summary, and where they differ the chapters win. The numbers marked **[T]** are in the table at the bottom; the simulator set them (`sim/REPORT.md`). Every change is logged in `book/REVIEW.md`.
 
 **The game.** 3–5 players and a Storyteller. Each player is a witch in **the coven**, or one player may be the coven's **guardian**. One session is one **episode**. Episodes can be strung into a **season**. Set every number at the start of the episode; they don't change if someone joins or leaves.
 
