@@ -4,14 +4,16 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 
 | Term | Meaning |
 |---|---|
-| **Attack** (threat stat) | The Difficulty of defending against the threat's attacks. As a verb, "attack" is any attempt to damage the threat. |
+| **Attack** | Any attempt to damage the threat (a roll against its Defence), or the threat's go at a character. Not a stat. |
+| **Casting** | Using a Power, a spell, a potion or a guardian gift. Casting where ordinary people can see raises Exposure (except Hide). |
 | **Book, the** | The coven's spellbook, kept at home. Research there gives +1 die; destroyed threats get a page. Not the show's book or its name. |
 | **Broken** | A threat whose Toughness is full: it stops attacking, Doom stops, and it flees at the end of the next round unless Vanquished. |
 | **Clue** | One step of the investigation. Half the Clues tell the coven what the threat is and where; all of them reveal its Weakness. |
 | **Coven** | The group of witches (2–5), plus the guardian if a player plays it. Family by blood or by choice. |
 | **Craft** | The rating for spells and potions. |
 | **Critical** | A success that shows two or more 6s. |
-| **Defence** | The Difficulty of hurting the threat. |
+| **Danger** (threat stat) | The Difficulty of defending against the threat's attacks. |
+| **Defence** (threat stat) | The Difficulty of hurting the threat. |
 | **Difficulty** | The number of successes a roll needs (1–4). |
 | **Doom** | The threat's plan, 12 boxes. Rises after every scene and round. Has the Showdown mark at 5. |
 | **Down** | A character whose Hurt boxes are full: out of action until healed below full. Never dead. |
@@ -19,18 +21,18 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Episode** | One session's story, from opening to closing. |
 | **Exposure** | How close ordinary people are to seeing magic. When full, the coven is **Seen**. |
 | **Failure** | Fewer successes than half the Difficulty. It doesn't work and there's a cost. |
-| **Free** | A showdown action: Nerve against Defence to pull a held innocent loose; only a success works. |
+| **Free** | A showdown action: Nerve against Defence to pull the innocent out of the threat's grip; only a success works. |
 | **Gift** | One of the guardian's abilities: Mend, Shield, Carry, Sense, Hold. |
-| **Guard** | A showdown action: stay with the innocent so the threat attacks you instead of taking them. |
+| **Guard** | A showdown action: until your next action, if the threat goes for the freed innocent, it attacks you instead. |
 | **Guardian** | The coven's protective spirit, bound to its home by an old promise; human or animal shape; no masters. Never called a "Warden". |
-| **Held** | The innocent at the start of a public showdown, in the threat's grip. Lost if still held at the end of the first round. |
 | **Heart** | The rating for people: talking, comforting, lying, reading people. |
 | **Hit** (threat stat) | The Hurt a threat deals when a defence fails. |
 | **Hurt** | Damage to a character: 4 boxes for a witch, 5 for the guardian. Used instead of "Harm", which another of Richard's books uses. |
+| **In its grip** | The innocent at the start of a public showdown. Lost if still in the threat's grip after it acts in the first round. |
 | **Innocent** | The person the threat wants this episode. |
 | **Lead** | An investigation action that can find Clues. |
 | **Life** | A witch's everyday job or role. It calls once per episode. |
-| **Magic** | (1) A witch's points, 5 per episode. (2) As a category: a Power, a spell, a potion or a guardian gift; using magic in public raises Exposure. |
+| **Magic** | A witch's points, 5 per episode. (Using magic in general is **casting**.) |
 | **Nerve** | The rating for moving, fighting and standing firm. |
 | **Partial** | At least half the Difficulty but not all of it: it works, with a cost. |
 | **Power** | Each witch's one gift: Force, Flame, Sight, Voice, Veil or Wild. |
@@ -38,7 +40,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Scar** | 1 Hurt carried into the next episode by a witch who was Down when the coven lost. |
 | **Scene** | One step of the investigation: everyone acts, Doom rises. The whole showdown counts as one scene for once-per-scene limits. |
 | **Season** | A run of episodes with carry-over. |
-| **Seen** | Exposure is full; the episode's result drops one step. |
+| **Seen** | Exposure is full; the episode's result drops one step, and any further rise in Exposure becomes Doom +1. |
 | **Showdown** | The fight with the threat. |
 | **Showdown mark** | Doom 5: if Doom reaches it, the threat comes to the coven in a public place. |
 | **Spell** | Reveal, Bind, Blast, Shelter, Hide or the Vanquish (Craft, 1 Magic). |

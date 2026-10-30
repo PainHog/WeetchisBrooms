@@ -55,7 +55,7 @@ const lines = [];
 const out = s => lines.push(s);
 out("# Witch & Ward: simulator report");
 out("");
-out(`Rules: \`docs/CORE-RULES.md\` v0.4. Command: \`node sim/run.mjs --runs ${RUNS} --seed ${SEED} --sweep-runs ${SWEEP_RUNS}\`. ${RUNS.toLocaleString("en")} episodes per cell, ${(RUNS * allCells.length).toLocaleString("en")} in all. Same seed, same report.`);
+out(`Rules: \`docs/CORE-RULES.md\` v0.5. Command: \`node sim/run.mjs --runs ${RUNS} --seed ${SEED} --sweep-runs ${SWEEP_RUNS}\`. ${RUNS.toLocaleString("en")} episodes per cell, ${(RUNS * allCells.length).toLocaleString("en")} in all. Same seed, same report.`);
 out("");
 out("A **cell** is one difficulty label, one number of players (3, 4 or 5), with or without a guardian player. With a guardian player, one player plays the guardian and the rest play witches. **Win / Partial / Loss** are the episode results from CORE-RULES \"The end\".");
 out("");

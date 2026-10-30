@@ -62,7 +62,8 @@ export function playEpisode({ coven, label, settings, rng }) {
   function raiseExposure(k) {
     if (k <= 0) return;
     if (st.seen) { // "Once Seen, any further rise in Exposure becomes +1 Doom instead."
-      if (R.seenToDoom && !(st.threat && st.threat.broken)) { st.doom = Math.min(N.doomMax, st.doom + 1); st.seenDoom = (st.seenDoom || 0) + 1; }
+      const key = st.phase === "showdown" ? `r${st.round}` : `s${st.scene}`; // once per round or scene
+      if (R.seenToDoom && st.seenDoomKey !== key && !(st.threat && st.threat.broken)) { st.doom = Math.min(N.doomMax, st.doom + 1); st.seenDoom = (st.seenDoom || 0) + 1; st.seenDoomKey = key; }
       return;
     }
     st.exposure = Math.min(N.exposureMax, st.exposure + k);
