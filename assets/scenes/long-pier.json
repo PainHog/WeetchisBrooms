@@ -1,0 +1,101 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "points": [
+    {
+      "key": "way-gates",
+      "label": "The gates from the promenade (a way in and out)",
+      "x": 310,
+      "y": 1000
+    },
+    {
+      "key": "way-beach-steps",
+      "label": "The beach steps: iron stairs from the boardwalk down to the sand under the pier (a way in and out)",
+      "x": 1090,
+      "y": 1220
+    },
+    {
+      "key": "way-lifeboat-ramp",
+      "label": "The lifeboat ramp: a slipway from the pier head down into the sea (a way in and out)",
+      "x": 2450,
+      "y": 1600
+    },
+    {
+      "key": "way-ferry-landing",
+      "label": "The ferry landing at the pier head (a way in and out)",
+      "x": 2920,
+      "y": 1000
+    },
+    {
+      "key": "gates-arcade",
+      "label": "The gates and the arcade: bright lights, slot machines and a candyfloss stall at the landward end",
+      "x": 640,
+      "y": 900
+    },
+    {
+      "key": "boardwalk",
+      "label": "The boardwalk: planks over the water, benches, and people fishing off the rail",
+      "x": 1260,
+      "y": 1000
+    },
+    {
+      "key": "halfway-cafe",
+      "label": "The halfway café: closed for the evening, with a long glass front",
+      "x": 1660,
+      "y": 830
+    },
+    {
+      "key": "pier-head",
+      "label": "The pier head: the widest part, with a bandstand and coin telescopes",
+      "x": 2450,
+      "y": 750
+    },
+    {
+      "key": "finn",
+      "label": "Finn stands at the bottom of the lifeboat ramp, knee-deep in the sea, singing. The choir stands round him in the water, holding his hands",
+      "x": 2450,
+      "y": 1850
+    }
+  ],
+  "tokens": {
+    "coven": [
+      [
+        100,
+        800
+      ],
+      [
+        100,
+        900
+      ],
+      [
+        100,
+        1000
+      ],
+      [
+        100,
+        1100
+      ],
+      [
+        0,
+        900
+      ],
+      [
+        0,
+        1000
+      ],
+      [
+        0,
+        1100
+      ]
+    ],
+    "threat": [
+      2400,
+      1800
+    ],
+    "innocent": [
+      2400,
+      1700
+    ]
+  }
+}

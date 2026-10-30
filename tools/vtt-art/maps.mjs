@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Witch & Ward: scene maps for the Foundry VTT one-shot of Episode 1, "Night Market".
+// Witch & Ward: scene maps for Foundry VTT (Larkhaven, the Lantern House and the
+// showdown places of Episodes 1-3), and print versions of the showdown maps for the book.
 //
 // TEST ART. The art direction is undecided, so these are clean, readable
 // top-down maps, not final art. Every map is hand-built SVG (shapes, patterns,
@@ -7,17 +8,22 @@
 // same way as book/build.mjs), then converted to WebP (quality 82) by Python
 // Pillow.
 //
-//   node tools/vtt-art/maps.mjs                 all four maps
+//   node tools/vtt-art/maps.mjs                 all eight maps
 //   node tools/vtt-art/maps.mjs night-market    just the named map(s)
 //
 // Writes:  assets/scenes/<name>.webp   the scene background (3000 x 2000 px)
 //          assets/scenes/<name>.json   map-note points and token start squares
-//          tools/vtt-art/out/maps/     SVG, HTML and PNG working files (git-ignored)
+//          book/art/map-<name>.svg     the print version (showdown maps only; see
+//                                      "book (print) maps" below)
+//          tools/vtt-art/out/maps/     SVG, HTML and PNG working files (git-ignored),
+//                                      including <name>-print.png, the print map
+//                                      rendered at 6.5 in x 150 dpi, and a 2x copy
 //
 // Gridded maps use a 100 px grid (30 x 20 squares). Walls, stalls and objects sit
 // on it, but the grid itself is not drawn: Foundry draws it.
-// Places and features come from book/src/chapters/32-ch14.html (Episode 1) and
-// 31-ch13.html (the Lantern House, Larkhaven). Change the book first, then here.
+// Places and features come from book/src/chapters/32-ch14.html (Episode 1),
+// 33-ch15.html (Episode 2), 34-ch16.html (Episode 3) and 31-ch13.html (the Lantern
+// House, Larkhaven). Change the book first, then here.
 
 import { chromium } from "playwright-core";
 import { writeFileSync, mkdirSync, existsSync, statSync } from "node:fs";
@@ -3462,6 +3468,296 @@ function drownedVillage() {
 }
 
 /* ===================================================================== */
+/*  8. THE LONG PIER AT DUSK (gridded): Episode 3's public place           */
+/* ===================================================================== */
+// The long pier, busiest at dusk (book/src/chapters/34-ch16.html). The land is on the
+// left; the pier runs out to sea on the right, shortened to fit. Grid plan:
+//   The promenade        cols 0-2 (raised above the beach behind a sea wall)
+//   Gates and arcade     cols 3-8, rows 7-12: the iron gates at col 3, the arcade (north side),
+//                        the candyfloss stall (south side)
+//   The boardwalk        rows 9-10, cols 9-20: benches, people fishing off the rail;
+//                        the beach steps go down from its south rail at cols 10-11
+//   The halfway café     cols 14-18, rows 7-8 (closed), its long glass front facing the boardwalk
+//   The pier head        cols 21-27, rows 5-14: bandstand, coin telescopes
+//   The lifeboat ramp    cols 24-25, from the pier head's south edge (row 15) down into the sea
+//   The ferry landing    a pontoon off the pier head's east end, cols 28-29, rows 8-11
+//   The beach            sand under the landward half; the tide coming in across it
+function longPier() {
+  const R = rng(1825);
+  const pc = (f, p) => PRINT ? p : f;
+  const defs = [
+    plankPattern("lp-deck", 101, ["#7a6650", "#826c54", "#725e48", "#88725a"], "#2e241a", 200, 16, true),
+    plankPattern("lp-deck2", 102, ["#7a6650", "#826c54", "#725e48", "#88725a"], "#2e241a", 200, 16),
+    sandPattern("lp-sand", 103, "#9a8a6a", ["#b0a080", "#857658", "#a89878"], "#7a6c50", 200, 140),
+    sandPattern("lp-wetsand", 104, "#6e6656", ["#857c6a", "#5e5648", "#7a7262"], "#9a9488", 200, 100),
+    waterPattern("lp-sea", 105, "#2e4654", ["#5a7c8e", "#4a6a7c", "#6e90a0", "#3e5e70"], 240, 32, 2.4),
+    slabPattern("lp-prom", 106, ["#6e6a64", "#77736c", "#68645e", "#726e67"], "#3a3733", 200, 50),
+    tilePattern("lp-arcade", "#3a2a4a", "#2a2238", "#1a1424", 25),
+    `<pattern id="lp-grate" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#30363c"/><path d="M0 6 H12 M6 0 V12" stroke="#7e8a92" stroke-width="2"/></pattern>`,
+    glowGrad("lp-neon", "#ff7ad8", 0.5, 0.35),
+    glowGrad("lp-neon2", "#7adcff", 0.45, 0.35),
+    glowGrad("lp-warm", "#ffcf7a", 0.6, 0.3),
+    glowGrad("lp-sun", "#ffb070", 0.55, 0.45),
+    `<linearGradient id="lp-dusk" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#ff9a6a" stop-opacity="0.3"/><stop offset="0.5" stop-color="#c890b0" stop-opacity="0.1"/><stop offset="1" stop-color="#6a5a9a" stop-opacity="0.05"/></linearGradient>`,
+    grainFilter("lp-grain", 0.05),
+  ].join("");
+  const out = [], lights = [], top = [];
+  const lamp = lampKit(out, lights, top, "lp-warm");
+  const DY0 = 900, DY1 = 1100; // the boardwalk's rails
+
+  // ---------- sea, beach, the tide coming in ----------
+  out.push(rect(0, 0, W, H, { fill: "url(#lp-sea)" }));
+  const shore = [[1420, 0], [1360, 400], [1300, 800], [1260, 1200], [1220, 1600], [1180, 2000]]; // where the sea meets the sand
+  const shoreS = sampleSmooth(shore, 12);
+  const wet = shoreS.map(([x, y]) => [x - 170 - 30 * Math.sin(y / 260), y]);
+  out.push(path(polyD([[0, 0], ...shoreS, [0, H]]), { fill: "url(#lp-wetsand)" }));
+  out.push(path(polyD([[0, 0], ...wet, [0, H]]), { fill: "url(#lp-sand)" }));
+  // foam where the tide runs in across the sand
+  out.push(path(polyD(shoreS, false), { fill: "none", stroke: pc("#e8eef0", PAL.ink), "stroke-width": 6, opacity: 0.85 }));
+  for (let k = 1; k <= 3; k++) out.push(path(polyD(shoreS.map(([x, y]) => [x + k * 34 + 10 * Math.sin(y / 90 + k), y]), false), { fill: "none", stroke: pc("#d8e4ea", PAL.accent), "stroke-width": 3, opacity: 0.6 / k, "stroke-dasharray": "40 20" }));
+  // a line of weed along the high-tide mark, and a few shells
+  out.push(path(polyD(shoreS.map(([x, y]) => [x - 420 + 20 * Math.sin(y / 140), y]), false), { fill: "none", stroke: pc("#4a5034", PAL.accent), "stroke-width": 7, "stroke-dasharray": "18 10 6 14", opacity: 0.8 }));
+
+  // ---------- the promenade, behind a sea wall ----------
+  out.push(rect(0, 0, 260, H, { fill: "url(#lp-prom)" }));
+  out.push(rect(260, 0, 26, H, { fill: "#000", opacity: 0.35 }));
+  out.push(line(256, 0, 256, H, { stroke: pc("#8e8a80", PAL.ink), "stroke-width": 12 }));
+  out.push(railing([248, 0], [248, 740], { gap: 60 }), railing([248, 1260], [248, H], { gap: 60 }));
+  for (const y of [300, 1700]) out.push(benchTop(130, y, 90, 90));
+  for (const y of [120, 620, 1380, 1880]) lamp(80, y, 180);
+
+  // ---------- the pier's legs, then the deck ----------
+  const deck = [];
+  {
+    // iron piles along the deck edges (seen in the water and on the sand beside the deck)
+    const piles = [];
+    const pileRow = (x0, x1, y) => { for (let x = x0; x <= x1; x += 100) piles.push(circle(x + 6, y + 8, 11, { fill: "#000", opacity: 0.3 }), circle(x, y, 11, { fill: pc("#3a3e44", PAL.dark), stroke: "#0c0e10", "stroke-width": 3 })); };
+    pileRow(950, 1400, DY0 - 16); pileRow(950, 1400, DY1 + 16); pileRow(1900, 2050, DY0 - 16); pileRow(1900, 2050, DY1 + 16);
+    pileRow(2150, 2750, 534); pileRow(2150, 2750, 1466);
+    out.push(...piles);
+    // the shadow of the pier on the water and sand
+    out.push(rect(300, DY0 + 30, 1800, DY1 - DY0, { fill: "#000", opacity: 0.25 }));
+    out.push(rect(300, 790, 600, 450, { fill: "#000", opacity: 0.25, transform: "translate(10 30)" }), rect(1440, 740, 440, 520, { fill: "#000", opacity: 0.25, transform: "translate(10 30)" }), rect(2100, 550, 700, 900, { fill: "#000", opacity: 0.25, transform: "translate(12 32)" }));
+    // the deck: landward end, boardwalk, café widening, pier head
+    deck.push(rect(286, 760, 620, 480, { fill: "url(#lp-deck)" }));
+    deck.push(rect(900, DY0, 1220, DY1 - DY0, { fill: "url(#lp-deck)" }));
+    deck.push(rect(1440, 740, 440, 520, { fill: "url(#lp-deck)" }));
+    deck.push(rect(2100, 550, 700, 900, { fill: "url(#lp-deck2)" }));
+    out.push(...deck);
+    // rails round the deck edges (gaps for the beach steps, the lifeboat ramp and the landing)
+    const rl = (a, b) => out.push(railing(a, b, { gap: 50, col: pc("#c8ccd0", PAL.accent), w: 5 }));
+    rl([300, 760], [906, 760]); rl([906, 760], [906, DY0]); rl([906, DY0], [1440, DY0]); rl([1440, DY0], [1440, 740]); rl([1440, 740], [1880, 740]); rl([1880, 740], [1880, DY0]); rl([1880, DY0], [2100, DY0]); rl([2100, DY0], [2100, 550]);
+    rl([2100, 550], [2800, 550]); rl([2800, 550], [2800, 900]); rl([2800, 1100], [2800, 1450]); rl([2800, 1450], [2560, 1450]); rl([2340, 1450], [2100, 1450]); rl([2100, 1450], [2100, DY1]);
+    rl([2100, DY1], [1880, DY1]); rl([1880, DY1], [1880, 1260]); rl([1880, 1260], [1440, 1260]); rl([1440, 1260], [1440, DY1]); rl([1440, DY1], [1190, DY1]); rl([990, DY1], [906, DY1]); rl([906, DY1], [906, 1240]); rl([906, 1240], [300, 1240]);
+  }
+  // ---------- the gates, the arcade and the candyfloss stall ----------
+  {
+    // the iron gates: posts, a lamp arch overhead (dashed), the leaves folded back
+    for (const y of [760, 1240]) out.push(rect(286, y - 24, 48, 48, { fill: pc("#2a2e34", PAL.dark), stroke: "#0c0e10", "stroke-width": 3 }), circle(310, y, 10, { fill: pc("#c8b048", PAL.paper2) }));
+    out.push(line(310, 784, 310, 1216, { stroke: pc("#c8b048", PAL.accent), "stroke-width": 6, "stroke-dasharray": "26 12", opacity: 0.85 })); // the arch of bulbs overhead
+    for (let y = 800; y < 1210; y += 26) top.push(circle(310, y, 4, { fill: "#fff1c4" }));
+    out.push(line(330, 790, 420, 800, { stroke: pc("#2a2e34", PAL.dark), "stroke-width": 8 }), line(330, 1210, 420, 1200, { stroke: pc("#2a2e34", PAL.dark), "stroke-width": 8 })); // gate leaves, open
+    // the arcade: an open-fronted hall on the north side of the deck, rows of slot machines
+    const ax0 = 400, ax1 = 880, ay0 = 776, ay1 = 960;
+    out.push(rect(ax0, ay0, ax1 - ax0, ay1 - ay0, { fill: "url(#lp-arcade)" }));
+    const sw = { fill: pc("#4a3a5a", PAL.dark), edge: pc("#1a1424", PAL.ink) };
+    out.push(wall(ax0, ay0, ax1, ay0, 18, [], sw), wall(ax0, ay0, ax0, ay1, 18, [], sw), wall(ax1, ay0, ax1, ay1, 18, [], sw));
+    out.push(wall(ax0, ay1, ax1, ay1, 14, [[40, 440]], sw)); // the whole front is open to the deck
+    const machine = (x, y, rot, k) => grp([rect(-16, -14, 32, 28, { rx: 4, fill: ["#c83a6a", "#3a8ac8", "#d8a030", "#6ac85a"][k % 4], stroke: "#0c0810", "stroke-width": 2.5 }), rect(-11, -9, 22, 10, { rx: 2, fill: "#fff6d0" })], { transform: `translate(${x} ${y}) rotate(${rot})` });
+    for (let x = ax0 + 40; x < ax1 - 20; x += 44) out.push(machine(x, ay0 + 32, 180, x / 44 | 0));
+    for (let x = ax0 + 60; x < ax1 - 60; x += 44) out.push(machine(x, ay0 + 104, 0, (x / 44 | 0) + 1), machine(x, ay0 + 138, 180, (x / 44 | 0) + 2));
+    out.push(rect(ax1 - 70, ay1 - 52, 50, 36, { fill: pc("#6a5a48", PAL.soft), stroke: "#14100c", "stroke-width": 2.5 })); // change booth
+    lights.push(rect(ax0, ay0, ax1 - ax0, ay1 - ay0, { fill: "#ff7ad8", opacity: 0.18 }), ellipse(640, 900, 380, 240, { fill: "url(#lp-neon)" }), ellipse(520, 980, 240, 160, { fill: "url(#lp-neon2)" }));
+    top.push(rect(ax0 + 20, ay1 - 8, ax1 - ax0 - 40, 6, { fill: "#ffd8f4", opacity: 0.9 })); // the bright sign along the front
+    // the candyfloss stall on the south side of the deck
+    out.push(stall(520, 1110, 180, 110, "n", "#e88ab8", "#fff0f6", "trinkets", 1825));
+    lights.push(circle(610, 1100, 150, { fill: "url(#lp-warm)" }));
+    // the tide board by the arcade
+    out.push(rect(860, 1150, 30, 70, { fill: pc("#e8e2d2", PAL.paper), stroke: "#2a2014", "stroke-width": 2.5 }));
+    for (let i = 0; i < 4; i++) out.push(line(866, 1162 + i * 14, 884, 1162 + i * 14, { stroke: pc("#3a5a7a", PAL.dark), "stroke-width": 2 }));
+  }
+  // ---------- the boardwalk: benches along the rails, people fishing ----------
+  {
+    for (const x of [1000, 1300, 1950]) out.push(benchTop(x, DY0 + 22, 180, 90));
+    for (const x of [1350, 1990]) out.push(benchTop(x, DY1 - 22, 0, 90));
+    // fishing gear: rods over the rail with lines into the water, buckets, tackle boxes, stools
+    const fishing = (x, y, side) => {
+      out.push(line(x, y, x + 30, y + side * 110, { stroke: pc("#2a2420", PAL.ink), "stroke-width": 3 }), line(x + 30, y + side * 110, x + 40, y + side * 190, { stroke: pc("#d8d8d0", PAL.accent), "stroke-width": 1.2, opacity: 0.8 }));
+      out.push(circle(x - 30, y - side * 30, 13, { fill: pc("#4a6a8a", PAL.accent), stroke: "#14100c", "stroke-width": 2 }), rect(x + 20, y - side * 46 - 10, 34, 22, { rx: 3, fill: pc("#5a6a3a", PAL.soft), stroke: "#14100c", "stroke-width": 2 }));
+      out.push(rect(x - 12, y - side * 52 - 12, 24, 24, { rx: 4, fill: pc("#3a3a3a", PAL.dark), stroke: "#14100c", "stroke-width": 1.5 })); // folding stool
+    };
+    fishing(1150, DY0 - 2, -1); fishing(1640, 1260, 1); fishing(2040, DY1 + 2, 1);
+    for (const x of [1100, 1700, 2050]) lamp(x, DY0 + 4, 170, 0.85);
+  }
+  // ---------- the beach steps: iron stairs from the boardwalk down to the sand ----------
+  {
+    const x0 = 990, x1 = 1190, y0 = DY1, y1 = 1330;
+    out.push(rect(x0 + 8, y0 + 10, x1 - x0, y1 - y0, { fill: "#000", opacity: 0.35 }));
+    out.push(rect(x0, y0, x1 - x0, y1 - y0, { fill: "url(#lp-grate)" }));
+    for (let y = y0 + 12; y < y1; y += 18) out.push(line(x0 + 4, y, x1 - 4, y, { stroke: pc("#9aa4ac", PAL.paper), "stroke-width": 3 }));
+    out.push(line(x0, y0, x0, y1, { stroke: pc("#c8ccd0", PAL.ink), "stroke-width": 6 }), line(x1, y0, x1, y1, { stroke: pc("#c8ccd0", PAL.ink), "stroke-width": 6 }));
+    out.push(path(`M ${(x0 + x1) / 2} ${y0 + 40} L ${(x0 + x1) / 2} ${y1 - 30} M ${(x0 + x1) / 2 - 18} ${y1 - 52} L ${(x0 + x1) / 2} ${y1 - 30} L ${(x0 + x1) / 2 + 18} ${y1 - 52}`, { fill: "none", stroke: pc("#e8dcc0", PAL.ink), "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0.85 }));
+  }
+  // ---------- the halfway café: closed, a long glass front onto the boardwalk ----------
+  {
+    const cx0 = 1460, cx1 = 1860, cy0 = 756, cy1 = 900;
+    out.push(rect(cx0, cy0, cx1 - cx0, cy1 - cy0, { fill: pc("#5a5048", PAL.paper2) }));
+    // tables with chairs stacked on them, a counter
+    for (const x of [1520, 1620, 1720]) { out.push(circle(x, 840, 26, { fill: pc("#8a7a6a", PAL.edge), stroke: "#1a140e", "stroke-width": 2.5 })); for (const a of [0, 1.6, 3.2, 4.8]) out.push(rect(x + Math.cos(a) * 14 - 8, 840 + Math.sin(a) * 14 - 8, 16, 16, { rx: 3, fill: pc("#5a3a2a", PAL.soft), stroke: "#1a140e", "stroke-width": 1.5 })); }
+    out.push(rect(1780, 772, 60, 110, { fill: pc("#6a5a48", PAL.soft), stroke: "#1a140e", "stroke-width": 3 }));
+    const cw = { fill: pc("#d8d0c0", PAL.dark), edge: pc("#2a2420", PAL.ink) };
+    out.push(wall(cx0, cy0, cx1, cy0, 18, [], cw), wall(cx0, cy0, cx0, cy1, 18, [], cw), wall(cx1, cy0, cx1, cy1, 18, [], cw));
+    out.push(windowPane(cx0, cy1, cx1, cy1, 16)); // the long glass front
+    for (let x = cx0 + 40; x < cx1; x += 50) out.push(line(x, cy1 - 8, x, cy1 + 8, { stroke: pc("#2a3036", PAL.ink), "stroke-width": 3 }));
+    out.push(rect(1630, cy1 + 10, 60, 26, { fill: pc("#e8e2d2", PAL.paper), stroke: "#2a2014", "stroke-width": 2 })); // a CLOSED board on the deck
+    // its outdoor tables, chained up for the night
+    for (const x of [1520, 1800]) out.push(circle(x, 1180, 30, { fill: pc("#8a8e92", PAL.edge), stroke: "#1a1c20", "stroke-width": 3 }) + rect(x - 50, 1170, 22, 22, { rx: 3, fill: pc("#5a5e62", PAL.accent) }) + rect(x + 28, 1170, 22, 22, { rx: 3, fill: pc("#5a5e62", PAL.accent) }));
+    out.push(path("M1490 1180 Q 1660 1210 1830 1180", { fill: "none", stroke: pc("#9aa0a6", PAL.dark), "stroke-width": 4, "stroke-dasharray": "8 5" }));
+  }
+  // ---------- the pier head: bandstand, coin telescopes, benches ----------
+  {
+    const bx = 2450, by = 1000, br = 170;
+    const oct = (r, rot = 0) => Array.from({ length: 8 }, (_, i) => [bx + r * Math.cos(rot + i * Math.PI / 4), by + r * Math.sin(rot + i * Math.PI / 4)]);
+    out.push(path(polyD(oct(br + 10).map(([x, y]) => [x + 8, y + 10])), { fill: "#000", opacity: 0.35 }));
+    out.push(path(polyD(oct(br + 10)), { fill: pc("#d8d0c0", PAL.paper), stroke: "#1a1612", "stroke-width": 4 })); // the raised floor's stone edge
+    out.push(path(polyD(oct(br)), { fill: "url(#lp-deck2)", stroke: "#1a1612", "stroke-width": 3 }));
+    for (const [x, y] of oct(br - 8)) out.push(circle(x, y, 10, { fill: pc("#e8e2d2", PAL.light), stroke: "#1a1612", "stroke-width": 2.5 })); // columns
+    out.push(path(polyD(oct(br + 26, Math.PI / 8)), { fill: "none", stroke: pc("#e8d8b0", PAL.soft), "stroke-width": 4, "stroke-dasharray": "18 12", opacity: 0.8 })); // the roof edge overhead
+    for (let i = 0; i < 6; i++) out.push(rect(bx - 60 + (i % 3) * 50, by - 40 + Math.floor(i / 3) * 70, 26, 26, { rx: 4, fill: pc("#4a3a2a", PAL.soft), stroke: "#14100c", "stroke-width": 2 })); // music stands and chairs, folded away
+    // steps up onto it
+    for (let i = 0; i < 3; i++) out.push(rect(bx - 50, by + br + 4 + i * 14, 100, 14, { fill: pc("#c8c0b0", PAL.edge), stroke: "#2a2420", "stroke-width": 1.5 }));
+    // bulbs round the roof edge
+    const st = oct(br + 26, Math.PI / 8);
+    for (let i = 0; i < 8; i++) { const a = st[i], b = st[(i + 1) % 8]; const s2 = lightString(a, b, R, { bend: 0, gap: 22 }); lights.push(s2.glow); top.push(s2.wire); }
+    // coin telescopes on pedestals at the rails, pointing out to sea
+    const scope = (x, y, ang) => grp([circle(4, 5, 16, { fill: "#000", opacity: 0.35 }), circle(0, 0, 16, { fill: pc("#5a646c", PAL.dark), stroke: "#0c0e10", "stroke-width": 3 }),
+      rect(-6, -10, 46, 20, { rx: 6, fill: pc("#9aa4ac", PAL.accent), stroke: "#0c0e10", "stroke-width": 2.5 }), rect(36, -12, 10, 24, { rx: 3, fill: pc("#2a3036", PAL.ink) })], { transform: `translate(${x} ${y}) rotate(${ang})` });
+    out.push(scope(2740, 610, -45), scope(2740, 1390, 45), scope(2300, 600, -90), scope(2600, 600, -90));
+    for (const [x, y, a] of [[2200, 620, 180], [2200, 1380, 0], [2740, 760, 90], [2740, 1240, 90]]) out.push(benchTop(x, y, a, 90));
+    { // the old men fishing off the end
+      out.push(line(2790, 700, 2900, 690, { stroke: pc("#2a2420", PAL.ink), "stroke-width": 3 }), line(2900, 690, 2970, 700, { stroke: pc("#d8d8d0", PAL.accent), "stroke-width": 1.2 }));
+      out.push(circle(2760, 660, 13, { fill: pc("#4a6a8a", PAL.accent), stroke: "#14100c", "stroke-width": 2 }));
+    }
+    for (const [x, y] of [[2120, 570], [2780, 570], [2120, 1430], [2780, 1430]]) lamp(x, y, 200);
+  }
+  // ---------- the lifeboat ramp: a slipway from the pier head down into the sea ----------
+  {
+    const rx0 = 2340, rx1 = 2560, ry0 = 1450, ry1 = 1990;
+    out.push(rect(rx0 + 10, ry0, rx1 - rx0, ry1 - ry0, { fill: "#000", opacity: 0.3 }));
+    out.push(rect(rx0, ry0, rx1 - rx0, ry1 - ry0, { fill: pc("#6e6a62", PAL.edge), stroke: "#1a1814", "stroke-width": 4 }));
+    for (let y = ry0 + 20; y < ry1; y += 40) out.push(line(rx0 + 6, y, rx1 - 6, y, { stroke: pc("#4a4640", PAL.accent), "stroke-width": 3 })); // grip ridges
+    for (const x of [rx0 + 50, rx1 - 50]) out.push(line(x, ry0, x, ry1, { stroke: pc("#8a8478", PAL.soft), "stroke-width": 6 })); // keel rails
+    // weed on the lower ramp; the sea washes over its bottom end
+    for (let i = 0; i < 18; i++) out.push(ellipse(rx0 + 20 + R() * (rx1 - rx0 - 40), 1640 + R() * 300, 10 + R() * 10, 5 + R() * 3, { fill: pc("#3a5a38", PAL.soft), opacity: 0.85 }));
+    out.push(rect(rx0, 1700, rx1 - rx0, ry1 - 1700, { fill: "url(#lp-sea)", opacity: 0.6 }));
+    out.push(path(`M ${rx0 - 10} 1700 q 30 -12 60 0 t 60 0 t 60 0 t 60 0`, { fill: "none", stroke: pc("#e8eef0", PAL.ink), "stroke-width": 4, opacity: 0.8 }));
+    // the winch at the top
+    out.push(rect(2590, 1360, 90, 70, { fill: pc("#b8282a", PAL.alarmB), stroke: "#1a0808", "stroke-width": 3 }), circle(2635, 1395, 22, { fill: pc("#3a3e44", PAL.dark), stroke: "#0c0e10", "stroke-width": 2 }));
+    out.push(line(2610, 1430, 2450, 1700, { stroke: pc("#c8ccd0", PAL.dark), "stroke-width": 3 })); // the winch cable down the ramp, to its shackle
+    out.push(circle(2450, 1700, 7, { fill: pc("#9aa4ac", PAL.dark), stroke: "#0c0e10", "stroke-width": 2 }));
+  }
+  // ---------- the ferry landing: steps down from the pier head to a pontoon ----------
+  {
+    out.push(rect(2800, 930, 50, 140, { fill: "url(#lp-grate)", stroke: "#0c0e10", "stroke-width": 3 })); // the gangway
+    for (let x = 2806; x < 2850; x += 12) out.push(line(x, 934, x, 1066, { stroke: pc("#9aa4ac", PAL.paper), "stroke-width": 2.5 }));
+    out.push(rect(2858, 860, 130, 280, { fill: "#000", opacity: 0.35, transform: "translate(8 10)" }));
+    out.push(rect(2850, 860, 140, 280, { fill: "url(#lp-deck)", stroke: "#0c0e10", "stroke-width": 4 }));
+    for (const y of [880, 1120]) out.push(bollard(2970, y, 10));
+    for (const y of [900, 1100]) out.push(rect(2852, y - 30, 16, 60, { fill: pc("#2a2a2a", PAL.dark) })); // fenders
+  }
+  // ---------- dusk light ----------
+  lights.push(rect(0, 0, W, H, { fill: "url(#lp-dusk)" }));
+  lights.push(ellipse(0, 1000, 900, 1100, { fill: "url(#lp-sun)", opacity: 0.55 }));
+  for (let i = 0; i < 30; i++) { const x = 1300 + R() * 1700, y = R() * H; lights.push(ellipse(x, y, 60 + R() * 140, 5 + R() * 5, { fill: "#f0c0b8", opacity: 0.06 + R() * 0.06 })); } // the sky caught on the water
+
+  // ---------- labels and ways in and out ----------
+  const labels = [];
+  if (!PRINT) {
+    const fl = (x, y, t, o = {}) => label(x, y, t, { size: 26, weight: 800, ...o });
+    const T = (x, y, t, o = {}) => fl(x, y, t, { size: 30, font: "display", weight: 700, ls: 3, ...o });
+    labels.push(T(1700, 380, "THE LONG PIER", { size: 44, ls: 8 }), fl(1700, 432, "at dusk, when it is busiest", { size: 24, italic: true }));
+    labels.push(T(640, 720, "THE GATES AND THE ARCADE", { size: 24, ls: 2 }), fl(640, 1030, "bright lights, slot machines", { size: 18, weight: 700 }));
+    labels.push(fl(610, 1262, "candyfloss stall", { size: 18, weight: 700 }));
+    labels.push(T(1260, 1000, "THE BOARDWALK", { size: 22, ls: 2 }), fl(1660, 1000, "benches; people fishing off the rail", { size: 17, weight: 700 }));
+    labels.push(fl(1660, 700, "The halfway café (closed)", { size: 22 }), fl(1660, 932, "long glass front", { size: 16, weight: 700 }));
+    labels.push(T(2450, 500, "THE PIER HEAD", { size: 28, ls: 2 }));
+    labels.push(fl(2450, 1000, "Bandstand", { size: 22 }));
+    labels.push(fl(2560, 660, "coin telescopes", { size: 17, weight: 700 }));
+    labels.push(fl(2290, 1640, ["The", "lifeboat", "ramp"], { size: 20, anchor: "end" }));
+    labels.push(fl(1090, 1375, "The beach steps", { size: 20 }));
+    labels.push(T(620, 1600, "THE BEACH", { size: 26, ls: 4 }), fl(620, 1640, "the sand under the pier", { size: 18, weight: 700 }));
+    labels.push(fl(1500, 1560, ["the tide runs in", "fast across the sands"], { size: 18, italic: true }));
+    labels.push(fl(130, 470, "The promenade", { size: 22, rot: -90 }));
+    labels.push(fl(2920, 820, ["ferry", "landing"], { size: 17, weight: 700 }));
+    const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 20, ...o });
+    labels.push(way(50, 1000, 180, ["Way in and out:", "the gates, from", "the promenade"], { lx: 140, ly: 1130 }));
+    labels.push(way(900, 1950, 90, ["Way in and out: the beach steps,", "down to the sand under the pier"], { lx: 980, ly: 1900, anchor: "start" }));
+    labels.push(way(2450, 1960, 90, ["Way in and out:", "the lifeboat ramp"], { lx: 2600, ly: 1880, anchor: "start" }));
+    labels.push(way(2955, 1000, 0, ["Way in and out: the", "ferry landing at", "the pier head"], { lx: 2900, ly: 1230 }));
+  } else {
+    const T = (x, y, t, o = {}) => plabel(x, y, t, { size: 62, font: "display", ls: 3, ...o });
+    const F = (x, y, t, o = {}) => plabel(x, y, t, { size: 52, ...o });
+    labels.push(T(1700, 400, "THE LONG PIER", { size: 80, ls: 8 }), F(1700, 480, "at dusk", { size: 54, italic: true }));
+    labels.push(T(640, 700, "GATES AND ARCADE", { size: 52, ls: 2 }));
+    labels.push(F(610, 1290, "candyfloss", { size: 50 }));
+    labels.push(T(1240, 1000, "BOARDWALK", { size: 50, ls: 2 }));
+    labels.push(F(1660, 690, "Halfway café (closed)", { size: 52 }));
+    labels.push(T(2450, 480, "THE PIER HEAD", { size: 56, ls: 2 }));
+    labels.push(F(2450, 1000, "Bandstand", { size: 50 }));
+    labels.push(F(2280, 1640, ["Lifeboat", "ramp"], { size: 52, anchor: "end" }));
+    labels.push(F(1090, 1390, "Beach steps", { size: 52 }));
+    labels.push(T(600, 1600, "THE BEACH", { size: 58, ls: 4 }));
+    labels.push(F(1560, 1560, ["the tide", "runs in fast"], { size: 50, italic: true }));
+    labels.push(F(130, 470, "The promenade", { size: 52, rot: -90 }));
+    labels.push(F(2620, 680, "telescopes", { size: 50 }));
+    labels.push(pwayMarker(60, 1000, 180, ["Way in", "and out:", "the gates"], { lx: 130, ly: 1180, size: 50 }));
+    labels.push(pwayMarker(900, 1940, 90, ["Way in and out:", "the beach steps"], { lx: 990, ly: 1890, anchor: "start", size: 50 }));
+    labels.push(pwayMarker(2450, 1945, 90, ["Way in and out:", "the lifeboat ramp"], { lx: 2590, ly: 1890, anchor: "start", size: 50 }));
+    labels.push(pwayMarker(2950, 1000, 0, ["Way in", "and out:", "the ferry", "landing"], { lx: 2880, ly: 1300, size: 50 }));
+  }
+
+  const body = PRINT ? out.join("") + top.join("") + labels.join("") + printFrame() :
+    out.join("") +
+    rect(0, 0, W, H, { fill: "#c4b4cc", style: "mix-blend-mode:multiply" }) +
+    grp(lights, { style: "mix-blend-mode:screen" }) +
+    rect(0, 0, W, H, { filter: "url(#lp-grain)" }) +
+    top.join("") + labels.join("");
+
+  const data = {
+    width: W, height: H, grid: G,
+    points: [
+      { key: "way-gates", label: "The gates from the promenade (a way in and out)", x: 310, y: 1000 },
+      { key: "way-beach-steps", label: "The beach steps: iron stairs from the boardwalk down to the sand under the pier (a way in and out)", x: 1090, y: 1220 },
+      { key: "way-lifeboat-ramp", label: "The lifeboat ramp: a slipway from the pier head down into the sea (a way in and out)", x: 2450, y: 1600 },
+      { key: "way-ferry-landing", label: "The ferry landing at the pier head (a way in and out)", x: 2920, y: 1000 },
+      { key: "gates-arcade", label: "The gates and the arcade: bright lights, slot machines and a candyfloss stall at the landward end", x: 640, y: 900 },
+      { key: "boardwalk", label: "The boardwalk: planks over the water, benches, and people fishing off the rail", x: 1260, y: 1000 },
+      { key: "halfway-cafe", label: "The halfway café: closed for the evening, with a long glass front", x: 1660, y: 830 },
+      { key: "pier-head", label: "The pier head: the widest part, with a bandstand and coin telescopes", x: 2450, y: 750 },
+      { key: "finn", label: "Finn stands at the bottom of the lifeboat ramp, knee-deep in the sea, singing. The choir stands round him in the water, holding his hands", x: 2450, y: 1850 },
+    ],
+    tokens: {
+      coven: [[100, 800], [100, 900], [100, 1000], [100, 1100], [0, 900], [0, 1000], [0, 1100]], // on the promenade at the gates
+      threat: [2400, 1800], // the choir, in the water round him
+      innocent: [2400, 1700], // Finn, at the bottom of the ramp
+    },
+  };
+  if (PRINT) {
+    const pd = {
+      "lp-deck": plankPattern("lp-deck", 101, [PAL.paper2, PAL.paper, PAL.accentB], PAL.edge, 200, 16, true),
+      "lp-deck2": plankPattern("lp-deck2", 102, [PAL.paper2, PAL.paper, PAL.accentB], PAL.edge, 200, 16),
+      "lp-sand": sandPattern("lp-sand", 103, PAL.paper, [PAL.edge, PAL.accent], PAL.edge, 200, 50),
+      "lp-wetsand": sandPattern("lp-wetsand", 104, PAL.paper2, [PAL.accent, PAL.edge], PAL.accent, 200, 40),
+      "lp-sea": waterPattern("lp-sea", 105, PAL.edge, [PAL.paper, PAL.accent, PAL.paper2], 240, 16, 3),
+      "lp-prom": printGround.slab("lp-prom", 106, 50),
+      "lp-arcade": tilePattern("lp-arcade", PAL.accent, PAL.soft, PAL.dark, 25),
+    };
+    return { name: "long-pier", svg: bookSvg("Map: the long pier at dusk", body, defs, pd), data };
+  }
+  return { name: "long-pier", svg: svgDoc(body, defs), data };
+}
+
+/* ===================================================================== */
 /** Render a book map the way the book shows it (book fonts loaded by family name,
  *  the SVG sized by CSS), at the print width and PRINT_DPI, plus a 2x copy for close checks. */
 async function renderBookCheck(browser, name, svg) {
@@ -3492,7 +3788,7 @@ const MAPS = {
   larkhaven, "lantern-house": lanternHouse,
   "night-market": nightMarket, "radio-tower": radioTower,
   "mariner-theatre": marinerTheatre, "harbour-fireworks": harbourFireworks,
-  "drowned-village": drownedVillage, // "long-pier": longPier,
+  "drowned-village": drownedVillage, "long-pier": longPier,
 };
 /** The showdown maps: each also gets a print version for the book. */
 const BOOK_MAPS = new Set(["night-market", "radio-tower", "mariner-theatre", "harbour-fireworks", "drowned-village", "long-pier"]);
