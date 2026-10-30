@@ -1,6 +1,6 @@
-# Core rules review: v0.4 to v0.6
+# Core rules review: v0.4 to v0.7
 
-The review procedure (`docs/REVIEW-PROCEDURE.md`) run on the core rules: a rules review of v0.4 (§1 below), two real-dice playtests of v0.4 (§2), and the fixes made in v0.5 and v0.6 (§3). A verification playtest of v0.6 is in `sim/playtests/verify-v0.6.md`.
+The review procedure (`docs/REVIEW-PROCEDURE.md`) run on the core rules: a rules review of v0.4 (§1 below), two real-dice playtests of v0.4 (§2), the fixes made in v0.5 and v0.6 (§3), and a verification playtest of v0.6 with the v0.7 fixes (§4).
 
 ## 1. Rules review
 
@@ -73,10 +73,19 @@ What both found most: free potions (no roll, no action) and stacked "loses its n
 - **v0.6** (`book/REVIEW.md` #33–42): playtest B: "Vanquish" renamed **the Unmaking**; Blasting adds damage to an attack instead of skipping the roll; at most one lost attack a round; a Partial brew makes one potion; Sense's die outside the +2 limit; Wild can Surge for a potion; Shelter, Hold, Sight, group checks, retreat and the guardian settled; a d6 Life table; threats grow with the witches in a season.
 - **Simulator after the fixes** (`sim/REPORT.md`): wins 87 / 73 / 56% and losses 0 / 9 / 26% for Easy / Standard / Hard; every Power within 1.5 points; a guardian player within about 5 points of an extra witch; seasons steady at about 74–80% (Standard) and 55–65% (Hard).
 
-## 4. Still open
+## 4. Verification of v0.6, and v0.7
 
-- Every group size within 5 points of the label's target: two cells sit just outside (Standard 69% with 5 witches, Hard 53% with 3 witches and a guardian).
+`sim/playtests/verify-v0.6.md` (Standard, 3 witches and a guardian player, real dice): of the 64 earlier issues, 39 fixed, 13 partly fixed, 4 unchanged by choice, 8 changed differently. The episode was a Win, but the threat again made no attacks: with the Weakness known, a coven Broke it in round 1 before it acted about 90% of the time. 18 new issues, mostly small.
+
+- **v0.7** (`book/REVIEW.md` #43–51): the threat acts first in round 1; Binding needs a working attack; extra lost attacks are wasted; Shield once a round; Shelter and guarding end if you go Down; Toughness 3w / 3w / 4w; season threat growth of 2 Toughness per witch after the 2nd and 4th episodes; the verification's small items.
+- **Simulator after v0.7** (`sim/REPORT.md`): wins 85 / 73 / 59% and losses 0 / 8 / 23% (Easy / Standard / Hard); a witch goes Down in 39% of Standard and 61% of Hard episodes; every Power within 1.5 points; a guardian player within 5 points of an extra witch; seasons hold at 72–78% (Standard) and 55–64% (Hard) over 8 episodes.
+- **Next step in the procedure:** a second verification playtest of v0.7 before the chapters (Part D asks for two clean playtests in a row).
+
+## 5. Still open
+
+- Every group size within 5 points of the label's target: Easy runs 80–90% (5 witches lowest) and Standard 67–79%.
+- Easy sits at 85% wins (target ~90%): the only lever found jumps it to 96%.
 - Criticals are 12–13% of rolls (target 15–25%): pools are small. Could count a Critical on any success with a 6 when the pool is 3 dice or fewer, if it matters at the table.
 - At Easy the guardian spends little Ward and half the potions go unused: Easy fights are short (2 rounds). Acceptable for a first night.
-- The page is now about 2,100 words: a dense page, not a short one. The chapters will spread it out; a one-card round summary and a quick reference come with the chapters.
+- The page is now about 2,200 words: a dense page, not a short one. The chapters will spread it out; a one-card round summary and a quick reference come with the chapters.
 - Ready-made content (episodes, threats, the home) and the first-night pack wait for Richard's approval of the core.
