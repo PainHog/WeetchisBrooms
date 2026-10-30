@@ -1,0 +1,104 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "points": [
+    {
+      "key": "way-front-doors",
+      "label": "The front doors: boarded, under a sagging canopy; the boards come away (a way in and out)",
+      "x": 2500,
+      "y": 950
+    },
+    {
+      "key": "way-stage-door",
+      "label": "The stage door, from the container yard (a way in and out)",
+      "x": 600,
+      "y": 1100
+    },
+    {
+      "key": "way-loading-dock",
+      "label": "The loading dock at the side, with its roller door half up (a way in and out)",
+      "x": 825,
+      "y": 1500
+    },
+    {
+      "key": "way-broken-roof",
+      "label": "The broken roof, from the warehouse next door: across onto the fly gallery (a way in and out)",
+      "x": 910,
+      "y": 380
+    },
+    {
+      "key": "the-front",
+      "label": "The front: boarded doors under a sagging canopy, an old ticket booth and a sign: Danger. Keep Out.",
+      "x": 2620,
+      "y": 950
+    },
+    {
+      "key": "the-foyer",
+      "label": "The foyer: a black marble floor, a grand staircase that ends in empty air, and a wall of mirrors cracked by heat",
+      "x": 2290,
+      "y": 950
+    },
+    {
+      "key": "the-stalls",
+      "label": "The stalls: rows of burnt seats under a roof that is mostly sky. Ash drifts down like snow, though nothing is burning",
+      "x": 1700,
+      "y": 950
+    },
+    {
+      "key": "the-stage",
+      "label": "The stage: the boards are sound. A wedding arch of wire and wax flowers still stands at the back. This is where she sleeps",
+      "x": 900,
+      "y": 950
+    },
+    {
+      "key": "fly-gallery",
+      "label": "The fly gallery: iron walkways high above the stage, hung with old ropes",
+      "x": 930,
+      "y": 460
+    },
+    {
+      "key": "under-the-stage",
+      "label": "Under the stage (inset): damp dressing rooms. At high tide, harbour water seeps in ankle-deep",
+      "x": 300,
+      "y": 1650
+    }
+  ],
+  "tokens": {
+    "coven": [
+      [
+        2700,
+        800
+      ],
+      [
+        2800,
+        800
+      ],
+      [
+        2900,
+        800
+      ],
+      [
+        2800,
+        900
+      ],
+      [
+        2900,
+        900
+      ],
+      [
+        2800,
+        1000
+      ],
+      [
+        2900,
+        1000
+      ]
+    ],
+    "threat": [
+      800,
+      900
+    ],
+    "innocent": null
+  }
+}

@@ -37,16 +37,15 @@ const DOMINANT = 5;  // a move this many points of win harder than the book's ya
 
 /** Suggested fixes, printed only when the matching flag fires. Functions read the runs below when the flag fires. */
 const FIX = {
-  label: {
-    easy: () => `Not the move: REPORT.md §1 has Easy at ${pctS(P("generic", "easy").win)} with the generic move too, and Hush changes it by ${sgn(winVs("quietMan", "generic", "easy"))} points. Leave Hush as it is.`,
-    standard: () => `Not the move: the generic move has the same cell off (REPORT.md §1). Leave Cinders as it is.`,
-    hard: () => `Not the move: the generic move has the same cell off (REPORT.md §1). Leave Lure as it is.`,
-  },
+  label: Object.fromEntries(EPISODES.map(e => [e.label, () => {
+    const g = P("generic", e.label), w = cellsOf([e.label]).map(c => C("generic", c.key).win);
+    return `Not the move: with the generic move ${NAME[e.label]} is ${f1(g.win)}% (cells ${f1(Math.min(...w))}–${f1(Math.max(...w))}%, REPORT.md §1), off in the same way, and ${short(e.move)} changes the pooled win by ${sgn(winVs(e.move, "generic", e.label))} points. Leave ${short(e.move)} as it is.`;
+  }])),
   drownedChoir: {
     off: () => {
-      const L = "hard", y = P("twoAttacks", L).win, w = P("drownedChoir", L).win;
+      const L = "hard", y = P("twoAttacks", L).win, w = P("drownedChoir", L).win, top = TARGETS[L].win[1];
       const asYard = Math.abs(w - y) < DEAD;
-      return `Lure is already ruling 88 (one attack, then the Lure roll). Low Tide is ${f1(w)}%, against ${f1(P("generic", L).win)}% with the generic move and ${f1(y)}% with "two different characters". ${asYard ? `That is within ±${DEAD} points of the book's yardstick, so what is left is the Hard label's numbers (REPORT.md §1), not the move. No further change to Lure.` : `That is still ${sgn(w - y)} points from the book's yardstick; the next smallest step is a cost on the Lure roll (1 Hurt on a Failure), which needs a new simulation first.`}`;
+      return `Lure is already ruling 88 (one attack, then the Lure roll). Low Tide is ${f1(w)}%${w > top ? `, ${f1(w - top)} points over the top of the band` : ""}; the generic move gives ${f1(P("generic", L).win)}% and "two different characters" ${f1(y)}%. ${asYard ? `Lure is within ±${DEAD} points of the book's yardstick, so no further change to Lure. Hard sits at the top of its band with any move of that strength (§3); moving Low Tide into the middle of the band would mean changing the Hard numbers, for the whole label.` : `That is still ${sgn(w - y)} points from the book's yardstick; the next smallest step is a cost on the Lure roll (1 Hurt on a Failure), which needs a new simulation first.`}`;
     },
     weak: () => {
       const small = LABELS.every(L => Math.abs(worth("drownedChoir", L)) < DEAD);
@@ -82,6 +81,7 @@ const NOT_COVERED = [
   "Nobody plays around a move: no witch keeps Magic low against Borrowed Face or puts a higher rating into Heart against Lure.",
 ];
 const fx = f => (typeof f === "function" ? f() : f);
+const andList = a => (a.length < 2 ? a.join("") : `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}`);
 
 const f0 = x => x.toFixed(0);
 const f1 = x => x.toFixed(1);
@@ -243,11 +243,15 @@ for (const e of EPISODES) {
   const pushedCells = cellsOf([L]).filter(c => cellOff(e.move, c) && !cellOff("generic", c));
   const pushed = Math.abs(s.win - g.win) > OFF || cellsOf([L]).some(c => Math.abs(C(e.move, c.key).win - C("generic", c.key).win) > OFF);
   const cellList = cs => cs.map(c => `${c.p} players${c.g ? " with a guardian player" : ""} (${f1(C(e.move, c.key).win)}%)`).join(", ");
-  if (pushed) flag("move pushes episode off target", `${e.n}. ${e.name}: ${short(e.move)}`, `Win ${f1(s.win)}% against ${f1(g.win)}% with the generic move.`, FIX[e.move]?.off);
-  if (!inRange(s.win, TARGETS[L].win) || offCells.length) {
-    const why = pushedCells.length ? `${short(e.move)} pushes ${cellList(pushedCells)} out of the ±${OFF} band, and the pooled win from ${f1(g.win)}% with the generic move to ${f1(s.win)}%.` : `The generic move is off in the same way (${f1(g.win)}% pooled), so the label, not the move, is the cause.`;
-    flag(pushedCells.length ? "move pushes cells off target" : "episode off target (label)", `${e.n}. ${e.name} (${NAME[L]}, ${short(e.move)})`,
-      `Win ${f1(s.win)}% (target ${TARGETS[L].win.join("–")}%).${offCells.length ? ` Cells more than ${OFF} points off: ${cellList(offCells)}.` : ""} ${why}`, pushedCells.length ? FIX[e.move]?.off : FIX.label[L]);
+  if (pushed) flag("move moves the episode's win more than 5 points", `${e.n}. ${e.name}: ${short(e.move)}`, `Win ${f1(s.win)}% against ${f1(g.win)}% with the generic move.`, FIX[e.move]?.off);
+  const offPooled = !inRange(s.win, TARGETS[L].win);
+  const pushedPooled = offPooled && inRange(g.win, TARGETS[L].win);
+  if (offPooled || offCells.length) {
+    const byMove = pushedPooled || pushedCells.length > 0;
+    const what = [pushedPooled ? "the pooled win" : null, pushedCells.length ? cellList(pushedCells) : null].filter(Boolean).join(" and ");
+    const why = byMove ? `${short(e.move)} takes ${what} off target, where the generic move is on it.` : `The generic move is off in the same way, so the label, not the move, is the cause.`;
+    flag(byMove ? "move pushes episode off target" : "episode off target (label)", `${e.n}. ${e.name} (${NAME[L]}, ${short(e.move)})`,
+      `Win ${f1(s.win)}% (target ${TARGETS[L].win.join("–")}%; generic move ${f1(g.win)}%). ${offCells.length ? `Cells more than ${OFF} points off: ${cellList(offCells)}.` : `Every cell is within ${OFF} points of ${WIN_TARGET[L]}%.`} ${why}`, byMove ? FIX[e.move]?.off : FIX.label[L]);
   }
 }
 // Dead, dominated and dominant moves.
@@ -279,10 +283,10 @@ if (flags.some(f => f.kind.startsWith("dead"))) {
   const uses = SIX.flatMap(m => LABELS.map(L => P(m, L).use["sig:move"] || 0));
   const fiveOk = FIVE.filter(m => m !== "plain" && LABELS.some(L => Math.abs(worth(m, L, V5)) >= DEAD)).map(m => THREATS.moves[m].short);
   const down = SIX.map(m => P(m, "hard").anyDown);
-  out(`**Why the moves are dead.** A move needs a 6 with no free innocent, and showdowns are short, so the threat uses its move in only ${f0(Math.min(...used))}–${f0(Math.max(...used))}% of episodes (${Math.min(...uses).toFixed(2)}–${Math.max(...uses).toFixed(2)} times per episode). When it does, most moves are worth about one attack. Making a 5 use the move too (§8) lifts only ${fiveOk.length ? fiveOk.join(" and ") : "none of them"} past ±${DEAD} points. The moves still change who goes Down (at Hard, a witch goes Down in ${f0(Math.min(...down))}–${f0(Math.max(...down))}% of episodes, depending on the move), so they give each threat its own feel without moving the win. No balance fix is needed: whichever threat the coven meets, the label's numbers hold, which is what lets any threat go with any label. If Richard wants the moves to swing results (DESIGN-RULES A9), they would have to come up more often and do more than one attack's worth, and every label would need re-tuning.`);
+  out(`**Why the moves are dead.** A move needs a 6 with no free innocent, and showdowns are short, so the threat uses its move in only ${f0(Math.min(...used))}–${f0(Math.max(...used))}% of episodes (${Math.min(...uses).toFixed(2)}–${Math.max(...uses).toFixed(2)} times per episode). When it does, most moves are worth about one attack. Making a 5 use the move too (§8) lifts only ${fiveOk.length ? andList(fiveOk) : "none of them"} past ±${DEAD} points. The moves still change who goes Down (at Hard, a witch goes Down in ${f0(Math.min(...down))}–${f0(Math.max(...down))}% of episodes, depending on the move), so they give each threat its own feel without moving the win. No balance fix is needed: whichever threat the coven meets, the label's numbers hold, which is what lets any threat go with any label. If Richard wants the moves to swing results (DESIGN-RULES A9), they would have to come up more often and do more than one attack's worth, and every label would need re-tuning.`);
   out("");
 }
-out(`Summary: ${flagsOf("move pushes")} episode flags caused by a move, ${flagsOf("episode off")} episodes off target because of their label, ${flagsOf("dead") + flagsOf("the yardstick")} dead moves (including the yardstick), ${flagsOf("dominated")} dominated by a plain attack, ${flagsOf("dominant")} dominant.`);
+out(`Summary of flags: episodes pushed off target by their move ${flagsOf("move")}; episodes off target because of their label ${flagsOf("episode off")}; dead moves, the yardstick included, ${flagsOf("dead") + flagsOf("the yardstick")}; moves dominated by a plain attack ${flagsOf("dominated")}; dominant moves ${flagsOf("dominant")}.`);
 out("");
 
 // ---------------------------------------------------------------- 8. sensitivity

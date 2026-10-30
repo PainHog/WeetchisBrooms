@@ -190,7 +190,7 @@ const mottleFilter = (id, freq = 0.012, op = 0.22, seed = 3) =>
   `<feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 ${op * 4} ${-op * 1.6}"/></filter>`;
 
 /** Cobblestones as a 200 px tile (rows of rounded stones, jittered). */
-function cobblePattern(id, seed, tones, joint, size = 200, stone = 24) {
+function cobblePattern(id, seed, tones, joint, size = 200, stone = 24, hi = true) {
   const R = rng(seed);
   let s = rect(0, 0, size, size, { fill: joint });
   const rows = Math.round(size / stone);
@@ -205,7 +205,7 @@ function cobblePattern(id, seed, tones, joint, size = 200, stone = 24) {
       for (const dx of [0, size, -size]) {
         if (cx + dx + cw < 0 || cx + dx > size) continue;
         s += rect(cx + dx, cy, cw, ch, { rx: 6, fill: t });
-        s += rect(cx + dx + 2, cy + 2, cw - 6, Math.max(2, ch * 0.32), { rx: 4, fill: "#ffffff", opacity: 0.07 });
+        if (hi) s += rect(cx + dx + 2, cy + 2, cw - 6, Math.max(2, ch * 0.32), { rx: 4, fill: "#ffffff", opacity: 0.07 });
       }
       x += w;
     }
@@ -1157,11 +1157,11 @@ function printTownDefs() {
 }
 /** Print ground patterns, by the Foundry ground they stand in for. */
 const printGround = {
-  cobble: (id, seed, stone = 22) => cobblePattern(id, seed, [PAL.paper2, PAL.paper, PAL.paper2, PAL.accentB], PAL.edge, 200, stone),
+  cobble: (id, seed, stone = 22) => cobblePattern(id, seed, [PAL.paper2, PAL.paper, PAL.paper2, PAL.accentB], PAL.edge, 200, stone, false),
   slab: (id, seed, slab = 50) => slabPattern(id, seed, [PAL.paper, PAL.light, PAL.paper2], PAL.edge, 200, slab),
   planks: (id, seed, board = 20) => plankPattern(id, seed, [PAL.paper2, PAL.paper, PAL.accentB], PAL.edge, 200, board),
-  gravel: (id, seed) => gravelPattern(id, seed, PAL.paper2, [PAL.edge, PAL.edge, PAL.accent, PAL.paper]),
-  grass: (id, seed, n = 60) => grassPattern(id, seed, PAL.paper2, [PAL.edge, PAL.accent, PAL.edge], 160, n),
+  gravel: (id, seed, n = 90) => gravelPattern(id, seed, PAL.paper2, [PAL.edge, PAL.edge, PAL.accent, PAL.paper], 120, n),
+  grass: (id, seed, n = 36) => grassPattern(id, seed, PAL.paper2, [PAL.edge, PAL.accent, PAL.edge], 160, n),
 };
 
 /* ===================================================================== */
@@ -1581,7 +1581,7 @@ function radioTower() {
   out.push(rect(40, 760, 26, 80, { rx: 3, fill: "#6a4a30", stroke: "#22160d", "stroke-width": 2.5 }));
   // the steep bank, from the fence down to the gardens: hachures pointing downhill
   {
-    out.push(path("M400 0 L400 2000 L215 2000 C 170 1500, 200 1200, 180 900 C 150 600, 190 300, 170 0 Z", { fill: "#4d5539" }));
+    out.push(path("M400 0 L400 2000 L215 2000 C 170 1500, 200 1200, 180 900 C 150 600, 190 300, 170 0 Z", { fill: PRINT ? PAL.edge : "#4d5539" }));
     // tapered hachures in two staggered rows: thick at the top of the bank, thin at the foot
     const H_ = [];
     for (let y = 12; y < 1995; y += 15) {
@@ -1590,7 +1590,7 @@ function radioTower() {
         H_.push(`M${f1(x0)} ${f1(yy - w)} L${f1(x0)} ${f1(yy + w)} L${f1(x1)} ${f1(yy + (R() - 0.5) * 4)} Z`);
       }
     }
-    out.push(path(H_.join(" "), { fill: "#1c2216", opacity: 0.6 }));
+    out.push(path(H_.join(" "), { fill: PRINT ? PAL.soft : "#1c2216", opacity: PRINT ? 0.75 : 0.6 }));
   }
   // the hilltop is lighter (moonlight), the slopes fall away into the dark
   lights.push(ellipse(1450, 900, 1150, 850, { fill: "url(#rt-hill)" }));
@@ -1598,7 +1598,7 @@ function radioTower() {
   // gorse and shrubs on the hillside outside the fence
   for (const [x, y, r] of [[620, 70, 46], [980, 110, 38], [1300, 60, 52], [1750, 95, 40], [2150, 70, 48], [2330, 260, 34],
     [480, 1820, 50], [1150, 1900, 44], [1500, 1800, 56], [1900, 1880, 42], [2250, 1790, 38], [2380, 1930, 46], [1700, 1960, 36], [560, 1960, 34]]) {
-    out.push(treeCrown(x, y, r, R, { dark: "#24361f", mid: "#2f4628", light: "#4a6a3a", shadow: 0.3 }));
+    out.push(treeCrown(x, y, r, R, PRINT ? { dark: PAL.accent, mid: PAL.edge, light: PAL.paper2, edge: PAL.soft, shadow: 0.15 } : { dark: "#24361f", mid: "#2f4628", light: "#4a6a3a", shadow: 0.3 }));
   }
   // ---------- observatory grounds (east) ----------
   out.push(path("M2470 0 L3000 0 L3000 2000 L2700 2000 C 2620 1700, 2560 1400, 2480 1000 C 2460 700, 2470 300, 2470 0 Z", { fill: "url(#rt-lawn)" }));
@@ -1627,7 +1627,7 @@ function radioTower() {
   out.push(path(smoothD(lanePoly, true), { fill: "#1c1d1f", transform: "translate(0 0)" }));
   out.push(path(polyD(lanePoly), { fill: "url(#rt-lane)", stroke: "#1a1a18", "stroke-width": 6 }));
   // low banks and weeds either side of the lane
-  for (const side of [[[690, 1720], [680, 1850], [705, 1950], [730, 2010]], [[910, 1720], [925, 1830], [960, 1930], [1000, 2010]]]) out.push(path(smoothD(side), { fill: "none", stroke: "#1d2c1b", "stroke-width": 22, "stroke-linecap": "round" }));
+  for (const side of [[[690, 1720], [680, 1850], [705, 1950], [730, 2010]], [[910, 1720], [925, 1830], [960, 1930], [1000, 2010]]]) out.push(path(smoothD(side), { fill: "none", stroke: PRINT ? PAL.accent : "#1d2c1b", "stroke-width": 22, "stroke-linecap": "round" }));
   // "steep" chevrons pointing downhill
   for (const y of [1770, 1860, 1950]) { const cx = 800 + (y - 1700) * 0.28; out.push(path(`M${cx - 40} ${y - 16} L${cx} ${y + 6} L${cx + 40} ${y - 16}`, { fill: "none", stroke: "#cfc8b0", "stroke-width": 6, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0.55 })); }
 
@@ -1636,7 +1636,7 @@ function radioTower() {
   out.push(`<mask id="rt-yardmask" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}">` + path(smoothD(yard, true), { fill: "#fff", filter: PRINT ? undefined : "url(#rt-feather)" }) + `</mask>`);
   out.push(rect(0, 0, W, H, { fill: "url(#rt-gravel)", mask: "url(#rt-yardmask)" }));
   // worn track from the gate to the tower and on to the hut door
-  out.push(path(smoothD([[800, 1700], [880, 1500], [1100, 1300], [1300, 1170], [1500, 1150], [1750, 1000], [1880, 760], [1900, 705]]), { fill: "none", stroke: "#6e695f", "stroke-width": 60, "stroke-linecap": "round", opacity: 0.55 }));
+  out.push(path(smoothD([[800, 1700], [880, 1500], [1100, 1300], [1300, 1170], [1500, 1150], [1750, 1000], [1880, 760], [1900, 705]]), { fill: "none", stroke: PRINT ? PAL.edge : "#6e695f", "stroke-width": 60, "stroke-linecap": "round", opacity: 0.55 }));
   // nettle clumps (round the feet, along the fence, at the yard's edge)
   const nettle = (cx, cy, r) => {
     let s = "";
@@ -1761,7 +1761,7 @@ function radioTower() {
     for (const [ax, ay] of anchors) {
       out.push(rect(ax - 26 + 5, ay - 26 + 7, 52, 52, { fill: "#000", opacity: 0.4 }), rect(ax - 26, ay - 26, 52, 52, { fill: "#86837d", stroke: "#2a2926", "stroke-width": 3 }), circle(ax, ay, 7, { fill: "#4a4a48", stroke: "#1a1a18", "stroke-width": 2 }));
       const ang = Math.atan2(ay - cy, ax - cx);
-      for (const r of [40, 100]) top.push(line(cx + Math.cos(ang) * r, cy + Math.sin(ang) * r, ax, ay, { stroke: "#c9d2d8", "stroke-width": 2.2, opacity: 0.85 }));
+      for (const r of [40, 100]) top.push(line(cx + Math.cos(ang) * r, cy + Math.sin(ang) * r, ax, ay, { stroke: PRINT ? PAL.soft : "#c9d2d8", "stroke-width": PRINT ? 3 : 2.2, opacity: 0.85 }));
     }
   }
 
@@ -1882,8 +1882,8 @@ function radioTower() {
   if (PRINT) {
     const pd = {
       ...printTownDefs(),
-      "rt-grass": printGround.grass("rt-grass", 61, 50),
-      "rt-lawn": grassPattern("rt-lawn", 62, PAL.paper, [PAL.edge, PAL.paper2], 160, 40),
+      "rt-grass": printGround.grass("rt-grass", 61, 36),
+      "rt-lawn": grassPattern("rt-lawn", 62, PAL.paper, [PAL.edge, PAL.paper2], 160, 24),
       "rt-gravel": printGround.gravel("rt-gravel", 63),
       "rt-concrete": slabPattern("rt-concrete", 64, [PAL.paper2, PAL.edge, PAL.paper2], PAL.accent, 200, 50),
       "rt-floor": printGround.planks("rt-floor", 65, 18),
@@ -2230,6 +2230,615 @@ function larkhaven() {
 }
 
 /* ===================================================================== */
+/*  Harbour kit (Episodes 2 and 3): water, mud, sand, reeds, boats         */
+/* ===================================================================== */
+/** The tile offsets a mark near a tile edge needs so the tile repeats cleanly. */
+function wraps(x, y, e, size) {
+  const xs = [0], ys = [0];
+  if (x - e < 0) xs.push(size);
+  if (x + e > size) xs.push(-size);
+  if (y - e < 0) ys.push(size);
+  if (y + e > size) ys.push(-size);
+  return xs.flatMap(dx => ys.map(dy => [dx, dy]));
+}
+/** Ripples: short curved strokes on flat water, as a tile. */
+function waterPattern(id, seed, base, tones, size = 240, n = 30, sw = 2.2) {
+  const R = rng(seed);
+  let s = rect(0, 0, size, size, { fill: base });
+  for (let i = 0; i < n; i++) {
+    const x = R() * size, y = R() * size, l = 16 + R() * 30, c = tones[Math.floor(R() * tones.length)];
+    for (const [dx, dy] of wraps(x + l / 2, y, l / 2 + 4, size)) s += path(`M${f1(x + dx)} ${f1(y + dy)} q ${f1(l / 2)} -6 ${f1(l)} 0`, { fill: "none", stroke: c, "stroke-width": sw, "stroke-linecap": "round" });
+  }
+  return `<pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${s}</pattern>`;
+}
+/** Wet mud: a flat ground with sheen streaks and pits. */
+function mudPattern(id, seed, base, sheen, pit, size = 200, n = 26) {
+  const R = rng(seed);
+  let s = rect(0, 0, size, size, { fill: base });
+  for (let i = 0; i < n; i++) {
+    const x = R() * size, y = R() * size, l = 12 + R() * 34;
+    for (const [dx, dy] of wraps(x + l / 2, y, l / 2 + 4, size)) s += path(`M${f1(x + dx)} ${f1(y + dy)} q ${f1(l / 2)} -3 ${f1(l)} 0`, { fill: "none", stroke: sheen, "stroke-width": 2, "stroke-linecap": "round", opacity: 0.8 });
+  }
+  for (let i = 0; i < n * 1.4; i++) {
+    const x = R() * size, y = R() * size, r = 1.2 + R() * 2.4;
+    for (const [dx, dy] of wraps(x, y, r, size)) s += circle(x + dx, y + dy, r, { fill: pit });
+  }
+  return `<pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${s}</pattern>`;
+}
+/** Sand: stipple and faint ripple marks. */
+function sandPattern(id, seed, base, dots, ripple, size = 200, n = 120) {
+  const R = rng(seed);
+  let s = rect(0, 0, size, size, { fill: base });
+  for (let i = 0; i < 9; i++) {
+    const x = R() * size, y = R() * size, l = 40 + R() * 60;
+    for (const [dx, dy] of wraps(x + l / 2, y, l / 2 + 4, size)) s += path(`M${f1(x + dx)} ${f1(y + dy)} q ${f1(l / 4)} -5 ${f1(l / 2)} 0 t ${f1(l / 2)} 0`, { fill: "none", stroke: ripple, "stroke-width": 2, opacity: 0.6 });
+  }
+  for (let i = 0; i < n; i++) {
+    const x = R() * size, y = R() * size, r = 0.9 + R() * 1.6;
+    for (const [dx, dy] of wraps(x, y, r, size)) s += circle(x + dx, y + dy, r, { fill: dots[Math.floor(R() * dots.length)] });
+  }
+  return `<pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${s}</pattern>`;
+}
+/** Reeds seen from above: dense short strokes leaning one way. */
+function reedPattern(id, seed, base, tones, size = 120, n = 150, sw = 2) {
+  const R = rng(seed);
+  let s = rect(0, 0, size, size, { fill: base });
+  for (let i = 0; i < n; i++) {
+    const x = R() * size, y = R() * size, l = 8 + R() * 12, a = -Math.PI / 2 + 0.5 + (R() - 0.5) * 0.9;
+    const c = tones[Math.floor(R() * tones.length)];
+    for (const [dx, dy] of wraps(x, y, l, size)) s += line(x + dx, y + dy, x + dx + Math.cos(a) * l, y + dy + Math.sin(a) * l, { stroke: c, "stroke-width": sw, "stroke-linecap": "round" });
+  }
+  return `<pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${s}</pattern>`;
+}
+/** Corrugated iron (roofs, containers): stripes, `w` px apart. */
+const corrugatedPattern = (id, base, rib, w = 16, rot = 0) =>
+  `<pattern id="${id}" width="${w}" height="${w}" patternUnits="userSpaceOnUse"${rot ? ` patternTransform="rotate(${rot})"` : ""}>` +
+  rect(0, 0, w, w, { fill: base }) + rect(0, 0, w * 0.42, w, { fill: rib }) + `</pattern>`;
+/** Polished marble tiles, two tones in a checkerboard, with a few veins. */
+function marblePattern(id, seed, a, b, vein, grout, t = 50) {
+  const R = rng(seed);
+  const size = t * 4;
+  let s = rect(0, 0, size, size, { fill: grout });
+  for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) s += rect(i * t + 1, j * t + 1, t - 2, t - 2, { fill: (i + j) % 2 ? a : b });
+  for (let k = 0; k < 7; k++) {
+    const x = R() * size, y = R() * size;
+    s += path(`M${f1(x)} ${f1(y)} q ${f1(10 + R() * 20)} ${f1((R() - 0.5) * 30)} ${f1(30 + R() * 30)} ${f1((R() - 0.5) * 30)}`, { fill: "none", stroke: vein, "stroke-width": 1.2, opacity: 0.55 });
+  }
+  return `<pattern id="${id}" width="${size}" height="${size}" patternUnits="userSpaceOnUse">${s}</pattern>`;
+}
+/** A small boat from above: pointed bow, square stern, thwarts. (x,y) centre; `ang` the way the bow points. */
+function boat(x, y, len, wid, ang, o = {}) {
+  const { hull = "#e0dccf", inside = "#7a5a3c", edge = "#14100c", thwarts = 2, shadow = 0.35 } = o;
+  const L = len / 2, Wd = wid / 2;
+  const hullD = `M ${f1(L)} 0 C ${f1(L * 0.6)} ${f1(-Wd)}, ${f1(-L * 0.5)} ${f1(-Wd)}, ${f1(-L)} ${f1(-Wd * 0.8)} L ${f1(-L)} ${f1(Wd * 0.8)} C ${f1(-L * 0.5)} ${f1(Wd)}, ${f1(L * 0.6)} ${f1(Wd)}, ${f1(L)} 0 Z`;
+  const inD = `M ${f1(L * 0.8)} 0 C ${f1(L * 0.5)} ${f1(-Wd * 0.72)}, ${f1(-L * 0.45)} ${f1(-Wd * 0.72)}, ${f1(-L * 0.88)} ${f1(-Wd * 0.6)} L ${f1(-L * 0.88)} ${f1(Wd * 0.6)} C ${f1(-L * 0.45)} ${f1(Wd * 0.72)}, ${f1(L * 0.5)} ${f1(Wd * 0.72)}, ${f1(L * 0.8)} 0 Z`;
+  const parts = [path(hullD, { fill: "#000", opacity: shadow, transform: "translate(5 7)" }), path(hullD, { fill: hull, stroke: edge, "stroke-width": 3 }), path(inD, { fill: inside, stroke: edge, "stroke-width": 1.5 })];
+  for (let i = 0; i < thwarts; i++) { const tx = -L * 0.5 + (i + 0.5) * (L * 1.1 / thwarts); parts.push(rect(tx - 5, -Wd * 0.66, 10, Wd * 1.32, { fill: "#a07a50", stroke: edge, "stroke-width": 1.2 })); }
+  return grp(parts, { transform: `translate(${f1(x)} ${f1(y)}) rotate(${f1(ang)})` });
+}
+/** A mooring bollard on a quay. */
+const bollard = (x, y, r = 12) =>
+  circle(x + 3, y + 4, r, { fill: "#000", opacity: 0.4 }) + circle(x, y, r, { fill: "#2a2c30", stroke: "#0c0c0e", "stroke-width": 3 }) + circle(x - r * 0.3, y - r * 0.3, r * 0.35, { fill: "#5a5e66" });
+/** A rope that sags a little between two points. */
+function rope(a, b, sag = 0.08, o = {}) {
+  const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, L = dist(a, b);
+  const c = [mx - (b[1] - a[1]) * sag, my + (b[0] - a[0]) * sag]; // bowed sideways a little
+  return path(`M${P(a)} Q${P(c)} ${P(b)}`, { fill: "none", stroke: o.col ?? "#c8b48a", "stroke-width": o.w ?? 4, "stroke-linecap": "round", opacity: o.op });
+}
+/** A railing along a line: a top rail and posts every `gap`. */
+function railing(a, b, o = {}) {
+  const { gap = 50, col = "#9aa4ac", dark = "#14181c", w = 5 } = o;
+  let s = line(a[0], a[1], b[0], b[1], { stroke: dark, "stroke-width": w + 4, "stroke-linecap": "round" }) + line(a[0], a[1], b[0], b[1], { stroke: col, "stroke-width": w, "stroke-linecap": "round" });
+  const n = Math.max(1, Math.round(dist(a, b) / gap));
+  for (let i = 0; i <= n; i++) { const p = lerpP(a, b, i / n); s += circle(p[0], p[1], w * 0.9, { fill: col, stroke: dark, "stroke-width": 2 }); }
+  return s;
+}
+/** A park or pier bench from above, `ang` the way the sitter faces. */
+const benchTop = (x, y, ang = 0, w = 90) => grp([
+  rect(-w / 2 + 4, -10 + 5, w, 26, { fill: "#000", opacity: 0.35 }),
+  rect(-w / 2, -8, w, 22, { rx: 3, fill: "#6a4a30", stroke: "#22160d", "stroke-width": 2.5 }),
+  line(-w / 2 + 3, -1, w / 2 - 3, -1, { stroke: "#22160d", "stroke-width": 1.5 }), line(-w / 2 + 3, 6, w / 2 - 3, 6, { stroke: "#22160d", "stroke-width": 1.5 }),
+  rect(-w / 2, -14, w, 7, { rx: 2, fill: "#4e3320", stroke: "#22160d", "stroke-width": 2 }),
+], { transform: `translate(${f1(x)} ${f1(y)}) rotate(${f1(ang)})` });
+/** Night lighting helpers shared by the new maps: a lamp post (out + lights + top). */
+function lampKit(out, lights, top, grad) {
+  return (x, y, r = 200, op = 1) => {
+    out.push(circle(x + 3, y + 4, 11, { fill: "#000", opacity: 0.4 }), circle(x, y, 11, { fill: "#2a2c30", stroke: "#0c0c0e", "stroke-width": 3 }));
+    lights.push(circle(x, y, r, { fill: `url(#${grad})`, opacity: op }));
+    top.push(circle(x, y, 6, { fill: "#fff0c0" }));
+  };
+}
+/** Light speckles (drifting ash, spray, sparks). */
+function speckles(R, n, x0, y0, w, h, o = {}) {
+  const { col = "#d8d4cc", rmin = 1.5, rmax = 4, op = 0.5, test } = o;
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const x = x0 + R() * w, y = y0 + R() * h;
+    if (test && !test([x, y])) continue;
+    s += circle(x, y, rmin + R() * (rmax - rmin), { fill: col, opacity: op * (0.5 + R() * 0.5) });
+  }
+  return s;
+}
+
+/* ===================================================================== */
+/*  5. THE MARINER THEATRE (gridded, night): Episode 2's hidden place      */
+/* ===================================================================== */
+// A burned-out theatre in the middle of the Docks, between new flats and the
+// container yard (book/src/chapters/33-ch15.html). Grid plan (100 px squares):
+//   Warehouse next door  cols 6-20, rows 0-3 (roof only). The broken roof route
+//                        crosses from it, over the stage house wall, onto the fly gallery
+//   The theatre          cols 6-24, rows 4-14:
+//     stage house        cols 6-12: the stage, the wedding arch (col 7), the fly gallery
+//                        overhead (north and south walls and the back), stairs down (row 12),
+//                        the stage door (west wall, row 10), the loading dock (south wall, cols 7-9)
+//     stalls             cols 13-20: burnt seats in curved rows, roof trusses, open sky
+//     foyer              cols 21-24: marble floor, grand staircase (north), mirror wall (south)
+//   The front            east wall, three boarded doorways; canopy, ticket booth, sign (cols 25-27)
+//   The street           cols 27-29
+//   Container yard       cols 0-5, rows 0-12
+//   Service lane         rows 15-16; New flats rows 17-19
+//   Under the stage      inset, cols 0-5, rows 13-19 (the floor below the stage)
+function marinerTheatre() {
+  const R = rng(1911);
+  const pc = (f, p) => PRINT ? p : f;
+  const defs = [
+    townDefs(),
+    plankPattern("mt-stage", 71, ["#6e5238", "#765a3e", "#664a32", "#7c5e40"], "#2a1c12", 200, 20),
+    plankPattern("mt-burnt", 72, ["#4c4540", "#544c46", "#47403b", "#403a35"], "#1a1410", 200, 18),
+    marblePattern("mt-marble", 73, "#1e1e22", "#2c2c32", "#c8c8d0", "#0c0c0e", 50),
+    corrugatedPattern("mt-tin", "#5a6068", "#474c54", 18),
+    corrugatedPattern("mt-tin-rust", "#6a5040", "#57402f", 18),
+    slabPattern("mt-pave", 74, ["#5e6066", "#66686e", "#595b61"], "#36383c", 200, 50),
+    cobblePattern("mt-lane", 75, ["#4a4b4e", "#525356", "#45464a", "#57585b"], "#232426", 200, 20),
+    gravelPattern("mt-yard", 76, "#4a4a4c", ["#58585a", "#3e3e40", "#646466", "#525254"], 120, 200),
+    gravelPattern("mt-flatroof", 77, "#5c6066", ["#6a6e74", "#50545a", "#74787e"], 120, 160),
+    slabPattern("mt-concrete", 78, ["#6a6a68", "#72726f", "#646462"], "#3e3e3c", 200, 100),
+    `<pattern id="mt-grate" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#30363c"/><path d="M0 6 H12 M6 0 V12" stroke="#7e8a92" stroke-width="2"/></pattern>`,
+    waterPattern("mt-seep", 79, "#25343a", ["#3e5560", "#4a6670", "#31444c"], 160, 18, 2),
+    glowGrad("mt-moon", "#c8d8ff", 0.2, 0.5),
+    glowGrad("mt-ember", "#ff9a4a", 0.6, 0.3),
+    glowGrad("mt-flood", "#e8f0ff", 0.45, 0.3),
+    grainFilter("mt-grain", 0.05),
+  ].join("");
+  const out = [], lights = [], top = [];
+  const lamp = lampKit(out, lights, top, "tk-lamp");
+
+  // ---------- ground: container yard, street, pavement, service lane ----------
+  out.push(rect(0, 0, W, H, { fill: "url(#mt-yard)" }));
+  out.push(rect(2500, 0, 260, 1720, { fill: "url(#mt-pave)" })); // pavement in front of the theatre
+  out.push(rect(2760, 0, 240, H, { fill: pc("#2c2e33", PAL.edge) })); // the street
+  out.push(rect(2756, 0, 10, 1720, { fill: pc("#8b8d90", PAL.accent) })); // kerb
+  out.push(line(2885, 0, 2885, H, { stroke: pc("#c9b35a", PAL.paper), "stroke-width": 5, "stroke-dasharray": "50 40", opacity: 0.6 }));
+  out.push(rect(600, 1500, 2160, 220, { fill: "url(#mt-lane)" })); // the service lane
+  out.push(rect(2500, 1720, 260, 280, { fill: "url(#mt-pave)" }));
+
+  // ---------- the warehouse next door (north) and the block north of the foyer ----------
+  {
+    out.push(rect(606, 8, 1500, 400, { fill: "#000", opacity: 0.35 }));
+    out.push(rect(600, -20, 1500, 420, { fill: "url(#mt-tin)", stroke: "#0e1012", "stroke-width": 5 }));
+    out.push(line(600, 190, 2100, 190, { stroke: pc("#7a828a", PAL.soft), "stroke-width": 6 })); // ridge
+    out.push(rect(600, 190, 1500, 210, { fill: "#000", opacity: 0.22 }));
+    for (const [x, y, w, h] of [[1300, 60, 160, 90], [1700, 250, 140, 80], [1050, 280, 120, 70]]) out.push(rect(x, y, w, h, { fill: "url(#mt-tin-rust)", opacity: 0.85 })); // rust patches
+    for (const x of [1550, 1850]) out.push(rect(x, 40, 70, 120, { fill: pc("#8fb0c0", PAL.accentB), stroke: "#14181c", "stroke-width": 3, opacity: 0.8 }) + line(x, 100, x + 70, 100, { stroke: "#14181c", "stroke-width": 2 })); // skylights
+    out.push(roof(2100, -40, 400, 440, { R: rng(3), pat: "url(#tk-slate-warm)", ridge: "v", chimneys: 2 }));
+  }
+  // ---------- the new flats (south) ----------
+  {
+    out.push(rect(606, 1728, 2134, 300, { fill: "#000", opacity: 0.35 }));
+    out.push(rect(600, 1720, 2140, 300, { fill: "url(#mt-flatroof)", stroke: "#0e1012", "stroke-width": 5 }));
+    out.push(rect(612, 1732, 2116, 280, { fill: "none", stroke: pc("#8a8e94", PAL.accent), "stroke-width": 6 })); // parapet
+    for (let x = 700; x < 2700; x += 330) out.push(rect(x, 1820, 90, 60, { fill: pc("#7a7e84", PAL.edge), stroke: "#1a1c20", "stroke-width": 3 }) + circle(x + 45, 1850, 20, { fill: pc("#4a4e54", PAL.accent), stroke: "#1a1c20", "stroke-width": 2 })); // roof fans
+    // glass balconies along the north face, lit windows behind
+    for (let x = 640; x < 2700; x += 220) {
+      out.push(rect(x, 1700, 160, 26, { fill: pc("#4e5a64", PAL.paper2), stroke: "#14181c", "stroke-width": 2.5 }));
+      out.push(line(x + 2, 1702, x + 158, 1702, { stroke: pc("#8ac4e0", PAL.accent), "stroke-width": 3 }));
+      if (R() < 0.6) { lights.push(pool(x - 10, x + 170, 1700, 110, "n", 0.55)); top.push(rect(x + 20, 1716, 120, 6, { fill: "#ffe2a6", opacity: 0.85 })); }
+    }
+  }
+  // ---------- the container yard (west) ----------
+  {
+    const box = (x, y, w, h, col, stacked = false) => {
+      let s = rect(x + 8, y + 10, w, h, { fill: "#000", opacity: stacked ? 0.5 : 0.38 });
+      s += rect(x, y, w, h, { fill: col, stroke: "#0e1012", "stroke-width": 4 });
+      const vert = h > w;
+      for (let t = 14; t < (vert ? h : w) - 6; t += 14) s += vert ? line(x + 4, y + t, x + w - 4, y + t, { stroke: "#000", "stroke-width": 2, opacity: 0.28 }) : line(x + t, y + 4, x + t, y + h - 4, { stroke: "#000", "stroke-width": 2, opacity: 0.28 });
+      s += rect(x, y, w, h, { fill: "none", stroke: "#fff", "stroke-width": 2, opacity: 0.12 });
+      if (stacked) s += rect(x + 10, y + 10, w - 20, h - 20, { fill: "none", stroke: "#000", "stroke-width": 3, opacity: 0.35 });
+      return s;
+    };
+    out.push(box(20, 30, 400, 160, "#7a3a2e", true), box(20, 200, 400, 160, "#2e5a7a"), box(440, 30, 140, 330, "#6a6e72"));
+    out.push(box(20, 470, 400, 160, "#3a6a4a", true), box(60, 650, 400, 160, "#a8602e"));
+    // pallets and a floodlight mast by the stage door
+    for (const [x, y] of [[470, 520], [470, 600]]) out.push(rect(x, y, 90, 70, { fill: "#8a6a44", stroke: "#2a1c10", "stroke-width": 2.5 }) + line(x, y + 23, x + 90, y + 23, { stroke: "#2a1c10", "stroke-width": 2 }) + line(x, y + 47, x + 90, y + 47, { stroke: "#2a1c10", "stroke-width": 2 }));
+    out.push(circle(530, 900, 14, { fill: "#2a2c30", stroke: "#0c0c0e", "stroke-width": 3 }));
+    lights.push(circle(520, 960, 300, { fill: "url(#mt-flood)", opacity: 0.8 }));
+    top.push(rect(516, 886, 28, 14, { fill: "#f4f8ff", stroke: "#1a1c20", "stroke-width": 2 }));
+    // painted lane marks on the yard
+    for (const y of [920, 1220]) out.push(line(0, y, 560, y, { stroke: pc("#c9b35a", PAL.paper), "stroke-width": 6, "stroke-dasharray": "40 30", opacity: 0.45 }));
+  }
+
+  // ---------- the theatre floors ----------
+  const TX0 = 600, TX1 = 2500, TY0 = 400, TY1 = 1500; // outer wall lines
+  const PROS = 1250, FOY = 2080;
+  out.push(rect(TX0 + 10, TY0 + 12, TX1 - TX0, TY1 - TY0, { fill: "#000", opacity: 0.4 }));
+  out.push(rect(TX0, TY0, PROS - TX0, TY1 - TY0, { fill: "url(#mt-stage)" })); // stage house: the stage floor
+  out.push(rect(PROS, TY0, FOY - PROS, TY1 - TY0, { fill: "url(#mt-burnt)" })); // the stalls: scorched boards
+  out.push(rect(FOY, TY0, TX1 - FOY, TY1 - TY0, { fill: "url(#mt-marble)" })); // the foyer
+  // the apron: the stage reaches past the proscenium in a curve, with dead footlights along its lip
+  const apron = `M${PROS} 640 C ${PROS + 80} 680, ${PROS + 115} 820, ${PROS + 118} 950 C ${PROS + 115} 1080, ${PROS + 80} 1220, ${PROS} 1260 Z`;
+  out.push(path(apron, { fill: "url(#mt-stage)", stroke: "#140e0a", "stroke-width": 6 }));
+  for (let i = 1; i < 14; i++) {
+    const t = i / 14, a = -1.05 + 2.1 * t;
+    const x = PROS + 6 + 104 * Math.cos(a) , y = 950 + 300 * Math.sin(a);
+    out.push(circle(x, y, 5, { fill: pc("#9a9488", PAL.paper2), stroke: "#1a1612", "stroke-width": 1.5 }));
+  }
+  // soot and scorch marks on the stage boards, worst near the proscenium
+  for (let i = 0; i < 6; i++) { const e = ellipse(1110 + R() * 120, 520 + R() * 860, 30 + R() * 40, 20 + R() * 30, { fill: "#000", opacity: 0.1 + R() * 0.08 }); if (!PRINT) out.push(e); }
+
+  // ---------- the stalls: burnt seats in curved rows ----------
+  const SC = [1150, 950]; // the rows curve round this point
+  const seats = [];
+  {
+    const seat = (cx, cy, angDeg, k) => {
+      const velvet = k < 0.18, tipped = k > 0.94;
+      const fill = velvet ? "#6a2a2a" : "#1e1a18";
+      return grp([
+        rect(-9, -12, 18, 24, { rx: 3, fill, stroke: pc("#8a7e74", PAL.ink), "stroke-width": 1.6 }),
+        rect(8, -13, 7, 26, { rx: 2, fill: velvet ? "#4a1e1e" : "#141110", stroke: pc("#8a7e74", PAL.ink), "stroke-width": 1.4 }),
+      ], { transform: `translate(${f1(cx)} ${f1(cy)}) rotate(${f1(angDeg + (tipped ? 24 : 0))})` });
+    };
+    const rows = [300, 362, 424, 486, 548, 672, 734, 796, 858];
+    for (const r of rows) {
+      const step = 34 / r; // radians per seat (34 px apart along the row)
+      for (let a = -0.62; a <= 0.62; a += step) {
+        if (Math.abs(r * (Math.abs(a) - 0.34)) < 38) continue; // the two aisles, each about a square wide
+        const x = SC[0] + r * Math.cos(a), y = SC[1] + r * Math.sin(a);
+        if (y < 470 || y > 1430 || x > 2040 || x < PROS + 150) continue;
+        const k = R();
+        if (k < 0.07) continue; // burnt away
+        seats.push(seat(x, y, (a * 180) / Math.PI, k));
+      }
+    }
+    out.push(grp(seats));
+    // rubble and fallen beams among the seats
+    const beam = (x, y, l, ang) => grp([rect(-l / 2 + 5, -11 + 7, l, 22, { fill: "#000", opacity: 0.4 }), rect(-l / 2, -11, l, 22, { fill: "#2a1e16", stroke: "#0a0604", "stroke-width": 3 }),
+      line(-l / 2 + 6, -3, l / 2 - 6, -3, { stroke: "#4a3424", "stroke-width": 2 })], { transform: `translate(${x} ${y}) rotate(${ang})` });
+    out.push(beam(1700, 760, 300, 64), beam(1560, 1250, 240, -20), beam(1880, 1160, 220, 100));
+    for (const [x, y, r] of [[1640, 700, 40], [1950, 1300, 46], [1480, 1340, 34], [1960, 620, 38]]) out.push(path(smoothD(blobPts(x, y, r, R, 12, 0.35), true), { fill: pc("#3a3430", PAL.accent), stroke: "#14100c", "stroke-width": 2 }) + speckles(R, 10, x - r, y - r, r * 2, r * 2, { col: "#6a625a", rmin: 3, rmax: 7, op: 0.9 }));
+  }
+
+  // ---------- the stage: wedding arch, ash bed, stairs down, fly gallery ----------
+  {
+    // the ash bed where she sleeps, in front of the arch
+    out.push(path(smoothD(blobPts(860, 950, 82, R, 16, 0.22), true), { fill: pc("#8a8680", PAL.edge), opacity: 0.85 }));
+    out.push(path(smoothD(blobPts(855, 950, 52, R, 14, 0.25), true), { fill: pc("#b4b0a8", PAL.paper2), opacity: 0.9 }));
+    out.push(speckles(R, 40, 770, 860, 180, 180, { col: "#d8d4cc", rmin: 1.5, rmax: 3.5, op: 0.8, test: p => dist(p, [860, 950]) < 90 }));
+    lights.push(circle(860, 950, 170, { fill: "url(#mt-ember)", opacity: 0.55 }));
+    // the arch: two posts and the wire arc between them (seen from above, a line), wax flowers along it
+    const ax = 760, ay0 = 830, ay1 = 1070;
+    out.push(line(ax + 6, ay0 + 6, ax + 6, ay1 + 6, { stroke: "#000", "stroke-width": 10, opacity: 0.35 }));
+    out.push(line(ax, ay0, ax, ay1, { stroke: "#20242a", "stroke-width": 9 }), line(ax, ay0, ax, ay1, { stroke: pc("#9aa0a6", PAL.accent), "stroke-width": 4 }));
+    for (const y of [ay0, ay1]) out.push(rect(ax - 12, y - 12, 24, 24, { fill: "#3a3a3e", stroke: "#0c0c0e", "stroke-width": 3 }));
+    for (let i = 0; i < 26; i++) {
+      const y = ay0 + 14 + R() * (ay1 - ay0 - 28), x = ax + (R() - 0.5) * 22, r = 6 + R() * 6;
+      out.push(path(smoothD(blobPts(x, y, r, R, 8, 0.3), true), { fill: ["#efe8d8", "#e6dcc4", "#f4f0e6", "#d8ccb0"][i % 4], stroke: "#5a5040", "stroke-width": 1.2 }));
+    }
+    for (let i = 0; i < 6; i++) out.push(ellipse(ax + 14 + R() * 20, ay0 + 30 + R() * (ay1 - ay0 - 60), 5, 3, { fill: "#efe8d8", opacity: 0.85 })); // melted wax drips on the boards
+    // stairs down to under the stage (south-west of the stage), with a rail
+    const sx0 = 640, sx1 = 860, sy0 = 1250, sy1 = 1350;
+    out.push(rect(sx0, sy0, sx1 - sx0, sy1 - sy0, { fill: pc("#1a1410", PAL.soft) }));
+    for (let i = 0; i < 9; i++) { const x = sx1 - 12 - i * 23; out.push(rect(x - 20, sy0 + 4, 22, sy1 - sy0 - 8, { fill: pc(`rgb(${110 - i * 9},${88 - i * 8},${64 - i * 6})`, i < 4 ? PAL.edge : PAL.accent) })); }
+    out.push(rect(sx0, sy0, sx1 - sx0, sy1 - sy0, { fill: "none", stroke: "#0c0806", "stroke-width": 4 }));
+    out.push(line(sx0, sy0 - 4, sx1, sy0 - 4, { stroke: "#7a7468", "stroke-width": 5 }));
+    out.push(path(`M ${sx1 - 30} ${sy0 + 50} L ${sx0 + 50} ${sy0 + 50} M ${sx0 + 74} ${sy0 + 34} L ${sx0 + 50} ${sy0 + 50} L ${sx0 + 74} ${sy0 + 66}`, { fill: "none", stroke: pc("#e8dcc0", PAL.paper), "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round", opacity: 0.8 }));
+    // rope coils and a sandbag on the stage, under the galleries
+    for (const [x, y] of [[1000, 560], [1120, 1330], [700, 600]]) { out.push(circle(x + 3, y + 4, 22, { fill: "#000", opacity: 0.35 })); for (const r of [20, 14, 8]) out.push(circle(x, y, r, { fill: "none", stroke: "#b8a070", "stroke-width": 4 })); }
+    out.push(ellipse(1180, 1210, 22, 16, { fill: "#8a7a5a", stroke: "#2a2014", "stroke-width": 2 }));
+  }
+  // ---------- the stage door (west) and the loading dock (south) ----------
+  {
+    // steps outside the stage door, and the door hanging open into the yard
+    out.push(rect(540, 1040, 60, 120, { fill: "url(#mt-concrete)", stroke: "#1a1a18", "stroke-width": 3 }));
+    out.push(line(570, 1042, 570, 1158, { stroke: "#2a2a28", "stroke-width": 2 }));
+    // the loading dock: raised concrete platform with a striped edge, the roller door half up
+    out.push(rect(680, 1515, 300, 90, { fill: "url(#mt-concrete)", stroke: "#1a1a18", "stroke-width": 4 }));
+    for (let x = 680; x < 980; x += 30) out.push(path(`M${x} 1605 L${x + 15} 1590 L${x + 30} 1590 L${x + 15} 1605 Z`, { fill: pc("#d8b030", PAL.paper) }));
+    out.push(line(680, 1597, 980, 1597, { stroke: "#1a1a18", "stroke-width": 3 }));
+    for (let i = 0; i < 3; i++) out.push(rect(985, 1520 + i * 28, 40, 26, { fill: pc("#5e5e5c", PAL.edge), stroke: "#1a1a18", "stroke-width": 2 })); // steps up to the dock
+    // a skip and pallets in the lane
+    out.push(rect(1090, 1535, 170, 90, { fill: "#000", opacity: 0.35, transform: "translate(6 8)" }), rect(1090, 1535, 170, 90, { rx: 4, fill: "#3a5a46", stroke: "#0c140f", "stroke-width": 3 }), rect(1102, 1547, 146, 66, { fill: "#24302a", stroke: "#0c140f", "stroke-width": 2 }));
+    for (let i = 0; i < 5; i++) out.push(rect(1110 + R() * 110, 1555 + R() * 40, 18 + R() * 16, 8 + R() * 8, { fill: ["#4a3a2a", "#6a6a6a", "#2a2a2a"][i % 3], transform: `rotate(${(R() - 0.5) * 60} 1170 1580)` }));
+    lamp(2200, 1610, 190);
+    lamp(1500, 1610, 170, 0.8);
+  }
+
+  // ---------- the foyer: grand staircase, mirror wall ----------
+  {
+    // the grand staircase: rises west along the north wall, then ends in empty air
+    const gx0 = 2150, gx1 = 2470, gy0 = 440, gy1 = 640;
+    out.push(rect(gx0 - 60, gy0, 60, gy1 - gy0, { fill: pc("#0c0c0e", PAL.soft) })); // the drop where the landing was
+    out.push(rect(gx0 - 60, gy0, 60, gy1 - gy0, { fill: "url(#mt-burnt)", opacity: 0.35 }));
+    for (let i = 0; i < 12; i++) {
+      const x = gx1 - (i + 1) * ((gx1 - gx0) / 12);
+      const shade = 0.12 + i * 0.045;
+      out.push(rect(x, gy0, (gx1 - gx0) / 12, gy1 - gy0, { fill: pc("#6a6266", PAL.paper2) }));
+      if (!PRINT) out.push(rect(x, gy0, (gx1 - gx0) / 12, gy1 - gy0, { fill: "#fff", opacity: shade * 0.5 }));
+      out.push(line(x, gy0, x, gy1, { stroke: "#1a1618", "stroke-width": 3 }));
+    }
+    out.push(rect(gx0, gy0 + 50, gx1 - gx0, 100, { fill: pc("#6a2a2e", PAL.accent), opacity: 0.7 })); // the stair carpet, scorched
+    out.push(line(gx0, gy0 + 6, gx1, gy0 + 6, { stroke: "#2a2224", "stroke-width": 12 }), line(gx0, gy1 - 6, gx1, gy1 - 6, { stroke: "#2a2224", "stroke-width": 12 })); // banisters
+    out.push(line(gx0, gy0 + 6, gx1, gy0 + 6, { stroke: pc("#8a7a6a", PAL.accent), "stroke-width": 5 }), line(gx0, gy1 - 6, gx1, gy1 - 6, { stroke: pc("#8a7a6a", PAL.accent), "stroke-width": 5 }));
+    // the broken top edge
+    out.push(path(`M${gx0} ${gy0} L${gx0 - 14} ${gy0 + 30} L${gx0 + 6} ${gy0 + 62} L${gx0 - 18} ${gy0 + 100} L${gx0 + 4} ${gy0 + 138} L${gx0 - 10} ${gy0 + 170} L${gx0} ${gy1}`, { fill: "none", stroke: "#0a0808", "stroke-width": 6, "stroke-linejoin": "round" }));
+    for (const [x, y, w] of [[2108, 470, 26], [2120, 560, 30], [2102, 610, 20]]) out.push(rect(x, y, w, 10, { fill: "#2a1e16", transform: `rotate(${(R() - 0.5) * 70} ${x} ${y})` })); // charred stair timbers below
+    // the wall of mirrors along the south wall, cracked by the heat, shards on the floor
+    const my = 1458;
+    out.push(rect(2110, my, 360, 22, { fill: pc("#9cb4c4", PAL.accentB), stroke: "#1a1c20", "stroke-width": 3 }));
+    for (let x = 2110; x <= 2470; x += 60) out.push(line(x, my, x, my + 22, { stroke: "#1a1c20", "stroke-width": 3 }));
+    for (let i = 0; i < 9; i++) { const x = 2120 + R() * 340; out.push(path(`M${f1(x)} ${my} l ${f1((R() - 0.5) * 20)} 11 l ${f1((R() - 0.5) * 20)} 11`, { fill: "none", stroke: "#f4f8fa", "stroke-width": 1.6 })); }
+    for (let i = 0; i < 12; i++) { const x = 2120 + R() * 340, y = my - 10 - R() * 40; out.push(path(`M${f1(x)} ${f1(y)} l 9 -4 l -3 10 Z`, { fill: pc("#cfe0ea", PAL.light), stroke: "#2a3036", "stroke-width": 1, transform: `rotate(${f1(R() * 360)} ${f1(x)} ${f1(y)})` })); }
+    // light through the gaps in the boarded front doors
+    for (const y of [800, 950, 1100]) lights.push(pool(y - 40, y + 40, 2500, 140, "w", 0.5));
+  }
+
+  // ---------- walls ----------
+  {
+    const bw = { fill: pc("#3a2620", PAL.dark), edge: pc("#7a5a48", PAL.ink) };
+    out.push(wall(TX0, TY0, TX1, TY0, 30, [], bw)); // north
+    out.push(wall(TX0, TY1, TX1, TY1, 30, [[100, 350]], bw)); // south: the loading dock opening, x 700-950
+    out.push(wall(TX0, TY0, TX0, TY1, 30, [[650, 750]], bw)); // west: the stage door, y 1050-1150
+    out.push(wall(TX1, TY0, TX1, TY1, 30, [[350, 450], [500, 600], [650, 750]], bw)); // east: three boarded doorways
+    out.push(wall(PROS, TY0, PROS, TY1, 34, [[200, 900]], bw)); // the proscenium wall and its arch
+    out.push(wall(FOY, TY0, FOY, TY1, 24, [[320, 440], [660, 780]], bw)); // foyer to stalls: two doorways
+    // scorch above every opening, soot streaks on the wall tops
+    for (let i = 0; i < 24; i++) { const t = R(); out.push(ellipse(TX0 + t * (TX1 - TX0), R() < 0.5 ? TY0 : TY1, 30 + R() * 40, 10, { fill: "#000", opacity: 0.3 })); }
+    // the stage door, hanging open into the yard
+    out.push(door(600, 1150, 600, 1050, -1, { leaf: "#3a2a1e" }));
+    // the roller door, half up: its slats fill the opening, with a dark gap under the bottom edge
+    out.push(rect(700, 1490, 250, 20, { fill: pc("#6a7076", PAL.accent), stroke: "#14181c", "stroke-width": 2 }));
+    for (let x = 704; x < 950; x += 10) out.push(line(x, 1491, x, 1509, { stroke: "#14181c", "stroke-width": 1.5, opacity: 0.6 }));
+    out.push(rect(700, 1508, 250, 6, { fill: "#000", opacity: 0.6 }));
+    // boards across the front doorways: some pulled away and dropped on the pavement
+    for (const [y0, y1] of [[750, 850], [900, 1000], [1050, 1150]]) {
+      for (let i = 0; i < 4; i++) {
+        if (y0 === 900 && i === 1) continue; // one board already pulled off
+        const yy = y0 + 12 + i * 24;
+        out.push(rect(2484, yy - 7, 32, 14, { fill: "#6a5a44", stroke: "#2a2014", "stroke-width": 2, transform: `rotate(${(R() - 0.5) * 10} 2500 ${yy})` }));
+      }
+    }
+    for (const [x, y, a] of [[2560, 930, 70], [2590, 1010, 35]]) out.push(rect(x - 45, y - 7, 90, 14, { fill: "#6a5a44", stroke: "#2a2014", "stroke-width": 2, transform: `rotate(${a} ${x} ${y})` }));
+  }
+
+  // ---------- the front: sagging canopy, ticket booth, sign ----------
+  {
+    // ticket booth (octagonal, burnt), at the south end under the canopy
+    const bx = 2625, by = 1160, br = 46;
+    const oct = Array.from({ length: 8 }, (_, i) => [bx + br * Math.cos((i + 0.5) * Math.PI / 4), by + br * Math.sin((i + 0.5) * Math.PI / 4)]);
+    out.push(path(polyD(oct.map(([x, y]) => [x + 6, y + 8])), { fill: "#000", opacity: 0.4 }));
+    out.push(path(polyD(oct), { fill: pc("#4a3a30", PAL.accent), stroke: "#14100c", "stroke-width": 4 }));
+    out.push(path(polyD(oct.map(([x, y]) => [bx + (x - bx) * 0.62, by + (y - by) * 0.62])), { fill: pc("#2a201a", PAL.soft), stroke: "#14100c", "stroke-width": 2 }));
+    out.push(line(bx + 30, by - 30, bx + 44, by + 14, { stroke: pc("#9cb4c4", PAL.accentB), "stroke-width": 5 })); // the ticket window
+    // the sign: a board fixed across the middle doorway's boards
+    out.push(rect(2512, 905, 26, 90, { fill: "#000", opacity: 0.35, transform: "translate(5 6)" }));
+    out.push(rect(2512, 905, 26, 90, { fill: pc("#e8e2d2", PAL.paper), stroke: "#3a2a1a", "stroke-width": 2.5 }));
+    out.push(rect(2512, 905, 26, 18, { fill: pc("#a8322e", PAL.alarmB) }), rect(2512, 977, 26, 18, { fill: pc("#a8322e", PAL.alarmB) }));
+    // the canopy: an iron frame over the pavement, panels missing, its south end sagging
+    const cx0 = 2510, cx1 = 2730, cy0 = 690, cy1 = 1220;
+    const cv = [];
+    cv.push(rect(cx0 + 10, cy0 + 14, cx1 - cx0, cy1 - cy0, { fill: "#000", opacity: 0.25 }));
+    const panels = [];
+    for (let j = 0; j < 7; j++) for (let i = 0; i < 2; i++) {
+      if ((j === 2 && i === 1) || (j === 5 && i === 0) || (j === 6 && i === 1)) continue; // missing panels
+      const x = cx0 + i * 110, y = cy0 + j * 75.7;
+      const sag = j >= 5 ? (j - 4) * 6 : 0;
+      panels.push(rect(x + 3, y + 3 + sag * 0.3, 104, 70, { fill: pc("#4a4440", PAL.soft), stroke: "#14100c", "stroke-width": 2, opacity: 0.9, transform: sag ? `rotate(${i ? sag * 0.4 : -sag * 0.4} ${x + 55} ${y + 37})` : undefined }));
+    }
+    cv.push(...panels);
+    cv.push(rect(cx0, cy0, cx1 - cx0, cy1 - cy0, { fill: "none", stroke: "#20242a", "stroke-width": 10 }), rect(cx0, cy0, cx1 - cx0, cy1 - cy0, { fill: "none", stroke: pc("#6a6e74", PAL.accent), "stroke-width": 4 }));
+    cv.push(line(cx0 + 110, cy0, cx0 + 110, cy1, { stroke: pc("#6a6e74", PAL.accent), "stroke-width": 4 }));
+    for (const [x, y] of [[cx1, cy0], [cx1, cy0 + 265], [cx1, cy1]]) cv.push(circle(x, y, 9, { fill: "#2a2c30", stroke: "#0c0c0e", "stroke-width": 2.5 })); // posts
+    for (let i = 0; i < 4; i++) cv.push(circle(cx1 - 4, cy0 + 40 + i * 130, 5, { fill: pc("#9a9488", PAL.paper2), stroke: "#1a1612", "stroke-width": 1.5 })); // dead bulbs along the edge
+    out.push(grp(cv, { opacity: 0.92 }));
+    lamp(2700, 380, 210); lamp(2700, 1500, 200);
+  }
+
+  // ---------- overhead: the fly gallery, the broken roof, the stalls' roof trusses ----------
+  const over = [];
+  {
+    // the fly gallery: iron walkways along the north and south walls and across the back
+    const gal = (x, y, w, h) => {
+      let s = rect(x + 10, y + 14, w, h, { fill: "#000", opacity: 0.3 });
+      s += rect(x, y, w, h, { fill: "url(#mt-grate)", opacity: 0.85 });
+      s += rect(x, y, w, h, { fill: "none", stroke: pc("#a8b2ba", PAL.dark), "stroke-width": 4 });
+      return s;
+    };
+    over.push(gal(618, 418, 610, 84), gal(618, 1398, 610, 84), gal(618, 502, 70, 896));
+    // pin rails along the inner edges, ropes tied off and hanging
+    for (const [y, d] of [[502, 1], [1398, -1]]) {
+      over.push(line(700, y, 1225, y, { stroke: "#20242a", "stroke-width": 7 }), line(700, y, 1225, y, { stroke: pc("#c8a060", PAL.accent), "stroke-width": 3 }));
+      for (let x = 730; x < 1220; x += 44) over.push(path(`M${x} ${y} q 8 ${12 * d} 0 ${26 * d} q -6 ${8 * d} 3 ${16 * d}`, { fill: "none", stroke: "#b8a070", "stroke-width": 3 }));
+    }
+    // battens hanging across the stage (high up): dashed, with ropes up to the grid
+    for (const x of [850, 960, 1070, 1180]) over.push(line(x, 520, x, 1380, { stroke: pc("#c8c0a8", PAL.accent), "stroke-width": 4, "stroke-dasharray": "22 14", opacity: 0.6 }));
+    // iron ladders down from the gallery to the stage, against the proscenium wall
+    for (const [y0, y1] of [[505, 625], [1275, 1395]]) {
+      over.push(line(1206, y0, 1206, y1, { stroke: pc("#9aa4ac", PAL.dark), "stroke-width": 4 }), line(1230, y0, 1230, y1, { stroke: pc("#9aa4ac", PAL.dark), "stroke-width": 4 }));
+      for (let y = y0 + 8; y < y1; y += 14) over.push(line(1206, y, 1230, y, { stroke: pc("#9aa4ac", PAL.dark), "stroke-width": 2.5 }));
+    }
+    // the broken roof: torn edge over the north gallery, a ladder laid across from the warehouse roof
+    over.push(path("M780 400 L800 372 L830 392 L860 360 L900 386 L930 356 L960 384 L990 366 L1010 400 Z", { fill: "#0a0a0c", opacity: 0.85 }));
+    for (const x of [810, 880, 950]) over.push(rect(x - 6, 330, 12, 90, { fill: "#2a1e16", stroke: "#0a0604", "stroke-width": 2, transform: `rotate(${(R() - 0.5) * 30} ${x} 400)` }));
+    over.push(line(895, 250, 895, 470, { stroke: "#1a1612", "stroke-width": 9 }), line(925, 250, 925, 470, { stroke: "#1a1612", "stroke-width": 9 }));
+    over.push(line(895, 250, 895, 470, { stroke: pc("#a08060", PAL.accent), "stroke-width": 5 }), line(925, 250, 925, 470, { stroke: pc("#a08060", PAL.accent), "stroke-width": 5 }));
+    for (let y = 262; y < 470; y += 22) over.push(line(895, y, 925, y, { stroke: pc("#a08060", PAL.accent), "stroke-width": 4 }));
+    // the stalls' roof: three trusses still span the walls, one broken; ragged roof edges along the walls
+    const truss = (x, y0, y1) => {
+      if (PRINT) { // overhead: drawn light and dashed, so it can't be read as a wall
+        let s = rect(x - 13, y0, 26, y1 - y0, { fill: PAL.paper, opacity: 0.7, stroke: PAL.soft, "stroke-width": 3, "stroke-dasharray": "16 10" });
+        for (let y = y0 + 40; y < y1 - 20; y += 80) s += line(x - 12, y, x + 12, y + 40, { stroke: PAL.accent, "stroke-width": 3 });
+        return s;
+      }
+      let s = rect(x - 10 + 8, y0 + 10, 20, y1 - y0, { fill: "#000", opacity: 0.35 });
+      s += rect(x - 13, y0, 26, y1 - y0, { fill: "#2e2420", stroke: "#0a0604", "stroke-width": 3 });
+      for (let y = y0 + 40; y < y1 - 20; y += 80) s += line(x - 12, y, x + 12, y + 40, { stroke: "#5a4636", "stroke-width": 3 });
+      return s;
+    };
+    over.push(truss(1450, 415, 1485), truss(1910, 415, 1485), truss(1680, 415, 820), truss(1680, 1180, 1485));
+    over.push(rect(1655, 812, 50, 16, { fill: pc("#2a1e16", PAL.accent), transform: "rotate(18 1680 820)" }), rect(1655, 1172, 50, 16, { fill: pc("#2a1e16", PAL.accent), transform: "rotate(-24 1680 1180)" }));
+    const edge = (y, d) => { const pts = [[1265, y]]; for (let x = 1265; x <= 2068; x += 40) pts.push([x, y + d * (14 + R() * 40)]); pts.push([2068, y]); return path(polyD(pts), { fill: pc("#2a2a2e", PAL.accent), stroke: "#0c0c0e", "stroke-width": 2, opacity: 0.9 }); };
+    over.push(edge(415, 1), edge(1485, -1));
+    // drifting ash over the stalls (and some on the stage)
+    over.push(speckles(R, PRINT ? 160 : 420, 1265, 430, 800, 1040, { col: pc("#d8d4cc", PAL.edge), rmin: 1.6, rmax: 4, op: PRINT ? 0.9 : 0.55 }));
+    over.push(speckles(R, PRINT ? 40 : 90, 640, 430, 600, 1040, { col: pc("#d8d4cc", PAL.edge), rmin: 1.4, rmax: 3, op: PRINT ? 0.8 : 0.4 }));
+    // moonlight through the open roof
+    lights.push(rect(1265, 470, 803, 960, { fill: "#a8b8e0", opacity: 0.05 }));
+    lights.push(ellipse(1680, 950, 520, 520, { fill: "url(#mt-moon)" }));
+  }
+
+  // ---------- under the stage (inset panel, bottom left) ----------
+  const inset = [];
+  {
+    const ix = 0, iy = 1300, iw = 600, ih = 700;
+    inset.push(rect(ix + 10, iy - 4, iw, ih + 10, { fill: "#000", opacity: 0.5 }));
+    inset.push(rect(ix, iy, iw, ih, { fill: pc("#1a1c20", PAL.paper2), stroke: pc("#c8b48a", PAL.ink), "stroke-width": 8 }));
+    inset.push(rect(ix + 4, iy + 4, iw - 8, 92, { fill: pc("#2a2620", PAL.paper) })); // title band
+    inset.push(line(ix, iy + 98, ix + iw, iy + 98, { stroke: pc("#c8b48a", PAL.ink), "stroke-width": 4 }));
+    // floors: three dressing rooms (west), the corridor and the stairs up (east)
+    const fy0 = iy + 100, fy1 = iy + ih - 4;
+    inset.push(rect(ix + 4, fy0, iw - 8, fy1 - fy0, { fill: "url(#mt-burnt)" }));
+    // seeping harbour water, ankle-deep at high tide
+    inset.push(rect(ix + 4, fy0, iw - 8, fy1 - fy0, { fill: "url(#mt-seep)", opacity: pc(0.7, 0.55) }));
+    inset.push(path(`M ${ix + 4} ${fy0 + 60} C ${ix + 140} ${fy0 + 40}, ${ix + 260} ${fy0 + 90}, ${ix + 420} ${fy0 + 60}`, { fill: "none", stroke: pc("#5a7a84", PAL.accent), "stroke-width": 3, opacity: 0.6, "stroke-dasharray": "10 8" })); // the tide line
+    const cx = ix + 430; // corridor west wall
+    // stairs up to the stage, at the north end of the corridor
+    for (let i = 0; i < 7; i++) inset.push(rect(cx + 12, fy0 + 6 + i * 20, 146, 18, { fill: pc(`rgb(${90 + i * 8},${78 + i * 7},${62 + i * 6})`, i < 3 ? PAL.accent : PAL.edge), stroke: "#14100c", "stroke-width": 1.5 }));
+    inset.push(path(`M ${cx + 85} ${fy0 + 128} L ${cx + 85} ${fy0 + 22} M ${cx + 69} ${fy0 + 42} L ${cx + 85} ${fy0 + 22} L ${cx + 101} ${fy0 + 42}`, { fill: "none", stroke: pc("#e8dcc0", PAL.ink), "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" }));
+    // walls
+    const iw2 = { fill: pc("#3a2620", PAL.dark), edge: pc("#7a5a48", PAL.ink) };
+    const rooms = [[fy0, fy0 + 198], [fy0 + 198, fy0 + 398], [fy0 + 398, fy1]];
+    inset.push(wall(cx, fy0, cx, fy1, 16, rooms.map(([a, b]) => [(a + b) / 2 - fy0 - 40, (a + b) / 2 - fy0 + 40]), iw2));
+    for (const [, b] of rooms.slice(0, 2)) inset.push(wall(ix + 4, b, cx, b, 14, [], iw2));
+    rooms.forEach(([a, b], k) => {
+      // a dressing table with bulbs round the mirror along the west wall, two chairs, a clothes rail
+      inset.push(rect(ix + 14, a + 22, 44, b - a - 44, { fill: pc("#5a4030", PAL.accent), stroke: "#14100c", "stroke-width": 2.5 }));
+      inset.push(rect(ix + 8, a + 34, 10, b - a - 68, { fill: pc("#9cb4c4", PAL.accentB), stroke: "#14100c", "stroke-width": 1.5 }));
+      for (let y = a + 36; y < b - 34; y += 18) inset.push(circle(ix + 22, y, 3.5, { fill: pc("#cfc8b0", PAL.paper), stroke: "#2a2014", "stroke-width": 1 }));
+      for (const dy of [0.35, 0.68]) inset.push(rect(ix + 72, a + (b - a) * dy - 15, 30, 30, { rx: 4, fill: pc("#4a3a2a", PAL.soft), stroke: "#14100c", "stroke-width": 2 }));
+      inset.push(line(ix + 220, a + 30, ix + 380, a + 30, { stroke: pc("#9aa4ac", PAL.dark), "stroke-width": 5 }));
+      for (let x = ix + 230; x < ix + 375; x += 22) inset.push(path(`M ${x} ${a + 30} l -8 14 l 16 0 Z`, { fill: pc(["#6a3a4a", "#3a4a6a", "#5a5a3a"][(x + k) % 3], PAL.accent), stroke: "#14100c", "stroke-width": 1.2 }));
+      if (k === 1) inset.push(rect(ix + 260, b - 80, 110, 60, { fill: pc("#5a3a24", PAL.accent), stroke: "#14100c", "stroke-width": 2.5 }) + line(ix + 260, b - 60, ix + 370, b - 60, { stroke: "#14100c", "stroke-width": 2 })); // costume trunk
+      inset.push(door(cx, (a + b) / 2 + 40, cx, (a + b) / 2 - 40, -1, { leaf: "#3a2a1e" }));
+    });
+    lights.push(rect(ix + 4, fy0, iw - 8, fy1 - fy0, { fill: "#6a8a9a", opacity: 0.08 }));
+  }
+
+  // ---------- labels and ways in and out ----------
+  const labels = [];
+  if (!PRINT) {
+    const fl = (x, y, t, o = {}) => label(x, y, t, { size: 26, weight: 800, ...o });
+    const T = (x, y, t, o = {}) => fl(x, y, t, { size: 30, font: "display", weight: 700, ls: 3, ...o });
+    labels.push(T(1660, 500, "THE MARINER THEATRE", { size: 38 }), fl(1660, 548, "burned out: the roof is mostly sky", { size: 22, weight: 700 }));
+    labels.push(T(1700, 960, "THE STALLS"), fl(1700, 1000, "rows of burnt seats; ash drifts down", { size: 20, weight: 700 }));
+    labels.push(T(1010, 760, "THE STAGE"), fl(1010, 795, "the boards are sound", { size: 20, weight: 700 }));
+    labels.push(fl(760, 790, "Wedding arch", { size: 22 }), fl(760, 1112, ["wire and wax flowers:", "she sleeps here"], { size: 18, weight: 700 }));
+    labels.push(fl(930, 455, "Fly gallery (iron walkways high above)", { size: 18, weight: 700 }), fl(930, 1440, "Fly gallery (high above), hung with old ropes", { size: 18, weight: 700 }));
+    labels.push(fl(750, 1225, "Stairs down to under the stage", { size: 18, weight: 700 }));
+    labels.push(fl(470, 1015, "Stage door", { size: 22, anchor: "end" }));
+    labels.push(T(2290, 920, "THE FOYER", { size: 26, ls: 2 }), fl(2290, 955, "black marble floor", { size: 18, weight: 700 }));
+    labels.push(fl(2300, 690, "Grand staircase: ends in empty air", { size: 18, weight: 700 }));
+    labels.push(fl(2290, 1410, "Wall of mirrors, cracked by heat", { size: 18, weight: 700 }));
+    labels.push(T(2630, 640, "THE FRONT", { size: 24, ls: 2 }), fl(2630, 672, "sagging canopy", { size: 18, weight: 700 }));
+    labels.push(fl(2625, 1240, "Ticket booth", { size: 18, weight: 700 }));
+    labels.push(fl(2610, 960, ["Sign:", "Danger.", "Keep Out."], { size: 17, weight: 700, anchor: "start" }));
+    labels.push(fl(240, 420, "Container yard", { size: 24 }));
+    labels.push(fl(1350, 230, "The warehouse next door", { size: 24 }));
+    labels.push(fl(1700, 1880, "New flats", { size: 24 }));
+    labels.push(fl(1800, 1580, "Service lane", { size: 20 }));
+    labels.push(T(300, 1335, "UNDER THE STAGE", { size: 24, ls: 2 }), fl(300, 1370, "the floor below the stage", { size: 17, weight: 700 }));
+    labels.push(fl(210, 1440, "Damp dressing rooms", { size: 18 }), fl(210, 1470, "harbour water seeps in at high tide", { size: 15, weight: 700 }));
+    labels.push(fl(515, 1560, ["stairs up", "to the", "stage"], { size: 15, weight: 700 }));
+    const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 22, ...o });
+    labels.push(way(2950, 950, 0, ["Way in and out:", "the front doors", "(the boards", "come away)"], { lx: 2870, ly: 1080 }));
+    labels.push(way(60, 1100, 180, ["Way in and out: the stage", "door, from the container yard"], { lx: 260, ly: 1170 }));
+    labels.push(way(825, 1690, 90, ["Way in and out: the loading dock", "(roller door half up)"], { lx: 880, ly: 1790, anchor: "start" }));
+    labels.push(way(910, 50, -90, ["Way in and out: the broken roof,", "from the warehouse next door"], { lx: 1000, ly: 110, anchor: "start" }));
+  } else {
+    const T = (x, y, t, o = {}) => plabel(x, y, t, { size: 64, font: "display", ls: 3, ...o });
+    const F = (x, y, t, o = {}) => plabel(x, y, t, { size: 52, ...o });
+    labels.push(T(1666, 560, "THE MARINER THEATRE", { size: 58, ls: 2 }));
+    labels.push(T(1700, 950, "THE STALLS", { size: 60 }), F(1700, 1020, "burnt seats; roof mostly sky", { size: 50 }));
+    labels.push(T(1010, 720, "THE STAGE", { size: 56, ls: 2 }));
+    labels.push(F(780, 790, "Wedding arch", { size: 50 }), F(860, 1120, ["she sleeps", "here"], { size: 50 }));
+    labels.push(F(930, 462, "Fly gallery (high above)", { size: 50 }), F(930, 1440, "Fly gallery (high above)", { size: 50 }));
+    labels.push(F(760, 1205, "Stairs down", { size: 50 }));
+    labels.push(F(470, 1000, "Stage door", { anchor: "end" }));
+    labels.push(T(2290, 900, "THE FOYER", { size: 52, ls: 2 }), F(2290, 965, "marble floor", { size: 50 }));
+    labels.push(F(2300, 710, ["Grand staircase:", "ends in empty air"], { size: 50 }));
+    labels.push(F(2290, 1385, ["Wall of mirrors,", "cracked"], { size: 50 }));
+    labels.push(F(2630, 640, "Canopy", { size: 50 }));
+    labels.push(F(2625, 1255, "Ticket booth", { size: 50 }));
+    labels.push(F(2700, 850, ["Sign:", "Danger.", "Keep Out."], { size: 50 }));
+    labels.push(F(240, 430, "Container yard", { size: 56 }));
+    labels.push(F(1500, 220, "The warehouse next door", { size: 56 }));
+    labels.push(F(1700, 1880, "New flats", { size: 56 }));
+    labels.push(T(300, 1350, "UNDER THE STAGE", { size: 50, ls: 1 }));
+    labels.push(F(215, 1500, ["Damp", "dressing", "rooms"], { size: 50 }));
+    labels.push(F(515, 1610, ["stairs", "up"], { size: 50 }));
+    labels.push(F(240, 1905, ["water at", "high tide"], { size: 50 }));
+    labels.push(pwayMarker(2930, 950, 0, ["Way in", "and out:", "the front", "doors"], { lx: 2880, ly: 1135, size: 50 }));
+    labels.push(pwayMarker(70, 1100, 180, ["Way in and out:", "the stage door"], { lx: 300, ly: 1180, size: 50 }));
+    labels.push(pwayMarker(825, 1680, 90, ["Way in and out: the loading", "dock (roller door half up)"], { lx: 880, ly: 1800, anchor: "start", size: 50 }));
+    labels.push(pwayMarker(910, 70, -90, ["Way in and out: the broken", "roof, from the warehouse"], { lx: 1010, ly: 100, anchor: "start", size: 50 }));
+  }
+
+  const body = PRINT ? out.join("") + grp(over) + top.join("") + grp(inset) + labels.join("") + printFrame() :
+    out.join("") + grp(over) + grp(inset) +
+    rect(0, 0, W, H, { fill: "#8a94b8", style: "mix-blend-mode:multiply" }) +
+    grp(lights, { style: "mix-blend-mode:screen" }) +
+    rect(0, 0, W, H, { filter: "url(#mt-grain)" }) +
+    top.join("") + labels.join("");
+
+  const data = {
+    width: W, height: H, grid: G,
+    points: [
+      { key: "way-front-doors", label: "The front doors: boarded, under a sagging canopy; the boards come away (a way in and out)", x: 2500, y: 950 },
+      { key: "way-stage-door", label: "The stage door, from the container yard (a way in and out)", x: 600, y: 1100 },
+      { key: "way-loading-dock", label: "The loading dock at the side, with its roller door half up (a way in and out)", x: 825, y: 1500 },
+      { key: "way-broken-roof", label: "The broken roof, from the warehouse next door: across onto the fly gallery (a way in and out)", x: 910, y: 380 },
+      { key: "the-front", label: "The front: boarded doors under a sagging canopy, an old ticket booth and a sign: Danger. Keep Out.", x: 2620, y: 950 },
+      { key: "the-foyer", label: "The foyer: a black marble floor, a grand staircase that ends in empty air, and a wall of mirrors cracked by heat", x: 2290, y: 950 },
+      { key: "the-stalls", label: "The stalls: rows of burnt seats under a roof that is mostly sky. Ash drifts down like snow, though nothing is burning", x: 1700, y: 950 },
+      { key: "the-stage", label: "The stage: the boards are sound. A wedding arch of wire and wax flowers still stands at the back. This is where she sleeps", x: 900, y: 950 },
+      { key: "fly-gallery", label: "The fly gallery: iron walkways high above the stage, hung with old ropes", x: 930, y: 460 },
+      { key: "under-the-stage", label: "Under the stage (inset): damp dressing rooms. At high tide, harbour water seeps in ankle-deep", x: 300, y: 1650 },
+    ],
+    tokens: {
+      coven: [[2700, 800], [2800, 800], [2900, 800], [2800, 900], [2900, 900], [2800, 1000], [2900, 1000]], // outside the front doors
+      threat: [800, 900], // she rises out of the ash on the stage
+      innocent: null,
+    },
+  };
+  if (PRINT) {
+    const pd = {
+      ...printTownDefs(),
+      "mt-stage": printGround.planks("mt-stage", 71, 20),
+      "mt-burnt": plankPattern("mt-burnt", 72, [PAL.edge, PAL.paper2, PAL.edge], PAL.accent, 200, 18),
+      "mt-marble": marblePattern("mt-marble", 73, PAL.accent, PAL.soft, PAL.paper, PAL.dark, 50),
+      "mt-tin": corrugatedPattern("mt-tin", PAL.accent, PAL.soft, 18),
+      "mt-tin-rust": corrugatedPattern("mt-tin-rust", PAL.soft, PAL.dark, 18),
+      "mt-pave": printGround.slab("mt-pave", 74, 50),
+      "mt-lane": printGround.cobble("mt-lane", 75, 20),
+      "mt-yard": printGround.gravel("mt-yard", 76),
+      "mt-flatroof": gravelPattern("mt-flatroof", 77, PAL.edge, [PAL.accent, PAL.paper2], 120, 60),
+      "mt-concrete": slabPattern("mt-concrete", 78, [PAL.paper2, PAL.paper], PAL.accent, 200, 100),
+      "mt-seep": waterPattern("mt-seep", 79, PAL.accentB, [PAL.accent, PAL.edge], 160, 10, 2.5),
+    };
+    return { name: "mariner-theatre", svg: bookSvg("Map: the Mariner Theatre", body, defs, pd), data };
+  }
+  return { name: "mariner-theatre", svg: svgDoc(body, defs), data };
+}
+
+/* ===================================================================== */
 /** Render a book map the way the book shows it (book fonts loaded by family name,
  *  the SVG sized by CSS), at the print width and PRINT_DPI, plus a 2x copy for close checks. */
 async function renderBookCheck(browser, name, svg) {
@@ -2259,7 +2868,7 @@ async function renderBookCheck(browser, name, svg) {
 const MAPS = {
   larkhaven, "lantern-house": lanternHouse,
   "night-market": nightMarket, "radio-tower": radioTower,
-  // "mariner-theatre": marinerTheatre, "harbour-fireworks": harbourFireworks,
+  "mariner-theatre": marinerTheatre, // "harbour-fireworks": harbourFireworks,
   // "drowned-village": drownedVillage, "long-pier": longPier,
 };
 /** The showdown maps: each also gets a print version for the book. */
