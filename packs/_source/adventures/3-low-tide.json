@@ -233,8 +233,8 @@
       "key": "finn-marlow",
       "name": "Finn Marlow",
       "type": "person",
-      "img": "icons/svg/mystery-man.svg",
-      "token": "icons/svg/mystery-man.svg",
+      "img": "systems/witch-ward/assets/tokens/finn-marlow.webp",
+      "token": "systems/witch-ward/assets/tokens/finn-marlow.webp",
       "disposition": 0,
       "folder": "f-people",
       "system": {

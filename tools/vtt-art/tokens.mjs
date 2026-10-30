@@ -18,8 +18,8 @@
  * threats danger red (notches), other people calm green (plain). The pattern
  * repeats the colour so the role survives colour blindness (ART-CHECKLIST 18).
  *
- * Test art only: the art direction is undecided. Looks follow docs/CONTENT.md,
- * book chapters 10, 13 and 14. Nothing here may echo the TV show (AGENTS.md).
+ * Test art only: the art direction is undecided. Looks follow docs/CONTENT.md and
+ * book chapters 10, 13, 14, 15 and 16. Nothing here may echo the TV show (AGENTS.md).
  */
 import { chromium } from "playwright-core";
 import { existsSync, mkdirSync, writeFileSync, readdirSync } from "node:fs";
@@ -1066,6 +1066,86 @@ function bea(A) {
   return svgDoc(A, "person", s);
 }
 
+/** Hannah Price (Episode 2): a firefighter at the Old Town station, marrying Jess next Saturday. */
+function hannah(A) {
+  const skin = "#8d5b3d", hd = { top: 94, chin: 252, hw: 61, jaw: 0.82, chinW: 0.4 };
+  const tunic = "#c69d52", hair = "#24170f", helmet = "#f0c22e", navy = "#26314a";
+  const hiVis = "#d9e04c", silverB = "#dfe3e7";
+  let s = bg(A, "#a9c8da", "#2c5269");
+  const tD = torsoD({ sw: 148, nw: 26, sy: 294 });
+  const tc = A.clip(tD);
+  s += fill(A, tD, tunic, { hi: 0.15, lo: 0.3 });
+  // reflective bands: across the chest and down each upper arm
+  s += G(P(`M0,350 L400,350 L400,374 L0,374 Z`, hiVis) + P(`M0,355 L400,355 L400,369 L0,369 Z`, silverB) +
+    P(`M38,300 L62,296 L76,420 L50,420 Z`, hiVis) + P(`M43,302 L57,300 L70,420 L56,420 Z`, silverB) +
+    P(`M362,300 L338,296 L324,420 L350,420 Z`, hiVis) + P(`M357,302 L343,300 L330,420 L344,420 Z`, silverB), { clip: tc });
+  s += G(S(`M0,350 L400,350 M0,374 L400,374`, INK, 1.6, 0.6), { clip: tc });
+  s += neck(A, skin, 24, 200, 300, hd.chin);
+  s += fill(A, `M${CX - 30},274 L${CX + 30},274 L${CX + 18},334 L${CX - 18},334 Z`, navy, { w: 2.4 });   // navy T-shirt in the open collar
+  // her engagement ring, on a chain round her neck while she's on duty
+  s += S(`M${CX - 20},274 L${CX - 1},312 M${CX + 20},274 L${CX + 1},312`, "#e2c05a", 1.6);
+  s += C(CX, 318, 6, "none", { s: INK, w: 4.2 }) + C(CX, 318, 6, "none", { s: "#e8c55a", w: 2.4 }) + C(CX, 311, 2.2, "#ffffff", { s: INK, w: 0.8 });
+  // tunic collar and front edges
+  for (const side of [-1, 1]) {
+    s += fill(A, smooth([[CX + side * 24, 254, 1], [CX + side * 44, 258], [CX + side * 52, 276], [CX + side * 32, 300], [CX + side * 20, 340, 1], [CX + side * 26, 290]]), lt(tunic, 0.08), { w: 2.6 });
+  }
+  s += S(`M${CX},340 L${CX},420`, dk(tunic, 0.35), 2.4);
+  // head
+  s += ears(skin, hd.hw, 182);
+  const hD = headD(hd);
+  s += shaded(A, hD, skin, { hi: 0.12, lo: 0.3 });
+  s += face(A, { skin, eyes: { iris: "#3a2316", lash: 1 }, brows: { color: hair, tilt: -0.5, arch: 4, th: 5.2 }, nose: { w: 9 }, mouth: { kind: "grin", w: 28, curve: 5 } });
+  // dark hair showing under the helmet at the temples
+  for (const side of [-1, 1]) s += fill(A, smooth([[CX + side * 64, 140], [CX + side * 50, 136], [CX + side * 54, 160], [CX + side * 64, 172]]), hair, { w: 2 });
+  // helmet: yellow dome, raised centre ridge, smoked visor folded up, reflective band, chin strap
+  s += S(`M138,142 Q142,214 162,242 Q182,258 ${CX},258 Q218,258 238,242 Q258,214 262,142`, "#2a2a30", 3);
+  const dome = smooth([[119, 168, 1], [117, 120], [130, 84], [160, 62], [CX, 54], [240, 62], [270, 84], [283, 120], [281, 168, 1], [268, 162], [263, 142], [248, 132], [CX, 126], [152, 132], [137, 142], [132, 162]]);
+  s += fill(A, dome, helmet, { hi: 0.25, lo: 0.25 });
+  s += G(P(`M110,140 Q${CX},120 290,140 L290,156 Q${CX},136 110,156 Z`, silverB) + S(`M110,140 Q${CX},120 290,140 M110,156 Q${CX},136 290,156`, dk(helmet, 0.2), 3), { clip: A.clip(dome) });
+  s += P(`M${CX - 7},57 L${CX + 7},57 L${CX + 6},124 L${CX - 6},124 Z`, lt(helmet, 0.2), { s: dk(helmet, 0.35), w: 1.8 });
+  s += P(`M142,108 Q${CX},80 258,108 L252,122 Q${CX},100 148,122 Z`, "#56606c", { s: INK, w: 2.2 });   // smoked visor, folded up
+  s += S(`M156,106 Q178,94 198,91`, "#ffffff", 2.2, 0.55);
+  s += P(dome, "none", { s: INK, w: LW });
+  return svgDoc(A, "person", s);
+}
+
+/** Finn Marlow (Episode 3): twelve, sings in the Hillside School choir, shy with adults, always humming. A child, not a small adult. */
+function finn(A) {
+  // child proportions: a big rounded head on narrow shoulders and a thin neck, eyes low and large, a small nose and mouth
+  const skin = "#f2d5bf", hd = { top: 86, chin: 246, hw: 66, jaw: 0.86, chinW: 0.5, temple: 0.94, cheekY: 174 };
+  const jumper = "#7a2e3a", hair = "#8a6440", shirtC = "#f4f2ec";
+  let s = bg(A, "#ded3ee", "#8274ab");
+  const tD = torsoD({ sw: 112, nw: 18, ny: 268, sy: 302 });
+  s += fill(A, tD, jumper, { hi: 0.14, lo: 0.3 });
+  s += P(tD, A.pattern(S("M0,3 L6,3", dk(jumper, 0.2), 1, 0.5), 6, 6), { clip: A.clip(tD) });   // knit texture
+  s += neck(A, skin, 17, 200, 300, hd.chin);
+  // school shirt and tie in the jumper's V-neck
+  s += fill(A, `M${CX - 26},268 L${CX + 26},268 L${CX + 6},330 L${CX - 6},330 Z`, shirtC, { w: 2.2 });
+  s += fill(A, `M${CX - 6},286 L${CX + 6},286 L${CX + 8},330 L${CX - 8},330 Z`, "#27365a", { w: 1.8 });
+  s += S(`M${CX - 6},300 L${CX + 6},296 M${CX - 7},314 L${CX + 7},310`, "#d9b04a", 2);
+  s += fill(A, `M${CX - 7},278 L${CX + 7},278 L${CX + 6},288 L${CX - 6},288 Z`, "#27365a", { w: 1.8 });
+  for (const side of [-1, 1]) s += fill(A, poly([[CX + side * 18, 262], [CX + side * 3, 282], [CX + side * 22, 290], [CX + side * 28, 270]]), shirtC, { w: 2 });
+  for (const side of [-1, 1]) s += fill(A, poly([[CX + side * 30, 270], [CX + side * 4, 340], [CX + side * 2, 420], [CX + side * 50, 420], [CX + side * 50, 276]]), jumper, { w: 2.4, lo: 0.25 });
+  s += S(`M${CX - 30},272 L${CX - 3},336 M${CX + 30},272 L${CX + 3},336`, dk(jumper, 0.3), 3);
+  // choir badge with a music note (his left chest, viewer's right)
+  const bx = CX + 62, by = 334;
+  s += C(bx, by, 12, "#d9b04a", { s: INK, w: 2.2 }) + C(bx, by, 8.5, "#27365a");
+  s += E(bx - 2, by + 3.5, 3, 2.3, "#ffffff", { tf: `rotate(-20 ${bx - 2} ${by + 3.5})` }) + S(`M${bx + 0.8},${by + 3} L${bx + 0.8},${by - 6} Q${bx + 4},${by - 4} ${bx + 4.5},${by - 1}`, "#ffffff", 1.6);
+  // head
+  s += ears(skin, hd.hw, 188, { rx: 11, ry: 17 });
+  const hD = headD(hd);
+  s += shaded(A, hD, skin, { hi: 0.1, lo: 0.22 });
+  s += face(A, { skin, eyes: { y: 186, dx: 27, w: 26, h: 14, ir: 7.4, iris: "#7a6a3c", look: -2.2 }, brows: { color: dk(hair, 0.25), y: 165, th: 3.8, arch: 3, tilt: 1.5, w: 22 },
+    nose: { y: 212, w: 6, len: 14, bridge: false }, mouth: { y: 228, w: 15, curve: 2.5 }, blush: "#eb9a8a" });
+  // untidy mop of mousy hair, ragged fringe, a tuft at the crown
+  const hairD = smooth([[132, 184], [125, 146], [133, 108], [156, 80], [186, 66], [214, 64], [244, 74], [266, 98], [276, 134], [272, 184],
+    [265, 176, 1], [262, 150], [252, 140], [246, 160, 1], [238, 140], [224, 134], [218, 156, 1], [208, 136], [194, 132], [188, 152, 1], [178, 134], [166, 132], [160, 150, 1], [150, 138], [142, 150], [140, 176, 1]]);
+  s += fill(A, hairD, hair, { hi: 0.22, lo: 0.3 });
+  s += P(`M196,68 Q186,48 204,42 Q200,54 212,64 Z`, hair, { s: INK, w: 2.2 });
+  s += S(`M170,86 Q190,74 214,76 M150,112 Q166,96 186,94 M226,90 Q246,94 258,112`, lt(hair, 0.3), 2.2, 0.8);
+  return svgDoc(A, "person", s);
+}
+
 /** A plain stand-in for any extra person. */
 function bystander(A) {
   const skin = "#cfa585", hd = { top: 94, chin: 250, hw: 62 };
@@ -1091,7 +1171,7 @@ const TOKENS = [
   ["dana-okafor", dana], ["marco-rossi", marco], ["june-takeda", june], ["quinn-abernathy", quinn], ["tess-lindqvist", tess], ["noor-haddad", noor],
   ["rook", rook], ["rook-bird", rookBird],
   ["quiet-man", quietMan], ["ash-widow", ashWidow], ["mirror-thief", mirrorThief], ["night-nurse", nightNurse], ["vesper-crane", vesper], ["drowned-choir", drownedChoir],
-  ["grace-ellery", grace], ["bea-santos", bea],
+  ["grace-ellery", grace], ["bea-santos", bea], ["hannah-price", hannah], ["finn-marlow", finn],
   ["bystander", bystander],
 ];
 
