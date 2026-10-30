@@ -60,7 +60,11 @@ export function playEpisode({ coven, label, settings, rng }) {
     if (ch.down && ch.hurt < ch.hurtMax) ch.down = false; // "back up when Hurt drops below full"
   }
   function raiseExposure(k) {
-    if (k <= 0 || st.seen) return;
+    if (k <= 0) return;
+    if (st.seen) { // "Once Seen, any further rise in Exposure becomes +1 Doom instead."
+      if (R.seenToDoom && !(st.threat && st.threat.broken)) { st.doom = Math.min(N.doomMax, st.doom + 1); st.seenDoom = (st.seenDoom || 0) + 1; }
+      return;
+    }
     st.exposure = Math.min(N.exposureMax, st.exposure + k);
     if (st.exposure >= N.exposureMax) st.seen = true; // "when full, the coven is Seen; it stays full"
   }
@@ -187,7 +191,7 @@ export function playEpisode({ coven, label, settings, rng }) {
       for (const ch of free.slice()) if (!ch.lifeAnswered && bestLead(ch).pool <= median && free.length > 1) take(ch, { act: "life" });
     }
     // Brewing, once the coven knows what the threat is.
-    const brewTarget = { none: 0, one: 1, two: 2 }[P.brew];
+    const brewTarget = brewLimit();
     if (!R.brewWithBook && st.brewed < brewTarget && st.clues >= half() && st.doom <= N.mark - 2 && free.length > 1) {
       const b = maxBy(free, brewPool);
       if (b) take(b, { act: "brew" });
@@ -214,8 +218,7 @@ export function playEpisode({ coven, label, settings, rng }) {
       case "brew": return brew(ch);
       case "research": {
         lead(ch, { kind: "research", rating: "wits", pub: false }, 1);
-        const brewTarget = { none: 0, one: 1, two: 2 }[P.brew];
-        if (R.brewWithBook && st.brewed < brewTarget && !ch.down) brew(ch); // brewing alongside the Book
+        if (R.brewWithBook && st.brewed < brewLimit() && coven.potions.length < potionCap() && !ch.down) brew(ch); // brewing alongside the Book
         return;
       }
       case "lead": return lead(ch, bestLead(ch), 0);
@@ -245,10 +248,12 @@ export function playEpisode({ coven, label, settings, rng }) {
     if (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE) investigationCost(ch, r.usedMagic, opt.pub);
   }
 
+  function potionCap() { return R.potionCap === "witches" ? w : R.potionCap === "characters" ? n : R.potionCap; }
+  function brewLimit() { return P.brew === "cap" ? 99 : { none: 0, one: 1, two: 2 }[P.brew]; }
   function brew(ch) {
     const r = roll(ch, { rating: "craft", action: "brew", difficulty: N.leadD });
     const made = r.result === RESULT.CRITICAL ? R.potionYield + 1 : works(r.result) ? R.potionYield : 0;
-    for (let i = 0; i < made; i++) { const k = pick(POTION_ORDER); coven.potions.push(k); use(`brewed:${k}`); }
+    for (let i = 0; i < made; i++) { if (coven.potions.length >= potionCap()) break; const k = pick(POTION_ORDER); coven.potions.push(k); use(`brewed:${k}`); } // "at most one potion per witch"
     st.brewed += 1;
     st.potionsMade = (st.potionsMade || 0) + made;
     if (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE) investigationCost(ch, true, false); // at home
@@ -277,9 +282,11 @@ export function playEpisode({ coven, label, settings, rng }) {
     st.innocent.held = st.innocent.present && R.innocentHeld > 0; // "the threat starts holding the innocent"
     st.cluesAtShowdown = st.clues;
     st.doomAtShowdown = st.doom;
-    for (const ch of coven.witches) if (!ch.lifeAnswered) { ch.magicLost = Math.min(1, ch.magic); ch.magic = Math.max(0, ch.magic - 1); }
+    for (const ch of coven.witches) if (!ch.lifeAnswered) { // "they lose 1 Magic (1 Hurt if they have none)"
+      if (ch.magic > 0) { ch.magicLost = 1; ch.magic -= 1; } else hurt(ch, 1);
+    }
     st.threat = {
-      toughness: N.tWitch * w + N.tGuardian * g + (settings.size.toughnessMod[n] || 0),
+      toughness: N.tWitch * w + N.tGuardian * g + toughnessExtra(),
       damage: 0, broken: false, brokenRound: null, skip: 0,
       lastHurtBy: null, hold: false, defenceMod: 0,
       attacks: settings.size.attacks[settings.size.attacksBy === "w" ? w : n],
@@ -287,6 +294,11 @@ export function playEpisode({ coven, label, settings, rng }) {
     while (!st.ended) round();
   }
 
+  function toughnessExtra() {
+    const by = settings.size.toughnessBy;
+    if (by === "allWitches") return g ? 0 : settings.size.toughnessMod[n] || 0; // only covens with no guardian player
+    return settings.size.toughnessMod[by === "w" ? w : n] || 0;
+  }
   function threatExposed() {
     const i = st.innocent;
     return i.present && !i.safe && !i.lost;

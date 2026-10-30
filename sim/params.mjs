@@ -20,7 +20,8 @@ export const SIZE = {
   attacks: { 2: 1, 3: 1, 4: 2, 5: 2 },
   attacksBy: "n",   // count characters (n) or witches only (w) when looking up attacks per round
   vanquishMod: { 2: 0, 3: 0, 4: 0, 5: 0 },
-  toughnessMod: { 3: 3, 4: 0, 5: 0 }, // "With 3 characters, the threat has 3 more Toughness"
+  toughnessMod: { 2: 0, 3: 3, 4: 0, 5: 0 }, // "Against 3 witches and no guardian player, the threat has 3 more Toughness"
+  toughnessBy: "allWitches", // extra Toughness only against a coven with no guardian player ("allWitches"), or by characters (n) or witches (w)
 };
 
 /** CORE-RULES fixed numbers. */
@@ -38,6 +39,8 @@ export const RULES = {
   damage: { critical: 3, success: 2, partial: 1, failure: 0 },
   surgeCost: 2,
   noWeaknessVanquish: 2, // "+2 without the Weakness"
+  seenToDoom: true,     // once Seen, any further Exposure rise becomes +1 Doom instead
+  potionCap: "characters", // most potions the coven can carry: "characters" (one per character), "witches" (one per witch) or a number (99 = no cap)
   hideQuiet: true,      // casting Hide never raises Exposure (v0.4: it counted as casting)
   potionYield: 2,       // potions a successful brew makes (a Critical makes one more)
   potionFree: true,     // using a potion needs no action (one potion per character per round)
@@ -113,9 +116,9 @@ export const POLICY = {
     doc: "spare: a witch answers their Life when their best lead is no better than the coven's median and Doom is at least 2 short of the mark; always: everyone answers in scene 1; never: everyone lets it slide.",
   },
   brew: {
-    default: "two",
-    values: ["one", "none", "two"],
-    doc: "How many brewing actions the best brewer takes once the coven has half the Clues and time to spare.",
+    default: "cap",
+    values: ["cap", "one", "none", "two"],
+    doc: "How much the coven brews: cap = the Book researcher brews whenever the coven has fewer potions than it may carry; one / two = at most that many brews; none = never.",
   },
   ratings: {
     default: "sensible",
