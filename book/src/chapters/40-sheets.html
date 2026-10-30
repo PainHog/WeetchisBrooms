@@ -16,8 +16,8 @@
   </table>
 
   <div class="field"><strong>Hurt</strong><span class="box-check"></span><span class="box-check"></span><span class="box-check"></span><span class="box-check"></span><strong>Magic</strong><span class="pips"><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span class="pips"><span class="pip"></span><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span>start with 5; no top limit</span></div>
-  <div class="field"><strong>Life answered</strong><span class="box-check"></span><strong>Surge used this scene</strong><span class="box-check"></span><strong>Scar</strong><span class="box-check"></span></div>
-  <div class="field"><strong>Critical: +1 die on my next roll</strong><span class="box-check"></span><strong>Potion used this round</strong><span class="box-check"></span></div>
+  <div class="field"><strong>Life answered</strong><span class="box-check"></span><strong>Surge used this scene</strong><span class="box-check"></span><strong>Scar</strong><span class="box-check"></span><strong>Potion used this round</strong><span class="box-check"></span></div>
+  <div class="field"><strong>Critical: +1 die on my next roll</strong><span class="box-check"></span><strong>Can’t cast / lose my next action (Hush, Lure)</strong><span class="box-check"></span></div>
 
   <p><strong>Spells</strong> (Craft, 1 Magic). <strong>Reveal</strong>: a lead using Craft; a success gives 1 more Clue. <strong>Bind</strong> (against Defence): the threat loses its next attack. <strong>Blast</strong>: an attack using Craft; 1 more damage if it works. <strong>Shelter</strong> (Difficulty 2): until the end of the threat’s next turn, one person can’t be hurt by its attacks and doesn’t roll to defend (it ends if you go Down). <strong>Hide</strong> (Difficulty 2): Exposure −1. The <strong>Unmaking</strong>. Any other spell: the closest one, at +1 Difficulty if it’s a stretch.</p>
   <p><strong>Spend Magic:</strong> a spell 1 · a Surge 2 · help someone 1 · a die on your own roll 1 · lead or join the Unmaking 1. Unspent Magic is lost at the end of the episode, so spend it, but keep 2 Magic: 1 to join the Unmaking and 1 for a die or a second try.</p>
@@ -27,7 +27,7 @@
     <tr><td></td></tr>
   </table>
 
-  <p class="sheet-note">Down (all 4 Hurt boxes full): no actions except resting during the investigation, and no potions on yourself (others can use one on you), but you can still help and join the Unmaking. Back up when Hurt drops below full.</p>
+  <p class="sheet-note">Down (all 4 Hurt boxes full): no actions except resting during the investigation, no potions and no Surges (others can use a potion on you), but you can still help and join the Unmaking. Back up when Hurt drops below full.</p>
 </section>
 
 <section class="sheet" id="sheet-guardian">
@@ -51,7 +51,7 @@
   <table class="tbl">
     <thead><tr><th>Gift</th><th>Cost</th><th>Action?</th><th>What it does</th></tr></thead>
     <tbody>
-      <tr><td>Mend</td><td>1 Ward</td><td>Action</td><td>Clear 2 Hurt from someone it touches.</td></tr>
+      <tr><td>Mend</td><td>1 Ward</td><td>Action</td><td>Clear 2 Hurt from someone it touches, itself included.</td></tr>
       <tr><td>Shield</td><td>1 Ward</td><td>No action, once a round</td><td>Take an attack meant for someone near it (in a showdown, everyone is near).</td></tr>
       <tr><td>Carry</td><td>1 Ward</td><td>Action</td><td>Take one person to a place it knows, such as the freed innocent out of a fight. It can’t carry the coven out of a showdown or past a threat.</td></tr>
       <tr><td>Sense</td><td>1 Ward</td><td>No action, once a scene</td><td>+1 die on someone else’s lead this scene, outside the +2 limit.</td></tr>
@@ -59,7 +59,7 @@
     </tbody>
   </table>
 
-  <p>The guardian can free and guard the innocent, study the threat and research the Book like anyone, but can’t cast spells, brew or use potions, join the Unmaking or damage a threat; it can help with Ward. A Down guardian fades back to the home for the rest of the scene (in a showdown, the rest of the fight) and can’t help from there. Down: no actions except resting during the investigation; back up when Hurt drops below full. Unspent Ward is lost at the end of the episode.</p>
+  <p>The guardian can free and guard the innocent, study the threat and research the Book like anyone, but can’t cast spells, brew or use potions, join the Unmaking or damage a threat; it can help with Ward. Under Shelter it can’t Shield or Hold. Down, it fades back to the home for the rest of the scene (in a showdown, the fight), where it can’t help and nobody can heal or help it; it can rest in a later scene. Unspent Ward is lost at the end of the episode.</p>
 
   <table class="sheet-grid">
     <tr><th>Notes</th></tr>
@@ -107,7 +107,7 @@
 
   <div class="ref-cols">
     <h4>The roll</h4>
-    <p>Roll dice equal to the rating. Each 4, 5 or 6 is a success. The Storyteller sets the <strong>Difficulty</strong> (usually 1–4; the Unmaking can be higher).</p>
+    <p>Roll dice equal to the rating. Each 4, 5 or 6 is a success. The Storyteller sets the <strong>Difficulty</strong> (usually 1–4, never below 1; the Unmaking can be higher).</p>
     <p><strong>Success:</strong> successes equal to the Difficulty or more. <strong>Critical:</strong> a success that shows two or more 6s. It does one thing extra: +1 damage, +1 Clue, +1 potion or −1 more Exposure, as fits; otherwise +1 die on your next roll this episode (inside the +2 limit).</p>
     <p><strong>Partial:</strong> at least half the Difficulty (round up), but less than all of it. It works, with a cost. (At Difficulty 1 there is no Partial.) <strong>Failure:</strong> fewer than that. It doesn’t work, and there is a cost. <strong>Group check:</strong> when everyone must do the same thing, everyone rolls; it isn’t an action. One cost, taken by whoever rolled worst.</p>
 
@@ -115,7 +115,7 @@
     <p>In a showdown, 1 Hurt. Otherwise, Exposure +1 if you were casting out in the city, or else 1 Hurt. <strong>Casting</strong> means using a Power, a spell, a potion or a guardian gift. A helper’s die or Sense doesn’t make your roll casting. Casting Hide never raises Exposure, so its cost is always 1 Hurt. <strong>Spells</strong> (Craft) cost 1 Magic; a <strong>Surge</strong> costs 2 Magic.</p>
 
     <h4>Extra dice</h4>
-    <p>Your Power adds 2 dice when it fits (you may leave it off; then the roll isn’t casting). On top of that, at most <strong>+2 dice from everything else together</strong>: helpers (1 Magic or Ward each; helping takes no action, so anyone can help, even after acting or while Down), your Life (+1 when the Storyteller agrees it fits), the Book (+1), or your own Magic (Ward for the guardian; 1 each). Sense’s die doesn’t count toward the limit.</p>
+    <p>Your Power adds 2 dice when it fits (you may leave it off; then the roll isn’t casting, unless it’s a spell or uses a potion). On top of that, at most <strong>+2 dice from everything else together</strong>: helpers (1 Magic or Ward each; helping takes no action, so anyone can help, even after acting or while Down), your Life (+1 when the Storyteller agrees it fits), the Book (+1), or your own Magic (Ward for the guardian; 1 each). Sense’s die doesn’t count toward the limit.</p>
 
     <h4>Investigation (scenes)</h4>
     <p>Each character takes one action: follow a <strong>lead</strong> out in the city (Heart, Wits or Reveal against the Lead Difficulty: a success gives 1 Clue, a Critical 2, a Partial 1 with a cost); research the <strong>Book</strong> at home (a lead using Wits, +1 die, with no Exposure; one character per scene, who may also make one brewing roll that scene; each roll has its own result and cost); brew a potion at home; rest (clear all Hurt); cover up out in the city (Hide); or answer their <strong>Life</strong> (no roll; gain 1 Magic). Each witch’s Life calls once per episode, and they can answer it in any scene; if they haven’t by the showdown, they lose 1 Magic (or take 1 Hurt if they have none).</p>
@@ -131,7 +131,7 @@
 
     <h4>The threat acts</h4>
     <p>It makes 1 attack a round against 3 characters, 2 against 4 or 5. It loses at most one attack a round. Against a coven of 3 witches and no guardian player, it has 3 more Toughness. For each attack, roll a d6:</p>
-    <p><strong>1–3:</strong> it attacks whoever hurt it last (if nobody has, or they’re Down, use 4–5).<br><strong>4–5:</strong> whoever has the most Hurt marked and is still standing (ties: the Storyteller picks).<br><strong>6:</strong> its signature move (if it has none, it attacks two different characters), but if the innocent is there and free it goes for them instead: it attacks their guard, or takes them if nobody is guarding them (taking them isn’t an attack, so Hold can’t stop it).</p>
+    <p><strong>1–3:</strong> it attacks whoever hurt it last (if nobody has, or they’re Down, use 4–5).<br><strong>4–5:</strong> whoever has the most Hurt marked and is still standing (ties: roll a die among them).<br><strong>6:</strong> its signature move (if it has none, it attacks two different characters), but if the innocent is there and free it goes for them instead: it attacks their guard, or takes them if nobody is guarding them (taking them isn’t an attack, so Hold can’t stop it).</p>
     <p>The target rolls Nerve (plus a Power that fits) against Danger: Success no Hurt, Partial 1 Hurt, Failure Hit Hurt. When its Toughness is full, it is <strong>Broken</strong>: it makes no more rolls or moves, Doom stops rising, and it flees at the end of the next round.</p>
 
     <h4>The Unmaking (only against a Broken threat)</h4>
@@ -167,24 +167,24 @@
     <p><strong>Reveal</strong>: a lead using Craft; a success gives 1 more Clue. <strong>Bind</strong> (against Defence): the threat loses its next attack. <strong>Blast</strong>: an attack using Craft; 1 more damage if it works. <strong>Shelter</strong> (Difficulty 2): until the end of the threat’s next turn, one person can’t be hurt by its attacks and doesn’t roll to defend (it ends if you go Down). <strong>Hide</strong> (Difficulty 2): Exposure −1. The <strong>Unmaking</strong>. Any other spell: the closest one, at +1 Difficulty if it’s a stretch.</p>
 
     <h4>Powers and Surges</h4>
-    <p>Each Power adds 2 dice when it fits. Once per scene its <strong>Surge</strong> (2 Magic, paid before you roll and spent even on a Failure, added to an action using the Power) does more, on a Partial or better; the whole showdown counts as one scene. A defence roll isn’t an action, so it takes no Surge. A <strong>talking lead</strong> uses Heart; a <strong>searching lead</strong> uses Wits.</p>
-    <p><strong>Force</strong> (attacks, freeing): the threat loses its next attack.<br><strong>Flame</strong> (attacks): 2 more damage.<br><strong>Sight</strong> (leads, defending, studying): 1 more Clue; or, with no action, before the defence roll, one attack aimed at anyone misses (this isn’t a lost attack).<br><strong>Voice</strong> (talking leads, Hide): 1 more Clue, or Exposure −1.<br><strong>Veil</strong> (defending, searching leads, Hide): no Exposure from casting for the rest of the scene, or in a showdown for this round and the next (a casting roll’s cost becomes 1 Hurt).<br><strong>Wild</strong> (talking and searching leads, Bind, brewing): 1 more Clue or potion; or in a showdown, the threat’s Defence is 1 lower for everyone this round.</p>
+    <p>Each Power adds 2 dice when it fits. Once per scene its <strong>Surge</strong> (2 Magic, paid before you roll and spent even on a Failure, added to an action using the Power) does more, on a Partial or better; the whole showdown counts as one scene. A defence roll isn’t an action, so it takes no Surge. Nobody Surges while Down. A <strong>talking lead</strong> uses Heart; a <strong>searching lead</strong> uses Wits.</p>
+    <p><strong>Force</strong> (attacks, freeing): the threat loses its next attack.<br><strong>Flame</strong> (attacks): 2 more damage.<br><strong>Sight</strong> (leads, defending, studying): 1 more Clue; or, with no action, before the defence roll, one attack aimed at anyone misses (this isn’t a lost attack).<br><strong>Voice</strong> (talking leads, Hide): 1 more Clue, or Exposure −1.<br><strong>Veil</strong> (defending, searching leads, Hide): no Exposure from the whole coven’s casting, this roll included, for the rest of the scene, or in a showdown for this round and the next (a casting roll’s cost becomes 1 Hurt).<br><strong>Wild</strong> (talking and searching leads, Bind, brewing): 1 more Clue or potion; or in a showdown, the threat’s Defence is 1 lower for everyone this round, after the Bind roll (never below 1).</p>
 
     <h4>Potions</h4>
     <p>Brew at home: Craft against the Lead Difficulty; a success makes two, a Critical three, a Partial one with its cost. Choose each one’s kind as you make it. <strong>Healing</strong>: clear 2 Hurt. <strong>Blasting</strong>: use it with your attack; if the attack works, 2 more damage. <strong>Binding</strong>: use it with your attack; if the attack works, the threat loses its next attack.</p>
-    <p>Say you’re using a potion before you roll; it’s used up either way. Using one is casting but takes no action: on your turn, on yourself or someone near you; each character uses at most one a round (or scene). The coven shares its potions and can have at most one per character (the guardian counts if a player plays it); extra potions from a brew are lost. They spoil at the end of the episode.</p>
+    <p>Say you’re using a potion before you roll; it’s used up either way. Using one is casting but takes no action: while the characters act (never on the threat’s turn), on yourself or someone near you; each character uses at most one a round (or scene), and an attack takes at most one potion, the attacker’s own. The coven shares its potions and can have at most one per character (the guardian counts if a player plays it); extra potions from a brew are lost. They spoil at the end of the episode.</p>
 
     <h4>The innocent (public showdowns only)</h4>
     <p>The threat starts with them <strong>in its grip</strong>. To <strong>free</strong> them, roll Nerve against Defence; only a success frees them (a Partial doesn’t, and still costs 1 Hurt). If they’re still in its grip at the end of the first round, they’re lost. While in its grip they can’t be guarded or carried. Once free, if the threat takes them, they’re lost. A Broken threat lets go.</p>
 
     <h4>Showdown details</h4>
-    <p>Every signature move picks only standing characters. Hold only aims attacks: on a 6, an attacking move still happens, with the guardian as its first target, and Hold is used up; a move that isn’t an attack ignores Hold, and Hold stays for the next attack. The threat loses at most one attack a round, whatever the cause; any more are wasted. If Shield and Sight’s Surge could both be used on one attack, Shield is chosen first. At the end of a round, “every witch is Down” is checked before a Broken threat flees: if both happen, it’s a Loss.</p>
+    <p>Every signature move picks only standing characters. Hold only aims attacks: on a 6, an attacking move still happens, with the guardian as its first target, and Hold is used up; any part of a move that isn’t an attack (such as Lure’s Heart roll) still happens, and a move with no attack leaves Hold for the next attack. A guardian under Shelter can’t Shield or Hold. The Unmaking is casting: in a public place every try counts toward Exposure, even a failed one. The threat loses at most one attack a round, whatever the cause; any more are wasted. If Shield and Sight’s Surge could both be used on one attack, Shield is chosen first. At the end of a round, “every witch is Down” is checked before a Broken threat flees: if both happen, it’s a Loss.</p>
 
     <h4>Tracks</h4>
-    <p><strong>Hurt:</strong> 4 boxes for a witch, 5 for the guardian. Full boxes = <strong>Down</strong>: no actions except resting during the investigation, and no potions on yourself (others can use one on you), but you can still help and join the Unmaking; back up when Hurt drops below full. Hurt can’t go past full, and it clears between episodes (except a Scar).</p>
+    <p><strong>Hurt:</strong> 4 boxes for a witch, 5 for the guardian. Full boxes = <strong>Down</strong>: no actions except resting during the investigation, no potions or Surges (others can use a potion on you), but you can still help and join the Unmaking; back up when Hurt drops below full. Hurt can’t go past full, and it clears between episodes (except a Scar).</p>
     <p><strong>Magic and Ward:</strong> 5 each episode (Magic has no top limit). Unspent Magic and Ward are lost at the end of the episode.</p>
     <p><strong>Exposure:</strong> 5 boxes at Easy, 4 at Standard and Hard. When full, the coven is <strong>Seen</strong>; it stays full, and any further rise becomes <strong>Doom +1</strong> instead (once per round or scene). Hide can lower Exposure before then, never below 0.</p>
-    <p><strong>Doom:</strong> 12 boxes; nothing lowers it. Reaching the mark (5) during the investigation brings the threat (checked only at the end of a scene); when full, the plan is complete: the innocent is lost and the threat escapes. Doom doesn’t rise once the threat is Broken (not even from Seen). Extra Clues or damage past the total are lost.</p>
+    <p><strong>Doom:</strong> 12 boxes; nothing lowers it. Reaching the mark (5) during the investigation brings the threat (checked only at the end of a scene); when full, the plan is complete: the innocent is lost (unless already carried to safety) and the threat escapes. Doom doesn’t rise once the threat is Broken (not even from Seen). Extra Clues or damage past the total are lost.</p>
 
     <h4>Seasons</h4>
     <p>Destroyed threats get a page in the Book: next time, start with half the Clues (rounded up). A threat that wasn’t destroyed comes back later, when the Storyteller chooses, with 2 more Toughness each time. After every second episode, each witch raises one rating by 1 (most 4); the guardian doesn’t grow. After the 2nd and the 4th episodes, threats also get 2 more Toughness per witch (so 4 more per witch from the 5th episode on).</p>

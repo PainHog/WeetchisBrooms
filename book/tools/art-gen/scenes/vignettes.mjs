@@ -2409,7 +2409,7 @@ piece("spot-ferry", () => {
   s += stars(281, 20, 16, 780, 220, 50, (x, y) => Math.hypot(x - 660, y - 110) < 50) + moon(660, 110, 32);
   s += R(0, 300, SW, 20, "#1c2440");
   s += terraceRow(-10, 360, 312, { seed: 282, hMin: 14, hMax: 22, wMin: 12, wMax: 18, litP: 0.6, sw: 0.8, rows: 1 });
-  s += lighthouse(560, 318, 70, { beam: 200, beamLen: 300 });
+  s += lighthouse(736, 318, 74, { beam: 334, beamLen: 200 });
   s += water(0, 318, SW, SH, { refl: [[660, 40, "#f3e9cc", 0.5], [560, 12]], ripples: 50, top: "#24305a" });
   // the ferry, side on: hull, rails, a long lit cabin, funnel
   const fx = 40, fw = 720, wl = 470;
@@ -2425,9 +2425,9 @@ piece("spot-ferry", () => {
   // windows: one has the old man looking out; in the next pane, faint, a young woman's face
   for (let i = 0; i < 6; i++) s += R(fx + 100 + i * 90, wl - 228, 72, 100, lin([[0, K.glow], [1, K.gold]]), { s: INK, w: 2, rx: 8 });
   const w1 = clip(R(fx + 280, wl - 228, 72, 100, "#000", { rx: 8 }));
-  s += G(fig(civ({ skin: "#e6c8b2", hair: "#d8d4cc", style: "bald", top: "#5a5a68", coat: "#4a4a58", coatLen: -40, mouth: "flat", eyeC: "#4a3a2a", headW: 1.02 }), fx + 318, wl - 228 + 380, 320, { look: 1.2 }), { clip: w1 });
+  s += G(fig(civ({ skin: "#e6c8b2", hair: "#d8d4cc", style: "bald", top: "#5a5a68", coat: "#4a4a58", coatLen: -40, mouth: "flat", eyeC: "#4a3a2a", headW: 1.02 }), fx + 318, wl - 228 + 330, 320, { look: 1.2 }), { clip: w1 });
   const w2 = clip(R(fx + 370, wl - 228, 72, 100, "#000", { rx: 8 }));
-  s += G(G(fig(civ({ skin: "#dfe8f0", hair: "#6a7a8a", style: "long", top: "#9aa8b8", hairLen: -76, mouth: "smile", eyeC: "#4a5a6a" }), fx + 404, wl - 228 + 372, 300, { look: -1.2 }), { op: 0.42 }), { clip: w2 });
+  s += G(G(fig(civ({ skin: "#dfe8f0", hair: "#6a7a8a", style: "long", top: "#9aa8b8", hairLen: -76, mouth: "smile", eyeC: "#4a5a6a" }), fx + 404, wl - 228 + 312, 300, { look: -1.2 }), { op: 0.42 }), { clip: w2 });
   s += S(`M${fx + 100},${wl - 196}H${fx + 640}`, "#ffffff", 1, { op: 0.15 });
   return { vb: `0 0 ${SW} ${SH}`, title: "The evening ferry crossing the bay: an old man looks out of a window, and in the glass beside him a young woman's face", body: spot(s) };
 });
@@ -2478,17 +2478,17 @@ piece("spot-radio-tower", () => {
   for (let x = 140; x <= 700; x += 20) fence += `M${x},${g}V${g - 40}`;
   s += S(fence, INK, 2.4) + S(fence, "#5a5f6e", 1.2);
   // the tower
-  s += radioMast(340, g, 400, { sw: 2.4, light: false });
+  s += radioMast(340, g, 470, { sw: 2.6, light: false });
   // a cross-arm near the top, and the six glass valves hung from its hooks, each glowing faintly
-  const ay = g - 360;
-  s += R(250, ay - 6, 180, 10, "#6c6f7a", { s: INK, w: 2 });
+  const ay = g - 410;
+  s += R(226, ay - 6, 228, 10, "#6c6f7a", { s: INK, w: 2 });
   for (let i = 0; i < 6; i++) {
-    const vx = 262 + i * 31, vy = ay + 34;
+    const vx = 240 + i * 40, vy = ay + 38;
     s += S(`M${vx},${ay + 4}V${ay + 12}`, INK, 2.4) + C(vx, ay + 14, 3, "none", { s: "#8a8f9c", w: 2 });       // hook and ring
     s += S(`M${vx},${ay + 17}V${vy - 14}`, "#8a8f9c", 1.4);
     s += C(vx, vy, 22, glow(K.lamp, 0.5)) + R(vx - 6, vy - 14, 12, 7, "#2a2a30", { s: INK, w: 1.2 }) + P(sm([[vx - 6, vy - 7, 1], [vx - 8, vy + 4], [vx - 4, vy + 12], [vx, vy + 14], [vx + 4, vy + 12], [vx + 8, vy + 4], [vx + 6, vy - 7, 1]]), lin([[0, "#fff6d6", 0.9], [1, K.gold, 0.75]]), { s: INK, w: 1.2 });
   }
-  s += S(`M340,${g - 400}V${g - 430}`, INK, 3) + C(340, g - 432, 4, "#6c6f7a", { s: INK, w: 1.4 });
+  s += S(`M340,${g - 470}V${g - 500}`, INK, 3) + C(340, g - 502, 4, "#6c6f7a", { s: INK, w: 1.4 });
   return { vb: `0 0 ${SW} ${SH}`, title: "The old radio tower in the Heights at night, six glowing glass valves hung from its cross-arm", body: spot(s) };
 });
 
@@ -2540,14 +2540,50 @@ piece("spot-fog-bell", () => {
   s += R(438, 150, 64, 18, shade(K.woodD, 0.15, 0.3), { s: INK, w: 1.6 });
   s += P(sm([[448, 168, 1], [492, 168, 1], [500, 200], [510, 248], [522, 262, 1], [418, 262, 1], [430, 248], [440, 200]]), lin([[0, "#d9b46a"], [0.5, "#a8803a"], [1, "#6a4a1e"]], 0, 0, 1, 0), { s: INK, w: 2 });
   s += E(470, 262, 52, 8, "#5a3e18", { s: INK, w: 1.6 }) + S(`M432,210Q470,204 508,210`, "#e8d08a", 2, { op: 0.6 });
-  s += S(`M470,262V274`, INK, 3) + C(470, 278, 6, "#5a3e18", { s: INK, w: 1.4 });                         // the clapper's ball, just showing
-  s += S(`M470,284V438`, INK, 3.4) + S(`M470,284V438`, "#c9b98a", 2);
+  s += S(`M470,262V438`, INK, 3.4) + S(`M470,262V438`, "#c9b98a", 2);
   s += R(456, 436, 28, 8, "#2d3038", { s: INK, w: 1.2 });
   let rail = `M0,446H${SW}M0,490H${SW}`;
   for (let x = 10; x < SW; x += 40) rail += `M${x},446V600`;
   s += S(rail, INK, 6) + S(rail, "#2d3038", 3);
   s += R(0, 560, SW, 40, "#2b2f3a", { s: INK, w: 2 });
   return { vb: `0 0 ${SW} ${SH}`, title: "The small bell of St Agnes hanging by the lighthouse lamp room at dusk, the drowned church far out on the mud", body: spot(s) };
+});
+
+// ----- Spot (Chapter 10): the Night Nurse in the closed wing of Larkhaven General
+piece("spot-night-nurse", () => {
+  // one-point perspective: vanishing point (400, 250); the far wall from (300,160) to (500,340)
+  const vp = [400, 250], bw = [300, 160, 500, 340];
+  const toFrame = (x, y, yEdge) => { const t = (yEdge - vp[1]) / (y - vp[1]); return [vp[0] + (x - vp[0]) * t, yEdge]; };
+  let s = R(0, 0, SW, SH, "#1a1c24");
+  const fl = [toFrame(300, 340, SH), toFrame(500, 340, SH)];
+  const cl = [toFrame(300, 160, 0), toFrame(500, 160, 0)];
+  // ceiling, walls, floor
+  s += P(poly([[cl[0][0], 0], [cl[1][0], 0], [500, 160], [300, 160]]), lin([[0, "#3a3c48"], [1, "#4a4c58"]]), { s: INK, w: 1.6 });
+  s += P(poly([[0, 0], [cl[0][0], 0], [300, 160], [300, 340], [fl[0][0], SH], [0, SH]]), lin([[0, "#3e4a4a"], [1, "#56645e"]], 0, 0, 1, 0), { s: INK, w: 1.6 });
+  s += P(poly([[SW, 0], [cl[1][0], 0], [500, 160], [500, 340], [fl[1][0], SH], [SW, SH]]), lin([[0, "#56645e"], [1, "#3e4a4a"]], 0, 0, 1, 0), { s: INK, w: 1.6 });
+  s += P(poly([[fl[0][0], SH], [fl[1][0], SH], [500, 340], [300, 340]]), lin([[0, "#5a5e66"], [1, "#2e3038"]]), { s: INK, w: 1.6 });
+  let tiles = "";
+  for (let i = -6; i <= 6; i++) { const x = 400 + i * 33; tiles += `M${x},340L${r(toFrame(x, 340, SH)[0])},${SH}`; }
+  for (const y of [360, 388, 428, 488, 570]) { const a = toFrame(300, 340, y), b = toFrame(500, 340, y); tiles += `M${r(a[0])},${y}H${r(b[0])}`; }
+  s += G(S(tiles, "#24262e", 1, { op: 0.5 }), { clip: clip(P(poly([[fl[0][0], SH], [fl[1][0], SH], [500, 340], [300, 340]]), "#000")) });
+  // the far wall, with a window and the moon
+  s += R(300, 160, 200, 180, lin([[0, "#4a5450"], [1, "#3a4240"]]), { s: INK, w: 1.6 });
+  s += R(360, 186, 80, 90, lin([[0, K.n1], [1, K.n3]]), { s: INK, w: 2 }) + G(moon(412, 214, 12) + stars(321, 362, 188, 438, 270, 6), { clip: clip(R(360, 186, 80, 90, "#000")) }) + S(`M400,186V276M360,231H440`, "#2a3230", 3);
+  // doorways down both walls (dark), an iron bedstead glimpsed in one
+  const door = (side, d0, d1) => {
+    const x0 = side < 0 ? 300 : 500;
+    const p = (t, y) => [vp[0] + (x0 - vp[0]) / t, vp[1] + (y - vp[1]) / t];
+    const a = p(d0, 340), b = p(d1, 340), c = p(d1, 210), dd = p(d0, 210);
+    return P(poly([a, b, c, dd]), "#14161c", { s: INK, w: 1.4 });
+  };
+  s += door(-1, 0.42, 0.52) + door(-1, 0.68, 0.76) + door(1, 0.45, 0.55) + door(1, 0.7, 0.78);
+  s += G(S(`M176,452V396M200,436V388M176,404L200,396M176,422L200,412`, "#7a7e88", 3) + E(188, 452, 16, 3, "#000", { op: 0.4 }), { clip: clip(door(-1, 0.42, 0.52).replace(/ stroke="[^"]*" stroke-width="[^"]*"( stroke-linejoin="round" stroke-linecap="round")?/, "")) });   // an iron bedstead, seen through the near left door
+  // the ceiling lights: all off but one, which flickers over her
+  for (const t of [0.36, 0.55, 0.8]) { const y = vp[1] + (160 - vp[1]) / t, w = 60 / t; s += P(poly([[400 - w / 2, y], [400 + w / 2, y], [400 + w * 0.42, y + 10 / t], [400 - w * 0.42, y + 10 / t]]), t === 0.55 ? K.glow : "#5a5c66", { s: INK, w: 1.2 }); }
+  s += C(400, 300, 160, glow("#d8f0e0", 0.35)) + E(400, 412, 120, 22, "#d8f0e0", { op: 0.16 });
+  // the Night Nurse, very still in the middle of the corridor, holding a white lily
+  s += shadow(400, 412, 30, 5, 0.55) + fig(nightNurse, 400, 412, 220, {});
+  return { vb: `0 0 ${SW} ${SH}`, title: "The Night Nurse stands in the closed wing of Larkhaven General under the one light still working", body: spot(s) };
 });
 
 // =============================================================== run

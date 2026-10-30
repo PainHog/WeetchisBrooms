@@ -185,9 +185,23 @@ const FOOTER_CSS = `@page { @bottom-center { content: ${cssString(BOOK_TITLE + "
  * room is left, and a spot sized to fit is placed there (never enough to move a page).
  * Each chapter lists spots in order of preference; the first not yet used wins.
  *   e.g.  "ch-01": ["spot-something", "spot-spare"],
- * Empty until the art exists (the build then warns about large unfilled gaps).
+ * One spot per chapter that leaves a large gap (TEMP test art, book/art/README.md).
  */
-const SPOTS = {};
+const SPOTS = {
+  "ch-01": ["spot-last-bus"],
+  "ch-02": ["spot-archive"],
+  "ch-03": ["spot-garage"],
+  "ch-04": ["spot-rook-chimney"],
+  "ch-05": ["spot-brewing"],
+  "ch-08": ["spot-cafe"],
+  "ch-09": ["spot-seen"],
+  "ch-10": ["spot-night-nurse"],
+  "ch-11": ["spot-ferry"],
+  "ch-12": ["spot-silent-singer"],
+  "ch-14": ["spot-radio-tower"],
+  "ch-15": ["spot-fireworks"],
+  "ch-16": ["spot-fog-bell"],
+};
 const PT_PER_IN = 72;
 const BOTTOM_LIMIT_PT = (0.78 + BLEED_IN) * PT_PER_IN;   // @page bottom margin: content must end above this
 const TEXT_H_IN = 11 - 0.72 - 0.78;   // the text area's height (the print bleed adds to both the page and its margins)
