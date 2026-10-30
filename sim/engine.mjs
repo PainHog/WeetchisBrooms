@@ -337,6 +337,8 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       if (innocentLoose()) { st.innocent.safe = true; st.callUsed = true; use("call:carry"); if (st.place === "public") st.magicThisRound = true; }
       else if (downW.length) { heal(maxBy(downW, x => attackPool(x).pool), R.mendHeal); st.callUsed = true; use("call:mend"); if (st.place === "public") st.magicThisRound = true; }
     }
+    if (st.round === 1 && R.threatFirst && !T.broken) threatActs(); // "In round 1 the threat acts first."
+    if (standing(coven.witches).length === 0) return end("allDown");
     const acted = new Set();
     const gd = coven.guardian;
     if (gd && !gd.down) { guardianAct(gd); acted.add(gd); }
@@ -363,7 +365,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       acted.add(ch);
     }
     if (st.ended) return;
-    if (!T.broken) threatActs(); // "Then the threat acts."
+    if (!T.broken && !(st.round === 1 && R.threatFirst)) threatActs(); // "Then the threat acts."
     if (st.innocent.held && T.broken) st.innocent.held = false; // a Broken threat lets go
     if (st.innocent.held && st.round >= R.innocentHeld) { st.innocent.held = false; st.innocent.lost = true; } // "still held at the end of round 2: lost"
     if (st.place === "public" && st.magicThisRound && !st.veiledShowdown) raiseExposure(1); // once per round
@@ -439,7 +441,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - 1);
       if (needHeal.length && coven.potions.includes("healing")) { usePotion("healing"); heal(maxBy(needHeal, x => x.hurt * 10 + attackPool(x).pool), R.potionHeal); }
       else if (!R.blastingBoost && coven.potions.includes("blasting")) { usePotion("blasting"); damageThreat(ch, R.potionBlast); if (T.broken) return; }
-      else if (coven.potions.includes("binding") && T.skip === 0) { usePotion("binding"); T.skip += 1; }
+      else if (!R.bindingBoost && coven.potions.includes("binding") && T.skip === 0) { usePotion("binding"); T.skip += 1; }
       usedPotion = coven.potions.length < before;
     }
     // Healing potion on a Down witch.
@@ -479,13 +481,15 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     // Attack.
     const opt = attackPool(ch, !careful);
     if (opt.spell) { spend(ch, 1); use("spell:blast"); } else use("attack"); // Blast or a plain attack
-    let boost = false;
-    if (R.blastingBoost && R.potionFree && !careful && !usedPotion && coven.potions.includes("blasting")) { usePotion("blasting"); boost = true; }
+    let boost = false, bindBoost = false;
+    if (R.bindingBoost && R.potionFree && !careful && !usedPotion && T.skip === 0 && coven.potions.includes("binding")) { usePotion("binding"); bindBoost = true; }
+    else if (R.blastingBoost && R.potionFree && !careful && !usedPotion && coven.potions.includes("blasting")) { usePotion("blasting"); boost = true; }
     let surged = null;
     if (!careful && (ch.power === "force" || ch.power === "flame") && surgeOk(ch, RESERVE)) { surge(ch); surged = ch.power; }
     const r = roll(ch, { rating: opt.rating, action: "attack", difficulty: Math.max(1, effectiveDefence()), power: !careful, spell: opt.spell, buy: Math.min(2, spareMagic(ch, RESERVE)) });
     let dmg = R.damage[r.result] + (opt.spell && works(r.result) ? R.blastBonus : 0) + (weakness() && works(r.result) ? R.weaknessDamage : 0);
     if (boost && works(r.result)) dmg += R.potionBlast; // Blasting: "2 more damage on your attack this round if it works"
+    if (bindBoost && works(r.result)) T.skip += 1;       // Binding: "if the attack works, the threat loses its next attack"
     if (surged === "flame" && works(r.result)) dmg += 2;
     if (surged === "force" && works(r.result)) T.skip += 1;
     damageThreat(ch, dmg);
@@ -552,6 +556,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       }
       attackOn(target(d), 0);
     }
+    if (!R.bankLostAttacks) T.skip = 0; // "any more are wasted"
   }
 
   function target(d) {
@@ -570,7 +575,9 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (st.shelter.has(tgt)) return;
     // Guardian Shield: take an attack that would put a witch Down.
     const gd = coven.guardian;
-    if (gd && !gd.down && tgt.kind === "witch" && gd.ward >= 1 && tgt.hurt + hit >= tgt.hurtMax && gd.hurt + hit < gd.hurtMax) {
+    if (gd && !gd.down && tgt.kind === "witch" && gd.ward >= 1 && (st.shieldsRound !== st.round || st.shieldsUsed < R.shieldPerRound) && tgt.hurt + hit >= tgt.hurtMax && gd.hurt + hit < gd.hurtMax) {
+      if (st.shieldsRound !== st.round) { st.shieldsRound = st.round; st.shieldsUsed = 0; }
+      st.shieldsUsed++;
       spend(gd, 1, "ward"); tgt = gd; use("gift:shield");
     }
     // Sight Surge: "one attack this round misses".

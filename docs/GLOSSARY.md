@@ -5,7 +5,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | Term | Meaning |
 |---|---|
 | **Attack** | Any attempt to damage the threat (a roll against its Defence), or the threat's go at a character. Not a stat. |
-| **Casting** | Using a Power, a spell, a potion or a guardian gift. Casting where ordinary people can see raises Exposure (except Hide). |
+| **Casting** | Using a Power, a spell, a potion or a guardian gift. In a public showdown, any round with casting raises Exposure by 1; out in the city, a casting roll's cost is Exposure. Hide never raises Exposure. |
 | **Book, the** | The coven's spellbook, kept at home. Research there gives +1 die; destroyed threats get a page. Not the show's book or its name. |
 | **Broken** | A threat whose Toughness is full: it stops attacking, Doom stops, and it flees at the end of the next round unless the Unmaking destroys it. |
 | **Clue** | One step of the investigation. Half the Clues tell the coven what the threat is and where; all of them reveal its Weakness. |
@@ -14,7 +14,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Critical** | A success that shows two or more 6s. |
 | **Danger** (threat stat) | The Difficulty of defending against the threat's attacks. |
 | **Defence** (threat stat) | The Difficulty of hurting the threat. |
-| **Difficulty** | The number of successes a roll needs (1–4). |
+| **Difficulty** | The number of successes a roll needs (usually 1–4; the Unmaking can be higher). |
 | **Doom** | The threat's plan, 12 boxes. Rises after every scene and round. Has the Showdown mark at 5. |
 | **Down** | A character whose Hurt boxes are full: out of action until healed below full. Never dead. |
 | **Driven off / fled** | A Broken threat that got away before the Unmaking worked. It can come back. |
@@ -23,7 +23,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Failure** | Fewer successes than half the Difficulty. It doesn't work and there's a cost. |
 | **Free** | A showdown action: Nerve against Defence to pull the innocent out of the threat's grip; only a success works. |
 | **Gift** | One of the guardian's abilities: Mend, Shield, Carry, Sense, Hold. |
-| **Guard** | A showdown action: until your next action, if the threat goes for the freed innocent, it attacks you instead. |
+| **Guard** | A showdown action: until your next action, if the threat goes for the freed innocent, it attacks you instead. It ends if you go Down. |
 | **Guardian** | The coven's protective spirit, bound to its home by an old promise; human or animal shape; no masters. Never called a "Warden". |
 | **Heart** | The rating for people: talking, comforting, lying, reading people. |
 | **Hit** (threat stat) | The Hurt a threat deals when a defence fails. |

@@ -11,8 +11,8 @@
 /** CORE-RULES "[T] Numbers", per difficulty label. */
 export const NUMBERS = {
   easy:     { leadD: 1, defence: 1, attack: 1, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 5, cluesPer: 3, cluesAdd: 0, unmakeAdd: 0 },
-  standard: { leadD: 2, defence: 2, attack: 3, hit: 2, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, unmakeAdd: 0 },
-  hard:     { leadD: 2, defence: 2, attack: 3, hit: 3, tWitch: 5, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, unmakeAdd: 0 },
+  standard: { leadD: 2, defence: 2, attack: 3, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, unmakeAdd: 0 },
+  hard:     { leadD: 2, defence: 2, attack: 3, hit: 3, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, unmakeAdd: 0 },
 };
 
 /** CORE-RULES per-size rows: threat attacks per round (by characters) and Unmaking Difficulty change (by witches). */
@@ -39,6 +39,10 @@ export const RULES = {
   damage: { critical: 3, success: 2, partial: 1, failure: 0 },
   surgeCost: 2,
   noWeaknessUnmake: 2, // "+2 without the Weakness"
+  threatFirst: true,    // in round 1 of every showdown the threat acts before the characters (v0.6: after)
+  bindingBoost: true,   // Binding is used with an attack: if the attack works, the threat loses its next attack (v0.6: no roll)
+  bankLostAttacks: false, // lost attacks beyond the one-a-round limit wait for later rounds (v0.6) or are wasted (v0.7)
+  shieldPerRound: 1,    // Shields the guardian can use each round
   blastingBoost: true,  // Blasting: 2 more damage on your attack this round if it works (v0.5: 2 damage with no roll)
   maxLostAttacks: 1,    // the threat loses at most this many attacks a round, whatever the cause (99 = no limit)
   brewPartial: 1,       // potions a Partial brew makes (v0.5: the same as a success)

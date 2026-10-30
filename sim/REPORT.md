@@ -1,6 +1,6 @@
 # Witch & Ward: simulator report
 
-Rules: `docs/CORE-RULES.md` v0.6. Command: `node sim/run.mjs --runs 2000 --seed 1 --sweep-runs 500`. 2,000 episodes per cell, 36,000 in all. Same seed, same report.
+Rules: `docs/CORE-RULES.md` v0.7. Command: `node sim/run.mjs --runs 2000 --seed 1 --sweep-runs 500`. 2,000 episodes per cell, 36,000 in all. Same seed, same report.
 
 A **cell** is one difficulty label, one number of players (3, 4 or 5), with or without a guardian player. With a guardian player, one player plays the guardian and the rest play witches. **Win / Partial / Loss** are the episode results from CORE-RULES "The end".
 
@@ -8,20 +8,20 @@ A **cell** is one difficulty label, one number of players (3, 4 or 5), with or w
 
 | Target (DESIGN Q16) | Easy | Standard | Hard | On target? |
 |---|---|---|---|---|
-| Win: Easy ~90%, Standard ~75%, Hard 55–60% | 87% | 73% | 56% | yes |
-| Loss: Easy ≤5%, Standard 5–15%, Hard 15–30% | 0% | 9% | 26% | yes |
-| Every cell within 5 points of its label's win target | 85–90% | 69–79% | 53–60% | **no** |
-| Guardian player within 5 points of an extra witch | 3.1 / 3.7 / 1.0 | 5.3 / 1.3 / 4.0 | 3.8 / -2.0 / 1.1 | **no** |
-| Showdown: median 3–5 rounds | 2 (90%: 3, most 7) | 3 (90%: 4, most 8) | 4 (90%: 5, most 9) | **no** |
-| A witch Down: Easy ≤15%, Standard ≥25%, Hard ≥40% of episodes | 1% | 32% | 62% | yes |
-| Criticals 15–25% of rolls | 13% | 13% | 12% | **no** |
+| Win: Easy ~90%, Standard ~75%, Hard 55–60% | 85% | 73% | 59% | **no** |
+| Loss: Easy ≤5%, Standard 5–15%, Hard 15–30% | 0% | 8% | 23% | yes |
+| Every cell within 5 points of its label's win target | 80–90% | 67–79% | 56–62% | **no** |
+| Guardian player within 5 points of an extra witch | 3.8 / 3.3 / 3.3 | 4.0 / 3.4 / 4.7 | -0.4 / -1.3 / 0.2 | yes |
+| Showdown: median 3–5 rounds | 2 (90%: 3, most 8) | 3 (90%: 4, most 7) | 4 (90%: 5, most 8) | **no** |
+| A witch Down: Easy ≤15%, Standard ≥25%, Hard ≥40% of episodes | 2% | 39% | 61% | yes |
+| Criticals 15–25% of rolls | 13% | 14% | 13% | **no** |
 | Failures 10–20% of rolls | 13% | 16% | 18% | yes |
 | The median witch spends at least half of their Magic | 83% | 83% | 83% | yes |
-| The guardian spends at least half its Ward (median) | 40% | 60% | 60% | **no** |
-| 70% or more of brewed potions get used | 50% | 73% | 78% | **no** |
-| Seen in 5–15% of Standard episodes | 0% | 6% | 11% | yes |
+| The guardian spends at least half its Ward (median) | 40% | 60% | 40% | **no** |
+| 70% or more of brewed potions get used | 46% | 61% | 68% | **no** |
+| Seen in 5–15% of Standard episodes | 0% | 5% | 9% | **no** |
 | The Showdown mark forces a public fight in 15–40% of episodes | 1% | 21% | 34% | yes |
-| Every Power within 5 points of the average | Force +0.1, Flame -0.2, Sight +0.2, Voice +0.0, Veil -1.4, Wild +1.3 | | | yes |
+| Every Power within 5 points of the average | Force -1.1, Flame -1.2, Sight -0.2, Voice +1.4, Veil -0.3, Wild +1.3 | | | yes |
 
 The public-fight row is pooled over all labels (19%); the guardian row reads 3 / 4 / 5 players (points of win rate, guardian minus witch).
 
@@ -29,24 +29,24 @@ The public-fight row is pooled over all labels (19%); the guardian row reads 3 /
 
 | Label | Players | Guardian player | Witches | Win | Partial | Loss | Threat destroyed | Threat fled | Doom filled | Every witch Down |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Easy | 3 | no | 3 | 87% | 13% | 0% | 87% | 13% | 0% | 0% |
+| Easy | 3 | no | 3 | 86% | 14% | 0% | 86% | 14% | 0% | 0% |
 | Easy | 3 | yes | 2 | 90% | 10% | 0% | 90% | 10% | 0% | 0% |
-| Easy | 4 | no | 4 | 85% | 15% | 0% | 86% | 14% | 0% | 0% |
-| Easy | 4 | yes | 3 | 89% | 11% | 0% | 89% | 11% | 0% | 0% |
-| Easy | 5 | no | 5 | 86% | 14% | 0% | 86% | 14% | 0% | 0% |
-| Easy | 5 | yes | 4 | 87% | 13% | 0% | 87% | 13% | 0% | 0% |
-| Standard | 3 | no | 3 | 73% | 15% | 12% | 76% | 15% | 0% | 9% |
-| Standard | 3 | yes | 2 | 79% | 13% | 8% | 81% | 12% | 0% | 7% |
-| Standard | 4 | no | 4 | 72% | 20% | 8% | 75% | 21% | 0% | 5% |
-| Standard | 4 | yes | 3 | 74% | 15% | 11% | 76% | 16% | 0% | 8% |
-| Standard | 5 | no | 5 | 69% | 23% | 8% | 73% | 25% | 0% | 2% |
-| Standard | 5 | yes | 4 | 73% | 20% | 7% | 76% | 21% | 0% | 3% |
-| Hard | 3 | no | 3 | 56% | 14% | 31% | 58% | 17% | 0% | 25% |
-| Hard | 3 | yes | 2 | 60% | 17% | 23% | 64% | 17% | 0% | 19% |
-| Hard | 4 | no | 4 | 55% | 19% | 27% | 57% | 23% | 0% | 20% |
-| Hard | 4 | yes | 3 | 53% | 17% | 31% | 57% | 17% | 0% | 26% |
-| Hard | 5 | no | 5 | 56% | 23% | 22% | 61% | 28% | 0% | 11% |
-| Hard | 5 | yes | 4 | 57% | 23% | 20% | 63% | 25% | 0% | 12% |
+| Easy | 4 | no | 4 | 83% | 17% | 0% | 83% | 17% | 0% | 0% |
+| Easy | 4 | yes | 3 | 86% | 14% | 0% | 86% | 14% | 0% | 0% |
+| Easy | 5 | no | 5 | 80% | 20% | 0% | 80% | 20% | 0% | 0% |
+| Easy | 5 | yes | 4 | 84% | 16% | 0% | 84% | 16% | 0% | 0% |
+| Standard | 3 | no | 3 | 75% | 15% | 9% | 78% | 15% | 0% | 7% |
+| Standard | 3 | yes | 2 | 79% | 15% | 6% | 82% | 14% | 0% | 4% |
+| Standard | 4 | no | 4 | 71% | 20% | 8% | 74% | 22% | 0% | 5% |
+| Standard | 4 | yes | 3 | 75% | 16% | 9% | 77% | 17% | 0% | 7% |
+| Standard | 5 | no | 5 | 67% | 25% | 8% | 72% | 27% | 0% | 1% |
+| Standard | 5 | yes | 4 | 72% | 21% | 7% | 74% | 24% | 0% | 3% |
+| Hard | 3 | no | 3 | 61% | 13% | 26% | 65% | 15% | 0% | 21% |
+| Hard | 3 | yes | 2 | 60% | 19% | 20% | 64% | 19% | 0% | 17% |
+| Hard | 4 | no | 4 | 57% | 19% | 24% | 61% | 23% | 0% | 16% |
+| Hard | 4 | yes | 3 | 56% | 13% | 31% | 58% | 15% | 0% | 27% |
+| Hard | 5 | no | 5 | 61% | 20% | 18% | 68% | 24% | 0% | 9% |
+| Hard | 5 | yes | 4 | 62% | 19% | 19% | 65% | 22% | 0% | 13% |
 
 A Partial is a threat that fled, or a destroyed threat whose innocent was lost; being Seen also drops a Win to a Partial and a Partial to a Loss.
 
@@ -58,20 +58,20 @@ A Partial is a threat that fled, or a destroyed threat whose innocent was lost; 
 | Doom when the showdown starts (mean, mark 5) | 3.1 | 4.1 | 4.3 |
 | Weakness known when the showdown starts | 100% | 97% | 92% |
 | Showdown mark reached: public fight with the innocent there | 1% | 21% | 34% |
-| Showdown rounds: median / 90% / most | 2 / 3 / 7 | 3 / 4 / 8 | 4 / 5 / 9 |
-| Unmaking rolls that destroy the threat | 87% | 81% | 74% |
-| Seen (Exposure full) | 0% | 6% | 11% |
-| Public fights where Exposure pressed (a round without magic, or Seen) | 31% | 83% | 89% |
-| Innocent lost | 0% | 2% | 4% |
+| Showdown rounds: median / 90% / most | 2 / 3 / 8 | 3 / 4 / 7 | 4 / 5 / 8 |
+| Unmaking rolls that destroy the threat | 85% | 79% | 77% |
+| Seen (Exposure full) | 0% | 5% | 9% |
+| Public fights where Exposure pressed (a round without magic, or Seen) | 30% | 76% | 85% |
+| Innocent lost | 0% | 3% | 6% |
 
 ## 4. Witches taken out
 
 | | Easy | Standard | Hard |
 |---|---|---|---|
-| Episodes with at least one witch Down | 1% | 32% | 62% |
-| Witches Down per episode | 0.0 | 0.5 | 1.3 |
-| Share of all witches who go Down | 0% | 15% | 37% |
-| Guardian Down (episodes with a guardian player) | 0% | 25% | 50% |
+| Episodes with at least one witch Down | 2% | 39% | 61% |
+| Witches Down per episode | 0.0 | 0.6 | 1.2 |
+| Share of all witches who go Down | 1% | 16% | 34% |
+| Guardian Down (episodes with a guardian player) | 1% | 45% | 65% |
 
 Nobody dies from the dice; Down means out of action until mended or the episode ends.
 
@@ -79,15 +79,15 @@ Nobody dies from the dice; Down means out of action until mended or the episode 
 
 | | Easy | Standard | Hard |
 |---|---|---|---|
-| Player rolls per episode | 17 | 24 | 27 |
-| Criticals / Partials / Failures (share of rolls) | 13% / 1% / 13% | 13% / 29% / 16% | 12% / 29% / 18% |
+| Player rolls per episode | 18 | 23 | 26 |
+| Criticals / Partials / Failures (share of rolls) | 13% / 1% / 13% | 14% / 28% / 16% | 13% / 29% / 18% |
 | Magic spent by the median witch | 83% | 83% | 83% |
 | Witches who spend at least half their Magic | 100% | 99% | 97% |
 | Witches who answer their Life | 67% | 66% | 66% |
-| Ward spent by the median guardian | 40% | 60% | 60% |
-| Guardians who spend at least half their Ward | 24% | 77% | 72% |
-| Potions brewed per episode / share used | 3.2 / 50% | 2.3 / 73% | 2.4 / 78% |
-| No guardian player: the call is used | 2% | 48% | 77% |
+| Ward spent by the median guardian | 40% | 60% | 40% |
+| Guardians who spend at least half their Ward | 37% | 57% | 48% |
+| Potions brewed per episode / share used | 3.2 / 46% | 2.3 / 61% | 2.4 / 68% |
+| No guardian player: the call is used | 3% | 48% | 70% |
 
 ## 6. What gets used
 
@@ -100,27 +100,27 @@ Average uses per episode (gifts per episode with a guardian player; the call per
 | Reveal (spell) | 2.57 | 0.90 | 0.90 |
 | Life answered | 2.34 | 2.31 | 2.32 |
 | Rest | 0.01 | 0.38 | 0.45 |
-| Hide (spell) | 0.01 | 0.30 | 0.34 |
-| Plain attacks (Nerve) | 1.95 | 4.75 | 6.24 |
-| Blast (spell) | 1.57 | 1.02 | 0.91 |
-| Bind (spell) | 0.10 | 0.24 | 0.23 |
-| Study the threat | 0.00 | 0.15 | 0.36 |
-| Guard the innocent (rounds) | 0.01 | 0.27 | 0.44 |
-| Unmaking attempts | 1.00 | 0.94 | 0.81 |
-| Surge: Force | 0.10 | 0.11 | 0.07 |
-| Surge: Flame | 0.10 | 0.12 | 0.08 |
-| Surge: Sight | 0.62 | 0.85 | 1.08 |
+| Hide (spell) | 0.01 | 0.30 | 0.33 |
+| Plain attacks (Nerve) | 2.18 | 3.94 | 5.59 |
+| Blast (spell) | 1.42 | 0.56 | 0.37 |
+| Bind (spell) | 0.24 | 0.43 | 0.40 |
+| Study the threat | 0.00 | 0.13 | 0.34 |
+| Guard the innocent (rounds) | 0.01 | 0.31 | 0.52 |
+| Unmaking attempts | 1.00 | 0.95 | 0.83 |
+| Surge: Force | 0.09 | 0.09 | 0.05 |
+| Surge: Flame | 0.10 | 0.10 | 0.06 |
+| Surge: Sight | 0.75 | 1.07 | 1.15 |
 | Surge: Voice | 0.20 | 0.68 | 0.69 |
 | Surge: Veil | 0.00 | 0.04 | 0.05 |
 | Surge: Wild | 0.06 | 0.07 | 0.07 |
 | Potions brewed: Blasting / Healing / Binding | 0.95 / 0.98 / 0.96 | 0.75 / 0.73 / 0.73 | 0.76 / 0.77 / 0.75 |
-| Potions used: Blasting / Healing / Binding | 0.87 / 0.02 / 0.69 | 0.72 / 0.29 / 0.66 | 0.74 / 0.40 / 0.71 |
-| Guardian: Mend | 0.26 | 1.26 | 1.13 |
-| Guardian: Shield | 0.02 | 0.13 | 0.12 |
-| Guardian: Carry | 0.01 | 0.13 | 0.19 |
+| Potions used: Blasting / Healing / Binding | 0.88 / 0.05 / 0.55 | 0.70 / 0.35 / 0.35 | 0.72 / 0.43 / 0.47 |
+| Guardian: Mend | 0.41 | 0.74 | 0.67 |
+| Guardian: Shield | 0.22 | 0.35 | 0.21 |
+| Guardian: Carry | 0.01 | 0.04 | 0.06 |
 | Guardian: Sense | 2.00 | 2.00 | 2.00 |
-| Guardian: Hold | 1.93 | 0.49 | 0.44 |
-| No guardian player: call for Carry / Mend | 0.01 / 0.01 | 0.20 / 0.29 | 0.31 / 0.46 |
+| Guardian: Hold | 1.66 | 0.10 | 0.14 |
+| No guardian player: call for Carry / Mend | 0.01 / 0.02 | 0.19 / 0.29 | 0.29 / 0.41 |
 
 ## 7. Powers
 
@@ -128,26 +128,26 @@ Win-rate difference for covens that include each Power, compared with the averag
 
 | Power | Win difference | Witch goes Down | Damage dealt per episode |
 |---|---|---|---|
-| Force | +0.1 points | 17% | 5.5 |
-| Flame | -0.2 points | 18% | 6.2 |
-| Sight | +0.2 points | 19% | 2.5 |
-| Voice | +0.0 points | 24% | 2.6 |
-| Veil | -1.4 points | 11% | 5.5 |
-| Wild | +1.3 points | 15% | 3.4 |
+| Force | -1.1 points | 20% | 4.8 |
+| Flame | -1.2 points | 19% | 5.4 |
+| Sight | -0.2 points | 22% | 2.0 |
+| Voice | +1.4 points | 17% | 2.4 |
+| Veil | -0.3 points | 9% | 5.1 |
+| Wild | +1.3 points | 14% | 2.2 |
 
 ## 8. Guardian player or one more witch
 
 | Label | Players | All witches: win / loss | With a guardian player: win / loss | Difference in win |
 |---|---|---|---|---|
-| Easy | 3 | 87% / 0% | 90% / 0% | +3.1 |
-| Easy | 4 | 85% / 0% | 89% / 0% | +3.7 |
-| Easy | 5 | 86% / 0% | 87% / 0% | +1.0 |
-| Standard | 3 | 73% / 12% | 79% / 8% | +5.3 |
-| Standard | 4 | 72% / 8% | 74% / 11% | +1.3 |
-| Standard | 5 | 69% / 8% | 73% / 7% | +4.0 |
-| Hard | 3 | 56% / 31% | 60% / 23% | +3.8 |
-| Hard | 4 | 55% / 27% | 53% / 31% | -2.0 |
-| Hard | 5 | 56% / 22% | 57% / 20% | +1.1 |
+| Easy | 3 | 86% / 0% | 90% / 0% | +3.8 |
+| Easy | 4 | 83% / 0% | 86% / 0% | +3.3 |
+| Easy | 5 | 80% / 0% | 84% / 0% | +3.3 |
+| Standard | 3 | 75% / 9% | 79% / 6% | +4.0 |
+| Standard | 4 | 71% / 8% | 75% / 9% | +3.4 |
+| Standard | 5 | 67% / 8% | 72% / 7% | +4.7 |
+| Hard | 3 | 61% / 26% | 60% / 20% | -0.4 |
+| Hard | 4 | 57% / 24% | 56% / 31% | -1.3 |
+| Hard | 5 | 61% / 18% | 62% / 19% | +0.2 |
 
 ## 9. Exact odds of the core roll
 
@@ -172,31 +172,31 @@ Each row changes one setting and re-runs Standard and Hard (500 episodes per cel
 
 | Setting | Value | Standard win / loss | Hard win / loss |
 |---|---|---|---|
-| (defaults) | — | 73% / 9% | 56% / 24% |
-| judgement: signature | heavy | 73% / 8% | 57% / 23% |
-| judgement: fightPartialCost | none | 75% / 7% | 60% / 19% |
-| judgement: investigationCost | none | 84% / 2% | 72% / 10% |
-| judgement: brokenFlees | thisRound | 18% / 9% | 11% / 25% |
-| judgement: bookPerScene | 99 | 76% / 8% | 59% / 23% |
-| players: magic | careful | 71% / 14% | 55% / 32% |
-| players: go | weaknessOrLate | 70% / 10% | 55% / 25% |
-| players: go | asap | 12% / 72% | 4% / 90% |
-| players: go | waitForWeakness | 73% / 8% | 57% / 24% |
-| players: life | always | 70% / 13% | 52% / 32% |
-| players: life | never | 73% / 6% | 60% / 18% |
-| players: brew | one | 72% / 8% | 55% / 26% |
-| players: brew | none | 72% / 9% | 50% / 30% |
-| players: brew | two | 73% / 9% | 57% / 24% |
-| players: ratings | random | 72% / 9% | 55% / 27% |
-| players: publicCare | reckless | 70% / 9% | 50% / 23% |
-| preset | generous (every open rule read for the players) | 85% / 1% | 78% / 7% |
-| preset | strict (every open rule read against them) | 18% / 9% | 12% / 23% |
-| rules | v0.1 Unmaking (1 die per joiner, fixed Difficulty, Partial destroys) | 81% / 7% | 67% / 22% |
-| rules | v0.2 innocent (not held at the start of a public showdown) | 77% / 6% | 63% / 18% |
-| rules | v0.2 Weakness (no Defence +1 without it, no extra damage with it) | 60% / 21% | 35% / 49% |
-| rules | v0.3 potions (using one is an action, brewing is its own action, one potion per brew) | 62% / 20% | 37% / 49% |
-| rules | no extra Toughness against 3 characters | 74% / 8% | 57% / 23% |
-| rules | success on 5–6 instead of 4–6 | 13% / 67% | 5% / 85% |
+| (defaults) | — | 74% / 7% | 60% / 22% |
+| judgement: signature | heavy | 74% / 7% | 61% / 20% |
+| judgement: fightPartialCost | none | 74% / 6% | 63% / 18% |
+| judgement: investigationCost | none | 84% / 1% | 77% / 6% |
+| judgement: brokenFlees | thisRound | 18% / 7% | 13% / 22% |
+| judgement: bookPerScene | 99 | 74% / 7% | 61% / 22% |
+| players: magic | careful | 72% / 13% | 56% / 31% |
+| players: go | weaknessOrLate | 71% / 9% | 59% / 22% |
+| players: go | asap | 16% / 59% | 6% / 84% |
+| players: go | waitForWeakness | 74% / 7% | 60% / 22% |
+| players: life | always | 75% / 10% | 59% / 29% |
+| players: life | never | 71% / 5% | 61% / 15% |
+| players: brew | one | 73% / 7% | 60% / 21% |
+| players: brew | none | 73% / 7% | 58% / 24% |
+| players: brew | two | 73% / 7% | 60% / 22% |
+| players: ratings | random | 74% / 8% | 58% / 25% |
+| players: publicCare | reckless | 71% / 7% | 54% / 21% |
+| preset | generous (every open rule read for the players) | 85% / 1% | 78% / 5% |
+| preset | strict (every open rule read against them) | 16% / 7% | 12% / 20% |
+| rules | v0.1 Unmaking (1 die per joiner, fixed Difficulty, Partial destroys) | 83% / 5% | 69% / 20% |
+| rules | v0.2 innocent (not held at the start of a public showdown) | 75% / 5% | 64% / 16% |
+| rules | v0.2 Weakness (no Defence +1 without it, no extra damage with it) | 67% / 14% | 44% / 40% |
+| rules | v0.3 potions (using one is an action, brewing is its own action, one potion per brew) | 66% / 17% | 43% / 43% |
+| rules | no extra Toughness against 3 characters | 74% / 7% | 61% / 21% |
+| rules | success on 5–6 instead of 4–6 | 15% / 62% | 7% / 82% |
 
 What each setting means:
 
@@ -218,8 +218,8 @@ Eight episodes in a row with the same coven (500 seasons each for 3 witches, 3 w
 
 | Label | Ep 1 | Ep 2 | Ep 3 | Ep 4 | Ep 5 | Ep 6 | Ep 7 | Ep 8 |
 |---|---|---|---|---|---|---|---|---|
-| Standard | 74 / 11 | 74 / 10 | 78 / 8 | 80 / 6 | 78 / 5 | 77 / 6 | 75 / 7 | 76 / 6 |
-| Hard | 55 / 28 | 56 / 27 | 61 / 22 | 65 / 20 | 63 / 20 | 63 / 19 | 62 / 21 | 61 / 21 |
+| Standard | 73 / 9 | 73 / 9 | 80 / 7 | 81 / 5 | 83 / 4 | 81 / 4 | 82 / 4 | 82 / 4 |
+| Hard | 60 / 25 | 59 / 25 | 66 / 20 | 70 / 17 | 70 / 17 | 70 / 16 | 71 / 17 | 70 / 17 |
 
 ## 12. Rule gaps and findings
 
@@ -246,6 +246,8 @@ Eight episodes in a row with the same coven (500 seasons each for 3 witches, 3 w
 | broken | Potions skipped too many rolls (v0.5) | Potions; The threat | Blasting potions did damage with no roll and no action, and Bind plus a Binding potion cancelled every attack. v0.6: Blasting adds 2 damage to an attack that works; the threat loses at most one attack a round; a Partial brew makes one potion. | v0.6 (playtest B) |
 | broken | Sense was dominated by helping (v0.5) | Gifts: Sense | Same cost as a Ward helper, same die, but only on leads. v0.6: its die sits outside the +2 limit. (A '+1 Clue' version made guardian covens about 10 points stronger.) | v0.6 (playtest B) |
 | broken | Later season episodes got much easier (v0.5) | The end: Season | Growth with no matching threat growth took Standard from 74% to 87% wins by episode 5. v0.6: threats get 1 more Toughness per witch at each growth step. Later episodes still run 3–8 points easier than a one-off, mostly from Book pages. | v0.6 |
+| broken | Covens Broke the threat before it acted (v0.6) | Showdown | Every character acted before the threat, and with the Weakness, Surges and potions a coven Broke a Standard threat in round 1 about 90% of the time (verification playtest). v0.7: the threat acts first in round 1; Binding needs a working attack; lost attacks beyond one a round are wasted; Shield once a round. | v0.7 (verification playtest) |
+| info | Going early is only a real choice one scene before the mark | Investigation | Before Doom 4 there's no reason to go without the Weakness: waiting costs nothing until the next scene would reach the mark. The choice that matters is at Doom 4 (go now, hidden, maybe without the Weakness; or wait, likely be found in public with it). Rushing in early loses badly (section 10). | kept |
 | info | Veil's Surge covers a whole public showdown | Powers: Veil | The showdown is one scene, so one Veil Surge removes Exposure for the rest of a public fight. It's Veil's job and Veil isn't above average (§7), so it stays; watch it in later playtests. | kept |
 | info | Players should keep 2 Magic for the Unmaking | Magic | Covens that spent down to 0 couldn't afford the Unmaking and the threat fled. The simulated players keep 2 each until the threat is Broken; the book should give that advice. | v0.2 (advice) |
 | broken | The innocent was almost never lost, and going in early beat waiting for the Weakness (v0.2) | The threat; The Unmaking | In v0.2 guarding or carrying the innocent always worked, and a coven that went in without the Weakness did as well or better than one that waited and was found (Hard: 20% vs 10% losses). v0.3: a public showdown starts with the threat holding the innocent (free them in round 1 or lose them), and until the coven knows the Weakness the threat's Defence is 1 higher; once it knows, attacks that work do 1 more damage. Waiting for the Weakness and going early now come out within about a point of each other, and rushing in with half the Clues loses badly. | v0.3 (Richard, 2026-10-30) |
@@ -278,7 +280,7 @@ Not modelled:
 | defence | 1 | 2 | 2 |
 | attack | 1 | 3 | 3 |
 | hit | 2 | 2 | 3 |
-| tWitch | 3 | 4 | 5 |
+| tWitch | 3 | 3 | 4 |
 | cluesPer | 3 | 4 | 4 |
 | cluesAdd | 0 | -1 | 0 |
 | mark | 5 | 5 | 5 |
