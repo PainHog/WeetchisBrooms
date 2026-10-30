@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Build / packaging output (root only: a bare `dist/` would also hide book/dist/ and its PDFs)
+/dist/
+*.zip
+
+# Foundry LevelDB runtime noise ONLY — the numbered *.log files are the write-
+# ahead log and DO contain pack data, so they must be committed. Ignore just the
+# lock file and the human-readable debug log.
+packs/**/LOCK
+packs/**/LOG
+packs/**/LOG.old
+
+# Book build intermediates (the finished PDFs in book/dist/ are committed)
+book/dist/*
+!book/dist/*.pdf
+book/dist/*.pass1.pdf
+book/dist/*.pass2.pdf
+book/dist/*.print.html
+book/dist/*.html

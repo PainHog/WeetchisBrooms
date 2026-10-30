@@ -1,0 +1,517 @@
+/* ==========================================================================
+   WITCH & WARD — Rulebook print stylesheet
+   US Letter, printed by Chromium with native CSS paged media.
+
+   ART DIRECTION IS UNDECIDED. Every colour below is a neutral PLACEHOLDER
+   palette, defined once here as tokens; nothing further down uses a literal
+   colour. When the palette is chosen, change the tokens (and book/art/README.md,
+   and the Foundry system's styles) — not the rules below.
+   The typefaces are placeholders too (SIL OFL @fontsource packages loaded by
+   book/build.mjs); swap them there and in the font tokens.
+   ========================================================================== */
+
+:root {
+  --page-mt: 0.72in;   /* @page top margin — ornaments anchored to the paper edge use it */
+  --page-ml: 0.68in;
+
+  /* --- PLACEHOLDER palette (neutral greys + one muted accent) --- */
+  --dark: #3a3a3c;          /* primary dark fill, headings */
+  --dark-deep: #222224;     /* full-bleed pages, table heads, rule boxes */
+  --dark-soft: #5c5c60;     /* highlights on dark */
+  --paper: #f2f1ee;         /* the page */
+  --paper-2: #e3e1dc;       /* secondary light fill (boxes, stat lines) */
+  --paper-edge: #c9c6bf;    /* soft lines on light */
+  --paper-light: #faf9f6;   /* lightest fill (example boxes, sheet fields) */
+  --ink: #161618;           /* body text, linework */
+  --ink-soft: #5a5a5e;      /* captions, quiet text */
+  --footer: #85847f;        /* running footer */
+  --accent: #7a7f88;        /* rules, list markers, borders */
+  --accent-deep: #555a63;   /* labels on light */
+  --accent-bright: #e4e6ea; /* labels on dark */
+  --alarm: #7c2a2a;         /* danger / warning headings */
+  --alarm-bright: #b5473f;
+  --good: #3f6f52;          /* calm / safe (sparingly) */
+
+  --display: "Fraunces", Georgia, serif;          /* PLACEHOLDER typeface */
+  --text: "Alegreya", Georgia, serif;             /* PLACEHOLDER typeface */
+  --sans: "Alegreya Sans", "Segoe UI", sans-serif; /* PLACEHOLDER typeface */
+}
+
+/* ------------------------------------------------------------ pages ----- */
+@page {
+  size: 8.5in 11in;
+  margin: 0.72in 0.68in 0.78in 0.68in;
+  background: var(--paper);
+  @bottom-center {
+    content: counter(page);   /* the build prefixes the book title (book/build.mjs FOOTER_CSS) */
+    font-family: "Alegreya Sans", sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--footer);
+    vertical-align: top;
+    padding-top: 0.22in;
+  }
+}
+@page cover { margin: 0; background: var(--dark-deep); @bottom-center { content: none; } }
+@page part  { margin: 0; background: var(--dark-deep); @bottom-center { content: none; } }
+@page toc   { @bottom-center { content: none; } }
+
+html { background: var(--paper); }
+body {
+  margin: 0;
+  font-family: var(--text);
+  font-size: 10.2pt;
+  line-height: 1.34;
+  color: var(--ink);
+  font-variant-numeric: lining-nums proportional-nums;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  orphans: 3;
+  widows: 3;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+}
+
+/* invisible, zero-size page locators for the TOC pass */
+.pdf-marker { position: absolute; font-size: 4pt; line-height: 1; color: rgba(0,0,0,.02); white-space: nowrap; }
+
+/* ------------------------------------------------------------ art ------- */
+figure.art { margin: 0; }
+figure.art svg { display: block; width: 100%; height: auto; }
+.art-missing {
+  display: grid; place-items: center; min-height: 0.9in;
+  border: 1.5px dashed var(--alarm); color: var(--alarm); font: 700 9pt var(--sans);
+  background: repeating-linear-gradient(45deg, transparent 0 8px, color-mix(in srgb, var(--alarm) 6%, transparent) 8px 16px);
+}
+
+/* PLACEHOLDER marker for unwritten text: visible on every proof so nothing ships by accident */
+.placeholder {
+  outline: 1.5px dashed var(--alarm-bright);
+  outline-offset: 2px;
+  background: color-mix(in srgb, var(--alarm-bright) 7%, transparent);
+}
+
+/* ------------------------------------------------------------ cover ----- */
+.cover {
+  page: cover;
+  position: relative;
+  width: 8.5in; height: 11in;
+  overflow: hidden;
+  break-after: page;
+  color: var(--paper);
+  background: var(--dark-deep);
+}
+.cover .cover-art { position: absolute; inset: 0; }
+/* scrim under the lettering (text-shadow would be printed as duplicate text) */
+.cover::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3.4in; z-index: 1;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--dark-deep) 78%, transparent), color-mix(in srgb, var(--dark-deep) 45%, transparent) 70%, transparent);
+}
+.cover::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1.3in; z-index: 1;
+  background: linear-gradient(to top, color-mix(in srgb, var(--dark-deep) 80%, transparent), transparent);
+}
+.cover .cover-art svg { width: 8.5in; height: 11in; }
+.cover-inner, .cover > :not(figure) { position: relative; z-index: 2; }
+.cover h1.cover-title {
+  margin: 0.8in 0 0;
+  text-align: center;
+  font: 900 48pt/0.9 var(--display);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.cover .cover-subtitle {
+  margin: 0.14in auto 0; max-width: 6in; text-align: center;
+  font: italic 600 15pt/1.3 var(--display); color: var(--paper);
+}
+.cover .cover-tagline {
+  margin: 0.1in auto 0; max-width: 4.6in; text-align: center;
+  font: 500 10.5pt/1.4 var(--sans); color: var(--paper-2);
+}
+.cover .cover-edition {
+  position: absolute; left: 0; right: 0; bottom: 0.5in; margin: 0; text-align: center; z-index: 2;
+  font: 800 11pt var(--sans); letter-spacing: 0.45em; text-transform: uppercase; color: var(--accent-bright);
+}
+
+/* chapter epigraph */
+.epigraph {
+  column-span: all;
+  margin: 0 0.4in 0.14in;
+  text-align: center;
+  font: italic 500 11pt/1.45 var(--display);
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------------------------ toc ------- */
+.toc { page: toc; break-after: page; position: relative; }
+/* optional ornament anchored in the actual corner of the paper (book/build.mjs TOC_ART) */
+.toc .toc-art { position: absolute; top: calc(-1 * var(--page-mt)); left: calc(-1 * var(--page-ml)); width: 1.4in; opacity: .8; }
+.toc h2 {
+  margin: 0.1in 0 0.25in; text-align: center;
+  font: 900 26pt var(--display); color: var(--dark-deep);
+}
+.toc-list { list-style: none; margin: 0 auto; padding: 0; max-width: 5.6in; }
+.toc-list a { display: flex; align-items: baseline; gap: 6px; color: inherit; text-decoration: none; }
+.toc-list .toc-title { flex: 0 1 auto; }
+.toc-list a::after { content: ""; order: 2; flex: 1 1 auto; border-bottom: 1.2px dotted var(--paper-edge); transform: translateY(-3px); }
+.toc-list .toc-page { order: 3; font: 700 10.5pt var(--sans); letter-spacing: 0; color: var(--dark); font-variant-numeric: lining-nums; }
+.toc-part { margin: 0.3in 0 0.1in; }
+.toc-part a { font: 800 11pt var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--alarm); }
+.toc-part .toc-label { color: var(--accent-deep); }
+.toc-chapter, .toc-sheet { margin: 0.068in 0; font-size: 10.8pt; }
+.toc-chapter .toc-label { flex: 0 0 0.95in; font: 600 8.5pt var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--accent-deep); }
+.toc-sheet { margin-top: 0.24in; font-weight: 700; }
+.toc-sheet .toc-label { flex: 0 0 0.95in; }
+
+/* ------------------------------------------------------------ part pages */
+.part {
+  page: part;
+  break-before: page; break-after: page;
+  width: 8.5in; height: 11in;
+  box-sizing: border-box;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 0.9in 0.5in;
+  text-align: center;
+  color: var(--paper);
+  background:
+    radial-gradient(ellipse at 50% 42%, color-mix(in srgb, var(--dark-soft) 55%, transparent), transparent 62%),
+    var(--dark-deep);
+}
+.part-kicker { margin: 0; font: 800 12pt var(--sans); letter-spacing: .45em; text-transform: uppercase; color: var(--accent-bright); }
+.part h1 { margin: 0.12in 0 0.18in; font: 900 42pt/1 var(--display); color: var(--paper); }
+.part-lede { margin: 0 auto 0.2in; max-width: 4.8in; font: italic 13pt/1.4 var(--display); color: var(--paper-2); }
+.part .part-art { margin: 0.5in auto 0; width: 6.7in; }
+
+/* ------------------------------------------------------------ chapters -- */
+.chapter {
+  break-before: page;
+  columns: 2;
+  column-gap: 0.3in;
+  column-fill: balance;
+}
+.chapter-head { column-span: all; margin: 0 0 0.16in; position: relative; }
+.chapter-head .chapter-art {
+  margin: 0 0 0.08in;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px solid var(--paper-edge);
+  box-shadow: 0 2px 0 var(--paper-edge);
+  height: 1.8in;
+  background: var(--paper-2);
+}
+.chapter-head .chapter-art svg { width: 100%; height: 100%; }
+.chapter-num {
+  margin: 0; font: 800 9pt var(--sans); letter-spacing: .35em; text-transform: uppercase; color: var(--accent-deep);
+}
+.chapter-head h2 {
+  margin: 0.02in 0 0; padding-bottom: 0.07in;
+  font: 900 25pt/1.05 var(--display); color: var(--dark-deep);
+  border-bottom: 2.5px solid var(--accent);
+}
+
+h3 {
+  margin: 0.16in 0 0.05in;
+  font: 800 13.5pt/1.15 var(--display);
+  color: var(--dark);
+  break-after: avoid;
+}
+h4 {
+  margin: 0.1in 0 0.03in;
+  font: 800 9.4pt/1.2 var(--sans);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--alarm);
+  break-after: avoid;
+}
+p { margin: 0 0 0.075in; }
+p + p { text-indent: 0; }
+strong { font-weight: 800; color: var(--dark-deep); }
+em { font-style: italic; }
+ul, ol { margin: 0.02in 0 0.09in; padding-left: 0.2in; }
+li { margin: 0 0 0.035in; }
+li::marker { color: var(--accent-deep); }
+
+/* drop cap */
+p.opener::first-letter {
+  float: left;
+  font: 900 40pt/0.82 var(--display);
+  color: var(--dark);
+  margin: 0.03in 0.07in 0 0;
+  padding: 0.02in 0.04in 0 0;
+}
+p.opener::first-line { font-variant: small-caps; letter-spacing: .03em; font-weight: 700; }
+
+/* ------------------------------------------------------------ boxes ----- */
+.box {
+  break-inside: avoid;
+  margin: 0.08in 0 0.12in;
+  padding: 0.09in 0.12in 0.05in;
+  border-radius: 5px;
+  background: var(--paper-2);
+  border: 1px solid var(--paper-edge);
+  font-size: 9.8pt;
+  line-height: 1.33;
+}
+.box h4 { margin: 0 0 0.05in; }
+.box > :last-child { margin-bottom: 0.04in; }
+.box.rule {                                   /* a key rule */
+  background: var(--dark-deep); color: var(--paper); border: none;
+  box-shadow: inset 0 0 0 2px var(--accent), 0 2px 0 var(--accent-deep);
+}
+.box.rule h4 { color: var(--accent-bright); }
+.box.rule strong { color: var(--accent-bright); }
+.box.example { background: var(--paper-light); border: 1.5px dashed var(--accent); }   /* worked example */
+.box.example h4 { color: var(--accent-deep); }
+.box.gm { border-top: 5px solid var(--alarm); background: color-mix(in srgb, var(--alarm) 9%, var(--paper)); }   /* advice for whoever runs the game (title TBD) */
+.box.gm h4 { color: var(--alarm); }
+.box.designer { border-left: 5px solid var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--paper)); }
+.box.designer h4 { color: var(--accent-deep); }
+.box.list { border-left: 5px solid var(--dark); }   /* checklists, tips */
+.box.list h4 { color: var(--dark); }
+
+/* ------------------------------------------------------------ tables ---- */
+.tbl {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0.06in 0 0.13in;
+  font: 9pt/1.28 var(--sans);
+  font-variant-numeric: lining-nums;
+  border: 1px solid var(--paper-edge);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.tbl.wide { column-span: all; }
+.tbl thead { display: table-header-group; }
+.tbl th {
+  background: var(--dark-deep); color: var(--paper);
+  font: 800 8pt/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  text-align: left; padding: 0.045in 0.06in;
+}
+.tbl td { padding: 0.04in 0.06in; vertical-align: top; border-top: 1px solid color-mix(in srgb, var(--paper-edge) 70%, transparent); }
+.tbl tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--paper-2) 55%, transparent); }
+.tbl tr { break-inside: avoid; }
+.tbl td:first-child { font-weight: 700; color: var(--dark-deep); }
+.tbl td.num, .tbl th.num { text-align: center; white-space: nowrap; }
+/* a chapter whose tables must share one page: a hair less row padding */
+.tight-tables .tbl td { padding-top: 0.028in; padding-bottom: 0.028in; }
+
+/* ------------------------------------------------------------ entries --- */
+/* A catalogue entry (a character option, an item, …) with an optional portrait or badge. */
+.entry {
+  /* entries may flow across columns/pages (their boxes and table rows stay whole);
+     forcing whole entries to jump left near-empty pages */
+  break-inside: auto;
+  position: relative;
+  margin: 0.06in 0 0.16in;
+  padding-top: 0.06in;
+  border-top: 1.5px solid var(--paper-edge);
+}
+.entry h3 { margin-top: 0.02in; }
+.entry .portrait, .entry .badge {
+  float: right;
+  width: 1.2in;
+  margin: 0 0 0.04in 0.08in;
+  shape-outside: circle(50%);
+}
+.entry .badge { width: 1.05in; }
+.entry .ability, .entry .signature {
+  clear: both;
+  break-inside: avoid;
+  margin: 0.06in 0 0.08in;
+  padding: 0.08in 0.11in 0.03in;
+  background: var(--dark-deep);
+  color: var(--paper);
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+  font-size: 9.8pt;
+}
+.entry .ability h4, .entry .signature h4 { color: var(--accent-bright); margin-top: 0; }
+.entry .ability strong, .entry .signature strong { color: var(--accent-bright); }
+.entry .ability ul, .entry .signature ul { padding-left: 0.16in; }
+.entry .ability li::marker, .entry .signature li::marker { color: var(--accent-bright); }
+.statline {
+  clear: both;
+  font: 600 9.2pt/1.3 var(--sans);
+  padding: 0.05in 0.08in;
+  background: var(--paper-2);
+  border-radius: 4px;
+  border-left: 4px solid var(--accent);
+}
+.statline strong { color: var(--alarm); }
+.sep { color: var(--accent); padding: 0 0.04in; }
+.quote { font: italic 500 10.5pt/1.35 var(--display); color: var(--ink-soft); }
+
+/* ------------------------------------------------------------ statblocks  */
+/* An opponent's or NPC's block: header bar, floated picture, stats, traits. */
+.statblock {
+  break-inside: avoid;
+  column-span: all;
+  margin: 0.1in 0 0.16in;
+  padding: 0 0.14in 0.08in;
+  background: var(--paper-light);
+  border: 1.5px solid var(--alarm);
+  border-radius: 6px;
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--alarm) 35%, transparent);
+  overflow: hidden;
+  font-size: 9.8pt;
+}
+.statblock h3 {
+  margin: 0 -0.14in 0.07in;
+  padding: 0.06in 0.14in;
+  background: var(--alarm);
+  color: var(--paper);
+  font-size: 13pt;
+}
+.statblock .epithet { display: block; font: italic 600 9.4pt var(--display); color: var(--accent-bright); }
+.statblock .portrait { float: right; width: 1.75in; margin: 0 0 0.06in 0.14in; }
+.statblock dl { margin: 0 0 0.05in; }
+.statblock dl.stats { display: flex; flex-wrap: wrap; gap: 0.04in 0.24in; font: 9pt var(--sans); }
+.statblock dl.stats > div { display: flex; align-items: baseline; gap: 0.07in; }
+.statblock dl.stats dt { font-weight: 800; color: var(--alarm); text-transform: uppercase; letter-spacing: .05em; font-size: 7.8pt; }
+.statblock dl.stats dt::after { content: ""; }
+.statblock dl.stats dd { margin: 0; font-weight: 600; }
+.statblock .pools {
+  font: 800 9.6pt var(--sans); color: var(--dark-deep);
+  padding: 0.04in 0.08in; background: var(--paper-2); border-radius: 4px; display: inline-block;
+}
+.statblock dl.traits dt { float: left; clear: left; margin-right: 0.05in; font: 800 9pt var(--sans); color: var(--alarm); }
+.statblock dl.traits dt::after { content: ":"; }
+.statblock dl.traits dd { margin: 0 0 0.04in; }
+
+/* ------------------------------------------------------------ figures --- */
+figure.map { break-inside: avoid; margin: 0.06in 0 0.1in; }
+figure.map figcaption, figure.diagram figcaption { font: italic 8.6pt/1.3 var(--sans); color: var(--ink-soft); margin-top: 0.04in; }
+figure.diagram { break-inside: avoid; margin: 0.04in 0 0.12in; }
+
+.chapter p.span-all { column-span: all; }
+
+.signoff {
+  column-span: all;
+  margin: 0.2in 0 0;
+  text-align: center;
+  font: italic 700 13pt var(--display);
+  color: var(--dark);
+}
+
+/* ------------------------------------------------------------ sheet ----- */
+/* A printable sheet (character sheet, reference card): its own page, double border. */
+@page sheet { margin: 0.5in; @bottom-center { content: none; } }
+.sheet {
+  page: sheet;
+  break-before: page;
+  box-sizing: border-box;
+  min-height: 10in;
+  padding: 0.32in 0.4in 0.3in;
+  border: 3px double var(--dark);
+  border-radius: 10px;
+  background: var(--paper-light);
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  position: relative;
+}
+.sheet h2 {
+  margin: 0 0 0.02in; text-align: center;
+  font: 900 30pt var(--display); color: var(--dark-deep);
+  letter-spacing: .02em;
+}
+.sheet-intro { text-align: center; color: var(--ink-soft); margin: 0 0 0.16in !important; border-bottom: 2.5px solid var(--accent); padding-bottom: 0.1in; }
+.sheet .field {
+  display: flex; align-items: baseline; gap: 0.06in; flex-wrap: wrap;
+  margin: 0 0 0.17in;
+}
+.sheet .field strong { color: var(--alarm); font-weight: 800; white-space: nowrap; }
+.sheet .blank {
+  flex: 1 1 1.2in;
+  min-width: 0.8in;
+  border-bottom: 1.3px solid var(--ink);
+  height: 1.1em;
+}
+.sheet-fields { margin-bottom: 0.12in; }
+.sheet-grid { width: 100%; table-layout: fixed; border-collapse: separate; border-spacing: 0.06in 0; margin: -0.08in 0 0.18in; }
+.sheet-grid th {
+  font: 800 8pt var(--sans); letter-spacing: .05em; text-transform: uppercase;
+  color: var(--paper); background: var(--dark-deep); padding: 0.05in 0.02in;
+  text-align: center; border-radius: 5px 5px 0 0;
+}
+.sheet-grid td {
+  height: 0.62in; border: 1.6px solid var(--dark); border-top: none; border-radius: 0 0 6px 6px;
+  background: var(--paper-light);
+}
+.sheet-grid.tall td { height: 0.8in; }
+.sheet-grid .blank { display: none; }
+.sheet .box-check {
+  display: inline-block; width: 0.15in; height: 0.15in; margin: 0 0.03in 0 0.12in;
+  border: 1.5px solid var(--ink); border-radius: 3px; vertical-align: -0.02in;
+}
+.sheet .pips { display: inline-flex; gap: 0.05in; margin-left: 0.04in; }
+.sheet .pip {
+  display: inline-block; width: 0.2in; height: 0.2in;
+  border: 1.6px solid var(--accent); border-radius: 50%; background: var(--paper-light);
+}
+.sheet-note { margin-top: 0.22in; padding-top: 0.1in; border-top: 1.5px solid var(--paper-edge); font-size: 9pt; color: var(--ink-soft); text-align: center; }
+
+/* ------------------------------------------------------------ misc ------ */
+a { color: inherit; text-decoration: none; }
+hr { border: none; height: 0; margin: 0.1in 0; }
+
+/* heading + first block, bound together at build time */
+.keep { break-inside: avoid; }
+.keep > :last-child { margin-bottom: 0.075in; }
+/* a full-width table kept with its heading: the pair spans both columns together */
+.keep:has(> .tbl.wide) { column-span: all; }
+
+/* end-of-chapter measurement marker (build passes only) */
+.end-marker { column-span: all; height: 0; margin: 0; position: relative; }
+.end-marker span { position: absolute; top: 0; left: 0; font-size: 4pt; line-height: 1; color: rgba(0,0,0,.02); white-space: nowrap; }
+
+/* spot illustration filling the space left at a chapter's end (height set by the build) */
+figure.tailpiece { column-span: all; margin: 0.22in auto 0; display: flex; justify-content: center; break-inside: avoid; }
+figure.tailpiece svg { height: 100%; width: auto; max-width: 100%; }
+
+.entry > h3, .entry > .quote { break-after: avoid; }
+.entry .statline { break-inside: avoid; }
+
+/* ------------------------------------------------------------ credits --- */
+@page credits { @bottom-center { content: none; } }
+.credits {
+  page: credits;
+  position: relative;
+  break-before: page; break-after: page;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  padding-top: 1.35in;
+}
+/* optional small ornament hanging from the top edge of the paper */
+.credits .credits-art { position: absolute; top: calc(-1 * var(--page-mt)); left: 50%; transform: translateX(-50%); width: 0.5in; }
+.credits .credits-rule { width: 4in; margin: 0.4in 0 0.3in; border: none; border-top: 1.5px solid var(--accent); }
+.credits-title { margin: 0; font: 900 30pt var(--display); color: var(--dark-deep); letter-spacing: .02em; text-transform: uppercase; }
+.credits-sub { margin: 0.06in 0 0; font: italic 500 12pt var(--display); color: var(--ink-soft); }
+.credits-edition { margin: 0.12in 0 0.4in; font: 800 9pt var(--sans); letter-spacing: .3em; text-transform: uppercase; color: var(--accent-deep); }
+.credits-list { margin: 0; width: 5in; font-family: var(--sans); }
+.credits-list dt { margin-top: 0.16in; font: 800 8.5pt var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--alarm); }
+.credits-list dd { margin: 0.03in 0 0; font: 500 11pt/1.35 var(--text); color: var(--ink); }
+.credits-legal { width: 5.4in; font: 8.6pt/1.45 var(--sans); color: var(--ink-soft); }
+.credits-legal p { margin: 0 0 0.08in; }
+
+/* --------------------------------------------------------- back cover --- */
+@page back { margin: 0; background: var(--dark-deep); @bottom-center { content: none; } }
+.back-cover {
+  page: back;
+  break-before: page;
+  width: 8.5in; height: 11in; box-sizing: border-box;
+  background: radial-gradient(ellipse at 50% 28%, color-mix(in srgb, var(--dark-soft) 45%, transparent), transparent 62%), var(--dark-deep);
+  color: var(--paper);
+}
+.back-cover .back-inner { box-sizing: border-box; height: 100%; padding: 0.8in 0.9in; display: flex; flex-direction: column; }
+.back-cover p { margin: 0 0 0.12in; font: 500 11.5pt/1.5 var(--text); color: var(--paper-2); }
+.back-cover .back-lead { margin-top: 0.1in; font: 900 22pt/1.1 var(--display); color: var(--accent-bright); }
+.back-cover .back-art {
+  margin: 0.15in auto 0.1in; width: 4.4in; padding: 0.12in;
+  background: var(--paper); border-radius: 10px; box-shadow: 0 0 0 3px var(--accent);
+}
+.back-cover .back-tagline { margin-top: auto; text-align: center; font: 600 11pt var(--sans); color: var(--paper); }
+.back-cover .back-title { text-align: center; margin: 0.08in 0 0; font: 900 20pt var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--accent-bright); }
+.back-cover .back-title span { font: 800 10pt var(--sans); letter-spacing: .3em; color: var(--paper-2); }

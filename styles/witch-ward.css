@@ -1,0 +1,24 @@
+/* ==========================================================================
+   WITCH & WARD — System Theme (skeleton)
+   EVERY selector must be scoped to one of the system's own roots (e.g. the
+   .witch-ward class on our applications and sheets): in v14, system styles
+   sit in a cascade layer that outranks all of core, so an unscoped `.panel` or
+   `.field` would restyle Foundry's own windows.
+
+   ART DIRECTION IS UNDECIDED: the palette below is a neutral PLACEHOLDER that
+   mirrors the rulebook's tokens (book/src/book.css). Change both together.
+   ========================================================================== */
+
+.witch-ward {
+  --ww-dark: #3a3a3c;
+  --ww-dark-deep: #222224;
+  --ww-dark-soft: #5c5c60;
+  --ww-paper: #f2f1ee;
+  --ww-paper-2: #e3e1dc;
+  --ww-paper-edge: #c9c6bf;
+  --ww-ink: #161618;
+  --ww-ink-soft: #5a5a5e;
+  --ww-accent: #7a7f88;
+  --ww-alarm: #7c2a2a;
+  --ww-good: #3f6f52;
+}

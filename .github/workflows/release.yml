@@ -1,0 +1,68 @@
+name: Release
+
+# Publishes a Foundry-installable release. Fires either when a v* tag is pushed,
+# or manually via "Run workflow" (workflow_dispatch) with a version input.
+# Release only when the author says so.
+# The manifest URL for Foundry becomes:
+#   https://github.com/PainHog/WeetchisBrooms/releases/latest/download/system.json
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (without the v prefix, e.g. 0.1.0)"
+        required: true
+        default: "0.1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Resolve version
+        id: vars
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stamp version into system.json
+        run: node tools/stamp-version.mjs
+        env:
+          VERSION: ${{ steps.vars.outputs.version }}
+
+      # Only what Foundry needs ships: the manifest, module/, styles/, templates/,
+      # lang/, assets/ (if any), compiled packs/, LICENSE and README.
+      - name: Build system.zip
+        run: |
+          zip -r system.zip . \
+            -x ".git/*" -x ".github/*" -x ".gitignore" -x "node_modules/*" -x "*.zip" \
+            -x "package.json" -x "package-lock.json" -x "CLAUDE.md" \
+            -x "tools/*" -x "test/*" -x "packs/_source/*" -x "*/.gitkeep" \
+            -x "book/*" -x "sim/*" -x "docs/*" \
+            -x "packs/*/LOCK" -x "packs/*/LOG" -x "packs/*/LOG.old"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.vars.outputs.version }}
+          name: Witch & Ward v${{ steps.vars.outputs.version }}
+          files: |
+            system.json
+            system.zip
+          generate_release_notes: true

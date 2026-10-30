@@ -1,0 +1,38 @@
+{
+  "id": "witch-ward",
+  "type": "system",
+  "title": "Witch & Ward",
+  "description": "The companion Foundry VTT game system for Witch & Ward, a tabletop roleplaying game by Richard Moore. Early skeleton: the game's rules are not written yet.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "Richard Moore",
+      "url": "https://github.com/PainHog/WeetchisBrooms"
+    }
+  ],
+  "esmodules": [
+    "module/witch-ward.mjs"
+  ],
+  "styles": [
+    "styles/witch-ward.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [],
+  "socket": true,
+  "url": "https://github.com/PainHog/WeetchisBrooms",
+  "bugs": "https://github.com/PainHog/WeetchisBrooms/issues",
+  "manifest": "https://github.com/PainHog/WeetchisBrooms/releases/latest/download/system.json",
+  "download": "https://github.com/PainHog/WeetchisBrooms/releases/latest/download/system.zip",
+  "license": "LICENSE",
+  "readme": "README.md"
+}
