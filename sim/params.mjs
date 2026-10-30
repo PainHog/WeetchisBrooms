@@ -233,6 +233,19 @@ export const THREATS = {
       ref: "Ch 10 The Drowned Choir; REVIEW 63, 81, 82",
     },
   },
+  /** Candidate fixes, not in the book. REPORT-threats.md §8 tests them; they are never a default. */
+  candidates: {
+    lureAttack: {
+      name: "Lure with an attack (candidate)", short: "Lure + attack", for: "drownedChoir",
+      doc: "Not in the book. 'Lure: one attack; then the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action.' The attack is aimed like a 4–5; Lure then works as above. Makes Lure 'one attack with a side effect', the pattern Ch 10 gives for a new move.",
+      ref: "Candidate fix for Ch 10 The Drowned Choir",
+    },
+    faceHeavy: {
+      name: "Borrowed Face at Hit +1 (candidate)", short: "Borrowed Face, Hit +1", for: "mirrorThief",
+      doc: "Not in the book. 'Borrowed Face: attack the witch with the most Magic left, with Hit 1 higher; on a Failure they also lose 1 Magic.' Otherwise as Borrowed Face.",
+      ref: "Candidate fix for Ch 10 The Mirror Thief",
+    },
+  },
 };
 
 /** What the signature moves leave open. Swept for the episodes in REPORT-threats.md. */

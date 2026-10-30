@@ -113,3 +113,60 @@ test("a season plays every episode, the same way for the same seed", async () =>
   assert.deepEqual(a.map(e => [e.result, e.reason, e.returning]), b.map(e => [e.result, e.reason, e.returning]));
   for (const ep of a) assert.ok(["win", "partial", "loss"].includes(ep.result));
 });
+
+// ---------------------------------------------------------------- signature moves
+const withThreat = (threat, extra = {}) => ({ ...baseSettings(), threat, ...extra });
+const sansUse = ep => { const { use, ...rest } = ep; return rest; };
+
+test("the default threat is the generic move, so REPORT.md doesn't move", async () => {
+  const { THREATS } = await import("./params.mjs");
+  assert.equal(baseSettings().threat, "generic");
+  assert.equal(THREATS.default, "generic");
+  const noKey = baseSettings();
+  delete noKey.threat;
+  for (const label of ["easy", "standard", "hard"]) assert.deepEqual(play(5, label, 4, true, noKey).ep, play(5, label, 4, true).ep);
+});
+
+test("Turned Spell plays exactly as the generic 'heavy' move", () => {
+  const heavy = { ...baseSettings(), judgement: { ...baseSettings().judgement, signature: "heavy" } };
+  for (let seed = 0; seed < 60; seed++) for (const label of ["standard", "hard"]) {
+    const players = 3 + (seed % 3), g = seed % 2 === 0;
+    assert.deepEqual(sansUse(play(seed, label, players, g, withThreat("vesperCrane")).ep), sansUse(play(seed, label, players, g, heavy).ep));
+  }
+});
+
+test("Hush is two attacks plus its rider; Drain is a plain attack plus its heal", () => {
+  let hushSame = 0, hushBit = 0, drainSame = 0, drainBit = 0;
+  for (let seed = 0; seed < 200; seed++) for (const label of ["standard", "hard"]) {
+    const players = 3 + (seed % 3), g = seed % 2 === 0;
+    const hush = play(seed, label, players, g, withThreat("quietMan")).ep;
+    if (hush.use["hush:mutedTurn"]) hushBit++;
+    else { hushSame++; assert.deepEqual(sansUse(hush), sansUse(play(seed, label, players, g, withThreat("twoAttacks")).ep)); }
+    const drain = play(seed, label, players, g, withThreat("nightNurse")).ep;
+    if (drain.use["drain:cleared"]) drainBit++;
+    else { drainSame++; assert.deepEqual(sansUse(drain), sansUse(play(seed, label, players, g, withThreat("plain")).ep)); }
+  }
+  assert.ok(hushBit > 0 && hushSame > 0 && drainBit > 0 && drainSame > 0, "both branches are exercised");
+});
+
+test("every signature move keeps the tracks inside their limits, and its own effect fires", async () => {
+  const { THREATS } = await import("./params.mjs");
+  const own = { quietMan: "hush:hushed", ashWidow: "cinders:attack", mirrorThief: "face:magic", nightNurse: "drain:fired", vesperCrane: "turned:failure", drownedChoir: "lure:lostTurn", lureAttack: "lure:lostTurn", faceHeavy: "face:magic" };
+  for (const threat of [...THREATS.values, ...Object.keys(THREATS.candidates)]) {
+    let fired = 0;
+    for (let seed = 0; seed < 150; seed++) for (const label of ["easy", "standard", "hard"]) {
+      const players = 3 + (seed % 3);
+      const { ep, coven } = play(seed, label, players, seed % 2 === 0, withThreat(threat, threat === "drownedChoir" ? { threatJudgement: { lureCost: "hurt", lureDice: "spare" } } : {}));
+      const N = NUMBERS[label];
+      assert.ok(["win", "partial", "loss"].includes(ep.result));
+      assert.ok(ep.doomEnd <= N.doomMax && ep.exposure <= N.exposureMax && ep.rounds <= N.doomMax);
+      for (const c of [...coven.witches, ...(coven.guardian ? [coven.guardian] : [])]) {
+        assert.ok(c.hurt >= 0 && c.hurt <= c.hurtMax, `${threat}: Hurt in range`);
+        assert.ok(c.magic >= 0 && c.ward >= 0, `${threat}: Magic and Ward never below 0`);
+      }
+      if (own[threat] && ep.use[own[threat]]) fired++;
+      if (ep.use["hush:mutedTurn"]) assert.ok(ep.use["hush:mutedTurn"] <= ep.use["hush:hushed"]);
+    }
+    if (own[threat]) assert.ok(fired > 0, `${threat}: its effect never fired`);
+  }
+});

@@ -44,7 +44,7 @@ export const MODELLED = {
   ],
   no: [
     "No map: moving is free and everyone in a showdown is near everyone else.",
-    "One generic threat per difficulty label; real threats will have their own signature moves (the generic one attacks two characters).",
+    "One generic threat per difficulty label: a 6 uses the generic move (two attacks). The six threats' own signature moves are run by `node sim/threats.mjs` (REPORT-threats.md).",
     "A Life fits a lead one time in three.",
     "Shelter is never cast, group checks never come up, helpers are modelled as the roller spending their own Magic, and the coven never retreats (the policies use guarding and fight to the end).",
     "Seasons are not simulated: no Scars, growth, Book pages or returning threats. Each episode starts fresh.",

@@ -35,10 +35,48 @@ const DEAD = 2;      // DESIGN-RULES A9: "flags any option worth less than ±2 p
 const OFF = 5;       // DESIGN Q16: every cell within 5 points of its label's win target
 const DOMINANT = 5;  // a move this many points of win harder than the book's yardstick
 
-/** Suggested fixes, printed only when the matching flag fires. */
-const FIX = { label: {}, quietMan: {} };
+/** Suggested fixes, printed only when the matching flag fires. Functions read the runs below when the flag fires. */
+const FIX = {
+  label: {
+    easy: () => `Not the move: REPORT.md §1 has Easy at ${pctS(P("generic", "easy").win)} with the generic move too, and Hush changes it by ${sgn(winVs("quietMan", "generic", "easy"))} points. Leave Hush as it is.`,
+    standard: () => `Not the move: the generic move has the same cell off (REPORT.md §1). Leave Cinders as it is.`,
+    hard: () => `Not the move: the generic move has the same cell off (REPORT.md §1). Leave Lure as it is.`,
+  },
+  drownedChoir: {
+    off: () => {
+      const c = VC.lureAttack, s = c.pooled.hard, w = cellsOf(["hard"]).map(x => c.cell[x.key].win);
+      const ok = inRange(s.win, TARGETS.hard.win) && w.every(x => Math.abs(x - WIN_TARGET.hard) <= OFF);
+      const cost = lureRows.find(r => r[0] === "lureCost")[2];
+      return `Make Lure an attack with a side effect, as Chapter 10 advises for any move: "Lure: one attack; then the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action." Tested (§8): Low Tide ${f1(s.win)}% win, ${f1(s.loss)}% loss, cells ${f1(Math.min(...w))}–${f1(Math.max(...w))}%, ${ok ? "back on target" : "closer but not fully on target"}, level with "two different characters" (${f1(P("twoAttacks", "hard").win)}%). Settling Lure's Partial the strict way instead (the usual 1 Hurt on a Partial or Failure) gives ${f1(cost.win)}%. Hard sits at the top of its band with any one-attack move (§3), so either fix lands Low Tide near 60%, not in the middle.`;
+    },
+    weak: () => `The same fix: with an attack in it, Lure can't do less than a plain attack (tested in §8: ${LABELS.map(L => `${NAME[L]} ${sgn(-worth("lureAttack", L, VC))}`).join(", ")} points against a plain attack).`,
+    dead: () => "See the note under this table.",
+  },
+  mirrorThief: {
+    weak: () => {
+      const better = ["standard", "hard"].every(L => worth("faceHeavy", L, VC) > 0);
+      return `"Borrowed Face: attack the witch with the most Magic left, with Hit 1 higher; on a Failure they also lose 1 Magic." Tested (§8): ${LABELS.map(L => `${NAME[L]} ${sgn(-worth("faceHeavy", L, VC))}`).join(", ")} points against a plain attack, so it ${better ? "is no longer weaker than a plain attack" : "is still no stronger than a plain attack"}. It isn't in a ready-made episode, so this is low priority.`;
+    },
+    dead: () => "See the note under this table.",
+  },
+  quietMan: {
+    rider: () => `None needed for balance: Hush is already the strongest of the six, because it is two attacks. The rider rarely bites, because a hushed witch still makes a plain Nerve attack and loses only her Power's 2 dice or a spell.`,
+    dead: () => "See the note under this table.",
+  },
+  ashWidow: { dead: () => "See the note under this table." },
+  nightNurse: { dead: () => "See the note under this table." },
+  vesperCrane: { dead: () => "See the note under this table." },
+  yardstick: () => `None: Chapter 10's yardstick for a move is itself under ±${DEAD} points, so every move meets "about as strong as two different characters", and none is dominant.`,
+};
 /** What this report leaves out. */
-const NOT_COVERED = [];
+const NOT_COVERED = [
+  "Shelter is never cast (as in REPORT.md), so Shelter against Cinders, and Shelter not stopping Lure, never come up.",
+  "Seasons (REPORT.md §11, `season.mjs`) still use the generic move for all six kinds of threat.",
+  "Low Tide played as the 3rd episode of a season (Chapter 16's Season column: 2 more Toughness per witch, after the coven has grown once) isn't run. Every episode here starts fresh, as in REPORT.md.",
+  "The episodes' leads, twists and places are story. Only the label and the threat's move change the numbers.",
+  "Nobody plays around a move: no witch keeps Magic low against Borrowed Face or puts a higher rating into Heart against Lure.",
+];
+const fx = f => (typeof f === "function" ? f() : f);
 
 const f0 = x => x.toFixed(0);
 const f1 = x => x.toFixed(1);
@@ -80,6 +118,9 @@ for (const [k, d] of Object.entries(THREAT_JUDGEMENT)) for (const v of d.values)
 // A candidate rule change, not in the book: a 5 also uses the signature move.
 const FIVE = ["plain", "twoAttacks", ...SIX];
 const V5 = Object.fromEntries(FIVE.map(m => [m, run({ ...base, threat: m, rules: { ...base.rules, signatureFrom: 5 } })]));
+// Candidate fixes, not in the book (params.mjs THREATS.candidates), next to the plain attack they are measured against.
+const CAND = Object.keys(THREATS.candidates);
+const VC = { plain: V.plain, twoAttacks: V.twoAttacks, ...Object.fromEntries(CAND.map(m => [m, run({ ...base, threat: m })])) };
 
 // ---------------------------------------------------------------- measures
 const winVs = (m, ref, L, v = V) => v[m].pooled[L].win - v[ref].pooled[L].win;
@@ -144,6 +185,8 @@ out("");
 out("| Move | Easy: Win / Partial / Loss | Standard | Hard | Win vs generic (E / S / H) | Win vs plain (E / S / H) |");
 out("|---|---|---|---|---|---|");
 for (const m of MOVES) out(`| ${THREATS.moves[m].name} | ${LABELS.map(L => wpl(P(m, L))).join(" | ")} | ${LABELS.map(L => sgn(winVs(m, "generic", L))).join(" / ")} | ${LABELS.map(L => sgn(winVs(m, "plain", L))).join(" / ")} |`);
+out("");
+out(`The generic move and "two different characters" differ only in where the first attack goes (REPORT.md aims it like a 1–3, at whoever hurt the threat last; ruling 63 aims it at the most Hurt): ${LABELS.map(L => `${NAME[L]} ${sgn(winVs("twoAttacks", "generic", L))}`).join(", ")} points. At Hard the generic move keeps the label at ${f1(P("generic", "hard").win)}%, near the top of its 55–60% band; every move that is one attack (${SIX.filter(m => P(m, "hard").win > TARGETS.hard.win[1]).map(short).join(", ")}) puts Hard above 60%.`);
 out("");
 
 // ---------------------------------------------------------------- 4. length and harm
@@ -223,9 +266,17 @@ else {
   out("");
   out("| Flag | What | Numbers | Smallest fix |");
   out("|---|---|---|---|");
-  for (const f of flags) out(`| ${f.kind} | ${f.what} | ${f.detail} | ${f.fix || "—"} |`);
+  for (const f of flags) out(`| ${f.kind} | ${f.what} | ${f.detail} | ${fx(f.fix) || "—"} |`);
 }
 out("");
+if (flags.some(f => f.kind.startsWith("dead"))) {
+  const used = SIX.flatMap(m => LABELS.map(L => P(m, L).usedEp));
+  const uses = SIX.flatMap(m => LABELS.map(L => P(m, L).use["sig:move"] || 0));
+  const fiveOk = FIVE.filter(m => m !== "plain" && LABELS.some(L => Math.abs(worth(m, L, V5)) >= DEAD)).map(m => THREATS.moves[m].short);
+  const down = SIX.map(m => P(m, "hard").anyDown);
+  out(`**Why the moves are dead.** A move needs a 6 with no free innocent, and showdowns are short, so the threat uses its move in only ${f0(Math.min(...used))}–${f0(Math.max(...used))}% of episodes (${Math.min(...uses).toFixed(2)}–${Math.max(...uses).toFixed(2)} times per episode). When it does, most moves are worth about one attack. Making a 5 use the move too (§8) lifts only ${fiveOk.length ? fiveOk.join(" and ") : "none of them"} past ±${DEAD} points. The moves still change who goes Down (at Hard, a witch goes Down in ${f0(Math.min(...down))}–${f0(Math.max(...down))}% of episodes, depending on the move), so they give each threat its own feel without moving the win. No balance fix is needed: whichever threat the coven meets, the label's numbers hold, which is what lets any threat go with any label. If Richard wants the moves to swing results (DESIGN-RULES A9), they would have to come up more often and do more than one attack's worth, and every label would need re-tuning.`);
+  out("");
+}
 out(`Summary: ${flagsOf("move pushes")} episode flags caused by a move, ${flagsOf("episode off")} episodes off target because of their label, ${flagsOf("dead") + flagsOf("the yardstick")} dead moves (including the yardstick), ${flagsOf("dominated")} dominated by a plain attack, ${flagsOf("dominant")} dominant.`);
 out("");
 
@@ -238,7 +289,7 @@ out("| Setting | Value | Win / Partial / Loss | Cells | A witch Down | Turns los
 out("|---|---|---|---|---|---|");
 for (const [k, v, s, r] of lureRows) {
   const w = cellsOf(["hard"]).map(c => r.cell[c.key].win);
-  out(`| ${k} | ${v} | ${wpl(s)} | ${f0(Math.min(...w))}–${f0(Math.max(...w))}% | ${pctS(s.anyDown)} | ${f1(s.use["lure:lostTurn"] || 0)} |`);
+  out(`| ${k} | ${v} | ${f1(s.win)}% / ${f1(s.partial)}% / ${f1(s.loss)}% | ${f1(Math.min(...w))}–${f1(Math.max(...w))}% | ${pctS(s.anyDown)} | ${f1(s.use["lure:lostTurn"] || 0)} |`);
 }
 out("");
 for (const [k, d] of Object.entries(THREAT_JUDGEMENT)) out(`- **${k}** — ${d.doc} (${d.ref})`);
@@ -253,6 +304,22 @@ for (const m of FIVE.filter(x => x !== "plain")) out(`| ${THREATS.moves[m].name}
 out("");
 
 // ---------------------------------------------------------------- 9. readings
+out("### Candidate fixes (not in the book)");
+out("");
+out("The smallest wording changes for the flagged moves (section 7), run over the whole grid like the moves above.");
+out("");
+out("| Candidate | Win / Loss (E; S; H) | Win vs plain (E / S / H) | Win vs two attacks (E / S / H) | A witch Down (E / S / H) | Cells (E; S; H) |");
+out("|---|---|---|---|---|---|");
+for (const m of ["plain", "twoAttacks", ...CAND]) {
+  const d = m in THREATS.moves ? THREATS.moves[m] : THREATS.candidates[m];
+  const pp = L => VC[m].pooled[L];
+  const cr = L => { const w = cellsOf([L]).map(c => VC[m].cell[c.key].win); return `${f1(Math.min(...w))}–${f1(Math.max(...w))}%`; };
+  out(`| ${d.name} | ${LABELS.map(L => `${f1(pp(L).win)}% / ${f1(pp(L).loss)}%`).join("; ")} | ${LABELS.map(L => sgn(-worth(m, L, VC))).join(" / ")} | ${LABELS.map(L => sgn(winVs(m, "twoAttacks", L, VC))).join(" / ")} | ${LABELS.map(L => pctS(pp(L).anyDown)).join(" / ")} | ${LABELS.map(cr).join("; ")} |`);
+}
+out("");
+for (const m of CAND) out(`- **${THREATS.candidates[m].name}** — ${THREATS.candidates[m].doc}`);
+out("");
+
 out("## 9. Readings used");
 out("");
 out("For every move:");

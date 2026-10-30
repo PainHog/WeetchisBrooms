@@ -6,6 +6,7 @@ The first simulator for Witch & Ward is built: it plays whole episodes by
 ```
 npm run sim                                   # node sim/run.mjs → sim/REPORT.md (2,000 episodes per cell, seed 1)
 node sim/run.mjs --runs 5000 --seed 2         # more runs, another seed
+node sim/threats.mjs                          # each threat's signature move → sim/REPORT-threats.md (same runs and seed)
 npm test                                      # includes sim/sim.test.mjs
 ```
 
@@ -110,15 +111,15 @@ package’s rule switches.
 | File | What |
 |---|---|
 | `rng.mjs` | Seeded RNG (mulberry32 + FNV-1a stream derivation) |
-| `params.mjs` | The [T] numbers, the core rules' fixed numbers and rule switches, every judgement call (default, alternatives, doc, the passage that leaves it open), the player policies, and the generous/strict presets |
+| `params.mjs` | The [T] numbers, the core rules' fixed numbers and rule switches, every judgement call (default, alternatives, doc, the passage that leaves it open), the player policies, the generous/strict presets, the targets, and `THREATS` (each signature move and the readings it uses; `settings.threat`, default `generic`) |
 | `character.mjs` | Legal random covens (Powers off a d6 with duplicates rerolled, 3-2-2-1 ratings) and a validator |
 | `engine.mjs` | Plays one episode by the rules text: investigation scenes, the showdown, every ending |
 | `grid.mjs` | Runs every label × 3/4/5 players × with and without a guardian player, with common random numbers |
 | `recorder.mjs` | Per-cell statistics |
 | `notes.mjs` | Rule gaps found while building it, and what is and isn't modelled |
 | `run.mjs` | CLI → `REPORT.md` (targets, outcomes, usage, Powers, guardian, exact odds, sweeps, findings) |
+| `threats.mjs` | CLI → `REPORT-threats.md`: the six threats' signature moves over the whole grid, the three ready-made episodes against the targets, how often each move comes up, flags with tested fixes |
 | `sim.test.mjs` | The roll against hand-worked cases, exact odds, coven legality, determinism, track limits |
 
-Still to come, as the book grows: one stat block per ready-made threat (`scenarios.mjs`), seasons
-(Scars, growth, Book pages, returning threats), packages (`packages.mjs`) and agent playtests
-(`playtests/`). The core roll itself lives in `module/logic/rules.mjs`, shared with the Foundry system.
+Still to come, as the book grows: seasons that use each threat's own move (`season.mjs` still uses the
+generic one), packages (`packages.mjs`) and agent playtests (`playtests/`). The core roll itself lives in `module/logic/rules.mjs`, shared with the Foundry system.

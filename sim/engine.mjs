@@ -343,16 +343,20 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (st.round === 1 && R.threatFirst && !T.broken) threatActs(); // "In round 1 the threat acts first."
     if (standing(coven.witches).length === 0) return end("allDown");
     const acted = new Set();
-    // Hush and Lure land on a character's next turn: this round's for everyone standing now
-    // (in round 1 the threat has just acted; in later rounds it acted after everyone's turn).
+    // Hush and Lure land on a character's next turn: this round's for everyone who will act this
+    // round (in round 1 the threat has just acted; in later rounds it acted after everyone's turn).
     st.muted = new Set();
     st.lost = new Set();
-    for (const c of standing(all)) {
-      if (c.lured) { c.lured = false; st.lost.add(c); acted.add(c); use("lure:lostTurn"); } // "they lose their next action"
-      if (c.hushed) { c.hushed = false; st.muted.add(c); use("hush:mutedTurn"); }        // "can't cast on their next action"
-    }
+    const turnFlags = () => {
+      for (const c of standing(all)) {
+        if (c.lured) { c.lured = false; st.lost.add(c); acted.add(c); use("lure:lostTurn"); } // "they lose their next action"
+        if (c.hushed) { c.hushed = false; st.muted.add(c); use("hush:mutedTurn"); }        // "can't cast on their next action"
+      }
+    };
+    turnFlags();
     const gd = coven.guardian;
     if (gd && !gd.down && !acted.has(gd)) { guardianAct(gd); acted.add(gd); }
+    turnFlags(); // a witch the guardian just brought back up also takes this round's turn
     // A held innocent: up to two witches try to free them.
     if (st.innocent.held && !T.broken) {
       const cands = standing(coven.witches).filter(x => !acted.has(x)).sort((a, b) => freePool(b) - freePool(a));
@@ -613,23 +617,8 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
         }
         return;
       }
-      case "mirrorThief": {                         // Borrowed Face: "the witch with the most Magic left"
-        const gd = coven.guardian;
-        let t = null;
-        if (T.hold && gd && !gd.down) { T.hold = false; st.heldAttack = true; t = gd; } // under Hold: the guardian (ruling 82)
-        else {
-          const ws = standing(coven.witches);
-          if (!ws.length) return;
-          const most = Math.max(...ws.map(x => x.magic));
-          t = pick(ws.filter(x => x.magic === most));
-        }
-        const r = attackOn(t, 0);
-        if (r && r.result === RESULT.FAILURE) { // "on a Failure they also lose 1 Magic" (the guardian: 1 Ward)
-          if (r.who.kind === "guardian") { if (r.who.ward > 0) { r.who.ward -= 1; use("face:ward"); } }
-          else if (r.who.magic > 0) { r.who.magic -= 1; use("face:magic"); }
-        }
-        return;
-      }
+      case "mirrorThief": return borrowedFace(0);   // Borrowed Face: "the witch with the most Magic left"
+      case "faceHeavy": return borrowedFace(1);     // candidate fix (not in the book): Borrowed Face at Hit 1 higher
       case "nightNurse": {                          // Drain: "if it does any Hurt, the threat clears 2 damage"
         const r = attackOn(target(4), 0);
         if (r && r.hurt > 0) { const c = Math.min(2, T.damage); T.damage -= c; use("drain:fired"); use("drain:cleared", c); }
@@ -640,20 +629,42 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
         if (r && r.result === RESULT.FAILURE) use("turned:failure");
         return;
       }
-      case "drownedChoir": {                        // Lure: not an attack; Hold, Shield and Sight's miss don't touch it
-        const up = standing(all);
-        if (!up.length) return;
-        const low = Math.min(...up.map(x => x.ratings.heart));
-        const t = pick(up.filter(x => x.ratings.heart === low));
-        use("lure:roll");
-        const buy = TJ.lureDice === "none" ? 0 : Math.min(2, spareMagic(t, RESERVE));
-        const r = roll(t, { rating: "heart", action: "lure", difficulty: threatDanger(), power: false, buy });
-        if (r.result === RESULT.FAILURE && !t.lured) { t.lured = true; use("lure:failure"); }
-        if (TJ.lureCost === "hurt" && (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE)) hurt(t, 1);
-        return;
-      }
+      case "drownedChoir": return lure(TJ);         // Lure: not an attack; Hold, Shield and Sight's miss don't touch it
+      case "lureAttack": attackOn(target(4), 0); return lure(TJ); // candidate fix (not in the book): one attack, then Lure
       default: throw new Error(`unknown threat ${move}`);
     }
+  }
+
+  /** Borrowed Face: attack the standing witch with the most Magic; on a Failure they also lose 1 Magic (rulings 81, 82). */
+  function borrowedFace(hitBonus) {
+    const T = st.threat;
+    const gd = coven.guardian;
+    let t = null;
+    if (T.hold && gd && !gd.down) { T.hold = false; st.heldAttack = true; t = gd; } // under Hold: the guardian (ruling 82)
+    else {
+      const ws = standing(coven.witches);
+      if (!ws.length) return;
+      const most = Math.max(...ws.map(x => x.magic));
+      t = pick(ws.filter(x => x.magic === most));
+    }
+    const r = attackOn(t, hitBonus);
+    if (r && r.result === RESULT.FAILURE) { // "on a Failure they also lose 1 Magic" (the guardian: 1 Ward)
+      if (r.who.kind === "guardian") { if (r.who.ward > 0) { r.who.ward -= 1; use("face:ward"); } }
+      else if (r.who.magic > 0) { r.who.magic -= 1; use("face:magic"); }
+    }
+  }
+
+  /** Lure: the standing character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action. */
+  function lure(TJ) {
+    const up = standing(all);
+    if (!up.length) return;
+    const low = Math.min(...up.map(x => x.ratings.heart));
+    const t = pick(up.filter(x => x.ratings.heart === low));
+    use("lure:roll");
+    const buy = TJ.lureDice === "none" ? 0 : Math.min(2, spareMagic(t, RESERVE));
+    const r = roll(t, { rating: "heart", action: "lure", difficulty: threatDanger(), power: false, buy });
+    if (r.result === RESULT.FAILURE && !t.lured) { t.lured = true; use("lure:failure"); }
+    if (TJ.lureCost === "hurt" && (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE)) hurt(t, 1);
   }
 
   /**
