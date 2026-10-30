@@ -1893,8 +1893,8 @@ piece("vignette-ch07", () => {
   s += S(ivy, INK, 6) + S(ivy, "#3f7f58", 3.4);
   for (const [lx, ly, a] of [[930, g - 70, -30], [962, g - 60, 20], [990, g - 54, -10], [950, g - 42, 30], [994, g - 26, -20], [856, g - 90, 40], [888, g - 104, -20], [1010, g - 86, 10]]) s += E(lx, ly, 6, 3.4, "#5aa070", { s: INK, w: 0.9, tf: `rotate(${a} ${lx} ${ly})` });
   // Dana's Force: a dust-sheeted bust flies over Rook's head at the creature
-  s += S(`M560,54Q640,40 720,46M570,70Q650,58 716,62M600,86Q660,78 712,80`, "#cfd6e6", 2, { op: 0.5 });
-  s += `<g transform="translate(760 62) rotate(18)">${P(sm([[-16, 14, 1], [-14, -4], [-8, -14], [0, -18], [8, -14], [14, -4], [16, 14, 1]]), shade("#bfbab0", 0.1, 0.3), { s: INK, w: 1.4 })}${R(-18, 14, 36, 6, K.woodD, { s: INK, w: 1.2 })}</g>`;
+  s += S(`M640,30Q720,22 820,28M650,46Q730,38 816,44M680,62Q760,56 812,58`, "#cfd6e6", 2, { op: 0.5 });
+  s += `<g transform="translate(862 42) rotate(18)">${P(sm([[-16, 14, 1], [-14, -4], [-8, -14], [0, -18], [8, -14], [14, -4], [16, 14, 1]]), shade("#bfbab0", 0.1, 0.3), { s: INK, w: 1.4 })}${R(-18, 14, 36, 6, K.woodD, { s: INK, w: 1.2 })}</g>`;
   // the coven: Dana, Noor, Marco (a ball of fire ready in his hand); Rook steps in to take the blow
   s += shadow(130, g, 20, 3.6, 0.5) + fig(dana, 130, g, 204, { look: 1.6, left: [22, -74], right: [-12, -46], mouth: "grim" });
   s += shadow(300, g, 18, 3.4, 0.5) + fig(noor, 300, g, 184, { look: 1.6, left: [24, -58], mouth: "grim" });
@@ -2065,7 +2065,7 @@ piece("vignette-ch16", () => {
   s += stars(161, 0, 4, W, 60, 20);
   // the sea and the mudflats, shining with the sky
   s += R(0, hz, W, H - hz, lin([[0, "#7a5a7a"], [1, "#3a3050"]]));
-  s += P(sm([[0, hz + 6], [180, hz + 8], [420, hz + 20], [560, hz + 44], [600, H, 1], [0, H, 1]]), lin([[0, "#7a5a6a"], [0.4, "#4e3c4c"], [1, "#2e2434"]]), { s: INK, w: 1.4 });
+  s += P(`M0,${hz + 10}L360,${hz + 14}Q500,${hz + 18} 560,${hz + 44}Q600,${hz + 80} 640,${H}L0,${H}Z`, lin([[0, "#7a5a6a"], [0.35, "#56404e"], [1, "#2e2434"]]), { s: INK, w: 1.4 });
   s += S(`M30,${hz + 40}Q160,${hz + 30} 280,${hz + 52}M60,${hz + 80}Q220,${hz + 66} 400,${hz + 96}M120,${hz + 110}Q260,${hz + 100} 470,${hz + 122}`, "#c88a8a", 3, { op: 0.6 });
   // reeds at the near edge
   let rd = "";

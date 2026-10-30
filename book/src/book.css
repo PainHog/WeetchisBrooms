@@ -315,7 +315,7 @@ p.opener::first-line { font-variant: small-caps; letter-spacing: .03em; font-wei
   float: right;
   width: 1.2in;
   margin: 0 0 0.04in 0.08in;
-  shape-outside: circle(50%);
+  shape-outside: margin-box;   /* square portraits */
 }
 .entry .badge { width: 1.05in; }
 .entry .ability, .entry .signature {
