@@ -12,9 +12,9 @@ import { readRoll, RESULT } from "./logic/rules.mjs";
 import { getEpisode, setEpisode, covenActors, witchesStanding } from "./store.mjs";
 import { threatTurn } from "./cards.mjs";
 import { formValue } from "./dialogs.mjs";
+import { esc } from "./util.mjs";
 
 const { ApplicationV2, HandlebarsApplicationMixin, DialogV2 } = foundry.applications.api;
-const esc = s => foundry.utils.escapeHTML(String(s ?? ""));
 const RESULT_TEXT = { win: "Win", partial: "Partial", loss: "Loss" };
 const ENDED_TEXT = { destroyed: "the threat was destroyed", fled: "the threat fled", doom: "Doom filled", allDown: "every witch was Down", retreat: "the coven retreated" };
 

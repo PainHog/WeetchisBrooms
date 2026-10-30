@@ -13,8 +13,8 @@ import { SYSTEM_ID, FLAG, SETTINGS, CARD } from "./contracts.mjs";
 import { readRoll, RESULT, works } from "./logic/rules.mjs";
 import * as E from "./logic/episode.mjs";
 import { getEpisode, setEpisode, covenStatus, isActiveGM, witchesStanding } from "./store.mjs";
+import { esc } from "./util.mjs";
 
-const esc = s => foundry.utils.escapeHTML(String(s ?? ""));
 const RESULT_LABEL = { critical: "Critical", success: "Success", partial: "Partial", failure: "Failure" };
 const isFull = r => r === RESULT.SUCCESS || r === RESULT.CRITICAL;
 

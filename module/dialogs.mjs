@@ -4,8 +4,8 @@
 import { WW } from "./config.mjs";
 import { performRoll, purposeDefaults } from "./cards.mjs";
 import { getEpisode } from "./store.mjs";
+import { esc } from "./util.mjs";
 
-const esc = s => foundry.utils.escapeHTML(String(s ?? ""));
 const DialogV2 = () => foundry.applications.api.DialogV2;
 
 /** Which purposes each Power fits by default (CORE-RULES "Powers"); the player can untick it. */
@@ -51,13 +51,11 @@ export async function rollDialog(actor, preset = {}) {
   const fitsList = isGuardian ? [] : (POWER_FITS[actor.system.power] ?? []);
   const ratings = Object.keys(WW.ratings).filter(k => !(isGuardian && k === "craft"));
 
-  const opt = k => {
-    const d = purposeDefaults(k, actor, state);
-    return `<option value="${k}" data-rating="${d.rating}" data-difficulty="${d.difficulty}" data-fits="${fitsList.includes(k) ? 1 : 0}" ${k === purpose ? "selected" : ""}>${esc(WW.purposes[k].label)}</option>`;
-  };
-  const d = purposeDefaults(purpose, actor, state);
-  const rating = preset.rating ?? d.rating;
-  const difficulty = preset.difficulty ?? d.difficulty;
+  // Defaults per purpose, kept here (not in data- attributes, which dialog content cleaning may drop).
+  const table = Object.fromEntries(purposes.map(k => [k, { ...purposeDefaults(k, actor, state), fits: fitsList.includes(k) }]));
+  const opt = k => `<option value="${k}" ${k === purpose ? "selected" : ""}>${esc(WW.purposes[k].label)}</option>`;
+  const rating = preset.rating ?? table[purpose].rating;
+  const difficulty = preset.difficulty ?? table[purpose].difficulty;
   const helpers = (state?.active ? state.covenNames ?? [] : []).filter(c => c.id !== actor.id);
   const potions = [...new Set((state?.potions ?? []).filter(p => p !== "healing"))];
 
@@ -83,18 +81,20 @@ export async function rollDialog(actor, preset = {}) {
     window: { title: `${actor.name}: roll` },
     content,
     rejectClose: false,
+    // When the purpose changes, update the rating, Difficulty and Power box (if this option is supported).
     render: (event, dialog) => {
-      const root = dialog?.element ?? event?.target?.element;
+      const root = dialog?.element ?? (dialog instanceof HTMLElement ? dialog : null) ?? event?.target?.element;
       const select = root?.querySelector?.("select[name=purpose]");
       select?.addEventListener("change", () => {
-        const o = select.selectedOptions?.[0]?.dataset ?? {};
+        const o = table[select.value];
+        if (!o) return;
         const r = root.querySelector("select[name=rating]");
         const dfc = root.querySelector("input[name=difficulty]");
         const pf = root.querySelector("input[name=powerFits]");
         const bk = root.querySelector("input[name=book]");
-        if (r && o.rating) r.value = o.rating;
-        if (dfc && o.difficulty) dfc.value = o.difficulty;
-        if (pf) pf.checked = o.fits === "1";
+        if (r) r.value = o.rating;
+        if (dfc) dfc.value = o.difficulty;
+        if (pf) pf.checked = o.fits;
         if (bk) bk.checked = select.value === "research";
       });
     },

@@ -6,10 +6,10 @@ import { rollDialog, pickActor } from "./dialogs.mjs";
 import { useGift, drinkHealing, performRoll } from "./cards.mjs";
 import { getEpisode, covenActors } from "./store.mjs";
 import { FLAG, CARD } from "./contracts.mjs";
+import { esc } from "./util.mjs";
 
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 const { ActorSheetV2 } = foundry.applications.sheets;
-const esc = s => foundry.utils.escapeHTML(String(s ?? ""));
 
 const boxes = (n, filled) => Array.from({ length: n }, (_, i) => ({ value: i + 1, filled: i < filled }));
 const choices = (keys, current, label = k => k) => keys.map(k => ({ value: k, label: label(k), selected: k === current }));

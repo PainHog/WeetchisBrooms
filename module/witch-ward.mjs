@@ -77,7 +77,7 @@ Hooks.on("getSceneControlButtons", controls => {
   try {
     const tokens = controls?.tokens ?? (Array.isArray(controls) ? controls.find(c => c.name === "token") : null);
     if (!tokens) return;
-    const tool = { name: "wwTracker", title: "Episode Tracker", icon: "fa-solid fa-hat-wizard", button: true, visible: true, onChange: () => openTracker(), onClick: () => openTracker() };
+    const tool = { name: "wwTracker", title: "Episode Tracker", icon: "fa-solid fa-hat-wizard", button: true, visible: true, order: 99, onChange: () => openTracker(), onClick: () => openTracker() }; // onClick for older cores
     if (Array.isArray(tokens.tools)) tokens.tools.push(tool);
     else if (tokens.tools) tokens.tools.wwTracker = { ...tool, order: Object.keys(tokens.tools).length };
   } catch (err) { console.warn("Witch & Ward | could not add the tracker button", err); }
