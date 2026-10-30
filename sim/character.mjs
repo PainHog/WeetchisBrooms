@@ -12,7 +12,7 @@ import { RULES } from "./params.mjs";
  * `main` is the rating a sensible player puts the 3 into.
  */
 export const POWERS = {
-  force: { name: "Force", fits: ["attack"], main: "nerve" },
+  force: { name: "Force", fits: ["attack", "free"], main: "nerve" },
   flame: { name: "Flame", fits: ["attack"], main: "nerve" },
   sight: { name: "Sight", fits: ["leadHeart", "leadWits", "research", "reveal", "study", "defend"], main: "wits" },
   voice: { name: "Voice", fits: ["leadHeart", "hide"], main: "heart" },

@@ -10,9 +10,9 @@
 
 /** CORE-RULES "[T] Numbers", per difficulty label. */
 export const NUMBERS = {
-  easy:     { leadD: 1, defence: 1, attack: 1, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 5, cluesPer: 3, cluesAdd: 1, vanquishAdd: 0 },
-  standard: { leadD: 2, defence: 2, attack: 2, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 3, cluesAdd: 2, vanquishAdd: 0 },
-  hard:     { leadD: 2, defence: 2, attack: 2, hit: 3, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 3, cluesAdd: 4, vanquishAdd: 0 },
+  easy:     { leadD: 1, defence: 1, attack: 1, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 5, cluesPer: 3, cluesAdd: 0, vanquishAdd: 0 },
+  standard: { leadD: 2, defence: 2, attack: 2, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, vanquishAdd: 0 },
+  hard:     { leadD: 2, defence: 2, attack: 2, hit: 3, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, vanquishAdd: 0 },
 };
 
 /** CORE-RULES per-size rows: threat attacks per round (by characters) and Vanquish Difficulty change (by witches). */
@@ -37,9 +37,16 @@ export const RULES = {
   damage: { critical: 3, success: 2, partial: 1, failure: 0 },
   surgeCost: 2,
   noWeaknessVanquish: 2, // "+2 without the Weakness"
+  potionYield: 1,       // potions a successful brew makes (a Critical makes one more)
+  potionFree: false,    // using a potion needs no action (one potion per character per round)
+  brewWithBook: false,  // the character researching the Book may also brew one potion that scene (instead of brewing taking its own action)
   potionBlast: 2,
   potionHeal: 2,
   mendHeal: 2,
+  freeNeedsSuccess: true,  // freeing a held innocent takes a full success (a Partial doesn't free them)
+  innocentHeld: 1,         // public showdown: the threat starts holding the innocent; lost if still held at the end of this round (0 = off, v0.2)
+  noWeaknessDefence: 1,    // the threat's Defence is this much higher until the coven knows its Weakness
+  weaknessDamage: 1,       // extra damage on attacks that work once the Weakness is known (v0.2: 0)
   revealBonus: 1,          // extra Clue Reveal gives on a Success or Critical (v0.1: 0)
   blastBonus: 1,           // extra damage Blast does on a Partial or better (v0.1: 0)
   voiceClue: true,         // Voice's Surge can instead give 1 more Clue on a talking lead (v0.1: false)

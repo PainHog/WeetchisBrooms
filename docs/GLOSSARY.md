@@ -19,9 +19,11 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Episode** | One session's story, from opening to closing. |
 | **Exposure** | How close ordinary people are to seeing magic. When full, the coven is **Seen**. |
 | **Failure** | Fewer successes than half the Difficulty. It doesn't work and there's a cost. |
+| **Free** | A showdown action: Nerve against Defence to pull a held innocent loose; only a success works. |
 | **Gift** | One of the guardian's abilities: Mend, Shield, Carry, Sense, Hold. |
 | **Guard** | A showdown action: stay with the innocent so the threat attacks you instead of taking them. |
 | **Guardian** | The coven's protective spirit, bound to its home by an old promise; human or animal shape; no masters. Never called a "Warden". |
+| **Held** | The innocent at the start of a public showdown, in the threat's grip. Lost if still held at the end of the first round. |
 | **Heart** | The rating for people: talking, comforting, lying, reading people. |
 | **Hit** (threat stat) | The Hurt a threat deals when a defence fails. |
 | **Hurt** | Damage to a character: 4 boxes for a witch, 5 for the guardian. Used instead of "Harm", which another of Richard's books uses. |
@@ -46,6 +48,6 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Toughness** | The damage that Breaks a threat. |
 | **Vanquish** | The joined spell that destroys a Broken threat. |
 | **Ward** | The guardian's points, 5 per episode. (Only this meaning in the rules; the title's "Ward" is protection in general.) |
-| **Weakness** | What the Vanquish needs to be at its normal Difficulty. |
+| **Weakness** | What the coven learns with all the Clues. Without it the threat's Defence is 1 higher and the Vanquish is 2 harder; with it, attacks that work do 1 more damage. |
 | **Witch** | A player character with a Power. |
 | **Wits** | The rating for noticing, searching and research. |

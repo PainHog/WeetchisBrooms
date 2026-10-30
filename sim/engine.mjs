@@ -29,7 +29,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     cluesNeeded: N.cluesPer * n + N.cluesAdd,  // [T] Clues needed
     scene: 0, phase: "investigation", place: "hidden", forced: false,
     veiledScene: -1, veiledShowdown: false,
-    innocent: { present: false, safe: false, lost: false, guard: null },
+    innocent: { present: false, safe: false, lost: false, guard: null, held: false },
     threat: null, round: 0, magicThisRound: false, ended: null,
     brewed: 0, potionsUsed: 0, vanquishTries: 0, vanquishLog: [], cluesAtShowdown: 0, doomAtShowdown: 0,
     rolls: { critical: 0, success: 0, partial: 0, failure: 0 },
@@ -188,7 +188,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     }
     // Brewing, once the coven knows what the threat is.
     const brewTarget = { none: 0, one: 1, two: 2 }[P.brew];
-    if (st.brewed < brewTarget && st.clues >= half() && st.doom <= N.mark - 2 && free.length > 1) {
+    if (!R.brewWithBook && st.brewed < brewTarget && st.clues >= half() && st.doom <= N.mark - 2 && free.length > 1) {
       const b = maxBy(free, brewPool);
       if (b) take(b, { act: "brew" });
     }
@@ -212,7 +212,12 @@ export function playEpisode({ coven, label, settings, rng }) {
       case "life": ch.lifeAnswered = true; ch.magic += 1; ch.magicGained += 1; use("life"); return; // "gain 1 Magic"
       case "hide": return hide(ch);
       case "brew": return brew(ch);
-      case "research": return lead(ch, { kind: "research", rating: "wits", pub: false }, 1);
+      case "research": {
+        lead(ch, { kind: "research", rating: "wits", pub: false }, 1);
+        const brewTarget = { none: 0, one: 1, two: 2 }[P.brew];
+        if (R.brewWithBook && st.brewed < brewTarget && !ch.down) brew(ch); // brewing alongside the Book
+        return;
+      }
       case "lead": return lead(ch, bestLead(ch), 0);
     }
   }
@@ -242,7 +247,7 @@ export function playEpisode({ coven, label, settings, rng }) {
 
   function brew(ch) {
     const r = roll(ch, { rating: "craft", action: "brew", difficulty: N.leadD });
-    const made = r.result === RESULT.CRITICAL ? 2 : works(r.result) ? 1 : 0;
+    const made = r.result === RESULT.CRITICAL ? R.potionYield + 1 : works(r.result) ? R.potionYield : 0;
     for (let i = 0; i < made; i++) { const k = pick(POTION_ORDER); coven.potions.push(k); use(`brewed:${k}`); }
     st.brewed += 1;
     st.potionsMade = (st.potionsMade || 0) + made;
@@ -268,6 +273,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     st.phase = "showdown";
     st.place = place;
     st.innocent.present = place === "public";
+    st.innocent.held = st.innocent.present && R.innocentHeld > 0; // "the threat starts holding the innocent"
     st.cluesAtShowdown = st.clues;
     st.doomAtShowdown = st.doom;
     for (const ch of coven.witches) if (!ch.lifeAnswered) { ch.magicLost = Math.min(1, ch.magic); ch.magic = Math.max(0, ch.magic - 1); }
@@ -284,6 +290,17 @@ export function playEpisode({ coven, label, settings, rng }) {
     const i = st.innocent;
     return i.present && !i.safe && !i.lost;
   }
+  /** The innocent is out of the threat's grip but still in the fight. */
+  const innocentLoose = () => threatExposed() && !st.innocent.held;
+  const freePool = ch => ch.ratings.nerve + (fits(ch, "free") ? R.powerDice : 0);
+  /** Free a held innocent: Nerve against Defence; a Partial or better frees them. */
+  function freeInnocent(ch) {
+    use("free");
+    const careful = carefulRound();
+    const r = roll(ch, { rating: "nerve", action: "free", difficulty: Math.max(1, effectiveDefence()), power: !careful, buy: ch.kind === "witch" ? Math.min(2, spareMagic(ch, RESERVE)) : 0 });
+    if (R.freeNeedsSuccess ? r.result === RESULT.SUCCESS || r.result === RESULT.CRITICAL : works(r.result)) st.innocent.held = false;
+    fightCost(ch, r.result);
+  }
 
   function round() {
     const T = st.threat;
@@ -295,14 +312,19 @@ export function playEpisode({ coven, label, settings, rng }) {
     // No guardian player: one call per episode (Carry the innocent, or Mend a Down witch).
     if (coven.guardianCall && !st.callUsed) {
       const downW = coven.witches.filter(x => x.down);
-      if (threatExposed()) { st.innocent.safe = true; st.callUsed = true; use("call:carry"); if (st.place === "public") st.magicThisRound = true; }
+      if (innocentLoose()) { st.innocent.safe = true; st.callUsed = true; use("call:carry"); if (st.place === "public") st.magicThisRound = true; }
       else if (downW.length) { heal(maxBy(downW, x => attackPool(x).pool), R.mendHeal); st.callUsed = true; use("call:mend"); if (st.place === "public") st.magicThisRound = true; }
     }
     const acted = new Set();
     const gd = coven.guardian;
     if (gd && !gd.down) { guardianAct(gd); acted.add(gd); }
-    // Pick a guard for an exposed innocent nobody is carrying out.
-    if (threatExposed() && !st.threat.broken) {
+    // A held innocent: up to two witches try to free them.
+    if (st.innocent.held && !T.broken) {
+      const cands = standing(coven.witches).filter(x => !acted.has(x)).sort((a, b) => freePool(b) - freePool(a));
+      for (const ch of cands.slice(0, 2)) { if (!st.innocent.held) break; freeInnocent(ch); acted.add(ch); }
+    }
+    // Pick a guard for a loose innocent nobody is carrying out.
+    if (innocentLoose() && !st.threat.broken) {
       const cands = standing(coven.witches);
       if (cands.length > 1) {
         const guard = minBy(cands, x => attackPool(x).pool);
@@ -320,6 +342,8 @@ export function playEpisode({ coven, label, settings, rng }) {
     }
     if (st.ended) return;
     if (!T.broken) threatActs(); // "Then the threat acts."
+    if (st.innocent.held && T.broken) st.innocent.held = false; // a Broken threat lets go
+    if (st.innocent.held && st.round >= R.innocentHeld) { st.innocent.held = false; st.innocent.lost = true; } // "still held at the end of round 2: lost"
     if (st.place === "public" && st.magicThisRound && !st.veiledShowdown) raiseExposure(1); // once per round
     if (standing(coven.witches).length === 0) return end("allDown");
     if (T.broken) {
@@ -346,7 +370,8 @@ export function playEpisode({ coven, label, settings, rng }) {
 
   function guardianAct(gd) {
     if (R.mendFree) { const t = mendTarget(); if (t && gd.ward >= 1) mend(gd, t); } // no action, once a round
-    if (threatExposed() && gd.ward >= 1) { // Carry the innocent out
+    if (st.innocent.held && !st.threat.broken) return freeInnocent(gd); // free them first
+    if (innocentLoose() && gd.ward >= 1) { // Carry the innocent out
       spend(gd, 1, "ward"); st.innocent.safe = true; use("gift:carry"); if (st.place === "public") st.magicThisRound = true; return;
     }
     if (!R.mendFree) { const t = mendTarget(); if (t && gd.ward >= 1) return mend(gd, t); }
@@ -358,7 +383,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     fightCost(gd, r.result);
   }
 
-  function effectiveDefence() { return Math.max(0, N.defence + st.threat.defenceMod); }
+  function effectiveDefence() { return Math.max(0, N.defence + st.threat.defenceMod + (weakness() ? 0 : R.noWeaknessDefence)); }
   function effectiveDefenceSafe() { return st.threat ? effectiveDefence() : N.defence; }
 
   function fightCost(ch, result) {
@@ -384,9 +409,16 @@ export function playEpisode({ coven, label, settings, rng }) {
       return fresh ? vanquish(ch, acted) : undefined;
     }
     const careful = carefulRound();
+    // Free potion (no action, one per character per round), when the rule allows it.
+    if (R.potionFree && !careful) {
+      const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - 1);
+      if (needHeal.length && coven.potions.includes("healing")) { usePotion("healing"); heal(maxBy(needHeal, x => x.hurt * 10 + attackPool(x).pool), R.potionHeal); }
+      else if (coven.potions.includes("blasting")) { usePotion("blasting"); damageThreat(ch, R.potionBlast); if (T.broken) return; }
+      else if (coven.potions.includes("binding") && T.skip === 0) { usePotion("binding"); T.skip += 1; }
+    }
     // Healing potion on a Down witch.
     const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - 1);
-    if (needHeal.length && coven.potions.includes("healing") && !careful) {
+    if (!R.potionFree && needHeal.length && coven.potions.includes("healing") && !careful) {
       usePotion("healing"); heal(maxBy(needHeal, x => x.hurt * 10 + attackPool(x).pool), R.potionHeal); return;
     }
     // Veil in a public showdown: Hide with a Surge, so the rest of the showdown is unseen.
@@ -416,15 +448,15 @@ export function playEpisode({ coven, label, settings, rng }) {
       return;
     }
     // Potions before rolling.
-    if (!careful && coven.potions.includes("blasting")) { usePotion("blasting"); damageThreat(ch, R.potionBlast); return; }
-    if (!careful && coven.potions.includes("binding") && T.skip === 0) { usePotion("binding"); T.skip += 1; return; }
+    if (!R.potionFree && !careful && coven.potions.includes("blasting")) { usePotion("blasting"); damageThreat(ch, R.potionBlast); return; }
+    if (!R.potionFree && !careful && coven.potions.includes("binding") && T.skip === 0) { usePotion("binding"); T.skip += 1; return; }
     // Attack.
     const opt = attackPool(ch, !careful);
     if (opt.spell) { spend(ch, 1); use("spell:blast"); } else use("attack"); // Blast or a plain attack
     let surged = null;
     if (!careful && (ch.power === "force" || ch.power === "flame") && surgeOk(ch, RESERVE)) { surge(ch); surged = ch.power; }
     const r = roll(ch, { rating: opt.rating, action: "attack", difficulty: Math.max(1, effectiveDefence()), power: !careful, spell: opt.spell, buy: Math.min(2, spareMagic(ch, RESERVE)) });
-    let dmg = R.damage[r.result] + (opt.spell && works(r.result) ? R.blastBonus : 0);
+    let dmg = R.damage[r.result] + (opt.spell && works(r.result) ? R.blastBonus : 0) + (weakness() && works(r.result) ? R.weaknessDamage : 0);
     if (surged === "flame" && works(r.result)) dmg += 2;
     if (surged === "force" && works(r.result)) T.skip += 1;
     damageThreat(ch, dmg);
@@ -476,7 +508,7 @@ export function playEpisode({ coven, label, settings, rng }) {
       if (T.skip > 0) { T.skip--; continue; } // "loses its next attack"
       const d = rng.d6();
       if (d === 6) {
-        if (threatExposed()) {
+        if (innocentLoose()) {
           const guard = st.innocent.guard;
           if (guard && !guard.down) { attackOn(guard, 0); continue; } // "the threat must attack you instead"
           st.innocent.lost = true; continue; // "it takes the innocent instead"
