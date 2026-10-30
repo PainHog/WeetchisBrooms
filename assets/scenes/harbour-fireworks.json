@@ -1,0 +1,125 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "points": [
+    {
+      "key": "way-promenade",
+      "label": "The promenade from Old Town (a way in and out)",
+      "x": 2720,
+      "y": 150
+    },
+    {
+      "key": "way-ferry-terminal",
+      "label": "Through the ferry terminal (a way in and out)",
+      "x": 2000,
+      "y": 120
+    },
+    {
+      "key": "way-fish-market-lane",
+      "label": "The fish market lane (a way in and out)",
+      "x": 910,
+      "y": 150
+    },
+    {
+      "key": "way-harbour-steps",
+      "label": "By boat to the harbour steps (a way in and out)",
+      "x": 700,
+      "y": 1300
+    },
+    {
+      "key": "the-quayside",
+      "label": "The quayside: thousands of people, food vans and music. Hannah's fire engine is parked here, and the fireboat is moored at the quay",
+      "x": 1200,
+      "y": 950
+    },
+    {
+      "key": "fire-engine",
+      "label": "Hannah's fire engine",
+      "x": 2260,
+      "y": 1095
+    },
+    {
+      "key": "fireboat",
+      "label": "The fireboat, moored at the quay (its pumps draw straight from the harbour)",
+      "x": 2180,
+      "y": 1335
+    },
+    {
+      "key": "rocket-falls",
+      "label": "Where the first rocket bursts white and falls burning onto the quay: the Ash Widow walks out of the sparks with Hannah in her grip",
+      "x": 2250,
+      "y": 840
+    },
+    {
+      "key": "fireworks-barge",
+      "label": "The fireworks barge: moored out in the harbour. The show is fired from here",
+      "x": 1530,
+      "y": 1700
+    },
+    {
+      "key": "ferry-terminal",
+      "label": "The ferry terminal: a glass hall, open late for the festival",
+      "x": 2000,
+      "y": 370
+    },
+    {
+      "key": "fish-market-roof",
+      "label": "The fish market roof: a flat roof where people climb for a better view (the iron stair in the lane)",
+      "x": 400,
+      "y": 360
+    },
+    {
+      "key": "the-promenade",
+      "label": "The promenade: the wide walk from Old Town to the long pier",
+      "x": 2720,
+      "y": 700
+    },
+    {
+      "key": "harbour-steps",
+      "label": "The harbour steps: stone steps down to the water, where small boats tie up",
+      "x": 780,
+      "y": 1200
+    }
+  ],
+  "tokens": {
+    "coven": [
+      [
+        2600,
+        300
+      ],
+      [
+        2700,
+        300
+      ],
+      [
+        2800,
+        300
+      ],
+      [
+        2600,
+        400
+      ],
+      [
+        2700,
+        400
+      ],
+      [
+        2800,
+        400
+      ],
+      [
+        2700,
+        500
+      ]
+    ],
+    "threat": [
+      2200,
+      800
+    ],
+    "innocent": [
+      2300,
+      800
+    ]
+  }
+}
