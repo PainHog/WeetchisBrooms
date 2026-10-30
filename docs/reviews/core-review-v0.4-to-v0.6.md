@@ -1,6 +1,6 @@
-# Core rules v0.4: review
+# Core rules review: v0.4 to v0.6
 
-A rules review of `docs/CORE-RULES.md` v0.4 (`docs/REVIEW-PROCEDURE.md` §1), done before the two real-dice playtests in `sim/playtests/`. The combined findings and the fixes made are at the end.
+The review procedure (`docs/REVIEW-PROCEDURE.md`) run on the core rules: a rules review of v0.4 (§1 below), two real-dice playtests of v0.4 (§2), and the fixes made in v0.5 and v0.6 (§3). A verification playtest of v0.6 is in `sim/playtests/verify-v0.6.md`.
 
 ## 1. Rules review
 
@@ -57,3 +57,26 @@ A rules review of `docs/CORE-RULES.md` v0.4 (`docs/REVIEW-PROCEDURE.md` §1), do
 | A27 first night | open | Biggest roll is a 5-witch Vanquish: up to 13 dice. Say so in the first-night chapter |
 | A28 sheets | n/a | After approval |
 | A29 one-card round | pass | 5 steps: actions, threat, innocent, Exposure, Doom |
+
+## 2. Playtests (v0.4, real dice, every roll logged)
+
+| Test | Table | Result | Report |
+|---|---|---|---|
+| A, first night | Easy, 3 new players, no guardian player | Win; the threat never attacked. Setup about 30–45 minutes, play about 65 | `sim/playtests/test-a-first-night.md` (26 issues) |
+| B, rowdy table | Hard, 4 witches and a guardian player, waiting for the Weakness on purpose | Win; the threat never attacked (Bind plus a Binding potion cancelled both attacks). Losses happened in the drills | `sim/playtests/test-b-rowdy-hard.md` (38 issues) |
+
+What both found most: free potions (no roll, no action) and stacked "loses its next attack" made threats harmless; half the Clues and the Showdown mark in the same scene; target rules with no answer for "nobody" or ties; undefined Critical extras; "Magic", "attack" and "hold" with two or more meanings; Book research not saying what it rolls; casting free once Seen. Test B also flagged "Vanquish" as the show's word.
+
+## 3. Fixes
+
+- **v0.5** (`book/REVIEW.md` #20–32): every review item R1–R18 and playtest A's issues: go-or-wait timing, Book research as a lead, Life timing, one meaning per word (casting, Danger, in its grip), target fallbacks and ties, guard and free outcomes, the default Critical extra, Hide never raising Exposure, Seen feeding Doom, at most one potion per character, numbers fixed at the start, Loss carry-over.
+- **v0.6** (`book/REVIEW.md` #33–42): playtest B: "Vanquish" renamed **the Unmaking**; Blasting adds damage to an attack instead of skipping the roll; at most one lost attack a round; a Partial brew makes one potion; Sense's die outside the +2 limit; Wild can Surge for a potion; Shelter, Hold, Sight, group checks, retreat and the guardian settled; a d6 Life table; threats grow with the witches in a season.
+- **Simulator after the fixes** (`sim/REPORT.md`): wins 87 / 73 / 56% and losses 0 / 9 / 26% for Easy / Standard / Hard; every Power within 1.5 points; a guardian player within about 5 points of an extra witch; seasons steady at about 74–80% (Standard) and 55–65% (Hard).
+
+## 4. Still open
+
+- Every group size within 5 points of the label's target: two cells sit just outside (Standard 69% with 5 witches, Hard 53% with 3 witches and a guardian).
+- Criticals are 12–13% of rolls (target 15–25%): pools are small. Could count a Critical on any success with a 6 when the pool is 3 dice or fewer, if it matters at the table.
+- At Easy the guardian spends little Ward and half the potions go unused: Easy fights are short (2 rounds). Acceptable for a first night.
+- The page is now about 2,100 words: a dense page, not a short one. The chapters will spread it out; a one-card round summary and a quick reference come with the chapters.
+- Ready-made content (episodes, threats, the home) and the first-night pack wait for Richard's approval of the core.
