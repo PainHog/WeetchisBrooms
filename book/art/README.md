@@ -144,3 +144,7 @@ Spots (800×600, framed; placed by `SPOTS` in `book/build.mjs`, one per chapter,
 - `map-harbour-fireworks`: Episode 2 public place, the quayside on fireworks night. Fire engine, fireboat, barge, ferry terminal, fish market roof, promenade, harbour steps, four ways in and out (3:2)
 - `map-drowned-village`: Episode 3 hidden place, Old Saltby at low tide. Causeway, reed beds and hide, village street, St Agnes's and churchyard, mudflats, three ways in and out plus the mudflat walk, a way out only (3:2)
 - `map-long-pier`: Episode 3 public place, the long pier at dusk. Gates and arcade, boardwalk, halfway café, pier head, lifeboat ramp, beach steps, four ways in and out (3:2)
+
+## Image sources
+
+Every picture and map in the book, and every token and scene map in the Foundry system, is original: hand-built vector art drawn by the generator scripts in this repository (`book/tools/art-gen/scenes/` for the book, `tools/vtt-art/` for the maps and tokens). No photographs, stock images, public-domain images or outside artwork are used, so no image licences or public-domain notices are needed. The fonts are Fraunces, Alegreya and Alegreya Sans (SIL Open Font License 1.1), credited on the credits page. All of this art is temporary test art and will be replaced by Richard Moore's drawings.
