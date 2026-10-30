@@ -28,7 +28,7 @@ Status: **fixed** = the v0.6 text answers it; **partly** = some of it is answere
 | 8 | A freed innocent taken again | fixed | "Once free, if the threat takes them, they're lost." Seen in D8. |
 | 9 | No-guardian call: action, roll, casting | fixed | "calling takes no action and no roll, and counts as casting". |
 | 10 | Who holds potions; handing over; on a neighbour; Down witch; "a round" in scenes | partly | "The coven shares its potions … Using one takes no action: on your turn, on yourself or someone near you, one a round." Still open: can a Down witch use one on herself, and what "one a round" means in a scene. |
-| 11 | Helpers on the Unmaking; a joiner also helping | fixed | "helping takes no action, so anyone can help, even after acting or while Down"; "joiners don't count toward the +2 limit". Kit joined and helped in round 2 with no question. |
+| 11 | Helpers on the Unmaking; a joiner also helping | fixed | "helping takes no action, so anyone can help, even after acting or while Down"; "joiners don't count toward the +2 limit". Finn joined and helped in round 2 with no question. |
 | 12 | Critical extras missing for most rolls | fixed | "It does one thing extra: +1 damage, +1 Clue, +1 potion or −1 more Exposure, as fits; otherwise +1 die on your next roll." New small gap: N10. |
 | 13 | Partial free; "no other cost" on a missed Unmaking (then under its old name) | fixed | "only a success frees them (a Partial doesn't, and still costs 1 Hurt)"; "On a Partial or Failure it isn't destroyed and nobody takes Hurt". |
 | 14 | Hurt for failed reading or brewing at home feels odd | not changed | The cost line is the same: "Otherwise, Exposure +1 if you were casting out in the city, or else 1 Hurt." Rosa took 3 Hurt at home this episode (V008, V012, V013). Kept on purpose, it seems. |
@@ -42,7 +42,7 @@ Status: **fixed** = the v0.6 text answers it; **partly** = some of it is answere
 | 22 | A Critical Reveal: 2 or 3 Clues | partly | No new line. Read with the Critical menu ("+1 Clue") and "Reveal … a success gives 1 more Clue", it comes to 3, which is how Ivy's Critical Reveal (V010) was scored. A one-line example would close it. |
 | 23 | Can a Broken threat still take the innocent | fixed | "it makes no more rolls or moves". |
 | 24 | Roll or pick Powers; shared; Lives; talking and searching leads | fixed | "roll a d6 in this order, or pick: Force, Flame, Sight, Voice, Veil, Wild; no two witches share one"; the d6 Life table; "A talking lead uses Heart; a searching lead uses Wits." Setup took about 10 minutes. |
-| 25 | Magic above 5; skipping a Life at 0 Magic | partly | "(or take 1 Hurt if they have none)" fixes 0. Going above 5 is still unstated (Kit reached 6 in scene 2). |
+| 25 | Magic above 5; skipping a Life at 0 Magic | partly | "(or take 1 Hurt if they have none)" fixes 0. Going above 5 is still unstated (Finn reached 6 in scene 2). |
 | 26 | Doom full in a hidden showdown, with no innocent there | fixed | "when full, the plan is complete: the innocent is lost and the threat escapes." |
 
 ### Playtest B (rowdy table, v0.4), issues 1–38
@@ -125,7 +125,7 @@ Powers rolled in the page's order (1 Force, 2 Flame, 3 Sight, 4 Voice, 5 Veil, 6
 |---|---|---|---|---|---|---|---|---|---|
 | Ivy Marsh | Flame (V001) | 2 | 1 | 2 | **3** | bus driver (V004) | 0/4 | 5 | Blast with Flame (5 dice), lead the Unmaking, Reveal |
 | Rosa Teague | Sight (V002) | 1 | **3** | 2 | 2 | mechanic (V005) | 0/4 | 5 | Book research every scene, defend and study with Sight |
-| Kit Adeyemi | Force (V003) | 2 | 1 | **3** | 2 | teacher (V006) | 0/4 | 5 | Free and attack with Force (5 dice), talking leads |
+| Finn Adeyemi | Force (V003) | 2 | 1 | **3** | 2 | teacher (V006) | 0/4 | 5 | Free and attack with Force (5 dice), talking leads |
 
 ### The guardian
 
@@ -166,7 +166,7 @@ Track line: **Doom / Exposure / Clues**, then each character's Hurt (H) and Magi
 
 A night jogger is pulled from the canal at Coal Wharf, alive but unable to speak, her lips blue. The Drowner has struck.
 
-**Tracks:** Doom 0/12 · Exposure 0/4 · Clues 0/15 · Ivy H0 M5 · Rosa H0 M5 · Kit H0 M5 · Thistle H0/5 W5 · Potions none.
+**Tracks:** Doom 0/12 · Exposure 0/4 · Clues 0/15 · Ivy H0 M5 · Rosa H0 M5 · Finn H0 M5 · Thistle H0/5 W5 · Potions none.
 
 ### Scene 1
 
@@ -174,7 +174,7 @@ A night jogger is pulled from the canal at Coal Wharf, alive but unable to speak
 |---|---|---|---|---|
 | Rosa | Book research at home | Wits 3 + Sight 2 + Book 1, + Sense 1 (Thistle, 1 Ward, outside the limit) = 7 vs 2 | V007 | Critical: 2 Clues |
 | Rosa | Researcher's brewing roll | Craft 2 vs 2 | V008 | Partial: 1 Blasting potion. Cost: at home, so 1 Hurt |
-| Kit | Talking lead: a pupil who runs the towpath | Heart 2 + Life (teacher) 1 = 3 vs 2 | V009 | Partial: 1 Clue. Not casting, so 1 Hurt |
+| Finn | Talking lead: a pupil who runs the towpath | Heart 2 + Life (teacher) 1 = 3 vs 2 | V009 | Partial: 1 Clue. Not casting, so 1 Hurt |
 | Ivy | Reveal at the lock (1 Magic) | Craft 3 = 3 vs 2 | V010 | Critical: 3 Clues (ruling above) |
 | Thistle | Talking lead at the moorings | Heart 3 = 3 vs 2 | V011 | Failure: no Clue. Its own roll had no gift on it, so 1 Hurt |
 
@@ -183,7 +183,7 @@ Then Doom +1.
 - The coven spent Thistle's Sense on Rosa, the strongest roll, to push her Critical chance. Sense outside the limit made this worth the Ward.
 - **Question:** Thistle had cast Sense this scene. Was it "casting out in the city" when its own lead failed? Ruled no: the Sense was on Rosa's roll at home, not on Thistle's (N12).
 
-**After scene 1:** Doom 1 · Exposure 0 · Clues 6 · Ivy H0 M4 · Rosa H1 M5 · Kit H1 M5 · Thistle H1 W4 · Potions: Blasting 1 (cap 4).
+**After scene 1:** Doom 1 · Exposure 0 · Clues 6 · Ivy H0 M4 · Rosa H1 M5 · Finn H1 M5 · Thistle H1 W4 · Potions: Blasting 1 (cap 4).
 
 ### Scene 2
 
@@ -193,13 +193,13 @@ Then Doom +1.
 | Rosa | Researcher's brewing roll | Craft 2 vs 2 | V013 | Failure: no potion, 1 Hurt |
 | Ivy | Reveal on the towpath (1 Magic) | Craft 3 vs 2 | V014 | Partial: 1 Clue. Casting out in the city, so Exposure +1 |
 | Thistle | Talking lead with the lock-keeper | Heart 3 vs 2 | V015 | Partial: 1 Clue, 1 Hurt |
-| Kit | Answers his Life (parents' evening) | no roll | — | +1 Magic (6) |
+| Finn | Answers his Life (parents' evening) | no roll | — | +1 Magic (6) |
 
 Then Doom +1. Clues reach 9, past half (8). The coven knows it is a drowned spirit nesting in the old lock chamber under Mill Bridge, and **may go to it now.**
 
 - **The go-or-wait talk.** The players went through it out loud. Going now means a hidden fight with no Weakness (Defence 3, the Unmaking at Difficulty 5). Waiting is free until Doom 4: the only cost is that the showdown starts at Doom 4 instead of 2, and a fight that lasts 2–4 rounds never gets near Doom 12. Waiting buys two more scenes for Clues, brewing and rest. **They waited.** Nobody could name a reason to go early (N8).
 
-**After scene 2:** Doom 2 · Exposure 1 · Clues 9 (half) · Ivy H0 M3 · Rosa H3 M5 · Kit H1 M6 · Thistle H2 W3 · Potions: Blasting 1.
+**After scene 2:** Doom 2 · Exposure 1 · Clues 9 (half) · Ivy H0 M3 · Rosa H3 M5 · Finn H1 M6 · Thistle H2 W3 · Potions: Blasting 1.
 
 ### Scene 3
 
@@ -208,13 +208,13 @@ Rosa is at Hurt 3. A brewing cost would put her Down, so she skips the brewing r
 | Who | Action | Dice | Roll | Result |
 |---|---|---|---|---|
 | Rosa | Book research | Wits 3 + Sight 2 + Book 1 + own Magic 1 = 7 vs 2 | V016 | Critical: 2 Clues |
-| Kit | Talking lead: parents at the school gate | Heart 2 + Life 1 + own Magic 1 = 4 vs 2 | V017 | Partial: 1 Clue, 1 Hurt |
+| Finn | Talking lead: parents at the school gate | Heart 2 + Life 1 + own Magic 1 = 4 vs 2 | V017 | Partial: 1 Clue, 1 Hurt |
 | Thistle | Talking lead: boat owners at the basin | Heart 3 vs 2 | V018 | Failure: 1 Hurt |
 | Ivy | Answers her Life (an extra night route) | no roll | — | +1 Magic (4) |
 
 Then Doom +1. Clues 12. The coven may go; it waits one more scene, for the same reason.
 
-**After scene 3:** Doom 3 · Exposure 1 · Clues 12 · Ivy H0 M4 · Rosa H3 M4 · Kit H2 M5 · Thistle H3 W3 · Potions: Blasting 1.
+**After scene 3:** Doom 3 · Exposure 1 · Clues 12 · Ivy H0 M4 · Rosa H3 M4 · Finn H2 M5 · Thistle H3 W3 · Potions: Blasting 1.
 
 ### Scene 4 (the last free scene)
 
@@ -223,7 +223,7 @@ The table weighed resting against pushing for the Weakness. They pushed: everyon
 | Who | Action | Dice | Roll | Result |
 |---|---|---|---|---|
 | Rosa | Book research | 7 + Sense 1 (Thistle, 1 Ward) = 8 vs 2 | V019 | Critical: 2 Clues (14) |
-| Kit | Talking lead: a former pupil who works the boats | Heart 2 + Life 1 + own Magic 1 = 4 vs 2 | V020 | Success: 1 Clue (15). **Weakness known** |
+| Finn | Talking lead: a former pupil who works the boats | Heart 2 + Life 1 + own Magic 1 = 4 vs 2 | V020 | Success: 1 Clue (15). **Weakness known** |
 | Ivy | Talking lead: night-bus regulars at the canal bridge | Heart 2 + Life 1 = 3 vs 2 | V021 | Critical: 2 Clues, lost (past 15) |
 | Thistle | Talking lead: the old towpath preacher | Heart 3 vs 2 | V022 | Success: 1 Clue, lost |
 
@@ -232,7 +232,7 @@ Then Doom +1 → 4. The coven has all 15 Clues and Doom is under the mark. It **
 - 3 Clues were lost past the total ("Extra Clues … past the total are lost"). Clear.
 - **Rosa never answered her Life.** She researched every scene. At the showdown she loses 1 Magic (3 → 2). The table felt it.
 
-**After scene 4:** Doom 4 · Exposure 1 · Clues 15 (Weakness) · Ivy H0 M4 · Rosa H3 M3 · Kit H2 M4 · Thistle H3 W2 · Potions: Blasting 1.
+**After scene 4:** Doom 4 · Exposure 1 · Clues 15 (Weakness) · Ivy H0 M4 · Rosa H3 M3 · Finn H2 M4 · Thistle H3 W2 · Potions: Blasting 1.
 
 ### Showdown (hidden: the old lock chamber under Mill Bridge; Nell is not there)
 
@@ -242,7 +242,7 @@ Then Doom +1 → 4. The coven has all 15 Clues and Doom is under the mark. It **
 
 | Who | Action | Dice | Roll | Result |
 |---|---|---|---|---|
-| Kit | Attack with Force + Force Surge (2 Magic) | Nerve 3 + Force 2 = 5 vs 2 | V023 | Success: 2 + 1 (Weakness) = 3. The threat loses its next attack. Toughness 3 |
+| Finn | Attack with Force + Force Surge (2 Magic) | Nerve 3 + Force 2 = 5 vs 2 | V023 | Success: 2 + 1 (Weakness) = 3. The threat loses its next attack. Toughness 3 |
 | Ivy | Blast + Flame Surge (1 + 2 Magic), Blasting declared before the roll | Craft 3 + Flame 2 = 5 vs 2 | V024 | Success: 2 + 1 (Blast) + 1 (Weakness) + 2 (Surge) + 2 (Blasting) = **8**. Toughness 11 |
 | Rosa | Attack at Hurt 3, own Magic 1, Thistle helps (1 Ward) | Nerve 2 + 1 + 1 = 4 vs 2 | V025 | Success: 3. Toughness 14 → 12 (2 lost). **Broken** |
 | Thistle | No action needed | — | — | — |
@@ -252,17 +252,17 @@ Then Doom +1 → 4. The coven has all 15 Clues and Doom is under the mark. It **
 - **Exposure:** hidden place. **Doom:** stops rising once Broken.
 - Nobody was left who hadn't acted, so no Unmaking this round. It flees at the end of round 2.
 
-**After round 1:** Doom 4 · Exposure 1 · Toughness 12/12 (Broken) · Ivy H0 M1 · Rosa H3 M1 · Kit H2 M2 · Thistle H3 W1 · Potions none.
+**After round 1:** Doom 4 · Exposure 1 · Toughness 12/12 (Broken) · Ivy H0 M1 · Rosa H3 M1 · Finn H2 M2 · Thistle H3 W1 · Potions none.
 
 #### Round 2
 
 | Who | Action | Dice | Roll | Result |
 |---|---|---|---|---|
-| Ivy leads (1 Magic); Kit and Rosa join (1 Magic each, 2 dice each); Thistle helps (1 Ward) and Kit helps (1 Magic) | The Unmaking | Craft 3 + 2 + 2 + 2 = 9 vs 3 | V026 | Critical (5 successes): **the Drowner is destroyed** |
+| Ivy leads (1 Magic); Finn and Rosa join (1 Magic each, 2 dice each); Thistle helps (1 Ward) and Finn helps (1 Magic) | The Unmaking | Craft 3 + 2 + 2 + 2 = 9 vs 3 | V026 | Critical (5 successes): **the Drowner is destroyed** |
 
 - The Critical extra on the Unmaking is "+1 die on your next roll". The next roll is next episode (N10).
 
-**End:** Doom 4 · Exposure 1/4 · Clues 15 · Toughness 12/12 (destroyed) · Ivy H0 M0 · Rosa H3 M0 · Kit H2 M0 · Thistle H3/5 W0.
+**End:** Doom 4 · Exposure 1/4 · Clues 15 · Toughness 12/12 (destroyed) · Ivy H0 M0 · Rosa H3 M0 · Finn H2 M0 · Thistle H3/5 W0.
 
 ### Closing
 
@@ -292,10 +292,10 @@ Then Doom +1 → 4. The coven has all 15 Clues and Doom is under the mark. It **
 
 | # | Severity | Quote (v0.6) | What happened | Suggested fix | Ruling to use tonight |
 |---|---|---|---|---|---|
-| N1 | **blocker** (balance) | "Each character takes one action, in any order … Then the threat acts." with "Flame (attacks): 2 more damage", "Blasting: … 2 more damage" and "attack rolls … that work do 1 more damage" | Round 1: Kit 3 + Ivy 8 + Rosa 3 = 14 against Toughness 12. The threat was Broken before it acted. Exact odds for this coven with the Weakness and one Blasting potion: **90%** Broken in round 1; with three Blasting potions (one each), 97%. Without the Weakness: 7%. D4 Broke it in round 1 with no Surges at all (15 damage). D11, after a season step (Toughness 15), it fell 1 short. The B1 fix moved the problem from potions to the first round. | Simulate one of: (a) **the threat acts first in round 1** of every showdown; (b) Flame's Surge and Blasting can't both go on one attack; (c) no extra Toughness cut for a guardian coven (3 witches + guardian: 15, as for 3 witches). (a) is the smallest change and keeps every option. Also report "rounds before the first threat attack" in `sim/REPORT.md`. | As written. |
+| N1 | **blocker** (balance) | "Each character takes one action, in any order … Then the threat acts." with "Flame (attacks): 2 more damage", "Blasting: … 2 more damage" and "attack rolls … that work do 1 more damage" | Round 1: Finn 3 + Ivy 8 + Rosa 3 = 14 against Toughness 12. The threat was Broken before it acted. Exact odds for this coven with the Weakness and one Blasting potion: **90%** Broken in round 1; with three Blasting potions (one each), 97%. Without the Weakness: 7%. D4 Broke it in round 1 with no Surges at all (15 damage). D11, after a season step (Toughness 15), it fell 1 short. The B1 fix moved the problem from potions to the first round. | Simulate one of: (a) **the threat acts first in round 1** of every showdown; (b) Flame's Surge and Blasting can't both go on one attack; (c) no extra Toughness cut for a guardian coven (3 witches + guardian: 15, as for 3 witches). (a) is the smallest change and keeps every option. Also report "rounds before the first threat attack" in `sim/REPORT.md`. | As written. |
 | N2 | confusing (balance) | "Shield (no action): take an attack meant for someone near it" and "Shelter … one person can't be hurt by the threat's attacks" | D7b: Ivy Sheltered Thistle (Partial). Both attacks went at Rosa; Thistle Shielded both (2 Ward). The whole round did no Hurt, for 1 Magic, 2 Ward and one action. Shield has no limit per round, and this gets round "loses at most one attack a round" because the attacks aren't lost, just wasted. | "Shield: once a round." Or: "A Sheltered character can't Shield." | As written (allowed). |
-| N3 | confusing | "guard the innocent (until your next action …)"; "Shelter … until your next action"; "Down: no actions except resting" | A Down guard never reaches "your next action", so the guard lasts forever. Then on a 6 the threat "attacks their guard", who is Down and can't take more Hurt ("Hurt can't go past full"): the innocent is safe for good. The same with Shelter if the caster goes Down. Spotted in D9; the dice didn't force it. Also "their guard" doesn't say who, if two characters guard (Kit and Thistle in D9 round 2). | "Guarding and Shelter end at your next action, or when you go Down." "If two guard, the Storyteller picks which one it attacks." | Both end when the guard or caster goes Down. With two guards, the Storyteller picks. |
-| N4 | confusing (order) | "any further rise becomes Doom +1 instead (once per round or scene)" and "Reaching the mark (5) during the investigation brings the threat" vs "At the end of each scene, Doom +1. Then … if Doom has reached the Showdown mark (5), it's too late" | D2b: in scene 5 at Doom 4, already Seen, Kit's failed Reveal (V042) turned into Doom +1 → 5 with two characters still to act. Does the threat come now, or at the end of the scene? With the end-of-scene rise, the showdown started at Doom 6. | "Doom rises from Seen during a scene count at the end of the scene, with the scene's own rise." (Or "the threat comes at once".) Say which. | Finish the scene; check at its end. Doom can reach 6 this way. |
+| N3 | confusing | "guard the innocent (until your next action …)"; "Shelter … until your next action"; "Down: no actions except resting" | A Down guard never reaches "your next action", so the guard lasts forever. Then on a 6 the threat "attacks their guard", who is Down and can't take more Hurt ("Hurt can't go past full"): the innocent is safe for good. The same with Shelter if the caster goes Down. Spotted in D9; the dice didn't force it. Also "their guard" doesn't say who, if two characters guard (Finn and Thistle in D9 round 2). | "Guarding and Shelter end at your next action, or when you go Down." "If two guard, the Storyteller picks which one it attacks." | Both end when the guard or caster goes Down. With two guards, the Storyteller picks. |
+| N4 | confusing (order) | "any further rise becomes Doom +1 instead (once per round or scene)" and "Reaching the mark (5) during the investigation brings the threat" vs "At the end of each scene, Doom +1. Then … if Doom has reached the Showdown mark (5), it's too late" | D2b: in scene 5 at Doom 4, already Seen, Finn's failed Reveal (V042) turned into Doom +1 → 5 with two characters still to act. Does the threat come now, or at the end of the scene? With the end-of-scene rise, the showdown started at Doom 6. | "Doom rises from Seen during a scene count at the end of the scene, with the scene's own rise." (Or "the threat comes at once".) Say which. | Finish the scene; check at its end. Doom can reach 6 this way. |
 | N5 | confusing (order) | "Blasting: use it with your attack; if the attack works, 2 more damage." | It doesn't say whether you choose it before or after the roll. Players asked to add it after seeing a success, which makes it riskless. | "Say so before you roll; it's used up even if the attack fails" (as with a Surge). | Declared before the roll; spent either way. |
 | N6 | confusing | "The coven shares its potions and can carry at most one per character." | D3: the coven had 3; Rosa's Partial brew made a 4th, and Ivy's success made 2 more. Two questions: does the guardian count as a character (it can't use potions), and is this a cap on what the coven holds or only on what it carries out? Under a carry-only reading, potions pile up at home and get drunk there before going. | "The coven can hold at most one potion per witch; a brew past that is wasted." | The cap counts every character (4 tonight) and is the whole stock. Extra potions are lost when brewed. |
 | N7 | confusing (balance) | "It makes 1 attack a round against 3 characters … It loses at most one attack a round, whatever the cause; any more wait for later rounds." | D5: Bind, a Binding potion and Force all landed in round 1. The threat lost 1 attack that round and banked 2 for rounds 2 and 3. Against a coven of 3 witches with no guardian player (1 attack a round), the limit never bites: 3 Binding potions mean 3 rounds with no attacks and no rolls (A8). | Simulate: "lost attacks don't carry past the next round", or "against 3 characters, a lost attack makes the next one roll at Danger −1 instead". | As written. |
@@ -320,27 +320,27 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 ### D1. Go or wait at the end of a scene
 
 - **D1a.** Start of scene 3: Doom 2, Clues 6/15 (half is 8).
-  - Rosa researches (V027): Critical, 2 Clues. Kit's talking lead (V028): Partial, 1 Clue, 1 Hurt. Thistle (V029): Partial, 1 Clue, 1 Hurt. Ivy answers her Life.
+  - Rosa researches (V027): Critical, 2 Clues. Finn's talking lead (V028): Partial, 1 Clue, 1 Hurt. Thistle (V029): Partial, 1 Clue, 1 Hurt. Ivy answers her Life.
   - Clues 10. End of scene: Doom 3. Half the Clues, under the mark: the coven may go now.
   - The players chose to wait one more scene, for the reasons in the episode (N8).
 - **D1b.** Start of scene 5: Doom 4, Clues 6/15. The coven didn't have half at the end of scene 4, so it couldn't go.
-  - Rosa (V030): Success, 7. Kit (V031): Failure, 1 Hurt. Ivy's Reveal (V032): Success, 2 Clues, 9. Thistle (V033): Success, 10.
+  - Rosa (V030): Success, 7. Finn (V031): Failure, 1 Hurt. Ivy's Reveal (V032): Success, 2 Clues, 9. Thistle (V033): Success, 10.
   - Half came mid-scene. End of scene: Doom 5. "But if Doom has reached the Showdown mark (5), it's too late": the threat comes to them in public, with Nell in its grip.
 - **Finding:** the timing is now clear. Nobody argued. A1/B2 is fixed.
 
 ### D2. Seen turning Exposure into Doom
 
 - **D2a (scenes).** Start of scene 3: Doom 2, Exposure 3/4.
-  - Scene 3: Ivy's Reveal (V034), Kit's Reveal (V035), Rosa's searching lead with Sight (V036), and Thistle's lead with Sense on itself (V038) all succeeded. No costs. Doom 3.
-  - Scene 4: Kit's Reveal (V039) succeeded. Ivy's Reveal (V040) failed: casting in the city, Exposure 3 → **4: Seen.** Rosa's Reveal with Sight (V041) failed: Exposure is full, so **Doom +1** (3 → 4), mid-scene. Thistle rested.
+  - Scene 3: Ivy's Reveal (V034), Finn's Reveal (V035), Rosa's searching lead with Sight (V036), and Thistle's lead with Sense on itself (V038) all succeeded. No costs. Doom 3.
+  - Scene 4: Finn's Reveal (V039) succeeded. Ivy's Reveal (V040) failed: casting in the city, Exposure 3 → **4: Seen.** Rosa's Reveal with Sight (V041) failed: Exposure is full, so **Doom +1** (3 → 4), mid-scene. Thistle rested.
   - End of scene: Doom 4 → 5. Too late to go: the threat comes.
   - **Finding:** Seen ate the last free scene. It works and it bites. A third casting cost that scene would have cost nothing (N9).
 - **D2b (Seen reaches the mark mid-scene).** Start of scene 5: Doom 4, already Seen, Clues 7.
-  - Ivy's Reveal (V037): Success, 9 Clues. Kit's Reveal (V042): Failure, so Doom +1 → **5, with Rosa and Thistle still to act.**
+  - Ivy's Reveal (V037): Success, 9 Clues. Finn's Reveal (V042): Failure, so Doom +1 → **5, with Rosa and Thistle still to act.**
   - Ruling (N4): finish the scene. Rosa (V043): Success, 10 Clues. Thistle (V044): Partial, 11 Clues, 1 Hurt.
   - End of scene: Doom 6. The showdown starts in public at **Doom 6**, Nell in its grip, Seen.
-- **D2c (Seen in a public round).** Doom 6, Exposure 4 (Seen), no Weakness (11 Clues, then 12), Defence 3. Ivy H0 M3, Rosa H0 M4, Kit H1 M4, Thistle H1 W4.
-  - Kit frees Nell with Force and 1 Magic (V045): Success. Ivy's Blast (V046): Critical, 2 + 1 + 1 = 4 (Toughness 4). Rosa studies with Sight (V047): Success, Clue 12. Thistle guards Nell.
+- **D2c (Seen in a public round).** Doom 6, Exposure 4 (Seen), no Weakness (11 Clues, then 12), Defence 3. Ivy H0 M3, Rosa H0 M4, Finn H1 M4, Thistle H1 W4.
+  - Finn frees Nell with Force and 1 Magic (V045): Success. Ivy's Blast (V046): Critical, 2 + 1 + 1 = 4 (Toughness 4). Rosa studies with Sight (V047): Success, Clue 12. Thistle guards Nell.
   - Threat: attack 1 (V048 = 6): Nell is free and guarded, so it attacks her guard, Thistle. Thistle defends with 1 Ward (V050): Failure, 2 Hurt (H3/5). Attack 2 (V049 = 3): whoever hurt it last, Ivy. Ivy defends (V051): Failure, 2 Hurt (H2).
   - Casting happened, so Exposure would rise: **Doom +1** (6 → 7). Then the round's **Doom +1** (→ 8).
   - **Finding:** Seen doubles the clock in a public fight. From Doom 6, Doom fills at the end of round 3 unless the threat is Broken or the coven stops casting. Hide can't help ("before then"). Clear and strong.
@@ -351,14 +351,14 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
   - Rosa researches (V052): Success, 1 Clue. Her brewing roll with 2 Magic (V053): Partial, 1 Binding, 1 Hurt. Stock 4.
   - Ivy brews with 1 Magic (V054): Success, 2 potions. The stock would be 6. Under tonight's ruling both are lost, and Ivy's Magic did nothing.
   - Under the other reading ("carry" only limits what goes out), the coven keeps 6 at home, drinks the Healing there, and carries 4.
-- **D3b.** Kit researches in scene 2 (V055): Partial, 1 Clue, 1 Hurt. His brewing roll (V056): Success, 2 potions. Two rolls, two results, one cost. "Each roll has its own result and cost" settled it.
+- **D3b.** Finn researches in scene 2 (V055): Partial, 1 Clue, 1 Hurt. His brewing roll (V056): Success, 2 potions. Two rolls, two results, one cost. "Each roll has its own result and cost" settled it.
 - **Finding:** the researcher's brewing roll is clear. The cap needs the two answers in N6. With only 4 potions allowed, the coven filled it in two scenes, so further brewing was wasted.
 
 ### D4. Blasting with an attack
 
 - **Setup:** public round 1, Weakness known (Defence 2), Toughness 0/12. Each witch holds a Blasting potion and declares it before rolling (N5).
 - Rosa, plain attack (V057): Partial. 1 + 1 (Weakness) + 2 (Blasting) = 4. Cost 1 Hurt.
-- Kit, attack with Force, no Surge (V058): Success. 2 + 1 + 2 = 5.
+- Finn, attack with Force, no Surge (V058): Success. 2 + 1 + 2 = 5.
 - Ivy, Blast (V059): Success. 2 + 1 (Blast) + 1 (Weakness) + 2 = 6.
 - Total 15: **Broken in round 1, with no Surges.** Using a potion is casting, so Exposure +1 even if nobody used a Power. Doom doesn't rise (Broken).
 - **Finding:** "if the attack works" includes a Partial, and the Weakness adds to the roll's damage but not the potion's. The text handled every case. But three Blasting potions plus the Weakness still Break a Standard threat before it acts (N1).
@@ -366,7 +366,7 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 ### D5. Bind, a Binding potion and Force all land
 
 - **Setup:** public round 1, Weakness known, Nell in its grip, 2 attacks a round.
-- Kit frees Nell with Force + Force Surge and 1 Magic (V060): Critical. Nell is free, and the threat loses its next attack. Kit gets +1 die on his next roll.
+- Finn frees Nell with Force + Force Surge and 1 Magic (V060): Critical. Nell is free, and the threat loses its next attack. Finn gets +1 die on his next roll.
 - Rosa casts Bind with 2 Magic (V061): Success. It loses its next attack.
 - Ivy uses a Binding potion (no roll), then Blasts (V062): Partial, 1 + 1 + 1 = 3, 1 Hurt.
 - Thistle guards Nell.
@@ -377,7 +377,7 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 
 ### D6. Sense outside the +2 limit
 
-- **D6a.** Kit's talking lead in the city: Heart 2 + Life 1 + own Magic 1 (the +2 limit is full) + Sense 1 (Thistle, 1 Ward) = 5 dice (V065): Success.
+- **D6a.** Finn's talking lead in the city: Heart 2 + Life 1 + own Magic 1 (the +2 limit is full) + Sense 1 (Thistle, 1 Ward) = 5 dice (V065): Success.
 - **D6b.** Same scene. Ivy's talking lead: Heart 2 + own Magic 1 + a second Sense (1 Ward) = 4 dice (V066): Success.
 - **Finding:** "outside the +2 limit" read cleanly, and Sense is now worth its Ward. Thistle spent 2 Ward on Senses in one scene; nothing limits it. Neither roll failed, so the "is Sense casting?" cost question didn't come up (N12).
 
@@ -386,12 +386,12 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 - **D7a.** Hidden round 1, no Weakness (Defence 3).
   - Ivy casts Shelter on Rosa (V067): Critical. Nothing on the menu fits, so +1 die on Ivy's next roll.
   - Rosa attacks while Sheltered (V068): Failure. **She takes 1 Hurt anyway**: Shelter only stops the threat's attacks. B5 is fixed.
-  - Kit attacks with Force (V069): Partial, 1 damage, 1 Hurt (H1).
-  - Threat: attack 1 (V070 = 5) is "most hurt": Rosa and Kit tie at 1. The Storyteller let a die pick (V072 = 4): Kit. Attack 2 (V071 = 2): whoever hurt it last, Kit. Kit defends (V073, V074): Failure, Failure. 1 + 2 + 2 = 5, capped at 4: **Down**.
+  - Finn attacks with Force (V069): Partial, 1 damage, 1 Hurt (H1).
+  - Threat: attack 1 (V070 = 5) is "most hurt": Rosa and Finn tie at 1. The Storyteller let a die pick (V072 = 4): Finn. Attack 2 (V071 = 2): whoever hurt it last, Finn. Finn defends (V073, V074): Failure, Failure. 1 + 2 + 2 = 5, capped at 4: **Down**.
   - The threat, picking freely, chose the unsheltered witch. Rosa was never attacked while Sheltered.
 - **D7b.** Round 2. Ivy's Shelter on Rosa ends at Ivy's next action.
   - Ivy casts Shelter on Thistle, with her Critical die (V075): Partial. It works; Ivy takes 1 Hurt.
-  - Rosa attacks (V076): Partial, 1 damage (Toughness 2), 1 Hurt (H2). Kit is Down.
+  - Rosa attacks (V076): Partial, 1 damage (Toughness 2), 1 Hurt (H2). Finn is Down.
   - Threat: attack 1 (V077 = 2) and attack 2 (V078 = 2) both go to whoever hurt it last, Rosa. Thistle Shields both (2 Ward). Thistle is Sheltered: **no Hurt from either attack.** No defence roll is needed.
 - **Finding:** Shelter now does what it says. But Shelter plus Shield wipes out a full round for 1 Magic, 2 Ward and one action, and nothing limits Shield per round (N2). If the Shelter caster goes Down, the Shelter has no end (N3).
 
@@ -406,19 +406,19 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 ### D9. Freeing the innocent the hard way, and guarding
 
 - **Setup:** public round 1, no Weakness (Defence 3), Nell in its grip.
-- Kit frees with Force and 1 Magic (V083): Partial. Not freed; 1 Hurt (H1).
+- Finn frees with Force and 1 Magic (V083): Partial. Not freed; 1 Hurt (H1).
 - Rosa frees with 1 Magic and Ivy's help (V084): Failure. 1 Hurt (H1).
 - Thistle frees with 2 Ward on its own roll (V085): Critical. **Nell is free.** (+1 die on Thistle's next roll.)
 - Ivy guards Nell.
-- Threat: attack 1 (V086 = 2): nobody has hurt it, so use 4–5: most hurt, Kit and Rosa tie at 1. A die picks (V088 = 1): Kit. Kit defends (V090): Partial, H2. Attack 2 (V087 = 4): most hurt is now Kit alone (2), so the second tie die (V089) wasn't needed. Kit defends with 1 Magic (V091): Partial, H3.
+- Threat: attack 1 (V086 = 2): nobody has hurt it, so use 4–5: most hurt, Finn and Rosa tie at 1. A die picks (V088 = 1): Finn. Finn defends (V090): Partial, H2. Attack 2 (V087 = 4): most hurt is now Finn alone (2), so the second tie die (V089) wasn't needed. Finn defends with 1 Magic (V091): Partial, H3.
 - End of round 1: Nell is free, so not lost.
-- Round 2: Thistle guards; Ivy Blasts (V092), Failure, 1 Hurt, and her guard ends because she acted; Rosa attacks with 1 Magic (V093), Partial, 1 damage, 1 Hurt; Kit guards too (no roll). Attacks (V094 = 2, V095 = 2): whoever hurt it last, Rosa. Rosa defends with Sight (V096, V097): Critical, Success. No Hurt.
+- Round 2: Thistle guards; Ivy Blasts (V092), Failure, 1 Hurt, and her guard ends because she acted; Rosa attacks with 1 Magic (V093), Partial, 1 damage, 1 Hurt; Finn guards too (no roll). Attacks (V094 = 2, V095 = 2): whoever hurt it last, Rosa. Rosa defends with Sight (V096, V097): Critical, Success. No Hurt.
 - **Finding:** the target fallbacks (nobody yet; ties) worked with no ruling. A guardian freeing with its own Ward is a real option now. "Their guard" with two guards is unstated (N3). The take itself is in D8.
 
 ### D10. Every witch Down at the end of a round
 
-- **Setup:** public round 3, Weakness known, Toughness 6/12. Nell was carried out earlier. Rosa and Kit are Down. Ivy H3 M3. Thistle H2/5, W0.
-- Ivy Blasts, with 1 Magic each from Rosa and Kit (both Down, both may help) (V098): Critical. 2 + 1 + 1 + 1 (Critical: +1 damage fits) = 5. **Toughness 11/12.**
+- **Setup:** public round 3, Weakness known, Toughness 6/12. Nell was carried out earlier. Rosa and Finn are Down. Ivy H3 M3. Thistle H2/5, W0.
+- Ivy Blasts, with 1 Magic each from Rosa and Finn (both Down, both may help) (V098): Critical. 2 + 1 + 1 + 1 (Critical: +1 damage fits) = 5. **Toughness 11/12.**
 - Thistle Holds (V099): Success.
 - Threat: attack 1 (V100 = 1) is Held: Thistle. Thistle defends (V102): Failure, 2 Hurt (H4/5, still standing). Attack 2 (V101 = 4): most hurt and still standing, Ivy (3 of 4). Ivy defends with 2 Magic (V103): Partial, 1 Hurt: **Down.**
 - End of the round: every witch is Down. The guardian standing doesn't count. **Loss**, with the threat 1 short of Broken. All three witches get a Scar.
@@ -426,13 +426,13 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 
 ### D11. A season step
 
-- **Setup:** after episode 2. Each witch raised one rating: Ivy Craft 4, Rosa Wits 4, Kit Nerve 4. Threats have 1 more Toughness per witch: **Toughness 15** at Standard (12 + 3). A threat that wasn't destroyed would come back with 2 more (17). The guardian doesn't grow (N15).
+- **Setup:** after episode 2. Each witch raised one rating: Ivy Craft 4, Rosa Wits 4, Finn Nerve 4. Threats have 1 more Toughness per witch: **Toughness 15** at Standard (12 + 3). A threat that wasn't destroyed would come back with 2 more (17). The guardian doesn't grow (N15).
 - Episode 3, hidden, Weakness known, one Blasting potion. Round 1:
-  - Kit, attack + Force Surge (V104): Success, 3, and the threat loses an attack.
+  - Finn, attack + Force Surge (V104): Success, 3, and the threat loses an attack.
   - Ivy, Blast + Flame Surge + Blasting (V105): Success, 8.
   - Rosa, with 1 Magic and Thistle's help (V106): Success, 3.
   - Total 14: **1 short of 15.** The threat acts: 1 attack (the other lost to Force). V107 = 5: most hurt; everyone is at 0, so the Storyteller picks Ivy. Thistle Shields it (1 Ward) and defends with 1 Ward (V108): Partial, 1 Hurt.
-- Round 2: Rosa attacks (V109): Partial, 2 (Weakness), Broken; 1 Hurt. Ivy leads the Unmaking, Kit joins, Rosa and Thistle help (V110): Success, destroyed.
+- Round 2: Rosa attacks (V109): Partial, 2 (Weakness), Broken; 1 Hurt. Ivy leads the Unmaking, Finn joins, Rosa and Thistle help (V110): Success, destroyed.
 - **Finding:** the extra Toughness did its job: the threat got one attack in. The text left three questions: does the rise add up each step, does the guardian grow, and when does a Book page count (N15).
 
 ---
@@ -440,7 +440,7 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 ## 6. Part A checks that failed
 
 - **A1 (every state of every track).**
-  - Magic above 5 is still unstated (Kit reached 6).
+  - Magic above 5 is still unstated (Finn reached 6).
   - The potion stock past the cap (N6).
   - Doom reaching the mark mid-scene through Seen (N4).
 - **A5 (no free spend).**
@@ -476,7 +476,7 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 - **The Critical menu** covered every Critical tonight (Clues, damage, a die) with no invented extras.
 - **Target fallbacks and ties** (D7a, D9) worked as written.
 - **Free, Hold and the Unmaking Partials** are all stated. Nobody had to ask.
-- **Lives bite.** Rosa chose research over her Life every scene and lost 1 Magic. Kit and Ivy each spent one action on theirs.
+- **Lives bite.** Rosa chose research over her Life every scene and lost 1 Magic. Finn and Ivy each spent one action on theirs.
 - **Extra Clues and damage are lost:** used twice, no questions.
 - **Sense outside the limit** made the guardian's investigation Ward worth spending. The guardian player was busy every scene.
 - **Seen feeding Doom** has teeth: it ate the last free scene (D2a) and doubled the clock in a public fight (D2c).
@@ -489,7 +489,7 @@ Each drill uses fresh dice and the same coven and threat, from a stated setup. H
 ## 8. How it felt
 
 - **Was losing a real risk? In the investigation, yes. In the fight, no.**
-  - Failed leads hurt. By scene 4 Rosa was at Hurt 3, Thistle at 3 and Kit at 2. The table argued about resting against pushing for the Weakness, which is the right kind of choice.
+  - Failed leads hurt. By scene 4 Rosa was at Hurt 3, Thistle at 3 and Finn at 2. The table argued about resting against pushing for the Weakness, which is the right kind of choice.
   - Exposure stayed low because the coven used little magic in the city: only Ivy's Reveals cast there.
   - The fight never started: Broken in round 1, destroyed in round 2, **0 threat attacks**. With the Weakness, this coven breaks a Standard threat in round 1 about 90% of the time (exact odds, N1). Without it, 7%. So the whole risk sits in the Clue race, and the fight is a victory lap or a hard slog with little in between.
   - The drills show real losses once things go wrong: a Loss at 11/12 (D10), an innocent lost on a 6 (D8), and Seen doubling Doom (D2c).
@@ -512,7 +512,7 @@ All 110 rolls, in the order they were made. Format: ID | label | dice | faces | 
 **Notes on the log:**
 - **V038** is labelled D2a scene 3 but was rolled after V037 (D2b). Only the order differs; the faces are as rolled.
 - **V072 and V088** are the Storyteller's tie picks, made with a die to stay neutral.
-- **V089** was rolled but not used: after attack 1 hurt Kit, attack 2 had a single "most hurt" target.
+- **V089** was rolled but not used: after attack 1 hurt Finn, attack 2 had a single "most hurt" target.
 - The episode is V007–V026. Setup is V001–V006. Drills are V027–V110.
 
 ```
@@ -524,7 +524,7 @@ V005 | Setup: Witch 2 Life (1 student 2 nurse 3 shop worker 4 teacher 5 mechanic
 V006 | Setup: Witch 3 Life (1 student 2 nurse 3 shop worker 4 teacher 5 mechanic 6 bus driver) | 1d6 | faces: 4
 V007 | EP S1 Rosa Book research: Wits 3 + Sight 2 + Book 1 + Sense 1 (Thistle, 1 Ward, outside limit) | 7d6 | faces: 3 2 5 3 6 6 3 | 3 succ, 2 six vs Diff 2 | CRITICAL
 V008 | EP S1 Rosa researcher's brewing roll: Craft 2 | 2d6 | faces: 2 5 | 1 succ, 0 six vs Diff 2 | PARTIAL
-V009 | EP S1 Kit talking lead (student on the towpath): Heart 2 + Life teacher 1 | 3d6 | faces: 6 2 2 | 1 succ, 1 six vs Diff 2 | PARTIAL
+V009 | EP S1 Finn talking lead (student on the towpath): Heart 2 + Life teacher 1 | 3d6 | faces: 6 2 2 | 1 succ, 1 six vs Diff 2 | PARTIAL
 V010 | EP S1 Ivy Reveal at the lock (city, 1 Magic): Craft 3 | 3d6 | faces: 6 4 6 | 3 succ, 2 six vs Diff 2 | CRITICAL
 V011 | EP S1 Thistle talking lead at the moorings: Heart 3 | 3d6 | faces: 2 1 1 | 0 succ, 0 six vs Diff 2 | FAILURE
 V012 | EP S2 Rosa Book research: Wits 3 + Sight 2 + Book 1 + Sense 1 (Thistle, 1 Ward) | 7d6 | faces: 2 3 1 1 1 6 2 | 1 succ, 1 six vs Diff 2 | PARTIAL
@@ -532,35 +532,35 @@ V013 | EP S2 Rosa researcher's brewing roll: Craft 2 | 2d6 | faces: 3 3 | 0 succ
 V014 | EP S2 Ivy Reveal on the towpath (city, 1 Magic): Craft 3 | 3d6 | faces: 6 2 3 | 1 succ, 1 six vs Diff 2 | PARTIAL
 V015 | EP S2 Thistle talking lead with the lock-keeper: Heart 3 | 3d6 | faces: 3 3 6 | 1 succ, 1 six vs Diff 2 | PARTIAL
 V016 | EP S3 Rosa Book research: Wits 3 + Sight 2 + Book 1 + own Magic 1 | 7d6 | faces: 2 2 6 2 3 6 2 | 2 succ, 2 six vs Diff 2 | CRITICAL
-V017 | EP S3 Kit talking lead (parents at the school gate): Heart 2 + Life 1 + own Magic 1 | 4d6 | faces: 3 2 5 3 | 1 succ, 0 six vs Diff 2 | PARTIAL
+V017 | EP S3 Finn talking lead (parents at the school gate): Heart 2 + Life 1 + own Magic 1 | 4d6 | faces: 3 2 5 3 | 1 succ, 0 six vs Diff 2 | PARTIAL
 V018 | EP S3 Thistle talking lead (boat owners at the basin): Heart 3 | 3d6 | faces: 1 2 3 | 0 succ, 0 six vs Diff 2 | FAILURE
 V019 | EP S4 Rosa Book research: Wits 3 + Sight 2 + Book 1 + own Magic 1 + Sense 1 (Thistle, 1 Ward) | 8d6 | faces: 5 6 1 5 2 1 6 5 | 5 succ, 2 six vs Diff 2 | CRITICAL
-V020 | EP S4 Kit talking lead (former pupil on the boats): Heart 2 + Life 1 + own Magic 1 | 4d6 | faces: 5 5 3 6 | 3 succ, 1 six vs Diff 2 | SUCCESS
+V020 | EP S4 Finn talking lead (former pupil on the boats): Heart 2 + Life 1 + own Magic 1 | 4d6 | faces: 5 5 3 6 | 3 succ, 1 six vs Diff 2 | SUCCESS
 V021 | EP S4 Ivy talking lead (night-bus regulars at the canal bridge): Heart 2 + Life bus driver 1 | 3d6 | faces: 6 6 1 | 2 succ, 2 six vs Diff 2 | CRITICAL
 V022 | EP S4 Thistle talking lead (the old towpath preacher): Heart 3 | 3d6 | faces: 4 5 4 | 3 succ, 0 six vs Diff 2 | SUCCESS
-V023 | EP R1 Kit attack with Force + Force Surge (2 Magic): Nerve 3 + Force 2 vs Defence 2 (Weakness known) | 5d6 | faces: 2 3 1 4 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
+V023 | EP R1 Finn attack with Force + Force Surge (2 Magic): Nerve 3 + Force 2 vs Defence 2 (Weakness known) | 5d6 | faces: 2 3 1 4 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V024 | EP R1 Ivy Blast + Flame Surge (3 Magic) + Blasting potion declared: Craft 3 + Flame 2 vs Defence 2 | 5d6 | faces: 3 5 1 5 6 | 3 succ, 1 six vs Diff 2 | SUCCESS
 V025 | EP R1 Rosa attack at Hurt 3: Nerve 2 + own Magic 1 + Thistle helps 1 Ward vs Defence 2 | 4d6 | faces: 6 3 5 3 | 2 succ, 1 six vs Diff 2 | SUCCESS
-V026 | EP R2 Unmaking: Ivy leads Craft 3 (1 Magic) + Kit joins 2 + Rosa joins 2 + helpers Thistle 1 Ward, Kit 1 Magic vs Diff 3 (3 witches, Weakness known) | 9d6 | faces: 4 3 6 4 6 4 2 3 1 | 5 succ, 2 six vs Diff 3 | CRITICAL
+V026 | EP R2 Unmaking: Ivy leads Craft 3 (1 Magic) + Finn joins 2 + Rosa joins 2 + helpers Thistle 1 Ward, Finn 1 Magic vs Diff 3 (3 witches, Weakness known) | 9d6 | faces: 4 3 6 4 6 4 2 3 1 | 5 succ, 2 six vs Diff 3 | CRITICAL
 V027 | D1a S3 (Doom 2, Clues 6/15) Rosa Book research: Wits 3 + Sight 2 + Book 1 | 6d6 | faces: 4 4 6 2 6 2 | 4 succ, 2 six vs Diff 2 | CRITICAL
-V028 | D1a S3 Kit talking lead: Heart 2 + Life 1 | 3d6 | faces: 2 6 3 | 1 succ, 1 six vs Diff 2 | PARTIAL
+V028 | D1a S3 Finn talking lead: Heart 2 + Life 1 | 3d6 | faces: 2 6 3 | 1 succ, 1 six vs Diff 2 | PARTIAL
 V029 | D1a S3 Thistle talking lead: Heart 3 | 3d6 | faces: 4 3 2 | 1 succ, 0 six vs Diff 2 | PARTIAL
 V030 | D1b S5 (Doom 4, Clues 6/15) Rosa Book research: Wits 3 + Sight 2 + Book 1 | 6d6 | faces: 4 3 6 4 5 2 | 4 succ, 1 six vs Diff 2 | SUCCESS
-V031 | D1b S5 Kit talking lead: Heart 2 + Life 1 | 3d6 | faces: 3 1 2 | 0 succ, 0 six vs Diff 2 | FAILURE
+V031 | D1b S5 Finn talking lead: Heart 2 + Life 1 | 3d6 | faces: 3 1 2 | 0 succ, 0 six vs Diff 2 | FAILURE
 V032 | D1b S5 Ivy Reveal (city, 1 Magic): Craft 3 | 3d6 | faces: 5 4 2 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V033 | D1b S5 Thistle talking lead: Heart 3 | 3d6 | faces: 5 5 4 | 3 succ, 0 six vs Diff 2 | SUCCESS
 V034 | D2a S3 (Doom 2, Exposure 3/4) Ivy Reveal (city, 1 Magic): Craft 3 | 3d6 | faces: 3 6 4 | 2 succ, 1 six vs Diff 2 | SUCCESS
-V035 | D2a S3 Kit Reveal (city, 1 Magic): Craft 2 | 2d6 | faces: 5 4 | 2 succ, 0 six vs Diff 2 | SUCCESS
+V035 | D2a S3 Finn Reveal (city, 1 Magic): Craft 2 | 2d6 | faces: 5 4 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V036 | D2a S3 Rosa searching lead with Sight (city): Wits 3 + Sight 2 | 5d6 | faces: 2 4 1 5 4 | 3 succ, 0 six vs Diff 2 | SUCCESS
 V037 | D2b S5 (Doom 4, Exposure 4/4 Seen, Clues 7/15) Ivy Reveal (city, 1 Magic): Craft 3 | 3d6 | faces: 5 2 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V038 | D2a S3 Thistle talking lead with Sense on itself (city, gift = casting): Heart 3 + Sense 1 | 4d6 | faces: 5 4 6 3 | 3 succ, 1 six vs Diff 2 | SUCCESS
-V039 | D2a S4 (Doom 3, Exposure 3/4) Kit Reveal (city, 1 Magic): Craft 2 | 2d6 | faces: 5 4 | 2 succ, 0 six vs Diff 2 | SUCCESS
+V039 | D2a S4 (Doom 3, Exposure 3/4) Finn Reveal (city, 1 Magic): Craft 2 | 2d6 | faces: 5 4 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V040 | D2a S4 Ivy Reveal (city, 1 Magic): Craft 3 | 3d6 | faces: 3 2 3 | 0 succ, 0 six vs Diff 2 | FAILURE
 V041 | D2a S4 Rosa Reveal with Sight (city, 1 Magic): Craft 2 + Sight 2 | 4d6 | faces: 1 3 1 1 | 0 succ, 0 six vs Diff 2 | FAILURE
-V042 | D2b S5 Kit Reveal (city, 1 Magic): Craft 2 | 2d6 | faces: 2 1 | 0 succ, 0 six vs Diff 2 | FAILURE
+V042 | D2b S5 Finn Reveal (city, 1 Magic): Craft 2 | 2d6 | faces: 2 1 | 0 succ, 0 six vs Diff 2 | FAILURE
 V043 | D2b S5 (after Doom hit 5 mid-scene) Rosa Book research: Wits 3 + Sight 2 + Book 1 | 6d6 | faces: 4 2 3 4 5 1 | 3 succ, 0 six vs Diff 2 | SUCCESS
 V044 | D2b S5 Thistle talking lead: Heart 3 | 3d6 | faces: 2 4 1 | 1 succ, 0 six vs Diff 2 | PARTIAL
-V045 | D2c R1 public, Seen, Doom 6, no Weakness: Kit frees with Force: Nerve 3 + Force 2 + own Magic 1 vs Defence 3 | 6d6 | faces: 2 6 4 5 4 3 | 4 succ, 1 six vs Diff 3 | SUCCESS
+V045 | D2c R1 public, Seen, Doom 6, no Weakness: Finn frees with Force: Nerve 3 + Force 2 + own Magic 1 vs Defence 3 | 6d6 | faces: 2 6 4 5 4 3 | 4 succ, 1 six vs Diff 3 | SUCCESS
 V046 | D2c R1 Ivy Blast (1 Magic): Craft 3 + Flame 2 vs Defence 3 | 5d6 | faces: 6 4 6 1 3 | 3 succ, 2 six vs Diff 3 | CRITICAL
 V047 | D2c R1 Rosa study: Wits 3 + Sight 2 vs Defence 3 | 5d6 | faces: 4 4 1 6 2 | 3 succ, 1 six vs Diff 3 | SUCCESS
 V048 | D2c R1 threat attack 1 target d6 (1-3 last hurt it, 4-5 most hurt, 6 signature or innocent) | 1d6 | faces: 6
@@ -570,26 +570,26 @@ V051 | D2c R1 Ivy defends attack 2: Nerve 2 vs Danger 3 | 2d6 | faces: 5 2 | 1 s
 V052 | D3 S3 (coven holds 3 potions) Rosa Book research: Wits 3 + Sight 2 + Book 1 | 6d6 | faces: 1 2 1 2 5 6 | 2 succ, 1 six vs Diff 2 | SUCCESS
 V053 | D3 S3 Rosa researcher's brewing roll: Craft 2 + own Magic 2 | 4d6 | faces: 1 2 2 4 | 1 succ, 0 six vs Diff 2 | PARTIAL
 V054 | D3 S3 Ivy brews at home: Craft 3 + own Magic 1 | 4d6 | faces: 5 3 5 4 | 3 succ, 0 six vs Diff 2 | SUCCESS
-V055 | D3b S2 Kit researches the Book: Wits 1 + Book 1 | 2d6 | faces: 3 5 | 1 succ, 0 six vs Diff 2 | PARTIAL
-V056 | D3b S2 Kit researcher's brewing roll: Craft 2 | 2d6 | faces: 6 5 | 2 succ, 1 six vs Diff 2 | SUCCESS
+V055 | D3b S2 Finn researches the Book: Wits 1 + Book 1 | 2d6 | faces: 3 5 | 1 succ, 0 six vs Diff 2 | PARTIAL
+V056 | D3b S2 Finn researcher's brewing roll: Craft 2 | 2d6 | faces: 6 5 | 2 succ, 1 six vs Diff 2 | SUCCESS
 V057 | D4 R1 (public, Weakness known, Defence 2) Rosa plain attack + Blasting declared: Nerve 2 | 2d6 | faces: 1 6 | 1 succ, 1 six vs Diff 2 | PARTIAL
-V058 | D4 R1 Kit attack with Force (no Surge) + Blasting declared: Nerve 3 + Force 2 | 5d6 | faces: 4 3 2 2 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
+V058 | D4 R1 Finn attack with Force (no Surge) + Blasting declared: Nerve 3 + Force 2 | 5d6 | faces: 4 3 2 2 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V059 | D4 R1 Ivy Blast (1 Magic) + Blasting declared: Craft 3 + Flame 2 | 5d6 | faces: 4 2 1 4 2 | 2 succ, 0 six vs Diff 2 | SUCCESS
-V060 | D5 R1 (public, Weakness known, Nell in grip) Kit frees with Force + Force Surge (2 Magic): Nerve 3 + Force 2 + own Magic 1 vs Defence 2 | 6d6 | faces: 1 4 2 1 6 6 | 3 succ, 2 six vs Diff 2 | CRITICAL
+V060 | D5 R1 (public, Weakness known, Nell in grip) Finn frees with Force + Force Surge (2 Magic): Nerve 3 + Force 2 + own Magic 1 vs Defence 2 | 6d6 | faces: 1 4 2 1 6 6 | 3 succ, 2 six vs Diff 2 | CRITICAL
 V061 | D5 R1 Rosa Bind (1 Magic): Craft 2 + own Magic 2 vs Defence 2 | 4d6 | faces: 2 3 4 6 | 2 succ, 1 six vs Diff 2 | SUCCESS
 V062 | D5 R1 Ivy Blast (1 Magic) after using a Binding potion: Craft 3 + Flame 2 vs Defence 2 | 5d6 | faces: 3 2 2 4 3 | 1 succ, 0 six vs Diff 2 | PARTIAL
 V063 | D5 R1 threat's one remaining attack (1 of 2 lost): target d6 | 1d6 | faces: 1
 V064 | D5 R1 Ivy defends: Nerve 2 vs Danger 3 | 2d6 | faces: 3 4 | 1 succ, 0 six vs Diff 3 | FAILURE
-V065 | D6a S2 Kit talking lead (city): Heart 2 + Life 1 + own Magic 1 (limit reached) + Sense 1 (Thistle, 1 Ward) | 5d6 | faces: 5 5 2 6 5 | 4 succ, 1 six vs Diff 2 | SUCCESS
+V065 | D6a S2 Finn talking lead (city): Heart 2 + Life 1 + own Magic 1 (limit reached) + Sense 1 (Thistle, 1 Ward) | 5d6 | faces: 5 5 2 6 5 | 4 succ, 1 six vs Diff 2 | SUCCESS
 V066 | D6b S2 Ivy talking lead (city), no Power: Heart 2 + own Magic 1 + Sense 1 (Thistle, 1 Ward) | 4d6 | faces: 5 5 6 4 | 4 succ, 1 six vs Diff 2 | SUCCESS
 V067 | D7a R1 (hidden, no Weakness, Defence 3) Ivy Shelter on Rosa (1 Magic): Craft 3 vs 2 | 3d6 | faces: 6 6 3 | 2 succ, 2 six vs Diff 2 | CRITICAL
 V068 | D7a R1 Rosa (Sheltered) attack: Nerve 2 vs Defence 3 | 2d6 | faces: 3 5 | 1 succ, 0 six vs Diff 3 | FAILURE
-V069 | D7a R1 Kit attack with Force: Nerve 3 + Force 2 vs Defence 3 | 5d6 | faces: 5 1 4 1 1 | 2 succ, 0 six vs Diff 3 | PARTIAL
+V069 | D7a R1 Finn attack with Force: Nerve 3 + Force 2 vs Defence 3 | 5d6 | faces: 5 1 4 1 1 | 2 succ, 0 six vs Diff 3 | PARTIAL
 V070 | D7a R1 threat attack 1 target d6 | 1d6 | faces: 5
 V071 | D7a R1 threat attack 2 target d6 | 1d6 | faces: 2
-V072 | D7a R1 Storyteller's tie pick for attack 1, most hurt Rosa 1 / Kit 1 (odd Rosa, even Kit) | 1d6 | faces: 4
-V073 | D7a R1 Kit defends attack 1: Nerve 3 vs Danger 3 | 3d6 | faces: 1 1 3 | 0 succ, 0 six vs Diff 3 | FAILURE
-V074 | D7a R1 Kit defends attack 2: Nerve 3 vs Danger 3 | 3d6 | faces: 4 2 3 | 1 succ, 0 six vs Diff 3 | FAILURE
+V072 | D7a R1 Storyteller's tie pick for attack 1, most hurt Rosa 1 / Finn 1 (odd Rosa, even Finn) | 1d6 | faces: 4
+V073 | D7a R1 Finn defends attack 1: Nerve 3 vs Danger 3 | 3d6 | faces: 1 1 3 | 0 succ, 0 six vs Diff 3 | FAILURE
+V074 | D7a R1 Finn defends attack 2: Nerve 3 vs Danger 3 | 3d6 | faces: 4 2 3 | 1 succ, 0 six vs Diff 3 | FAILURE
 V075 | D7b R2 Ivy Shelter on Thistle (1 Magic): Craft 3 + Critical's next-roll die 1 vs 2 | 4d6 | faces: 5 2 1 1 | 1 succ, 0 six vs Diff 2 | PARTIAL
 V076 | D7b R2 Rosa attack: Nerve 2 vs Defence 3 | 2d6 | faces: 5 6 | 2 succ, 1 six vs Diff 3 | PARTIAL
 V077 | D7b R2 threat attack 1 target d6 | 1d6 | faces: 2
@@ -598,34 +598,34 @@ V079 | D8 R2 (public, Weakness known, Nell free and unguarded) Thistle Hold: Ner
 V080 | D8 R2 threat attack 1 d6 (Held: goes to Thistle unless 6 = take Nell) | 1d6 | faces: 3
 V081 | D8 R2 threat attack 2 target d6 | 1d6 | faces: 6
 V082 | D8 R2 Thistle defends the Held attack: Nerve 2 + own Ward 1 vs Danger 3 | 3d6 | faces: 3 6 5 | 2 succ, 1 six vs Diff 3 | PARTIAL
-V083 | D9 R1 (public, no Weakness, Defence 3, Nell in grip) Kit frees with Force: Nerve 3 + Force 2 + own Magic 1 vs Defence 3 | 6d6 | faces: 5 6 1 2 3 2 | 2 succ, 1 six vs Diff 3 | PARTIAL
+V083 | D9 R1 (public, no Weakness, Defence 3, Nell in grip) Finn frees with Force: Nerve 3 + Force 2 + own Magic 1 vs Defence 3 | 6d6 | faces: 5 6 1 2 3 2 | 2 succ, 1 six vs Diff 3 | PARTIAL
 V084 | D9 R1 Rosa frees: Nerve 2 + own Magic 1 + Ivy helps 1 Magic vs Defence 3 | 4d6 | faces: 2 4 2 1 | 1 succ, 0 six vs Diff 3 | FAILURE
 V085 | D9 R1 Thistle frees: Nerve 2 + own Ward 2 vs Defence 3 | 4d6 | faces: 4 6 6 6 | 4 succ, 3 six vs Diff 3 | CRITICAL
 V086 | D9 R1 threat attack 1 target d6 (Nell free, Ivy guarding) | 1d6 | faces: 2
 V087 | D9 R1 threat attack 2 target d6 | 1d6 | faces: 4
-V088 | D9 R1 Storyteller tie pick attack 1, Kit 1 / Rosa 1 (odd Kit, even Rosa) | 1d6 | faces: 1
-V089 | D9 R1 Storyteller tie pick attack 2, Kit / Rosa (odd Kit, even Rosa) | 1d6 | faces: 6
-V090 | D9 R1 Kit defends attack 1: Nerve 3 vs Danger 3 | 3d6 | faces: 3 6 4 | 2 succ, 1 six vs Diff 3 | PARTIAL
-V091 | D9 R1 Kit defends attack 2 (now most hurt): Nerve 3 + own Magic 1 vs Danger 3 | 4d6 | faces: 5 4 1 3 | 2 succ, 0 six vs Diff 3 | PARTIAL
+V088 | D9 R1 Storyteller tie pick attack 1, Finn 1 / Rosa 1 (odd Finn, even Rosa) | 1d6 | faces: 1
+V089 | D9 R1 Storyteller tie pick attack 2, Finn / Rosa (odd Finn, even Rosa) | 1d6 | faces: 6
+V090 | D9 R1 Finn defends attack 1: Nerve 3 vs Danger 3 | 3d6 | faces: 3 6 4 | 2 succ, 1 six vs Diff 3 | PARTIAL
+V091 | D9 R1 Finn defends attack 2 (now most hurt): Nerve 3 + own Magic 1 vs Danger 3 | 4d6 | faces: 5 4 1 3 | 2 succ, 0 six vs Diff 3 | PARTIAL
 V092 | D9 R2 Ivy Blast (1 Magic, ends her guard): Craft 3 + Flame 2 vs Defence 3 | 5d6 | faces: 1 3 2 5 1 | 1 succ, 0 six vs Diff 3 | FAILURE
 V093 | D9 R2 Rosa attack: Nerve 2 + own Magic 1 vs Defence 3 | 3d6 | faces: 3 6 4 | 2 succ, 1 six vs Diff 3 | PARTIAL
 V094 | D9 R2 threat attack 1 target d6 (Nell free, Thistle guarding) | 1d6 | faces: 2
 V095 | D9 R2 threat attack 2 target d6 | 1d6 | faces: 2
 V096 | D9 R2 Rosa defends attack 1 with Sight: Nerve 2 + Sight 2 vs Danger 3 | 4d6 | faces: 5 6 6 6 | 4 succ, 3 six vs Diff 3 | CRITICAL
 V097 | D9 R2 Rosa defends attack 2 with Sight: Nerve 2 + Sight 2 vs Danger 3 | 4d6 | faces: 2 5 5 4 | 3 succ, 0 six vs Diff 3 | SUCCESS
-V098 | D10 R3 (public, Weakness known, Toughness 6/12; Rosa and Kit Down) Ivy at Hurt 3 Blast (1 Magic): Craft 3 + Flame 2 + Rosa helps 1 + Kit helps 1 (both Down) vs Defence 2 | 7d6 | faces: 1 5 6 1 1 6 4 | 4 succ, 2 six vs Diff 2 | CRITICAL
+V098 | D10 R3 (public, Weakness known, Toughness 6/12; Rosa and Finn Down) Ivy at Hurt 3 Blast (1 Magic): Craft 3 + Flame 2 + Rosa helps 1 + Finn helps 1 (both Down) vs Defence 2 | 7d6 | faces: 1 5 6 1 1 6 4 | 4 succ, 2 six vs Diff 2 | CRITICAL
 V099 | D10 R3 Thistle (Hurt 2/5, Ward 0) Hold: Nerve 2 vs Defence 2 | 2d6 | faces: 4 4 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V100 | D10 R3 threat attack 1 target d6 | 1d6 | faces: 1
 V101 | D10 R3 threat attack 2 target d6 | 1d6 | faces: 4
 V102 | D10 R3 Thistle defends Held attack 1: Nerve 2 vs Danger 3 | 2d6 | faces: 2 1 | 0 succ, 0 six vs Diff 3 | FAILURE
 V103 | D10 R3 Ivy defends attack 2: Nerve 2 + own Magic 2 vs Danger 3 | 4d6 | faces: 4 2 3 5 | 2 succ, 0 six vs Diff 3 | PARTIAL
-V104 | D11 Ep3 R1 (Toughness 15, Weakness known) Kit attack + Force Surge: Nerve 4 + Force 2 vs Defence 2 | 6d6 | faces: 1 1 3 3 4 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
+V104 | D11 Ep3 R1 (Toughness 15, Weakness known) Finn attack + Force Surge: Nerve 4 + Force 2 vs Defence 2 | 6d6 | faces: 1 1 3 3 4 5 | 2 succ, 0 six vs Diff 2 | SUCCESS
 V105 | D11 Ep3 R1 Ivy Blast + Flame Surge + Blasting: Craft 4 + Flame 2 vs Defence 2 | 6d6 | faces: 3 4 2 1 6 3 | 2 succ, 1 six vs Diff 2 | SUCCESS
 V106 | D11 Ep3 R1 Rosa attack: Nerve 2 + own Magic 1 + Thistle helps 1 vs Defence 2 | 4d6 | faces: 2 5 6 2 | 2 succ, 1 six vs Diff 2 | SUCCESS
 V107 | D11 Ep3 R1 threat's one attack (other lost to Force): target d6 | 1d6 | faces: 5
 V108 | D11 Ep3 R1 Thistle Shields the attack on Ivy (1 Ward) and defends: Nerve 2 + own Ward 1 vs Danger 3 | 3d6 | faces: 4 5 1 | 2 succ, 0 six vs Diff 3 | PARTIAL
 V109 | D11 Ep3 R2 Rosa attack: Nerve 2 vs Defence 2 | 2d6 | faces: 1 4 | 1 succ, 0 six vs Diff 2 | PARTIAL
-V110 | D11 Ep3 R2 Unmaking: Ivy leads Craft 4 + Kit joins 2 + helpers Rosa 1 Magic, Thistle 1 Ward vs Diff 3 | 8d6 | faces: 4 2 1 4 2 4 5 1 | 4 succ, 0 six vs Diff 3 | SUCCESS
+V110 | D11 Ep3 R2 Unmaking: Ivy leads Craft 4 + Finn joins 2 + helpers Rosa 1 Magic, Thistle 1 Ward vs Diff 3 | 8d6 | faces: 4 2 1 4 2 4 5 1 | 4 succ, 0 six vs Diff 3 | SUCCESS
 ```
 
-**Exact odds used in N1** (worked out by listing every face combination, not by rolling): with the Weakness, Kit (5 dice: 3 damage on a success, 2 on a Partial), Ivy (5 dice: 8 / 7 with Blast, Flame's Surge and one Blasting) and Rosa (4 dice: 3 / 2) reach 12 damage in round 1 with probability 0.898. With a Blasting potion each, 0.965 (and 0.883 against 15 Toughness). Without the Weakness (Defence 3), 0.072.
+**Exact odds used in N1** (worked out by listing every face combination, not by rolling): with the Weakness, Finn (5 dice: 3 damage on a success, 2 on a Partial), Ivy (5 dice: 8 / 7 with Blast, Flame's Surge and one Blasting) and Rosa (4 dice: 3 / 2) reach 12 damage in round 1 with probability 0.898. With a Blasting potion each, 0.965 (and 0.883 against 15 Toughness). Without the Weakness (Defence 3), 0.072.

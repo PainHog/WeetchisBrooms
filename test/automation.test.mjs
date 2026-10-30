@@ -21,16 +21,16 @@ const answer = values => dialogResponders.push(opts => opts.ok.callback(null, { 
 const lastCard = () => game.messages.at(-1);
 const ep = () => game.witchWard.episode.get();
 
-let dana, june, sam, quiet;
+let dana, june, quinn, quiet;
 
 test("set up: actors from the pack sources, then start an episode", async () => {
   await asUser(gm, async () => {
     dana = await Actor.create(owned(packDoc("coven", "1-dana-okafor", "witch"), p1));
     june = await Actor.create(owned(packDoc("coven", "3-june-takeda", "witch"), p2));
-    sam = await Actor.create(packDoc("coven", "4-sam-abernathy", "witch"));
+    quinn = await Actor.create(packDoc("coven", "4-quinn-abernathy", "witch"));
     quiet = await Actor.create(packDoc("threats", "1-quiet-man", "threat"));
     await dana.update({ "system.hurt": 3, "system.scar": true });
-    await game.witchWard.episode.start({ label: "easy", threatId: quiet.id, coven: [dana.id, june.id, sam.id] });
+    await game.witchWard.episode.start({ label: "easy", threatId: quiet.id, coven: [dana.id, june.id, quinn.id] });
   });
   await settle();
   const s = ep();
@@ -63,10 +63,10 @@ test("a player's lead: the GM's client adds the Clues; casting out in the city c
 });
 
 test("helpers pay their own Magic; the +2 limit holds", async () => {
-  // Sam researches the Book (+1) with June and Dana helping: only +2 counts. Wits 2 + 2 = 4 dice.
+  // Quinn researches the Book (+1) with June and Dana helping: only +2 counts. Wits 2 + 2 = 4 dice.
   diceQueue.push(4, 4, 1, 1);
   answer({ purpose: "research", rating: "wits", difficulty: "1", book: true, [`helper-${june.id}`]: true, [`helper-${dana.id}`]: true });
-  await asUser(gm, () => game.witchWard.rollDialog(sam, { purpose: "research" }));
+  await asUser(gm, () => game.witchWard.rollDialog(quinn, { purpose: "research" }));
   await settle();
   const card = lastCard().flags["witch-ward"].card;
   assert.equal(card.pool, 4);
@@ -78,7 +78,7 @@ test("helpers pay their own Magic; the +2 limit holds", async () => {
 test("answering a Life gives 1 Magic; an unanswered Life costs 1 Magic at the showdown", async () => {
   await asUser(p1, () => dana.update({ "system.lifeAnswered": true, "system.magic": dana.system.magic + 1 }));
   const juneMagic = june.system.magic;
-  const samMagic = sam.system.magic;
+  const quinnMagic = quinn.system.magic;
   await asUser(gm, async () => { for (let i = 0; i < 5; i++) await game.witchWard.episode.endScene(); });
   await settle();
   const s = ep();
@@ -86,7 +86,7 @@ test("answering a Life gives 1 Magic; an unanswered Life costs 1 Magic at the sh
   assert.equal(s.place, "public");
   assert.equal(s.innocent, "grip");
   assert.equal(june.system.magic, juneMagic - 1);
-  assert.equal(sam.system.magic, samMagic - 1);
+  assert.equal(quinn.system.magic, quinnMagic - 1);
   assert.equal(dana.system.magic, 5);
 });
 
@@ -127,7 +127,7 @@ test("freeing the innocent, damage to Broken, then the Unmaking", async () => {
   assert.equal(ep().innocent, "free");
   // Leader June: Craft 2 + 2 joiners × 2 = 6 dice.
   diceQueue.push(6, 5, 5, 4, 4, 1);
-  await asUser(gm, () => game.witchWard.episode.unmaking({ leaderId: june.id, joinerIds: [dana.id, sam.id] }));
+  await asUser(gm, () => game.witchWard.episode.unmaking({ leaderId: june.id, joinerIds: [dana.id, quinn.id] }));
   await settle();
   const s = ep();
   assert.equal(s.ended, "destroyed");

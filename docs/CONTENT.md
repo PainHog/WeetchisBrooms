@@ -35,7 +35,7 @@ Six witches, one per Power (the d6 order), and the guardian. Any witch can be an
 | **Dana Okafor** (she) | Force | 2 | 2 | 3 | 1 | Nurse | Grew up next door to the Lantern House | Tall, short natural hair, scrubs under a denim jacket; a silver ring on her left thumb |
 | **Marco Rossi** (he) | Flame | 2 | 1 | 3 | 2 | Mechanic | Cousin of the family that owns the house | Stocky, oil on his hands, rolled sleeves; a burn scar on his right forearm |
 | **June Takeda** (she) | Sight | 2 | 3 | 1 | 2 | Student | Found the Book in a second-hand shop and followed it home | Small, round glasses, a yellow raincoat; always carries a notebook |
-| **Sam Abernathy** (they) | Voice | 3 | 2 | 1 | 2 | Teacher | Old friend of Dana's from school | Lanky, curly red hair, cardigan, a whistle on a cord |
+| **Quinn Abernathy** (they) | Voice | 3 | 2 | 1 | 2 | Teacher | Old friend of Dana's from school | Lanky, curly red hair, cardigan, a whistle on a cord |
 | **Tess Lindqvist** (she) | Veil | 1 | 2 | 3 | 2 | Bus driver | Inherited a room in the house from her gran | Broad-shouldered, blonde braid, driver's uniform; a pale streak in her braid |
 | **Noor Haddad** (she) | Wild | 2 | 2 | 1 | 3 | Shop worker (a garden centre) | Answered an advert for a lodger and stayed | Headscarf in green, soil under her nails; a crow feather in her pocket |
 
@@ -60,7 +60,7 @@ Every threat uses the stat column of the episode's difficulty label (Defence, Da
 |---|---|---|---|---|
 | **1. Night Market** | Easy | The Quiet Man | Grace Ellery, a radio host whose voice is famous across Larkhaven | A singer at the night market opens her mouth and nothing comes out |
 | **2. Cinders** | Standard | The Ash Widow | Hannah Price, a firefighter, getting married next week | A row of old houses burns in the shape of a wedding ring |
-| **3. Low Tide** | Hard | The Drowned Choir | **Kit Marlow**, a twelve-year-old who sings in the school choir | Three people walk into the sea at dusk, singing |
+| **3. Low Tide** | Hard | The Drowned Choir | **Finn Marlow**, a twelve-year-old who sings in the school choir | Three people walk into the sea at dusk, singing |
 
 Each episode in the book gives: the opening, the innocent, the threat, the Clues needed, six leads (two talking, two searching, one Book research, one for Reveal) with what each kind of Clue tells, a d6 table of Life calls for that episode, the hidden place and the public place (each with two ways in and out), one twist, and a closing scene.
 
