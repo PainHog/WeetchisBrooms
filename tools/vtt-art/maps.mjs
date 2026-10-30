@@ -2150,14 +2150,21 @@ function larkhaven() {
     out.push(ferry(x, y, a));
     lights.push(circle(x, y, 50, { fill: "url(#lk-glow)", opacity: 0.6 }));
   }
-  // the long pier: arcade at the sea end, lifeboat ramp near the shore
-  out.push(rect(2068, 1330, 24, 380, { fill: "#6a5a48", stroke: "#0c0e10", "stroke-width": 2.5 }));
-  for (let y = 1345; y < 1705; y += 14) out.push(line(2070, y, 2090, y, { stroke: "#3a2e22", "stroke-width": 1.5 }));
-  out.push(rect(2030, 1700, 100, 60, { fill: "#5a4a6a", stroke: "#0c0e10", "stroke-width": 3 }));
-  lights.push(circle(2080, 1730, 90, { fill: "url(#lk-glow)" }));
-  for (let i = 0; i < 12; i++) top.push(circle(2034 + (i % 6) * 18, 1702 + Math.floor(i / 6) * 56, 2.5, { fill: ["#ffd27a", "#ff9a9a", "#9ad8ff"][i % 3] }));
-  out.push(path("M2092 1420 L2140 1440 L2140 1460 L2092 1450 Z", { fill: "#7a7468", stroke: "#0c0e10", "stroke-width": 2 })); // lifeboat ramp
-  out.push(rect(2096, 1396, 26, 22, { fill: "#8a3a2a", stroke: "#0c0e10", "stroke-width": 2 })); // lifeboat house
+  // the long pier (ch16): the arcade at the landward end, the pier head out at sea with the
+  // bandstand, the lifeboat ramp off its west side and the ferry landing at its end.
+  // Laid out as the long-pier scene map, turned so the land is to the north.
+  out.push(rect(2068, 1330, 24, 370, { fill: "#6a5a48", stroke: "#0c0e10", "stroke-width": 2.5 }));
+  for (let y = 1345; y < 1695; y += 14) out.push(line(2070, y, 2090, y, { stroke: "#3a2e22", "stroke-width": 1.5 }));
+  out.push(rect(2034, 1694, 92, 62, { fill: "#6a5a48", stroke: "#0c0e10", "stroke-width": 2.5 })); // the pier head
+  for (let y = 1704; y < 1752; y += 12) out.push(line(2036, y, 2124, y, { stroke: "#3a2e22", "stroke-width": 1.2 }));
+  out.push(circle(2086, 1725, 13, { fill: "#d8d0c0", stroke: "#0c0e10", "stroke-width": 2 })); // bandstand
+  out.push(path("M2034 1714 L1986 1732 L1986 1752 L2034 1744 Z", { fill: "#7a7468", stroke: "#0c0e10", "stroke-width": 2 })); // lifeboat ramp, down into the sea
+  out.push(rect(2040, 1700, 22, 18, { fill: "#8a3a2a", stroke: "#0c0e10", "stroke-width": 2 })); // winch at the top of the ramp
+  out.push(rect(2068, 1756, 24, 12, { fill: "#5a4a3a", stroke: "#0c0e10", "stroke-width": 2 })); // ferry landing
+  lights.push(circle(2080, 1725, 60, { fill: "url(#lk-glow)", opacity: 0.6 }));
+  out.push(rect(2062, 1354, 62, 50, { fill: "#5a4a6a", stroke: "#0c0e10", "stroke-width": 3 })); // the arcade, at the landward end
+  lights.push(circle(2093, 1379, 90, { fill: "url(#lk-glow)" }));
+  for (let i = 0; i < 8; i++) top.push(circle(2066 + (i % 4) * 18, 1356 + Math.floor(i / 4) * 46, 2.5, { fill: ["#ffd27a", "#ff9a9a", "#9ad8ff"][i % 3] }));
   // the lighthouse on the far arm, its beam out to sea
   lights.push(path("M1660 1745 L1830 2010 L2160 2010 Z", { fill: "url(#lk-beamlin)" }));
   lights.push(circle(1660, 1745, 80, { fill: "url(#lk-glow)" }));
@@ -2190,7 +2197,7 @@ function larkhaven() {
   top.push(area(1530, 1560, "THE HARBOUR", { size: 50 }));
   top.push(area(2600, 700, "SALTMARSH"));
   const lm = (x, y, t, o = {}) => label(x, y, t, { size: 24, weight: 700, fill: "#dfe6ea", italic: true, ...o });
-  top.push(lm(1660, 1790, "Lighthouse"), lm(2080, 1800, "Long pier: arcade"), lm(2185, 1430, "lifeboat ramp", { anchor: "start", size: 20 }));
+  top.push(lm(1660, 1790, "Lighthouse"), lm(2080, 1800, "Long pier: pier head"), lm(2136, 1379, "arcade", { anchor: "start", size: 20 }), lm(1978, 1742, "lifeboat ramp", { anchor: "end", size: 20 }));
   top.push(lm(1285, 1440, "Fish market", { size: 20 }), lm(1650, 1380 + 150, "Ferries", { size: 20, anchor: "start" }));
   top.push(lm(1160, 1960, "Ferries across the bay", { anchor: "end" }));
   top.push(lm(705, 1140, "Burned-out theatre", { size: 20 }), lm(220, 1060, "Container yard", { size: 20 }));

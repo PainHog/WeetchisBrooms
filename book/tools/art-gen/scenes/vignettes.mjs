@@ -2360,6 +2360,196 @@ piece("spot-cafe", () => {
   return { vb: `0 0 ${SW} ${SH}`, title: "Quinn laughs on a date at a café window table, rain on the glass", body: spot(s) };
 });
 
+/** A burst of fireworks: lines radiating from a centre, with dots at their ends, some trails falling. */
+function burst(x, y, rr, col, n = 18, seed = 1) {
+  const R0 = rng(seed);
+  let s = C(x, y, rr * 1.4, glow(col, 0.3)), d = "";
+  for (let i = 0; i < n; i++) {
+    const a = i / n * Math.PI * 2 + R0() * 0.1, l = rr * (0.75 + R0() * 0.3);
+    d += `M${r(x + Math.cos(a) * rr * 0.25)},${r(y + Math.sin(a) * rr * 0.25)}L${r(x + Math.cos(a) * l)},${r(y + Math.sin(a) * l + l * 0.12)}`;
+    s += C(x + Math.cos(a) * l, y + Math.sin(a) * l + l * 0.12, 2.2, lt(col, 0.4));
+  }
+  return S(d, col, 2.2, { op: 0.9 }) + s;
+}
+
+// ----- Spot (Chapter 9): Seen. Marco's fire in a skip, caught on a bystander's phone
+piece("spot-seen", () => {
+  const g = 500;
+  let s = sky(SW, SH, K.n0, K.n3, K.n1);
+  s += stars(271, 20, 16, 780, 140, 30);
+  s += terraceRow(-20, 820, 380, { seed: 272, hMin: 150, hMax: 210, wMin: 120, wMax: 170, litP: 0.5, sw: 1.6, rows: 3 });
+  s += R(0, 380, SW, g - 380, lin([[0, "#3d4459"], [1, "#2e3446"]]), { s: INK, w: 1.6 });
+  s += R(0, g, SW, SH - g, lin([[0, "#2a2f40"], [1, "#1c2030"]]), { s: INK, w: 1.6 });
+  // the bus shelter: a roof on two posts, a glass back, a bench
+  s += R(470, 222, 300, 14, "#3a3e4a", { s: INK, w: 1.6 }) + R(476, 236, 6, 230, "#3a3e4a", { s: INK, w: 1.4 }) + R(758, 236, 6, 230, "#3a3e4a", { s: INK, w: 1.4 });
+  s += R(482, 240, 276, 150, "#a9c6dc", { op: 0.18, s: INK, w: 1.2 }) + R(520, 400, 200, 10, K.woodD, { s: INK, w: 1.4 }) + R(530, 410, 6, 56, "#3a3e4a") + R(704, 410, 6, 56, "#3a3e4a");
+  // the skip, on fire (flames and smoke rising)
+  s += shadow(190, 470, 120, 8, 0.5);
+  s += P(poly([[80, 470], [64, 380], [316, 380], [300, 470]]), shade("#c9a23a", 0.15, 0.35), { s: INK, w: 2.4 }) + R(58, 372, 264, 14, dk("#c9a23a", 0.15), { s: INK, w: 2 });
+  s += S(`M110,392V462M190,392V462M270,392V462`, dk("#c9a23a", 0.3), 2.4) + C(96, 478, 8, "#2a2a30", { s: INK, w: 1.4 }) + C(284, 478, 8, "#2a2a30", { s: INK, w: 1.4 });
+  s += C(190, 320, 130, glow(K.fire, 0.45));
+  for (const [x, h, w] of [[120, 110, 44], [170, 160, 56], [226, 130, 50], [272, 90, 36]]) s += P(`M${x - w / 2},372Q${x - w / 2},${372 - h * 0.5} ${x},${372 - h}Q${x + w / 2},${372 - h * 0.5} ${x + w / 2},372Z`, lin([[0, K.fireHi], [0.6, K.fire], [1, K.red]]), { s: dk(K.fire, 0.4), w: 1.4 });
+  for (const [x, y, rr, op] of [[180, 190, 26, 0.3], [200, 140, 34, 0.24], [186, 84, 42, 0.18]]) s += C(x, y, rr, "#5a5862", { op });
+  // Marco hurrying off to the left, looking back, hands up: not him
+  s += shadow(380, g, 32, 5, 0.5) + fig(marco, 380, g, 300, { look: 1.6, mouth: "grim", left: [16, -86], right: [-16, -86] });
+  // the queue: one person filming on a phone; the phone's screen shows the fire and a red record dot
+  s += shadow(700, g, 30, 5, 0.5) + fig(civ({ skin: "#e8c4a8", hair: "#6a4a32", style: "long", top: "#4f72a8", hairLen: -76, mouth: "o" }), 700, g, 290, { look: -1.6, left: [-2, -72], right: [-8, -72], bendL: -1 });
+  s += shadow(570, g, 30, 5, 0.5) + fig(civ({ skin: "#8a5a3c", hair: "#1a1210", style: "short", top: "#5a4a6a", coat: "#3e5a7a", coatLen: -40, mouth: "o" }), 570, g, 300, { look: -1.6 });
+  // the phone (held up in both hands, screen toward the viewer so we see what it records)
+  const px = 682, py = 286;
+  s += R(px - 22, py - 34, 44, 68, "#1c1c22", { s: INK, w: 2, rx: 6 }) + R(px - 18, py - 28, 36, 56, lin([[0, "#2a3048"], [1, "#3a2a2a"]]), { rx: 3 });
+  s += P(`M${px - 8},${py + 16}Q${px - 8},${py - 2} ${px},${py - 14}Q${px + 8},${py - 2} ${px + 8},${py + 16}Z`, K.fire) + R(px - 14, py + 16, 28, 8, "#c9a23a");
+  s += C(px + 11, py - 21, 4, K.red) + C(px + 11, py - 21, 6, "none", { s: "#ffffff", w: 1 });
+  return { vb: `0 0 ${SW} ${SH}`, title: "Seen: Marco hurries away from a burning skip while someone at the bus stop films it on a phone", body: spot(s) };
+});
+
+// ----- Spot (Chapter 11): the evening ferry, an old man at the window and a young woman in the glass beside him
+piece("spot-ferry", () => {
+  let s = sky(SW, SH, K.n0, "#3a4270", K.n1);
+  s += stars(281, 20, 16, 780, 220, 50, (x, y) => Math.hypot(x - 660, y - 110) < 50) + moon(660, 110, 32);
+  s += R(0, 300, SW, 20, "#1c2440");
+  s += terraceRow(-10, 360, 312, { seed: 282, hMin: 14, hMax: 22, wMin: 12, wMax: 18, litP: 0.6, sw: 0.8, rows: 1 });
+  s += lighthouse(560, 318, 70, { beam: 200, beamLen: 300 });
+  s += water(0, 318, SW, SH, { refl: [[660, 40, "#f3e9cc", 0.5], [560, 12]], ripples: 50, top: "#24305a" });
+  // the ferry, side on: hull, rails, a long lit cabin, funnel
+  const fx = 40, fw = 720, wl = 470;
+  s += P(poly([[fx, wl - 70], [fx + fw, wl - 70], [fx + fw - 40, wl + 10], [fx + 30, wl + 10]]), shade("#2c3550", 0.15, 0.3), { s: INK, w: 2.4 });
+  s += S(`M${fx + 4},${wl - 40}H${fx + fw - 10}`, K.red, 5);
+  s += R(fx + 80, wl - 250, 560, 180, lin([[0, "#e9e3d4"], [1, "#c9c2b0"]]), { s: INK, w: 2.4 });
+  s += R(fx + 70, wl - 262, 580, 16, "#3a3e4a", { s: INK, w: 2 });
+  let rail = `M${fx},${wl - 104}H${fx + 80}M${fx + 640},${wl - 104}H${fx + fw}`;
+  for (let x = fx + 6; x < fx + 80; x += 14) rail += `M${x},${wl - 70}V${wl - 104}`;
+  for (let x = fx + 646; x < fx + fw; x += 14) rail += `M${x},${wl - 70}V${wl - 104}`;
+  s += S(rail, INK, 2.6) + S(rail, "#8a8f9c", 1.2);
+  s += R(fx + 470, wl - 330, 60, 70, K.red, { s: INK, w: 2 }) + R(fx + 466, wl - 336, 68, 10, "#2a2a30", { s: INK, w: 1.6 });
+  // windows: one has the old man looking out; in the next pane, faint, a young woman's face
+  for (let i = 0; i < 6; i++) s += R(fx + 100 + i * 90, wl - 228, 72, 100, lin([[0, K.glow], [1, K.gold]]), { s: INK, w: 2, rx: 8 });
+  const w1 = clip(R(fx + 280, wl - 228, 72, 100, "#000", { rx: 8 }));
+  s += G(fig(civ({ skin: "#e6c8b2", hair: "#d8d4cc", style: "bald", top: "#5a5a68", coat: "#4a4a58", coatLen: -40, mouth: "flat", eyeC: "#4a3a2a", headW: 1.02 }), fx + 318, wl - 228 + 380, 320, { look: 1.2 }), { clip: w1 });
+  const w2 = clip(R(fx + 370, wl - 228, 72, 100, "#000", { rx: 8 }));
+  s += G(G(fig(civ({ skin: "#dfe8f0", hair: "#6a7a8a", style: "long", top: "#9aa8b8", hairLen: -76, mouth: "smile", eyeC: "#4a5a6a" }), fx + 404, wl - 228 + 372, 300, { look: -1.2 }), { op: 0.42 }), { clip: w2 });
+  s += S(`M${fx + 100},${wl - 196}H${fx + 640}`, "#ffffff", 1, { op: 0.15 });
+  return { vb: `0 0 ${SW} ${SH}`, title: "The evening ferry crossing the bay: an old man looks out of a window, and in the glass beside him a young woman's face", body: spot(s) };
+});
+
+// ----- Spot (Chapter 12): the opening of Episode 1. Bea sings on the steps, and her voice drifts away as a little light into a glass valve
+piece("spot-silent-singer", () => {
+  let s = R(0, 0, SW, SH, lin([[0, K.n0], [1, K.n2]]));
+  // St Bride's market hall behind her: arched windows lit, string lights
+  s += R(0, 120, SW, 330, shade("#8a7f70", 0.08, 0.3), { s: INK, w: 2 });
+  for (let i = 0; i < 4; i++) { const x = 40 + i * 196; s += P(`M${x},400V220A60,60 0 0 1 ${x + 120},220V400Z`, lin([[0, K.glow], [1, K.amber]]), { s: INK, w: 2 }) + S(`M${x + 60},160V400M${x},300H${x + 120}`, "#5a4a3a", 4); }
+  s += R(-10, 100, SW + 20, 24, "#4b5570", { s: INK, w: 2 });
+  s += stringLights([0, 140], [400, 150], 22, 12, { glowR: 8 }) + stringLights([400, 150], [800, 140], 22, 12, { glowR: 8 });
+  // the steps
+  for (let i = 0; i < 4; i++) s += R(-10, 440 + i * 26, SW + 20, 26, lt(K.stone, 0.06 - i * 0.04), { s: INK, w: 1.6 });
+  // Bea: beanie, long dark hair, cream scarf, olive jacket, guitar; mouth open but no sound; her voice leaves as a small light
+  s += shadow(320, 492, 34, 5, 0.5);
+  s += fig(civ({ skin: "#d9a982", hair: "#2b1a13", style: "beanie", top: "#efe6d2", scarf: "#f4efe2", coat: "#6c7040", coatLen: -44, bottom: "#3a3a44", shoe: "#4a3020", mouth: "open", hairLen: -66, eyeC: "#3e2618" }), 320, 492, 380, {
+    left: [5, -58], right: [-7, -51],
+    under: () => P(`M-7,-48Q-17,-48 -17,-40Q-17,-32 -7,-32Q-2,-27 5,-32Q12,-32 12,-40Q12,-48 5,-48Q-1,-53 -7,-48Z`, shade("#d49a52", 0.2, 0.3), { s: INK, w: 0.5 }) + C(-2, -40, 2.2, "#3a2a1a") + S(`M-2,-40L12,-66`, INK, 2.6) + S(`M-2,-40L12,-66`, "#5a3a22", 1.6) + R(10.4, -70.4, 3.6, 5, "#3a2a1a", { s: INK, w: 0.4, tf: "rotate(30 12 -68)" }) + S(`M-12,-50L4,-31`, "#3a2a1a", 1.2),
+  });
+  // the little light of her voice, drifting from her mouth to the valve
+  s += S(`M330,174Q470,120 640,190`, K.glow, 2, { dash: "2 9", op: 0.8 });
+  for (const [x, y, rr] of [[372, 158, 4], [440, 140, 5], [520, 148, 6]]) s += C(x, y, rr * 3, glow(K.lamp, 0.5)) + C(x, y, rr, K.glow);
+  // a grey sleeve and hand reach in from the right edge, holding an old glass radio valve
+  s += S(`M${SW + 20},300L700,232`, INK, 34) + S(`M${SW + 20},300L700,232`, "#6f7076", 30) + S(`M712,240L700,232`, "#e8e6e0", 30);
+  s += C(650, 196, 40, glow(K.lamp, 0.55));
+  s += R(638, 210, 24, 14, "#2a2a30", { s: INK, w: 1.6 }) + P(sm([[640, 210, 1], [636, 190], [642, 172], [650, 166], [658, 172], [664, 190], [660, 210, 1]]), lin([[0, "#fff6d6", 0.95], [1, K.gold, 0.8]]), { s: INK, w: 1.6 });
+  s += S(`M646,206V186M654,206V186M646,186H654`, "#8a6a3a", 1.2);
+  s += hand([694, 228], Math.PI * 1.05, 34, SK.quiet, 1.6, { side: -1, fingers: true });
+  // the crowd below, their backs to us
+  for (const [x, h, hair, top, style] of [[80, 330, "#3a2a20", "#4f72a8", "short"], [210, 320, "#c4a060", "#3f7f58", "bun"], [520, 330, "#1a1210", "#b5473f", "curly"], [660, 340, "#5a3a2a", "#7b5bc4", "long"]]) s += fig(civ({ skin: "#d9a982", hair, style, top, back: true, hairLen: -74 }), x, SH + 190, h, {});
+  return { vb: `0 0 ${SW} ${SH}`, title: "Bea sings on the steps of St Bride's and no sound comes out: her voice drifts away as a little light into a glass valve held by a grey hand", body: spot(s) };
+});
+
+// ----- Spot (Chapter 14): the old radio tower in the Heights, six stolen voices hung at the top
+piece("spot-radio-tower", () => {
+  const g = 520;
+  let s = sky(SW, SH, K.n0, K.n3, K.n1);
+  s += stars(291, 20, 16, 780, 360, 70, (x, y) => Math.hypot(x - 150, y - 110) < 40) + moon(150, 110, 26);
+  // the city far below
+  s += R(0, 430, SW, 50, "#1c2440") + terraceRow(-10, 820, 452, { seed: 292, hMin: 10, hMax: 18, wMin: 10, wMax: 16, litP: 0.6, sw: 0.7, rows: 1 });
+  s += water(0, 452, SW, 470, { refl: [[150, 20, "#f3e9cc", 0.4]], ripples: 10, top: "#22305a" });
+  // the hilltop, trees, a fence, the brick hut at the foot of the tower
+  s += P(sm([[0, SH, 1], [0, 480], [200, 470], [400, 482], [620, 468], [800, 480], [800, SH, 1]]), lin([[0, "#24304a"], [1, "#161d30"]]), { s: INK, w: 1.6 });
+  for (const [x, rr] of [[60, 40], [700, 46], [760, 34]]) s += R(x - 4, g - 30, 8, 40, "#3a2a20", { s: INK, w: 1.2 }) + C(x, g - 50, rr, shade("#24402e", 0.15, 0.3), { s: INK, w: 1.6 });
+  s += R(470, g - 70, 110, 70, shade("#6a4a40", 0.1, 0.3), { s: INK, w: 2 }) + P(poly([[462, g - 70], [525, g - 104], [588, g - 70]]), "#3a3e4a", { s: INK, w: 2 }) + R(512, g - 52, 26, 52, "#2a2420", { s: INK, w: 1.4 }) + R(486, g - 56, 18, 16, "#1a1a20", { s: INK, w: 1.2 });
+  let fence = `M140,${g - 30}H700`;
+  for (let x = 140; x <= 700; x += 20) fence += `M${x},${g}V${g - 40}`;
+  s += S(fence, INK, 2.4) + S(fence, "#5a5f6e", 1.2);
+  // the tower
+  s += radioMast(340, g, 400, { sw: 2.4, light: false });
+  // a cross-arm near the top, and the six glass valves hung from its hooks, each glowing faintly
+  const ay = g - 360;
+  s += R(250, ay - 6, 180, 10, "#6c6f7a", { s: INK, w: 2 });
+  for (let i = 0; i < 6; i++) {
+    const vx = 262 + i * 31, vy = ay + 34;
+    s += S(`M${vx},${ay + 4}V${ay + 12}`, INK, 2.4) + C(vx, ay + 14, 3, "none", { s: "#8a8f9c", w: 2 });       // hook and ring
+    s += S(`M${vx},${ay + 17}V${vy - 14}`, "#8a8f9c", 1.4);
+    s += C(vx, vy, 22, glow(K.lamp, 0.5)) + R(vx - 6, vy - 14, 12, 7, "#2a2a30", { s: INK, w: 1.2 }) + P(sm([[vx - 6, vy - 7, 1], [vx - 8, vy + 4], [vx - 4, vy + 12], [vx, vy + 14], [vx + 4, vy + 12], [vx + 8, vy + 4], [vx + 6, vy - 7, 1]]), lin([[0, "#fff6d6", 0.9], [1, K.gold, 0.75]]), { s: INK, w: 1.2 });
+  }
+  s += S(`M340,${g - 400}V${g - 430}`, INK, 3) + C(340, g - 432, 4, "#6c6f7a", { s: INK, w: 1.4 });
+  return { vb: `0 0 ${SW} ${SH}`, title: "The old radio tower in the Heights at night, six glowing glass valves hung from its cross-arm", body: spot(s) };
+});
+
+// ----- Spot (Chapter 15): the harbour fireworks; a fire crew on the quay, and a pale figure at the far end
+piece("spot-fireworks", () => {
+  const q = 450;
+  let s = sky(SW, SH, K.n0, "#2a2a52", K.n1);
+  s += stars(301, 20, 16, 780, 200, 30);
+  s += burst(220, 150, 90, K.gold, 22, 1) + burst(520, 110, 110, K.violetHi, 26, 2) + burst(680, 230, 70, K.redHi, 18, 3) + burst(380, 250, 50, K.greenHi, 14, 4);
+  s += S(`M220,150Q210,280 214,${q - 120}M520,110Q530,260 526,${q - 130}`, "#f4e8c8", 1.4, { op: 0.35, dash: "3 6" });
+  // the far shore and the water, the bursts reflected
+  s += R(0, 330, SW, 24, "#1c2240") + terraceRow(-10, 820, 346, { seed: 302, hMin: 10, hMax: 18, wMin: 10, wMax: 16, litP: 0.6, sw: 0.7, rows: 1 });
+  s += water(0, 344, SW, q, { refl: [[220, 40, K.gold, 0.6], [520, 50, K.violetHi, 0.5], [680, 30, K.redHi, 0.5]], ripples: 30, top: "#22305a" });
+  // the quay
+  s += R(0, q, SW, SH - q, lin([[0, "#4a4f62"], [1, "#2a2e3e"]]), { s: INK, w: 2 });
+  let bollards = "";
+  for (const x of [120, 360, 600]) bollards += R(x - 8, q - 6, 16, 20, "#2a2e3a", { s: INK, w: 1.4, rx: 4 });
+  s += bollards;
+  // the fire engine on standby
+  s += shadow(640, 560, 150, 8, 0.5);
+  s += R(520, 470, 240, 80, shade(K.red, 0.15, 0.3), { s: INK, w: 2.4, rx: 6 }) + P(poly([[520, 470], [520, 430], [600, 430], [620, 470]]), shade(K.red, 0.15, 0.3), { s: INK, w: 2.4 }) + R(530, 438, 60, 30, lin([[0, "#5a6a80"], [1, "#2a3448"]]), { s: INK, w: 1.6 });
+  s += R(620, 456, 130, 10, "#c9ccd4", { s: INK, w: 1.4 }) + S(`M630,456V444M740,456V444M630,450H740`, "#c9ccd4", 2);
+  s += R(526, 512, 228, 8, "#efe6d2", { s: INK, w: 1 }) + R(540, 424, 18, 8, "#4f8ad0", { s: INK, w: 1 });
+  for (const wx of [570, 710]) s += C(wx, 550, 22, "#1c1c22", { s: INK, w: 2 }) + C(wx, 550, 9, "#8a8f9c", { s: INK, w: 1.4 });
+  // the crowd along the quay, backs to us, watching
+  for (const [x, h, hair, top, style] of [[60, 230, "#3a2a20", "#4f72a8", "short"], [150, 220, "#c4a060", "#3f7f58", "bun"], [250, 236, "#1a1210", "#c29a45", "curly"], [340, 226, "#5a3a2a", "#7b5bc4", "long"], [430, 232, "#2a2420", "#5a4a6a", "short"]]) s += fig(civ({ skin: "#d9a982", hair, style, top, back: true, hairLen: -74 }), x, SH + 60, h, {});
+  // far along the quay, a pale figure in white, embers rising round her
+  s += C(780, 440, 30, glow(K.fire, 0.45)) + fig(ashWidow, 780, q + 2, 60, { lw: 1 });
+  return { vb: `0 0 ${SW} ${SH}`, title: "The harbour fireworks: a crowd and a fire crew on the quay, and far along it a pale figure in white", body: spot(s) };
+});
+
+// ----- Spot (Chapter 16): the small bell of St Agnes, hung by the lighthouse lamp room, at dusk and low tide
+piece("spot-fog-bell", () => {
+  let s = R(0, 0, SW, SH, lin([[0, "#2a2448"], [0.5, "#6a4068"], [0.8, "#b0606a"], [1, "#e0a070"]]));
+  s += C(560, 420, 260, glow("#ffc890", 0.45)) + stars(311, 20, 16, 780, 160, 26);
+  // the bay at low tide, far below: mudflats shining, the drowned church tower far out
+  s += R(0, 400, SW, 200, lin([[0, "#8a6078"], [1, "#4a3450"]]));
+  s += S(`M0,440Q200,430 420,452M60,500Q300,486 560,512M160,560Q400,548 800,566`, "#e0a090", 3, { op: 0.5 });
+  s += P(poly([[600, 420], [600, 396], [606, 386], [612, 396], [612, 420]]), "#4a4048", { s: INK, w: 1.2 });
+  // the lamp room: glass panes with the great lamp glowing; a gallery rail in front
+  s += R(40, 60, 300, 360, lin([[0, "#3a3a44"], [1, "#2a2a34"]]), { s: INK, w: 2.4 });
+  s += C(190, 220, 160, glow(K.lamp, 0.55));
+  for (let i = 0; i < 3; i++) s += R(56 + i * 92, 80, 84, 300, lin([[0, "#fff2c8", 0.5], [1, "#f2c14e", 0.35]]), { s: INK, w: 2 });
+  s += P(`M150,300L230,300L224,200Q190,160 156,200Z`, lin([[0, K.glow], [1, K.gold]]), { s: INK, w: 2 }) + E(190, 230, 26, 40, "#ffffff", { op: 0.5 });
+  s += P(`M30,60Q190,-10 350,60Z`, "#2b2f3a", { s: INK, w: 2.4 });
+  // the iron bracket fixed to the lamp-room wall, the bell's headstock on it, the rope hanging straight down to a cleat on the rail
+  s += R(336, 150, 14, 46, "#24262e", { s: INK, w: 1.6 });
+  s += S(`M350,160H470M350,190Q400,190 430,164`, INK, 7) + S(`M350,160H470M350,190Q400,190 430,164`, "#2d3038", 4);
+  s += R(438, 150, 64, 18, shade(K.woodD, 0.15, 0.3), { s: INK, w: 1.6 });
+  s += P(sm([[448, 168, 1], [492, 168, 1], [500, 200], [510, 248], [522, 262, 1], [418, 262, 1], [430, 248], [440, 200]]), lin([[0, "#d9b46a"], [0.5, "#a8803a"], [1, "#6a4a1e"]], 0, 0, 1, 0), { s: INK, w: 2 });
+  s += E(470, 262, 52, 8, "#5a3e18", { s: INK, w: 1.6 }) + S(`M432,210Q470,204 508,210`, "#e8d08a", 2, { op: 0.6 });
+  s += S(`M470,262V274`, INK, 3) + C(470, 278, 6, "#5a3e18", { s: INK, w: 1.4 });                         // the clapper's ball, just showing
+  s += S(`M470,284V438`, INK, 3.4) + S(`M470,284V438`, "#c9b98a", 2);
+  s += R(456, 436, 28, 8, "#2d3038", { s: INK, w: 1.2 });
+  let rail = `M0,446H${SW}M0,490H${SW}`;
+  for (let x = 10; x < SW; x += 40) rail += `M${x},446V600`;
+  s += S(rail, INK, 6) + S(rail, "#2d3038", 3);
+  s += R(0, 560, SW, 40, "#2b2f3a", { s: INK, w: 2 });
+  return { vb: `0 0 ${SW} ${SH}`, title: "The small bell of St Agnes hanging by the lighthouse lamp room at dusk, the drowned church far out on the mud", body: spot(s) };
+});
+
 // =============================================================== run
 const want = process.argv.slice(2);
 for (const [name, fn] of Object.entries(PIECES)) {
