@@ -453,6 +453,8 @@ figure.diagram { break-inside: avoid; margin: 0.04in 0 0.12in; }
   border: 1.6px solid var(--accent); border-radius: 50%; background: var(--paper-light);
 }
 .sheet-note { margin-top: 0.22in; padding-top: 0.1in; border-top: 1.5px solid var(--paper-edge); font-size: 9pt; color: var(--ink-soft); text-align: center; }
+/* the quick reference: small type in two columns */
+.sheet .ref-cols { columns: 2; column-gap: 0.22in; font-size: 7.8pt; line-height: 1.2; }
 
 /* ------------------------------------------------------------ misc ------ */
 a { color: inherit; text-decoration: none; }
