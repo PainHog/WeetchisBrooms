@@ -259,6 +259,8 @@ export function finish(state, reason) {
   if (reason === "destroyed") result = s.innocent === "lost" ? "partial" : "win";
   else if (reason === "fled") result = "partial";
   else result = "loss"; // doom, allDown, retreat
+  // Ruling 75: on a retreat or with every witch Down, an innocent still in the fight is lost.
+  if ((reason === "retreat" || reason === "allDown") && ["grip", "free", "guarded"].includes(s.innocent)) s.innocent = "lost";
   if (s.seen) result = result === "win" ? "partial" : "loss"; // "Seen drops the result one step"
   s.result = result;
   note(s, `The episode ends (${reason}): ${result}.`);
