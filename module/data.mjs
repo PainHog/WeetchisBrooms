@@ -53,6 +53,7 @@ export class ThreatData extends foundry.abstract.TypeDataModel {
       hiddenPlace: new f.StringField({ initial: "" }),
       publicPlace: new f.StringField({ initial: "" }),
       signature: new f.StringField({ initial: "Attacks two different characters." }),
+      signatureIsAttack: new f.BooleanField({ initial: true }),
       notes: new f.StringField({ initial: "" }),
     };
   }

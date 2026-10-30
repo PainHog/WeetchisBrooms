@@ -13,6 +13,7 @@
     "hiddenPlace": "The library's locked basement",
     "publicPlace": "The university graduation",
     "signature": "Turned Spell: one attack with Hit 1 higher.",
-    "notes": ""
+    "notes": "",
+    "signatureIsAttack": true
   }
 }

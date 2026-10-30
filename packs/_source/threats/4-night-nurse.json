@@ -13,6 +13,7 @@
     "hiddenPlace": "The closed wing of Larkhaven General",
     "publicPlace": "The hospital car park at shift change",
     "signature": "Drain: one attack; if it does any Hurt, the threat clears 2 damage.",
-    "notes": ""
+    "notes": "",
+    "signatureIsAttack": true
   }
 }

@@ -98,3 +98,4 @@
 
 /* --------------------------------------------------- sidebar tracker button -- */
 .ww-open-tracker { width: 100%; margin: 2px 0; }
+.witch-ward.ww-sheet .ww-details label.ww-checkline { flex-direction: row; align-items: center; gap: 0.3em; }

@@ -11,6 +11,7 @@
     <label>What it is <textarea name="system.what" rows="3" {{#unless editable}}disabled{{/unless}}>{{system.what}}</textarea></label>
     <label>Its plan <textarea name="system.plan" rows="3" {{#unless editable}}disabled{{/unless}}>{{system.plan}}</textarea></label>
     <label>Signature move (on a 6) <input type="text" name="system.signature" value="{{system.signature}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label class="ww-checkline"><input type="checkbox" name="system.signatureIsAttack" {{#if system.signatureIsAttack}}checked{{/if}} {{#unless editable}}disabled{{/unless}}> The signature move is an attack (Hold, Shield and Shelter apply)</label>
     <label>Weakness <input type="text" name="system.weakness" value="{{system.weakness}}" {{#unless editable}}disabled{{/unless}}></label>
     <label>Hidden place <input type="text" name="system.hiddenPlace" value="{{system.hiddenPlace}}" {{#unless editable}}disabled{{/unless}}></label>
     <label>Public place <input type="text" name="system.publicPlace" value="{{system.publicPlace}}" {{#unless editable}}disabled{{/unless}}></label>

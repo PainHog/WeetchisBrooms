@@ -13,6 +13,7 @@
     "hiddenPlace": "The burned-out theatre on the Docks",
     "publicPlace": "The harbour fireworks",
     "signature": "Cinders: attack every character, but Hit is 1.",
-    "notes": ""
+    "notes": "",
+    "signatureIsAttack": true
   }
 }

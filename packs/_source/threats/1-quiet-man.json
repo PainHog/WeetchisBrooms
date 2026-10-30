@@ -13,6 +13,7 @@
     "hiddenPlace": "The old radio tower in the Heights",
     "publicPlace": "The Friday night market",
     "signature": "Hush: attack two different characters; the first one he hurts can't cast on their next action.",
-    "notes": ""
+    "notes": "",
+    "signatureIsAttack": true
   }
 }

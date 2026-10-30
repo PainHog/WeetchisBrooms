@@ -13,6 +13,7 @@
     "hiddenPlace": "The drowned village in Saltmarsh at low tide",
     "publicPlace": "The long pier at dusk",
     "signature": "Lure: the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action.",
-    "notes": ""
+    "notes": "",
+    "signatureIsAttack": false
   }
 }

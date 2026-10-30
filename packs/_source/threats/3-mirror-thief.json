@@ -13,6 +13,7 @@
     "hiddenPlace": "Behind the mirrors of a closed department store",
     "publicPlace": "St Bride's market hall",
     "signature": "Borrowed Face: attack the witch with the most Magic left; on a Failure they also lose 1 Magic.",
-    "notes": ""
+    "notes": "",
+    "signatureIsAttack": true
   }
 }
