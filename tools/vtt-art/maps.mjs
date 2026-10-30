@@ -1905,7 +1905,7 @@ function radioTower() {
     labels.push(F(800, 1545, "Iron gate, chain rusted through", { size: 50 }));
     labels.push(T(2728, 300, "Observatory", { size: 60, ls: 1 }));
     labels.push(F(2655, 1640, "Observatory path", { size: 50, rot: 76 }));
-    labels.push(F(88, 985, "Gardens of the big houses", { size: 52, rot: -90 }));
+    labels.push(F(92, 955, ["Gardens of", "the big houses"], { size: 52, rot: -90 }));   // two lines, clear of "Way out only"
     labels.push(F(292, 520, "Steep bank", { size: 52, rot: -90 }));
     labels.push(F(1480, 148, "Chain-link fence round the whole hilltop", { size: 50 }));
     labels.push(F(1000, 1845, "Steep lane", { size: 52, anchor: "start" }));
@@ -3161,7 +3161,7 @@ function harbourFireworks() {
     labels.push(F(2150, 755, ["where the first", "rocket falls"], { size: 50, italic: true }));
     labels.push(T(1500, 1870, "THE FIREWORKS BARGE", { size: 50, ls: 2 }));
     labels.push(T(2000, 300, "FERRY", { size: 56 }), T(2000, 370, "TERMINAL", { size: 56 }), F(2000, 440, "glass hall", { size: 50 }));
-    labels.push(T(400, 200, "FISH MARKET", { size: 58, ls: 2 }), T(400, 270, "ROOF", { size: 58, ls: 2 }), F(400, 345, "people climb up here", { size: 50 }));
+    labels.push(T(400, 235, ["FISH MARKET", "ROOF"], { size: 58, ls: 2, lh: 70 / 58 }), F(400, 345, "people climb up here", { size: 50 }));
     labels.push(F(780, 470, ["iron", "stair"], { size: 50, anchor: "end" }));
     labels.push(F(910, 420, "Fish market lane", { size: 50, rot: -90 }));
     labels.push(T(2735, 760, "THE PROMENADE", { size: 56, rot: -90, ls: 2 }));
