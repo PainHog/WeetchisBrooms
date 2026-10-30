@@ -110,6 +110,8 @@ else {
         claimId(want._id, `${def.out}::${raw.key}`);
         for (const pg of want.pages ?? []) claimId(pg._id, `${def.out}::${raw.key}#${pg.name}`);
         if (!got) return err(`${def.out}: source "${raw.key}" (id ${want._id}) not in compiled pack — rebuild packs`);
+        if (def.type === "Actor" && !((raw.type ?? def.subtype) in (manifest.documentTypes?.Actor ?? {})))
+          err(`${def.out}: "${raw.key}" has actor type "${raw.type ?? def.subtype}", not in system.json documentTypes`);
         if (def.type === "JournalEntry") {
           // A real regression on Heisty Spideys: pages stored but not referenced by the parent.
           pages += got.pages?.length ?? 0;

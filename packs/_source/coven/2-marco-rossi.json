@@ -1,0 +1,26 @@
+{
+  "key": "2-marco-rossi",
+  "name": "Marco Rossi",
+  "type": "witch",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 2,
+    "wits": 1,
+    "nerve": 3,
+    "craft": 2,
+    "power": "flame",
+    "life": "Mechanic",
+    "tie": "Cousin of the family that owns the house",
+    "look": "Stocky, oil on his hands, rolled sleeves; a burn scar on his right forearm",
+    "hurt": 0,
+    "magic": 5,
+    "lifeAnswered": false,
+    "surgeUsed": false,
+    "scar": false,
+    "notes": "Pronouns: he."
+  }
+}

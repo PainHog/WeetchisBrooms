@@ -1,0 +1,30 @@
+{
+  "key": "3-episodes",
+  "name": "Ready-made episodes",
+  "pages": [
+    {
+      "key": "ep1",
+      "name": "1. Night Market (Easy)",
+      "text": {
+        "format": 1,
+        "content": "<p><strong>Opening.</strong> A singer at the night market opens her mouth and nothing comes out.</p><p><strong>Threat.</strong> The Quiet Man (import it from the Threats compendium).</p><p><strong>Innocent.</strong> Grace Ellery, a radio host whose voice is famous across Larkhaven.</p><p><strong>Hidden place.</strong> The old radio tower in the Heights. <strong>Public place.</strong> The Friday night market.</p><p>The full episode (leads, Life calls, places, twist and closing) is in the rulebook, Part Three.</p>"
+      }
+    },
+    {
+      "key": "ep2",
+      "name": "2. Cinders (Standard)",
+      "text": {
+        "format": 1,
+        "content": "<p><strong>Opening.</strong> A row of old houses burns in the shape of a wedding ring.</p><p><strong>Threat.</strong> The Ash Widow (import it from the Threats compendium).</p><p><strong>Innocent.</strong> Hannah Price, a firefighter, getting married next week.</p><p><strong>Hidden place.</strong> The burned-out theatre on the Docks. <strong>Public place.</strong> The harbour fireworks.</p><p>The full episode (leads, Life calls, places, twist and closing) is in the rulebook, Part Three.</p>"
+      }
+    },
+    {
+      "key": "ep3",
+      "name": "3. Low Tide (Hard)",
+      "text": {
+        "format": 1,
+        "content": "<p><strong>Opening.</strong> Three people walk into the sea at dusk, singing.</p><p><strong>Threat.</strong> The Drowned Choir (import it from the Threats compendium).</p><p><strong>Innocent.</strong> Kit Marlow, a twelve-year-old who sings in the school choir.</p><p><strong>Hidden place.</strong> The drowned village in Saltmarsh at low tide. <strong>Public place.</strong> The long pier at dusk.</p><p>The full episode (leads, Life calls, places, twist and closing) is in the rulebook, Part Three.</p>"
+      }
+    }
+  ]
+}

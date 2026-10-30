@@ -1,0 +1,19 @@
+<div class="ww-sheet-body">
+  <header class="ww-head">
+    <img class="ww-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
+    <div class="ww-head-fields">
+      <input class="ww-name" type="text" name="name" value="{{actor.name}}" placeholder="Name" {{#unless editable}}disabled{{/unless}}>
+      {{#if inPlay}}<p class="ww-hint">In play: Defence, Danger, Hit and Toughness come from the episode (see the Episode Tracker).</p>
+      {{else}}<p class="ww-hint">Its numbers come from the episode's difficulty and the coven's size, set when an episode starts.</p>{{/if}}
+    </div>
+  </header>
+  <section class="ww-details">
+    <label>What it is <textarea name="system.what" rows="3" {{#unless editable}}disabled{{/unless}}>{{system.what}}</textarea></label>
+    <label>Its plan <textarea name="system.plan" rows="3" {{#unless editable}}disabled{{/unless}}>{{system.plan}}</textarea></label>
+    <label>Signature move (on a 6) <input type="text" name="system.signature" value="{{system.signature}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Weakness <input type="text" name="system.weakness" value="{{system.weakness}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Hidden place <input type="text" name="system.hiddenPlace" value="{{system.hiddenPlace}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Public place <input type="text" name="system.publicPlace" value="{{system.publicPlace}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Notes <textarea name="system.notes" rows="4" {{#unless editable}}disabled{{/unless}}>{{system.notes}}</textarea></label>
+  </section>
+</div>

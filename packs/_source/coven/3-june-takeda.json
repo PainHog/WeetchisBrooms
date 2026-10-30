@@ -1,0 +1,26 @@
+{
+  "key": "3-june-takeda",
+  "name": "June Takeda",
+  "type": "witch",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 2,
+    "wits": 3,
+    "nerve": 1,
+    "craft": 2,
+    "power": "sight",
+    "life": "Student",
+    "tie": "Found the Book in a second-hand shop and followed it home",
+    "look": "Small, round glasses, a yellow raincoat; always carries a notebook",
+    "hurt": 0,
+    "magic": 5,
+    "lifeAnswered": false,
+    "surgeUsed": false,
+    "scar": false,
+    "notes": "Pronouns: she."
+  }
+}

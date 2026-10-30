@@ -19,11 +19,14 @@ export const OUT = join(ROOT, "packs");
 /**
  * file → output pack, document class & subtype. Must match system.json packs[]
  * (and an Item/Actor subtype must be declared in system.json documentTypes).
- * Empty until the game has content. Examples of the shape:
- *   { file: "things", out: "things", collection: "items", type: "Item", subtype: "thing" },
- *   { file: "rules", out: "rules", collection: "journal", type: "JournalEntry", subtype: null }
+ * A pack with `subtype: null` holding Actors takes each document's own `type`
+ * (the coven pack mixes witches and the guardian).
  */
-export const PACKS = [];
+export const PACKS = [
+  { file: "coven", out: "coven", collection: "actors", type: "Actor", subtype: null },
+  { file: "threats", out: "threats", collection: "actors", type: "Actor", subtype: "threat" },
+  { file: "rules", out: "rules", collection: "journal", type: "JournalEntry", subtype: null },
+];
 
 /** Deterministic 16-char alphanumeric id from a namespace + key (sha256 hex prefix). */
 export function makeId(...parts) {
@@ -101,7 +104,7 @@ export function toCliDoc(def, raw, index) {
     _id: id,
     _key: `!${def.collection}!${id}`,
     name: raw.name,
-    type: def.subtype,
+    type: raw.type ?? def.subtype,
     img: raw.img,
     system: raw.system ?? {},
     effects: [],
@@ -115,7 +118,7 @@ export function toCliDoc(def, raw, index) {
     doc.items = [];
     // null (not "") disables a token bar; "" would be cleaned back to the
     // system's primaryTokenAttribute. Override per pack once actors exist.
-    doc.prototypeToken = { bar1: { attribute: null }, bar2: { attribute: null } };
+    doc.prototypeToken = { bar1: { attribute: null }, bar2: { attribute: null }, ...(raw.prototypeToken ?? {}) };
   }
   return doc;
 }

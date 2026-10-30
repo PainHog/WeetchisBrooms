@@ -2,8 +2,8 @@
   "id": "witch-ward",
   "type": "system",
   "title": "Witch & Ward",
-  "description": "The companion Foundry VTT game system for Witch & Ward, a tabletop roleplaying game by Richard Moore. Early skeleton: the game's rules are not written yet.",
-  "version": "0.1.0",
+  "description": "The Foundry VTT game system for Witch & Ward, a tabletop roleplaying game by Richard Moore: witch, guardian and threat sheets, a roll dialog, an Episode Tracker and roll cards that apply their results.",
+  "version": "0.9.0",
   "compatibility": {
     "minimum": "13",
     "verified": "14"
@@ -27,7 +27,60 @@
       "path": "lang/en.json"
     }
   ],
-  "packs": [],
+  "documentTypes": {
+    "Actor": {
+      "witch": {},
+      "guardian": {},
+      "threat": {}
+    }
+  },
+  "packs": [
+    {
+      "name": "coven",
+      "label": "Ready-made coven",
+      "path": "packs/coven",
+      "type": "Actor",
+      "system": "witch-ward",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "threats",
+      "label": "Threats",
+      "path": "packs/threats",
+      "type": "Actor",
+      "system": "witch-ward",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "rules",
+      "label": "Rules and episodes",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "system": "witch-ward",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Witch & Ward",
+      "sorting": "m",
+      "color": "#3a3a3c",
+      "packs": [
+        "rules",
+        "coven",
+        "threats"
+      ]
+    }
+  ],
   "socket": true,
   "url": "https://github.com/PainHog/WeetchisBrooms",
   "bugs": "https://github.com/PainHog/WeetchisBrooms/issues",

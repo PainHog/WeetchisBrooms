@@ -1,0 +1,18 @@
+{
+  "key": "4-night-nurse",
+  "name": "The Night Nurse",
+  "img": "icons/svg/skull.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": -1
+  },
+  "system": {
+    "what": "A creature that feeds on the sleeping sick",
+    "plan": "One more night of feeding before the moon turns",
+    "weakness": "Iron, and being called by the name of someone it killed",
+    "hiddenPlace": "The closed wing of Larkhaven General",
+    "publicPlace": "The hospital car park at shift change",
+    "signature": "Drain: one attack; if it does any Hurt, the threat clears 2 damage.",
+    "notes": ""
+  }
+}

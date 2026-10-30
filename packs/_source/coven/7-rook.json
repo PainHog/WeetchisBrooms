@@ -1,0 +1,19 @@
+{
+  "key": "7-rook",
+  "name": "Rook",
+  "type": "guardian",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 3,
+    "wits": 2,
+    "nerve": 2,
+    "hurt": 0,
+    "ward": 5,
+    "look": "In human shape, a very tall, very still person in a long grey coat, grey-eyed, who speaks little. In animal shape, a large black rook.",
+    "notes": "A protective spirit bound to the Lantern House by an old promise. It calls the witches \"the household\". When it Carries someone, the air folds like a page and they are elsewhere."
+  }
+}

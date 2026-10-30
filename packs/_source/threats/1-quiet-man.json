@@ -1,0 +1,18 @@
+{
+  "key": "1-quiet-man",
+  "name": "The Quiet Man",
+  "img": "icons/svg/skull.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": -1
+  },
+  "system": {
+    "what": "A demon in a grey suit who steals voices",
+    "plan": "Seven stolen voices to sing a door open",
+    "weakness": "His own name spoken aloud, and salt",
+    "hiddenPlace": "The old radio tower in the Heights",
+    "publicPlace": "The Friday night market",
+    "signature": "Hush: attack two different characters; the first one he hurts can't cast on their next action.",
+    "notes": ""
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "key": "5-vesper-crane",
+  "name": "Vesper Crane",
+  "img": "icons/svg/skull.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": -1
+  },
+  "system": {
+    "what": "A witch who stole other witches' power",
+    "plan": "The coven's Book",
+    "weakness": "The spell she broke to steal her power, read back to her",
+    "hiddenPlace": "The library's locked basement",
+    "publicPlace": "The university graduation",
+    "signature": "Turned Spell: one attack with Hit 1 higher.",
+    "notes": ""
+  }
+}

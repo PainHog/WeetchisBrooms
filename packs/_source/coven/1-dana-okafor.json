@@ -1,0 +1,26 @@
+{
+  "key": "1-dana-okafor",
+  "name": "Dana Okafor",
+  "type": "witch",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 2,
+    "wits": 2,
+    "nerve": 3,
+    "craft": 1,
+    "power": "force",
+    "life": "Nurse",
+    "tie": "Grew up next door to the Lantern House",
+    "look": "Tall, short natural hair, scrubs under a denim jacket; a silver ring on her left thumb",
+    "hurt": 0,
+    "magic": 5,
+    "lifeAnswered": false,
+    "surgeUsed": false,
+    "scar": false,
+    "notes": "Pronouns: she."
+  }
+}

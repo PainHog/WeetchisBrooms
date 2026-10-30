@@ -1,0 +1,51 @@
+<div class="ww-sheet-body">
+  <header class="ww-head">
+    <img class="ww-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
+    <div class="ww-head-fields">
+      <input class="ww-name" type="text" name="name" value="{{actor.name}}" placeholder="Name" {{#unless editable}}disabled{{/unless}}>
+      <p class="ww-hint">The guardian can free and guard the innocent and study the threat, but can't cast spells, use potions, join the Unmaking or damage a threat. It can help with Ward.</p>
+    </div>
+  </header>
+
+  <section class="ww-ratings">
+    {{#each ratings}}
+      <div class="ww-rating">
+        <button type="button" class="ww-roll-btn" data-action="roll" data-purpose="other" data-rating="{{key}}" title="Roll {{label}}">{{label}}</button>
+        <input type="number" name="system.{{key}}" value="{{value}}" min="0" max="4" {{#unless ../editable}}disabled{{/unless}}>
+        <span class="ww-hint">{{hint}}</span>
+      </div>
+    {{/each}}
+  </section>
+
+  <section class="ww-tracks">
+    <div class="ww-track"><span class="ww-track-name">Hurt</span>
+      <span class="ww-boxes">{{#each hurtBoxes}}<a class="ww-box{{#if filled}} ww-filled{{/if}}" data-action="setHurt" data-value="{{value}}"></a>{{/each}}</span>
+      {{#if system.down}}<strong class="ww-alarm">Down: fades back to the home</strong>{{/if}}
+    </div>
+    <div class="ww-track"><span class="ww-track-name">Ward</span>
+      <button type="button" data-action="adjustPool" data-field="ward" data-delta="-1">−</button>
+      <span class="ww-num">{{system.ward}}</span>
+      <button type="button" data-action="adjustPool" data-field="ward" data-delta="1">+</button>
+    </div>
+  </section>
+
+  <section class="ww-actions">
+    <h3>Gifts</h3>
+    <ul class="ww-gifts">
+      {{#each gifts}}<li><button type="button" data-action="gift" data-gift="{{key}}">{{label}}</button> {{text}}</li>{{/each}}
+    </ul>
+    <h3>Rolls</h3>
+    <div class="ww-buttons">
+      <button type="button" data-action="roll" data-purpose="lead">Lead</button>
+      <button type="button" data-action="roll" data-purpose="research">Research the Book</button>
+      <button type="button" data-action="roll" data-purpose="free">Free the innocent</button>
+      <button type="button" data-action="roll" data-purpose="study">Study</button>
+      <button type="button" data-action="roll" data-purpose="defend">Defend</button>
+    </div>
+  </section>
+
+  <section class="ww-details">
+    <label>Look <input type="text" name="system.look" value="{{system.look}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Notes <textarea name="system.notes" rows="4" {{#unless editable}}disabled{{/unless}}>{{system.notes}}</textarea></label>
+  </section>
+</div>

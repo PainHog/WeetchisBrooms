@@ -1,0 +1,26 @@
+{
+  "key": "4-sam-abernathy",
+  "name": "Sam Abernathy",
+  "type": "witch",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 3,
+    "wits": 2,
+    "nerve": 1,
+    "craft": 2,
+    "power": "voice",
+    "life": "Teacher",
+    "tie": "Old friend of Dana's from school",
+    "look": "Lanky, curly red hair, cardigan, a whistle on a cord",
+    "hurt": 0,
+    "magic": 5,
+    "lifeAnswered": false,
+    "surgeUsed": false,
+    "scar": false,
+    "notes": "Pronouns: they."
+  }
+}

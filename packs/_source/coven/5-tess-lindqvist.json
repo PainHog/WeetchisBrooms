@@ -1,0 +1,26 @@
+{
+  "key": "5-tess-lindqvist",
+  "name": "Tess Lindqvist",
+  "type": "witch",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 1,
+    "wits": 2,
+    "nerve": 3,
+    "craft": 2,
+    "power": "veil",
+    "life": "Bus driver",
+    "tie": "Inherited a room in the house from her gran",
+    "look": "Broad-shouldered, blonde braid, driver's uniform; a pale streak in her braid",
+    "hurt": 0,
+    "magic": 5,
+    "lifeAnswered": false,
+    "surgeUsed": false,
+    "scar": false,
+    "notes": "Pronouns: she."
+  }
+}

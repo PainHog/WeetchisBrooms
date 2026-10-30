@@ -1,3 +1,10 @@
 {
-  "WW.SystemTitle": "Witch & Ward"
+  "WW.SystemTitle": "Witch & Ward",
+  "TYPES": {
+    "Actor": {
+      "witch": "Witch",
+      "guardian": "Guardian",
+      "threat": "Threat"
+    }
+  }
 }

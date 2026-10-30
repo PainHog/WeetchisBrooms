@@ -1,0 +1,18 @@
+{
+  "key": "2-ash-widow",
+  "name": "The Ash Widow",
+  "img": "icons/svg/skull.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": -1
+  },
+  "system": {
+    "what": "A fire spirit in a burned wedding dress",
+    "plan": "To burn the house where she died, with a bride inside",
+    "weakness": "Water from the harbour, blessed by a coven",
+    "hiddenPlace": "The burned-out theatre on the Docks",
+    "publicPlace": "The harbour fireworks",
+    "signature": "Cinders: attack every character, but Hit is 1.",
+    "notes": ""
+  }
+}

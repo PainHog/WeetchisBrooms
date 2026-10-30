@@ -1,0 +1,26 @@
+{
+  "key": "6-noor-haddad",
+  "name": "Noor Haddad",
+  "type": "witch",
+  "img": "icons/svg/mystery-man.svg",
+  "prototypeToken": {
+    "actorLink": true,
+    "disposition": 1
+  },
+  "system": {
+    "heart": 2,
+    "wits": 2,
+    "nerve": 1,
+    "craft": 3,
+    "power": "wild",
+    "life": "Shop worker",
+    "tie": "Answered an advert for a lodger and stayed",
+    "look": "Headscarf in green, soil under her nails; a crow feather in her pocket",
+    "hurt": 0,
+    "magic": 5,
+    "lifeAnswered": false,
+    "surgeUsed": false,
+    "scar": false,
+    "notes": "Pronouns: she. Works at a garden centre."
+  }
+}

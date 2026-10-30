@@ -1,0 +1,95 @@
+<div class="ww-tracker-body">
+{{#if active}}
+  <header class="ww-tracker-head">
+    <h2>{{threatName}} <small>({{label}})</small></h2>
+    <p class="ww-step">{{step}}</p>
+  </header>
+
+  <section class="ww-tracks">
+    <div class="ww-track">
+      <span class="ww-track-name">Doom</span>
+      <span class="ww-boxes">{{#each doomBoxes}}<span class="ww-box{{#if filled}} ww-filled{{/if}}{{#if mark}} ww-mark{{/if}}"></span>{{/each}}</span>
+      <span class="ww-num">{{s.doom}}/{{s.doomMax}}</span>
+      {{#if isGM}}<button type="button" data-action="adjust" data-field="doom" data-delta="-1">−</button><button type="button" data-action="adjust" data-field="doom" data-delta="1">+</button>{{/if}}
+    </div>
+    <div class="ww-track">
+      <span class="ww-track-name">Exposure</span>
+      <span class="ww-boxes">{{#each exposureBoxes}}<span class="ww-box{{#if filled}} ww-filled{{/if}}"></span>{{/each}}</span>
+      <span class="ww-num">{{s.exposure}}/{{s.exposureMax}}{{#if s.seen}} <strong class="ww-alarm">Seen</strong>{{/if}}</span>
+      {{#if isGM}}<button type="button" data-action="adjust" data-field="exposure" data-delta="-1">−</button><button type="button" data-action="adjust" data-field="exposure" data-delta="1">+</button>{{/if}}
+    </div>
+    <div class="ww-track">
+      <span class="ww-track-name">Clues</span>
+      <span class="ww-num">{{cluesText}} (half {{s.half}}){{#if weaknessKnown}} <strong>Weakness known</strong>{{/if}}</span>
+      {{#if isGM}}<button type="button" data-action="adjust" data-field="clues" data-delta="-1">−</button><button type="button" data-action="adjust" data-field="clues" data-delta="1">+</button>{{/if}}
+    </div>
+    {{#if weaknessKnown}}{{#if threatWeakness}}<p class="ww-weakness">Weakness: {{threatWeakness}}</p>{{/if}}{{/if}}
+  </section>
+
+  <section class="ww-threat-stats">
+    <p>Defence <strong>{{defence}}</strong> · Danger <strong>{{s.danger}}</strong> · Hit <strong>{{s.hit}}</strong> · Attacks <strong>{{s.attacks}}</strong> a round · Lead Difficulty <strong>{{s.leadD}}</strong></p>
+    <div class="ww-track">
+      <span class="ww-track-name">Damage</span>
+      <span class="ww-num">{{damageText}}{{#if s.broken}} <strong class="ww-alarm">Broken</strong>{{/if}}</span>
+      {{#if isGM}}<button type="button" data-action="adjust" data-field="damage" data-delta="-1">−</button><button type="button" data-action="adjust" data-field="damage" data-delta="1">+</button>{{/if}}
+    </div>
+    <div class="ww-track">
+      <span class="ww-track-name">Lost attacks</span>
+      <span class="ww-num">{{s.lost}} waiting{{#if s.hold}} · Hold: next attack at the guardian{{/if}}</span>
+      {{#if isGM}}<button type="button" data-action="adjust" data-field="lost" data-delta="-1">−</button><button type="button" data-action="adjust" data-field="lost" data-delta="1">+</button><button type="button" data-action="hold">Hold</button>{{/if}}
+    </div>
+    {{#if s.broken}}<p>Unmaking Difficulty <strong>{{unmakeD}}</strong>{{#unless weaknessKnown}} (+2 without the Weakness){{/unless}}.</p>{{/if}}
+  </section>
+
+  {{#if showdown}}{{#if publicPlace}}
+  <section class="ww-innocent">
+    <p>Innocent: <strong>{{innocentLabel}}</strong></p>
+    {{#if isGM}}<div class="ww-buttons">{{#each innocentStates}}<button type="button" data-action="innocent" data-value="{{value}}" {{#if current}}disabled{{/if}}>{{text}}</button>{{/each}}</div>{{/if}}
+  </section>
+  {{/if}}{{/if}}
+
+  <section class="ww-potions">
+    <p>Potions ({{potions.length}}/{{potionCap}}):
+      {{#each potions}}<span class="ww-chip">{{label}}{{#if ../isGM}} <a data-action="removePotion" data-index="{{index}}">×</a>{{/if}}</span>{{else}}none{{/each}}</p>
+    {{#if isGM}}<div class="ww-buttons">{{#each potionKinds}}<button type="button" data-action="addPotion" data-kind="{{kind}}">+ {{label}}</button>{{/each}}</div>{{/if}}
+  </section>
+
+  <section class="ww-coven">
+    <table>
+      <thead><tr><th>Who</th><th>Hurt</th><th>Magic / Ward</th><th>Life</th><th>Surge</th></tr></thead>
+      <tbody>
+      {{#each coven}}
+        <tr class="{{#if down}}ww-down{{/if}}">
+          <td><a data-action="openActor" data-id="{{id}}">{{name}}</a>{{#if guardian}} (guardian){{/if}}{{#if down}} <strong>Down</strong>{{/if}}</td>
+          <td>{{hurt}}/{{hurtMax}}</td>
+          <td>{{pool}} {{poolLabel}}</td>
+          <td>{{#if isWitch}}{{#if lifeAnswered}}answered{{else}}waiting{{/if}}{{/if}}</td>
+          <td>{{#if isWitch}}{{#if surgeUsed}}used{{else}}ready{{/if}}{{/if}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </section>
+
+  {{#if isGM}}
+  <footer class="ww-controls">
+    {{#if investigation}}
+      <button type="button" data-action="endScene">End the scene</button>
+      <button type="button" data-action="goToIt" {{#unless canGo}}disabled{{/unless}}>Go to it (hidden showdown)</button>
+    {{/if}}
+    {{#if showdown}}
+      <button type="button" data-action="threatTurn" {{#if s.broken}}disabled{{/if}}>The threat acts</button>
+      <button type="button" data-action="endRound">End the round</button>
+      <button type="button" data-action="unmaking" {{#unless s.broken}}disabled{{/unless}}>The Unmaking</button>
+      <button type="button" data-action="retreat">Retreat</button>
+      <button type="button" data-action="fled" {{#unless s.broken}}disabled{{/unless}}>It flees now</button>
+    {{/if}}
+    {{#if canCall}}<button type="button" data-action="callGuardian">Call the guardian</button>{{/if}}
+    <button type="button" data-action="clear">Clear</button>
+  </footer>
+  {{/if}}
+{{else}}
+  <p>No episode is running.</p>
+  {{#if isGM}}<button type="button" data-action="start">Start an episode</button>{{/if}}
+{{/if}}
+</div>

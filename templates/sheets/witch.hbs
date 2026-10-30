@@ -1,0 +1,71 @@
+<div class="ww-sheet-body">
+  <header class="ww-head">
+    <img class="ww-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
+    <div class="ww-head-fields">
+      <input class="ww-name" type="text" name="name" value="{{actor.name}}" placeholder="Name" {{#unless editable}}disabled{{/unless}}>
+      <div class="ww-row">
+        <label>Power <select name="system.power" {{#unless editable}}disabled{{/unless}}>{{#each powerOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+        <label>Life <select name="system.life" {{#unless editable}}disabled{{/unless}}>{{#each lifeOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+      </div>
+      {{#if power}}<p class="ww-hint"><strong>{{power.label}}</strong> fits {{power.fits}}. Surge: {{power.surge}}</p>{{/if}}
+    </div>
+  </header>
+
+  <section class="ww-ratings">
+    {{#each ratings}}
+      <div class="ww-rating">
+        <button type="button" class="ww-roll-btn" data-action="roll" data-purpose="other" data-rating="{{key}}" title="Roll {{label}}">{{label}}</button>
+        <input type="number" name="system.{{key}}" value="{{value}}" min="0" max="4" {{#unless ../editable}}disabled{{/unless}}>
+        <span class="ww-hint">{{hint}}</span>
+      </div>
+    {{/each}}
+  </section>
+
+  <section class="ww-tracks">
+    <div class="ww-track"><span class="ww-track-name">Hurt</span>
+      <span class="ww-boxes">{{#each hurtBoxes}}<a class="ww-box{{#if filled}} ww-filled{{/if}}" data-action="setHurt" data-value="{{value}}"></a>{{/each}}</span>
+      {{#if system.down}}<strong class="ww-alarm">Down</strong>{{/if}}
+    </div>
+    <div class="ww-track"><span class="ww-track-name">Magic</span>
+      <button type="button" data-action="adjustPool" data-field="magic" data-delta="-1">−</button>
+      <span class="ww-num">{{system.magic}}</span>
+      <button type="button" data-action="adjustPool" data-field="magic" data-delta="1">+</button>
+    </div>
+    <div class="ww-row ww-checks">
+      <label><input type="checkbox" name="system.lifeAnswered" {{#if system.lifeAnswered}}checked{{/if}} {{#unless editable}}disabled{{/unless}}> Life answered</label>
+      <label><input type="checkbox" name="system.surgeUsed" {{#if system.surgeUsed}}checked{{/if}} {{#unless editable}}disabled{{/unless}}> Surge used this scene</label>
+      <label><input type="checkbox" name="system.scar" {{#if system.scar}}checked{{/if}} {{#unless editable}}disabled{{/unless}}> Scar</label>
+    </div>
+  </section>
+
+  <section class="ww-actions">
+    <h3>Investigation</h3>
+    <div class="ww-buttons">
+      <button type="button" data-action="roll" data-purpose="lead">Lead</button>
+      <button type="button" data-action="roll" data-purpose="research">Research the Book</button>
+      <button type="button" data-action="roll" data-purpose="reveal">Reveal</button>
+      <button type="button" data-action="roll" data-purpose="brew">Brew</button>
+      <button type="button" data-action="roll" data-purpose="hide">Hide</button>
+      <button type="button" data-action="answerLife">Answer my Life</button>
+      <button type="button" data-action="rest">Rest</button>
+    </div>
+    <h3>Showdown</h3>
+    <div class="ww-buttons">
+      <button type="button" data-action="roll" data-purpose="attack">Attack</button>
+      <button type="button" data-action="roll" data-purpose="blast">Blast</button>
+      <button type="button" data-action="roll" data-purpose="bind">Bind</button>
+      <button type="button" data-action="roll" data-purpose="shelter">Shelter</button>
+      <button type="button" data-action="roll" data-purpose="free">Free the innocent</button>
+      <button type="button" data-action="roll" data-purpose="study">Study</button>
+      <button type="button" data-action="roll" data-purpose="defend">Defend</button>
+      {{#if isSight}}<button type="button" data-action="sightSurge">Sight Surge: an attack misses</button>{{/if}}
+      {{#if hasHealing}}<button type="button" data-action="drinkHealing">Healing potion</button>{{/if}}
+    </div>
+  </section>
+
+  <section class="ww-details">
+    <label>Tie <input type="text" name="system.tie" value="{{system.tie}}" placeholder="Who or what you'd protect" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Look <input type="text" name="system.look" value="{{system.look}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Notes <textarea name="system.notes" rows="4" {{#unless editable}}disabled{{/unless}}>{{system.notes}}</textarea></label>
+  </section>
+</div>
