@@ -419,13 +419,13 @@ No figures.
 | Skip | On its wheels on the pavement | OK |
 | Flames, smoke | Rising from the skip | OK |
 | Bus shelter, bench | Posts on the pavement | OK |
-| Phone | Held up in both of the filming woman's hands; its screen shows the fire and a red record dot (a symbol, not colour alone) | OK |
+| Phone | Held up in the woman's hand (seen from behind her): four fingers round one edge, the thumb on the other; its camera faces the fire and its screen faces us, showing the fire and a red record dot (a symbol, not colour alone) | OK |
 
 | Figure | E | Ea | A / H | L | L/R |
 |---|---|---|---|---|---|
-| Marco, hands up | 2 | 2 | 2 / 5f | 2 | Scar on his right forearm: OK |
+| Marco, hands up | 2 | 2 | 2 / 5f | 2 | Scar on his right forearm, rag in his left pocket: OK |
 | Man at the stop | 2 | 2 | 2 / 5f | 2 | — |
-| Woman filming | 2 | under her hair | 2 / 5f | 2 | — |
+| Woman filming (back view, cut by the frame bottom) | — (back) | 2 | 2 / 5f (one hand round the phone, one at her side) | cut by the frame | — |
 
 ### spot-night-nurse (Chapter 10)
 | Object | Contact / support | OK |

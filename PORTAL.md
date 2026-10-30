@@ -1,10 +1,10 @@
-Now: Version 0.9 of the rulebook is ready for testing, with three ready-made episodes, and the online version has the first episode ready to play
-Next: A real test game of the first episode, then Richard's own words and drawings for the book, maps and tokens
-Number: Design decisions made = 57
+Now: Version 0.9 is ready for real test games: the rulebook has temporary pictures and maps, and all three episodes can be played online
+Next: A real test game with people at the table, then Richard's own words and drawings
+Number: Design decisions made = 61
 Number: Ready-made witches = 6
 Number: Threats ready = 6
 Number: Ready-made episodes = 3
-Number: Rulebook pages = 74
+Number: Rulebook pages = 75
 Number: Simulated episodes per balance check = 36,000
 
 # Game plan
@@ -26,6 +26,8 @@ Plain words only: no repo names, usernames, file paths, links or commit IDs. Rul
 
 - [x] Version 0.9 written and laid out for testing
 - [x] Three ready-made episodes, an easy, a standard and a hard one
+- [x] Two test games played from the finished rulebook, and the rules fixed from them
+- [x] Temporary pictures and a map for every showdown place, for testing
 - [ ] Final pass on the rulebook text in Richard's own voice
 - [ ] Richard draws all the pictures
 - [ ] Store page ready: description, preview pages and cover
@@ -34,6 +36,7 @@ Plain words only: no repo names, usernames, file paths, links or commit IDs. Rul
 ## Online version
 
 - [x] Online version for Foundry, with the first episode ready to play
+- [x] All three episodes ready to play online, with temporary maps and tokens
 - [ ] A real test game online with a Storyteller and players
 - [ ] Richard draws the maps and tokens
 - [ ] Online version released with the rulebook

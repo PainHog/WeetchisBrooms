@@ -119,3 +119,28 @@ Spots (800×600, framed; placed by `SPOTS` in `book/build.mjs`, one per chapter,
 - `spot-radio-tower` (Ch 14): the old radio tower, six glowing valves hung from its cross-arm
 - `spot-fireworks` (Ch 15): the harbour fireworks, a crowd and fire crew on the quay, a pale figure far off
 - `spot-fog-bell` (Ch 16): the small bell of St Agnes by the lighthouse lamp room at dusk
+
+**Portraits, cover and back cover: TEMP test art** (`tools/art-gen/scenes/portraits.mjs`, `tools/art-gen/scenes/covers.mjs`; each character matches their Foundry token)
+- `portrait-dana-okafor`: Dana; denim jacket over teal scrubs, left hand raised with the silver thumb ring (square, violet coven frame)
+- `portrait-marco-rossi`: Marco; rolled sleeves, wrench in his oily right fist, burn scar on that forearm (square, coven frame)
+- `portrait-june-takeda`: June; black bob, round glasses, yellow raincoat, red notebook (square, coven frame)
+- `portrait-quinn-abernathy`: Quinn; curly red hair, freckles, violet cardigan, whistle on a cord (square, coven frame)
+- `portrait-tess-lindqvist`: Tess; navy driver's uniform, blonde braid with a pale streak over her right shoulder (square, coven frame)
+- `portrait-noor-haddad`: Noor; green headscarf, apron, crow feather in the pocket, seedling in her right hand (square, coven frame)
+- `portrait-rook`: Rook in human shape; long grey coat with a high collar, grey eyes (square, brass guardian frame)
+- `portrait-quiet-man`: the Quiet Man; grey suit and trilby, no mouth, glowing radio valve (square, red notched threat frame)
+- `portrait-ash-widow`: the Ash Widow; burned wedding dress and veil, flames behind (square, threat frame)
+- `portrait-mirror-thief`: the Mirror Thief; silver creature holding a stolen face askew, cracked mirror (square, threat frame)
+- `portrait-night-nurse`: the Night Nurse; old nurse's veil and cape, sunken eyes, a lily (square, threat frame)
+- `portrait-vesper-crane`: Vesper Crane; silver bob, plum coat, rosemary, chain of vials, library (square, threat frame)
+- `portrait-drowned-choir`: the Drowned Choir; drowned villagers singing under the water (square, threat frame)
+- `cover`: the six witches in an Old Town street under the Lantern House lamp; Rook as a rook on the chimney against the moon; the radio tower on the Heights; the Quiet Man in a dark archway (612×792)
+- `back-cover`: Rook in human shape on the Lantern House doorstep under the lamp, with the lit hall and coat stand behind (4:3)
+
+**Showdown maps: TEMP test art** (`tools/vtt-art/maps.mjs`, which also makes the Foundry scene maps from the same drawing code; print versions checked at 6.5in, smallest label 7.8pt)
+- `map-night-market`: Episode 1 public place, the Friday night market. Hall, steps and desk, lanes of stalls, food yard, four ways in and out (3:2)
+- `map-radio-tower`: Episode 1 hidden place, the old radio tower. Fenced hilltop, tower, hut, cable trench, observatory, three ways in and out plus the bank, a way out only (3:2)
+- `map-mariner-theatre`: Episode 2 hidden place, the burned-out Mariner Theatre. Front, foyer, stalls, stage, fly gallery, an "under the stage" inset, four ways in and out (3:2)
+- `map-harbour-fireworks`: Episode 2 public place, the quayside on fireworks night. Fire engine, fireboat, barge, ferry terminal, fish market roof, promenade, harbour steps, four ways in and out (3:2)
+- `map-drowned-village`: Episode 3 hidden place, Old Saltby at low tide. Causeway, reed beds and hide, village street, St Agnes's and churchyard, mudflats, three ways in and out plus the mudflat walk, a way out only (3:2)
+- `map-long-pier`: Episode 3 public place, the long pier at dusk. Gates and arcade, boardwalk, halfway café, pier head, lifeboat ramp, beach steps, four ways in and out (3:2)

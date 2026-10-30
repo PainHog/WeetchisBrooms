@@ -2392,17 +2392,24 @@ piece("spot-seen", () => {
   s += C(190, 320, 130, glow(K.fire, 0.45));
   for (const [x, h, w] of [[120, 110, 44], [170, 160, 56], [226, 130, 50], [272, 90, 36]]) s += P(`M${x - w / 2},372Q${x - w / 2},${372 - h * 0.5} ${x},${372 - h}Q${x + w / 2},${372 - h * 0.5} ${x + w / 2},372Z`, lin([[0, K.fireHi], [0.6, K.fire], [1, K.red]]), { s: dk(K.fire, 0.4), w: 1.4 });
   for (const [x, y, rr, op] of [[180, 190, 26, 0.3], [200, 140, 34, 0.24], [186, 84, 42, 0.18]]) s += C(x, y, rr, "#5a5862", { op });
-  // Marco hurrying off to the left, looking back, hands up: not him
-  s += shadow(380, g, 32, 5, 0.5) + fig(marco, 380, g, 300, { look: 1.6, mouth: "grim", left: [16, -86], right: [-16, -86] });
-  // the queue: one person filming on a phone; the phone's screen shows the fire and a red record dot
-  s += shadow(700, g, 30, 5, 0.5) + fig(civ({ skin: "#e8c4a8", hair: "#6a4a32", style: "long", top: "#4f72a8", hairLen: -76, mouth: "o" }), 700, g, 290, { look: -1.6, left: [-2, -72], right: [-8, -72], bendL: -1 });
-  s += shadow(570, g, 30, 5, 0.5) + fig(civ({ skin: "#8a5a3c", hair: "#1a1210", style: "short", top: "#5a4a6a", coat: "#3e5a7a", coatLen: -40, mouth: "o" }), 570, g, 300, { look: -1.6 });
-  // the phone (held up in both hands, screen toward the viewer so we see what it records)
-  const px = 682, py = 286;
-  s += R(px - 22, py - 34, 44, 68, "#1c1c22", { s: INK, w: 2, rx: 6 }) + R(px - 18, py - 28, 36, 56, lin([[0, "#2a3048"], [1, "#3a2a2a"]]), { rx: 3 });
-  s += P(`M${px - 8},${py + 16}Q${px - 8},${py - 2} ${px},${py - 14}Q${px + 8},${py - 2} ${px + 8},${py + 16}Z`, K.fire) + R(px - 14, py + 16, 28, 8, "#c9a23a");
-  s += C(px + 11, py - 21, 4, K.red) + C(px + 11, py - 21, 6, "none", { s: "#ffffff", w: 1 });
-  return { vb: `0 0 ${SW} ${SH}`, title: "Seen: Marco hurries away from a burning skip while someone at the bus stop films it on a phone", body: spot(s) };
+  // Marco by the skip, hands up: not him. A man at the stop stares.
+  s += shadow(390, g, 26, 4, 0.5) + fig(marco, 390, g, 250, { look: 1.4, mouth: "grim", left: [16, -86], right: [-16, -86] });
+  s += shadow(486, g - 10, 22, 4, 0.5) + fig(civ({ skin: "#8a5a3c", hair: "#1a1210", style: "short", top: "#5a4a6a", coat: "#3e5a7a", coatLen: -40, mouth: "o" }), 486, g - 10, 236, { look: -1.6 });
+  // in front, seen from behind, a woman films it: her phone held up in her hand, its screen toward us showing the fire and a red record dot
+  const wx = 640, wfy = 700, wh = 470;
+  const px = 548, py = 236;
+  s += fig(civ({ skin: "#e8c4a8", hair: "#6a4a32", style: "long", top: "#4f72a8", hairLen: -70, back: true }), wx, wfy, wh, {
+    right: [(px - wx) / (wh / 100) + 1, (py - wfy) / (wh / 100) + 4], bendR: -1,
+    prop: () => "",
+  });
+  s += R(px - 26, py - 42, 52, 84, "#1c1c22", { s: INK, w: 2.4, rx: 7 }) + R(px - 21, py - 35, 42, 70, lin([[0, "#2a3048"], [1, "#3a2a2a"]]), { rx: 3 });
+  s += P(`M${px - 18},${py + 20}L${px - 18},${py + 34}L${px + 18},${py + 34}L${px + 18},${py + 20}Z`, "#2a2f40") + R(px - 14, py + 12, 28, 9, "#c9a23a");
+  s += P(`M${px - 9},${py + 12}Q${px - 9},${py - 4} ${px},${py - 18}Q${px + 9},${py - 4} ${px + 9},${py + 12}Z`, K.fire) + P(`M${px - 4},${py + 12}Q${px - 4},${py + 2} ${px},${py - 6}Q${px + 4},${py + 2} ${px + 4},${py + 12}Z`, K.fireHi);
+  s += C(px + 13, py - 26, 4.4, K.red) + C(px + 13, py - 26, 6.6, "none", { s: "#ffffff", w: 1.2 });
+  // her fingers round the phone's edges (four on one side, the thumb on the other)
+  for (const dy of [-14, -4, 6, 16]) s += R(px + 22, py + dy - 3, 9, 6.4, "#e8c4a8", { s: INK, w: 1.2, rx: 3 });
+  s += R(px - 31, py + 4, 9, 7, "#e8c4a8", { s: INK, w: 1.2, rx: 3.4 });
+  return { vb: `0 0 ${SW} ${SH}`, title: "Seen: Marco stands by a burning skip, hands up, while a woman in front films it on her phone", body: spot(s) };
 });
 
 // ----- Spot (Chapter 11): the evening ferry, an old man at the window and a young woman in the glass beside him
