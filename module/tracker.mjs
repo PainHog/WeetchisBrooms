@@ -290,13 +290,15 @@ export class EpisodeTracker extends HandlebarsApplicationMixin(ApplicationV2) {
 
 const list = (type) => game.actors.filter(a => a.type === type);
 
-export async function startEpisodeDialog() {
+export async function startEpisodeDialog(preset = {}) {
   const threats = list("threat");
+  const label0 = preset.label ?? "standard";
+  const threat0 = preset.threatId ?? (preset.threatName ? threats.find(t => t.name === preset.threatName)?.id : null);
   const witches = list("witch");
   const guardians = list("guardian");
   const content = `<div class="witch-ward ww-start">
-    <div class="form-group"><label>Difficulty</label><select name="label">${Object.entries(WW.labels).map(([k, v]) => `<option value="${k}" ${k === "standard" ? "selected" : ""}>${v}</option>`).join("")}</select></div>
-    <div class="form-group"><label>Threat</label><select name="threatId"><option value="">(none)</option>${threats.map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join("")}</select></div>
+    <div class="form-group"><label>Difficulty</label><select name="label">${Object.entries(WW.labels).map(([k, v]) => `<option value="${k}" ${k === label0 ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+    <div class="form-group"><label>Threat</label><select name="threatId"><option value="">(none)</option>${threats.map(t => `<option value="${t.id}" ${t.id === threat0 ? "selected" : ""}>${esc(t.name)}</option>`).join("")}</select></div>
     <fieldset><legend>The coven</legend>${witches.map(w => `<label><input type="checkbox" name="c-${w.id}" ${w.hasPlayerOwner ? "checked" : ""}> ${esc(w.name)}</label>`).join("")}
       ${guardians.map(g => `<label><input type="checkbox" name="c-${g.id}" ${g.hasPlayerOwner ? "checked" : ""}> ${esc(g.name)} (guardian: tick only if a player plays it)</label>`).join("")}</fieldset>
     <div class="form-group"><label>Episode in the season</label><input type="number" name="seasonEpisode" min="1" value="1"></div>

@@ -58,3 +58,15 @@ export class ThreatData extends foundry.abstract.TypeDataModel {
     };
   }
 }
+
+/** Anyone else: the innocent, witnesses, bystanders (story only: no ratings). */
+export class PersonData extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    const f = fields();
+    return {
+      role: new f.StringField({ initial: "bystander", choices: ["innocent", "witness", "bystander"] }),
+      look: new f.StringField({ initial: "" }),
+      notes: new f.StringField({ initial: "" }),
+    };
+  }
+}

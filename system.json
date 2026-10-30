@@ -31,7 +31,8 @@
     "Actor": {
       "witch": {},
       "guardian": {},
-      "threat": {}
+      "threat": {},
+      "person": {}
     }
   },
   "packs": [

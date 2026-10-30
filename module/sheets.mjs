@@ -138,4 +138,15 @@ export class ThreatSheet extends WWActorSheet {
   }
 }
 
+export class PersonSheet extends WWActorSheet {
+  static DEFAULT_OPTIONS = { classes: ["witch-ward", "ww-sheet", "ww-person"], position: { width: 460 } };
+  static PARTS = { main: { template: "systems/witch-ward/templates/sheets/person.hbs" } };
+
+  async _prepareContext(options) {
+    const ctx = await super._prepareContext(options);
+    const roles = { innocent: "The innocent", witness: "A witness", bystander: "A bystander" };
+    return { ...ctx, roleOptions: Object.entries(roles).map(([value, label]) => ({ value, label, selected: value === this.actor.system.role })) };
+  }
+}
+
 export { performRoll };

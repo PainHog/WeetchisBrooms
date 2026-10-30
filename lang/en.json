@@ -4,7 +4,8 @@
     "Actor": {
       "witch": "Witch",
       "guardian": "Guardian",
-      "threat": "Threat"
+      "threat": "Threat",
+      "person": "Person"
     }
   }
 }

@@ -109,6 +109,19 @@ else {
         const got = compiled.get(want._id);
         claimId(want._id, `${def.out}::${raw.key}`);
         for (const pg of want.pages ?? []) claimId(pg._id, `${def.out}::${raw.key}#${pg.name}`);
+        if (def.type === "Adventure") {
+          for (const kind of ["actors", "scenes", "journal", "tables", "macros", "folders"]) {
+            for (const d of want[kind] ?? []) {
+              claimId(d._id, `${def.out}::${raw.key}/${kind}/${d.name}`);
+              for (const sub of [...(d.pages ?? []), ...(d.tokens ?? []), ...(d.notes ?? []), ...(d.results ?? [])]) claimId(sub._id, `${def.out}::${raw.key}/${kind}/${d.name}#${sub.name ?? sub._id}`);
+            }
+            for (const d of want.actors ?? []) if (!(d.type in (manifest.documentTypes?.Actor ?? {}))) err(`${def.out}: adventure actor "${d.name}" has type "${d.type}", not in documentTypes`);
+          }
+          // Every image an adventure uses from this system must exist.
+          const sys = `systems/${manifest.id}/`;
+          const imgs = [want.img, ...(want.actors ?? []).flatMap(a => [a.img, a.prototypeToken?.texture?.src]), ...(want.scenes ?? []).flatMap(s => [s.background?.src, ...(s.tokens ?? []).map(t => t.texture?.src)])];
+          for (const src of imgs) if (src?.startsWith(sys) && !existsSync(join(ROOT, src.slice(sys.length)))) err(`${def.out}: "${raw.key}" uses missing image ${src}`);
+        }
         if (!got) return err(`${def.out}: source "${raw.key}" (id ${want._id}) not in compiled pack — rebuild packs`);
         if (def.type === "Actor" && !((raw.type ?? def.subtype) in (manifest.documentTypes?.Actor ?? {})))
           err(`${def.out}: "${raw.key}" has actor type "${raw.type ?? def.subtype}", not in system.json documentTypes`);

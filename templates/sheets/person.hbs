@@ -1,0 +1,14 @@
+<div class="ww-sheet-body">
+  <header class="ww-head">
+    <img class="ww-portrait" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
+    <div class="ww-head-fields">
+      <input class="ww-name" type="text" name="name" value="{{actor.name}}" placeholder="Name" {{#unless editable}}disabled{{/unless}}>
+      <label>Who they are <select name="system.role" {{#unless editable}}disabled{{/unless}}>{{#each roleOptions}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}</select></label>
+      <p class="ww-hint">People have no ratings. The innocent's state in a showdown is on the Episode Tracker.</p>
+    </div>
+  </header>
+  <section class="ww-details">
+    <label>Look <input type="text" name="system.look" value="{{system.look}}" {{#unless editable}}disabled{{/unless}}></label>
+    <label>Notes <textarea name="system.notes" rows="6" {{#unless editable}}disabled{{/unless}}>{{system.notes}}</textarea></label>
+  </section>
+</div>

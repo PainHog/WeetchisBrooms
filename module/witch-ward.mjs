@@ -10,11 +10,11 @@
 
 import { WW } from "./config.mjs";
 import { SYSTEM_ID, SETTINGS, HOOKS } from "./contracts.mjs";
-import { WitchData, GuardianData, ThreatData } from "./data.mjs";
-import { WitchSheet, GuardianSheet, ThreatSheet } from "./sheets.mjs";
+import { WitchData, GuardianData, ThreatData, PersonData } from "./data.mjs";
+import { WitchSheet, GuardianSheet, ThreatSheet, PersonSheet } from "./sheets.mjs";
 import { registerCardHooks, performRoll, threatTurn, useGift, drinkHealing, applyCard } from "./cards.mjs";
 import { rollDialog } from "./dialogs.mjs";
-import { EpisodeTracker, startEpisode, endScene, goToIt, endRound, finishEpisode, unmaking, callGuardian, adjust } from "./tracker.mjs";
+import { EpisodeTracker, startEpisodeDialog, startEpisode, endScene, goToIt, endRound, finishEpisode, unmaking, callGuardian, adjust } from "./tracker.mjs";
 import { getEpisode, setEpisode } from "./store.mjs";
 import * as episodeRules from "./logic/episode.mjs";
 
@@ -36,13 +36,14 @@ Hooks.once("init", function () {
   CONFIG.WW = WW;
 
   // Data models for the three actor types (system.json documentTypes).
-  Object.assign(CONFIG.Actor.dataModels, { witch: WitchData, guardian: GuardianData, threat: ThreatData });
+  Object.assign(CONFIG.Actor.dataModels, { witch: WitchData, guardian: GuardianData, threat: ThreatData, person: PersonData });
 
   // Sheets.
   const DSC = foundry.applications.apps.DocumentSheetConfig;
   DSC.registerSheet(Actor, SYSTEM_ID, WitchSheet, { types: ["witch"], makeDefault: true, label: "Witch sheet" });
   DSC.registerSheet(Actor, SYSTEM_ID, GuardianSheet, { types: ["guardian"], makeDefault: true, label: "Guardian sheet" });
   DSC.registerSheet(Actor, SYSTEM_ID, ThreatSheet, { types: ["threat"], makeDefault: true, label: "Threat sheet" });
+  DSC.registerSheet(Actor, SYSTEM_ID, PersonSheet, { types: ["person"], makeDefault: true, label: "Person sheet" });
 
   // Settings.
   game.settings.register(SYSTEM_ID, SETTINGS.migration, { scope: "world", config: false, type: String, default: "" });
@@ -63,7 +64,7 @@ Hooks.once("init", function () {
     WW, id: SYSTEM_ID,
     rollDialog, performRoll, threatTurn, useGift, drinkHealing, applyCard,
     tracker: openTracker,
-    episode: { get: getEpisode, set: setEpisode, start: startEpisode, endScene, goToIt, endRound, finish: finishEpisode, unmaking, callGuardian, adjust },
+    episode: { get: getEpisode, set: setEpisode, start: startEpisode, startDialog: startEpisodeDialog, endScene, goToIt, endRound, finish: finishEpisode, unmaking, callGuardian, adjust },
     rules: episodeRules,
   });
 });
