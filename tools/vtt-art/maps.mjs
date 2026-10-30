@@ -2280,6 +2280,7 @@ try {
     PRINT = true;
     const book = MAPS[name]();
     PRINT = false;
+    writeFileSync(join(OUT, `${name}-print.svg`), book.svg);
     const { kb, minPt } = checkBookSvg(name, book.svg);
     writeFileSync(join(BOOK_ART, `map-${name}.svg`), book.svg);
     await renderBookCheck(browser, name, book.svg);
