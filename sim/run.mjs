@@ -55,7 +55,7 @@ const lines = [];
 const out = s => lines.push(s);
 out("# Witch & Ward: simulator report");
 out("");
-out(`Rules: \`docs/CORE-RULES.md\` v0.3. Command: \`node sim/run.mjs --runs ${RUNS} --seed ${SEED} --sweep-runs ${SWEEP_RUNS}\`. ${RUNS.toLocaleString("en")} episodes per cell, ${(RUNS * allCells.length).toLocaleString("en")} in all. Same seed, same report.`);
+out(`Rules: \`docs/CORE-RULES.md\` v0.4. Command: \`node sim/run.mjs --runs ${RUNS} --seed ${SEED} --sweep-runs ${SWEEP_RUNS}\`. ${RUNS.toLocaleString("en")} episodes per cell, ${(RUNS * allCells.length).toLocaleString("en")} in all. Same seed, same report.`);
 out("");
 out("A **cell** is one difficulty label, one number of players (3, 4 or 5), with or without a guardian player. With a guardian player, one player plays the guardian and the rest play witches. **Win / Partial / Loss** are the episode results from CORE-RULES \"The end\".");
 out("");
@@ -241,8 +241,8 @@ sweepRow("preset", "strict (every open rule read against them)", withPreset(sett
 sweepRow("rules", "v0.1 Vanquish (1 die per joiner, fixed Difficulty, Partial destroys)", { ...settings, rules: { ...settings.rules, vanquishByWitches: false, vanquishJoinDice: 1, vanquishNeedsSuccess: false }, numbers: Object.fromEntries(Object.entries(settings.numbers).map(([k, v]) => [k, { ...v, vanquishD: { easy: 2, standard: 3, hard: 3 }[k] }])) });
 sweepRow("rules", "v0.2 innocent (not held at the start of a public showdown)", { ...settings, rules: { ...settings.rules, innocentHeld: 0 } });
 sweepRow("rules", "v0.2 Weakness (no Defence +1 without it, no extra damage with it)", { ...settings, rules: { ...settings.rules, noWeaknessDefence: 0, weaknessDamage: 0 } });
-sweepRow("rules", "candidate: potions need no action", { ...settings, rules: { ...settings.rules, potionFree: true } });
-sweepRow("rules", "candidate: potions need no action, and the Book researcher may also brew", { ...settings, rules: { ...settings.rules, potionFree: true, brewWithBook: true } });
+sweepRow("rules", "v0.3 potions (using one is an action, brewing is its own action, one potion per brew)", { ...settings, rules: { ...settings.rules, potionFree: false, brewWithBook: false, potionYield: 1 } });
+sweepRow("rules", "no extra Toughness against 3 characters", { ...settings, size: { ...settings.size, toughnessMod: { 3: 0, 4: 0, 5: 0 } } });
 sweepRow("rules", "success on 5–6 instead of 4–6", { ...settings, rules: { ...settings.rules, successFace: 5 } });
 out("");
 out("What each setting means:");
@@ -274,7 +274,7 @@ out("| | " + LABELS.map(L => NAME[L]).join(" | ") + " |");
 out("|---|---|---|---|");
 for (const k of ["leadD", "defence", "attack", "hit", "tWitch", "cluesPer", "cluesAdd", "mark", "doomMax", "exposureMax", "vanquishAdd"]) out(`| ${k} | ${LABELS.map(L => NUMBERS[L][k]).join(" | ")} |`);
 out("");
-out(`Threat attacks per round by characters: ${Object.entries(SIZE.attacks).map(([n, a]) => `${n}: ${a}`).join(", ")}.`);
+out(`Threat attacks per round by characters: ${Object.entries(SIZE.attacks).filter(([n]) => n >= 3).map(([n, a]) => `${n}: ${a}`).join(", ")}. Extra Toughness by characters: ${Object.entries(SIZE.toughnessMod).map(([n, a]) => `${n}: ${a}`).join(", ")}.`);
 out("");
 
 writeFileSync(OUT, lines.join("\n") + "\n");

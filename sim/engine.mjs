@@ -281,7 +281,7 @@ export function playEpisode({ coven, label, settings, rng }) {
       toughness: N.tWitch * w + N.tGuardian * g + (settings.size.toughnessMod[n] || 0),
       damage: 0, broken: false, brokenRound: null, skip: 0,
       lastHurtBy: null, hold: false, defenceMod: 0,
-      attacks: settings.size.attacks[n],
+      attacks: settings.size.attacks[settings.size.attacksBy === "w" ? w : n],
     };
     while (!st.ended) round();
   }

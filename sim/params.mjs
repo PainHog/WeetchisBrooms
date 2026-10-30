@@ -11,15 +11,16 @@
 /** CORE-RULES "[T] Numbers", per difficulty label. */
 export const NUMBERS = {
   easy:     { leadD: 1, defence: 1, attack: 1, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 5, cluesPer: 3, cluesAdd: 0, vanquishAdd: 0 },
-  standard: { leadD: 2, defence: 2, attack: 2, hit: 2, tWitch: 3, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, vanquishAdd: 0 },
-  hard:     { leadD: 2, defence: 2, attack: 2, hit: 3, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, vanquishAdd: 0 },
+  standard: { leadD: 2, defence: 2, attack: 3, hit: 2, tWitch: 4, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: -1, vanquishAdd: 0 },
+  hard:     { leadD: 2, defence: 2, attack: 3, hit: 3, tWitch: 5, tGuardian: 0, mark: 5, doomMax: 12, exposureMax: 4, cluesPer: 4, cluesAdd: 0, vanquishAdd: 0 },
 };
 
 /** CORE-RULES per-size rows: threat attacks per round (by characters) and Vanquish Difficulty change (by witches). */
 export const SIZE = {
-  attacks: { 3: 1, 4: 2, 5: 2 },
+  attacks: { 2: 1, 3: 1, 4: 2, 5: 2 },
+  attacksBy: "n",   // count characters (n) or witches only (w) when looking up attacks per round
   vanquishMod: { 2: 0, 3: 0, 4: 0, 5: 0 },
-  toughnessMod: { 3: 0, 4: 0, 5: 0 },
+  toughnessMod: { 3: 3, 4: 0, 5: 0 }, // "With 3 characters, the threat has 3 more Toughness"
 };
 
 /** CORE-RULES fixed numbers. */
@@ -37,9 +38,9 @@ export const RULES = {
   damage: { critical: 3, success: 2, partial: 1, failure: 0 },
   surgeCost: 2,
   noWeaknessVanquish: 2, // "+2 without the Weakness"
-  potionYield: 1,       // potions a successful brew makes (a Critical makes one more)
-  potionFree: false,    // using a potion needs no action (one potion per character per round)
-  brewWithBook: false,  // the character researching the Book may also brew one potion that scene (instead of brewing taking its own action)
+  potionYield: 2,       // potions a successful brew makes (a Critical makes one more)
+  potionFree: true,     // using a potion needs no action (one potion per character per round)
+  brewWithBook: true,   // the character researching the Book may also brew one potion that scene (instead of brewing taking its own action)
   potionBlast: 2,
   potionHeal: 2,
   mendHeal: 2,
@@ -111,7 +112,7 @@ export const POLICY = {
     doc: "spare: a witch answers their Life when their best lead is no better than the coven's median and Doom is at least 2 short of the mark; always: everyone answers in scene 1; never: everyone lets it slide.",
   },
   brew: {
-    default: "one",
+    default: "two",
     values: ["one", "none", "two"],
     doc: "How many brewing actions the best brewer takes once the coven has half the Clues and time to spare.",
   },
