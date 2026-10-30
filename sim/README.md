@@ -1,8 +1,16 @@
 # Rules simulator — method
 
-Nothing is simulated yet: the rules are not written. This file describes the method
-that worked on *Heisty Spideys*, so the simulator for Witch & Ward can be built the
-same way as soon as there are rules to test. Only `rng.mjs` exists so far.
+The first simulator for Witch & Ward is built: it plays whole episodes by
+`docs/CORE-RULES.md` (v0.2) and writes `sim/REPORT.md`.
+
+```
+npm run sim                                   # node sim/run.mjs → sim/REPORT.md (2,000 episodes per cell, seed 1)
+node sim/run.mjs --runs 5000 --seed 2         # more runs, another seed
+npm test                                      # includes sim/sim.test.mjs
+```
+
+The rest of this file is the method that worked on *Heisty Spideys*, which this simulator
+follows.
 
 **Why simulate.** On Heisty Spideys the rulebook read as tense and risky, but the
 simulator showed that, as written, a party almost could not lose: the dice pools were far
@@ -98,16 +106,19 @@ verification playtest confirms the fixes at the table.
 hand-worked examples with fixed dice, the character generator’s legality, and each
 package’s rule switches.
 
-## Files (to be created)
+## Files
 | File | What |
 |---|---|
-| `rng.mjs` | Seeded RNG (mulberry32 + FNV-1a stream derivation). **Exists.** |
-| `params.mjs` | Every judgement call: defaults, alternatives, docs, refs; presets; clarified baseline; packages |
-| `character.mjs` | Legal random character generation + validator |
-| `scenarios.mjs` | The book’s ready-to-play scenarios as data |
-| `engine.mjs` | Plays one scenario by the rules text |
-| `recorder.mjs` | Stats + issue detectors |
-| `notes.mjs` | Rule gaps found; what is / isn’t modelled |
-| `run.mjs` | CLI → `REPORT.md` |
-| `packages.mjs` | CLI → package comparison (`BALANCE.md`) |
-| `playtests/` | Agent playtest logs |
+| `rng.mjs` | Seeded RNG (mulberry32 + FNV-1a stream derivation) |
+| `params.mjs` | The [T] numbers, the core rules' fixed numbers and rule switches, every judgement call (default, alternatives, doc, the passage that leaves it open), the player policies, and the generous/strict presets |
+| `character.mjs` | Legal random covens (Powers off a d6 with duplicates rerolled, 3-2-2-1 ratings) and a validator |
+| `engine.mjs` | Plays one episode by the rules text: investigation scenes, the showdown, every ending |
+| `grid.mjs` | Runs every label × 3/4/5 players × with and without a guardian player, with common random numbers |
+| `recorder.mjs` | Per-cell statistics |
+| `notes.mjs` | Rule gaps found while building it, and what is and isn't modelled |
+| `run.mjs` | CLI → `REPORT.md` (targets, outcomes, usage, Powers, guardian, exact odds, sweeps, findings) |
+| `sim.test.mjs` | The roll against hand-worked cases, exact odds, coven legality, determinism, track limits |
+
+Still to come, as the book grows: one stat block per ready-made threat (`scenarios.mjs`), seasons
+(Scars, growth, Book pages, returning threats), packages (`packages.mjs`) and agent playtests
+(`playtests/`). The core roll itself lives in `module/logic/rules.mjs`, shared with the Foundry system.
