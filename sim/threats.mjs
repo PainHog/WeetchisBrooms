@@ -44,12 +44,14 @@ const FIX = {
   },
   drownedChoir: {
     off: () => {
-      const c = VC.lureAttack, s = c.pooled.hard, w = cellsOf(["hard"]).map(x => c.cell[x.key].win);
-      const ok = inRange(s.win, TARGETS.hard.win) && w.every(x => Math.abs(x - WIN_TARGET.hard) <= OFF);
-      const cost = lureRows.find(r => r[0] === "lureCost")[2];
-      return `Make Lure an attack with a side effect, as Chapter 10 advises for any move: "Lure: one attack; then the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action." Tested (§8): Low Tide ${f1(s.win)}% win, ${f1(s.loss)}% loss, cells ${f1(Math.min(...w))}–${f1(Math.max(...w))}%, ${ok ? "back on target" : "closer but not fully on target"}, ${sgn(s.win - P("twoAttacks", "hard").win)} points from "two different characters" (${f1(P("twoAttacks", "hard").win)}%). Settling Lure's Partial the strict way instead (the usual 1 Hurt on a Partial or Failure) gives ${f1(cost.win)}%. Hard sits at the top of its band with any one-attack move (§3), so either fix lands Low Tide near 60%, not in the middle.`;
+      const L = "hard", y = P("twoAttacks", L).win, w = P("drownedChoir", L).win;
+      const asYard = Math.abs(w - y) < DEAD;
+      return `Lure is already ruling 88 (one attack, then the Lure roll). Low Tide is ${f1(w)}%, against ${f1(P("generic", L).win)}% with the generic move and ${f1(y)}% with "two different characters". ${asYard ? `That is within ±${DEAD} points of the book's yardstick, so what is left is the Hard label's numbers (REPORT.md §1), not the move. No further change to Lure.` : `That is still ${sgn(w - y)} points from the book's yardstick; the next smallest step is a cost on the Lure roll (1 Hurt on a Failure), which needs a new simulation first.`}`;
     },
-    weak: () => `The same fix: with an attack in it, Lure can't do less than a plain attack (tested in §8: ${LABELS.map(L => `${NAME[L]} ${sgn(-worth("lureAttack", L, VC))}`).join(", ")} points against a plain attack).`,
+    weak: () => {
+      const small = LABELS.every(L => Math.abs(worth("drownedChoir", L)) < DEAD);
+      return `Lure is already ruling 88, with an attack in it. It is now ${LABELS.map(L => `${NAME[L]} ${sgn(-worth("drownedChoir", L))}`).join(", ")} points against a plain attack${small ? `, all within ±${DEAD}, so no change is needed` : `; the next smallest step is a cost on the Lure roll, which needs a new simulation first`}.`;
+    },
     dead: () => "See the note under this table.",
   },
   mirrorThief: {
@@ -286,7 +288,7 @@ out("");
 // ---------------------------------------------------------------- 8. sensitivity
 out("## 8. Sensitivity");
 out("");
-out("### Lure's open points (Low Tide, Hard)");
+out("### Lure: the players' dice (Low Tide, Hard)");
 out("");
 out("| Setting | Value | Win / Partial / Loss | Cells | A witch Down | Turns lost per episode |");
 out("|---|---|---|---|---|---|");

@@ -397,6 +397,107 @@ function checkTokens(name, t) {
 const svgDoc = (body, defs = "") =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"><defs>${defs}</defs>${body}</svg>`;
 
+/* ------------------------------------------------- book (print) maps ---- */
+// Every showdown map also has a print version for the book, book/art/map-<name>.svg.
+// The same drawing code runs with PRINT set, so the two versions always match:
+//   - no night tint, lights, grain, blur or other filters, and no blend modes;
+//   - the ground patterns swap to light print ones (each map's `print` overrides);
+//   - every colour is mapped onto the book's PLACEHOLDER palette (book/art/README.md);
+//   - labels are drawn at print size in the book's fonts, by family name only.
+// The print map is about 6.5 in wide, so 1 map unit = 0.156 pt and a 7.5 pt label
+// (ART-CHECKLIST 19) needs size 48. Print labels use 50 and up.
+// No grid: the rules never count squares (docs/CORE-RULES.md).
+let PRINT = false;
+const BOOK_ART = join(ROOT, "book", "art");
+const PRINT_W_IN = 6.5, PRINT_DPI = 150;
+/** The book's PLACEHOLDER palette (book/art/README.md, book/src/book.css). */
+const PAL = {
+  ink: "#161618", deep: "#222224", dark: "#3a3a3c", soft: "#5c5c60", accentDeep: "#555a63", accent: "#7a7f88",
+  edge: "#c9c6bf", paper2: "#e3e1dc", accentB: "#e4e6ea", paper: "#f2f1ee", light: "#faf9f6",
+  alarm: "#7c2a2a", alarmB: "#b5473f", good: "#3f6f52",
+};
+const PAL_SET = new Set(Object.values(PAL));
+const hexRgb = h => {
+  let s = h.slice(1);
+  if (s.length === 3) s = [...s].map(c => c + c).join("");
+  return [0, 2, 4].map(i => parseInt(s.slice(i, i + 2), 16) / 255);
+};
+const lumOf = ([r, g, b]) => 0.2126 * r + 0.7152 * g + 0.0722 * b;
+const GREY_RAMP = ["ink", "deep", "dark", "soft", "accent", "edge", "paper2", "paper", "light"].map(k => [PAL[k], lumOf(hexRgb(PAL[k]))]);
+/** Map any colour onto the palette: strong reds to the alarm pair, strong greens to `good`,
+ *  everything else to the grey with the nearest lightness. */
+function toPalette(hex) {
+  const h = hex.toLowerCase();
+  if (PAL_SET.has(h)) return h;
+  const rgb = hexRgb(h);
+  const [r, g, b] = rgb, mx = Math.max(r, g, b), mn = Math.min(r, g, b), c = mx - mn;
+  let hue = 0;
+  if (c > 0) hue = mx === r ? (60 * ((g - b) / c) + 360) % 360 : mx === g ? 60 * ((b - r) / c) + 120 : 60 * ((r - g) / c) + 240;
+  const L = lumOf(rgb);
+  if (c > 0.32 && (hue < 12 || hue > 340) && L < 0.5) return L < 0.26 ? PAL.alarm : PAL.alarmB;
+  if (c > 0.22 && hue > 90 && hue < 170 && L < 0.5) return PAL.good;
+  let best = GREY_RAMP[0][0], bd = Infinity;
+  for (const [hx, l] of GREY_RAMP) { const d = Math.abs(l - L); if (d < bd) { bd = d; best = hx; } }
+  return best;
+}
+/** Turn a drawing made with PRINT set into a book SVG: palette colours, no filters,
+ *  print overrides for patterns, unused defs pruned. */
+function bookSvg(title, body, defs, overrides = {}) {
+  let d = defs.replace(/<filter\b[\s\S]*?<\/filter>/g, "");
+  d = d.replace(/<(pattern|linearGradient|radialGradient)\b[^>]*\bid="([^"]+)"[\s\S]*?<\/\1>/g, (m, tag, id) => overrides[id] ?? m);
+  for (const [id, def] of Object.entries(overrides)) if (!d.includes(`id="${id}"`)) d += def;
+  // keep only the defs the body (or another kept def) refers to
+  const items = [...d.matchAll(/<(pattern|linearGradient|radialGradient|mask|clipPath)\b[^>]*\bid="([^"]+)"[\s\S]*?<\/\1>/g)];
+  const used = new Set();
+  let scan = body, grew = true;
+  while (grew) {
+    grew = false;
+    for (const [m, , id] of items) if (!used.has(id) && (scan.includes(`url(#${id})`) || scan.includes(`href="#${id}"`))) { used.add(id); scan += m; grew = true; }
+  }
+  d = items.filter(([, , id]) => used.has(id)).map(([m]) => m).join("");
+  const colour = s => s.replace(/(fill|stroke|stop-color)="(#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3})"/g, (m, a, hx) => `${a}="${toPalette(hx)}"`);
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}"><title>${esc(title)}</title>` +
+    `<defs>${colour(d)}</defs>${colour(body)}</svg>\n`;
+}
+/** The book's art rules (book/art/README.md), checked on every print map. */
+function checkBookSvg(name, svg) {
+  const bad = [];
+  const root = svg.match(/<svg\b[^>]*>/)[0];
+  if (!/viewBox="0 0 \d+ \d+"/.test(root)) bad.push("no viewBox");
+  if (/\s(width|height)="/.test(root)) bad.push("fixed width or height on <svg>");
+  if (!/<title>[^<]+<\/title>/.test(svg)) bad.push("no <title>");
+  for (const [re, what] of [[/<image\b/, "<image>"], [/<script\b/i, "<script>"], [/<filter\b|filter="/, "a filter"], [/feTurbulence|feGaussianBlur/, "a filter primitive"],
+    [/mix-blend-mode/, "a blend mode"], [/@font-face|@import/, "a web font"], [/(href|src)="(https?:|data:|file:)/, "an external link"], [/url\((?!#)/, "an external url()"]]) if (re.test(svg)) bad.push(what);
+  const fams = new Set([...svg.matchAll(/font-family="([^"]+)"/g)].map(m => m[1]));
+  for (const f of fams) if (f !== "Fraunces" && f !== "Alegreya Sans") bad.push(`font ${f}`);
+  const sizes = [...svg.matchAll(/font-size="([\d.]+)"/g)].map(m => +m[1]);
+  const minPt = Math.min(...sizes) * (PRINT_W_IN * 72 / W);
+  if (minPt < 7.5) bad.push(`smallest label ${minPt.toFixed(1)} pt at ${PRINT_W_IN} in`);
+  const off = [...svg.matchAll(/(?:fill|stroke|stop-color)="(#[0-9a-fA-F]{3,6})"/g)].map(m => m[1].toLowerCase()).filter(c => !PAL_SET.has(c));
+  if (off.length) bad.push(`colours off the palette: ${[...new Set(off)].join(" ")}`);
+  const kb = Buffer.byteLength(svg) / 1024;
+  if (kb > 400) bad.push(`${kb.toFixed(0)} KB (over 400)`);
+  if (bad.length) throw new Error(`book map ${name}: ${bad.join("; ")}`);
+  return { kb, minPt };
+}
+
+/** Print label: ink on a paper halo. */
+function plabel(x, y, text, o = {}) {
+  const size = o.size ?? 54;
+  return label(x, y, text, { weight: 700, fill: PAL.ink, halo: PAL.paper, hw: Math.max(8, size * 0.26), ...o, size });
+}
+/** Print way marker: a solid double arrow pointing off the map, and its label. */
+function pwayMarker(x, y, angleDeg, text, o = {}) {
+  const { size = 52, lx = x, ly = y, anchor = "middle", k = 1.45 } = o;
+  const arrow = grp([
+    path("M -46 -26 L 0 0 L -46 26 L -34 0 Z", { fill: PAL.ink, stroke: PAL.paper, "stroke-width": 4, "stroke-linejoin": "round", "paint-order": "stroke" }),
+    path("M -96 -26 L -50 0 L -96 26 L -84 0 Z", { fill: PAL.accentDeep, stroke: PAL.paper, "stroke-width": 4, "stroke-linejoin": "round", "paint-order": "stroke" }),
+  ], { transform: `translate(${f1(x)} ${f1(y)}) rotate(${f1(angleDeg)}) scale(${k})` });
+  return arrow + plabel(lx, ly, text, { size, anchor, weight: 800, italic: o.italic });
+}
+/** A thin frame round the print map, so it sits cleanly on the page. */
+const printFrame = () => rect(4, 4, W - 8, H - 8, { fill: "none", stroke: PAL.ink, "stroke-width": 8 });
+
 /* ===================================================================== */
 /*  2. THE LANTERN HOUSE (gridded): three floors side by side             */
 /* ===================================================================== */
@@ -1046,6 +1147,23 @@ function townDefs(p) {
   ].join("");
 }
 
+/** Print versions of the town kit patterns: light grounds, mid-grey roofs. */
+function printTownDefs() {
+  return {
+    "tk-slate": slatePattern("tk-slate", 21, [PAL.accent, PAL.accent, PAL.edge], PAL.soft),
+    "tk-slate-warm": slatePattern("tk-slate-warm", 22, [PAL.accent, PAL.soft, PAL.accent], PAL.dark),
+    "tk-slate-low": slatePattern("tk-slate-low", 23, [PAL.soft, PAL.accent], PAL.dark),
+  };
+}
+/** Print ground patterns, by the Foundry ground they stand in for. */
+const printGround = {
+  cobble: (id, seed, stone = 22) => cobblePattern(id, seed, [PAL.paper2, PAL.paper, PAL.paper2, PAL.accentB], PAL.edge, 200, stone),
+  slab: (id, seed, slab = 50) => slabPattern(id, seed, [PAL.paper, PAL.light, PAL.paper2], PAL.edge, 200, slab),
+  planks: (id, seed, board = 20) => plankPattern(id, seed, [PAL.paper2, PAL.paper, PAL.accentB], PAL.edge, 200, board),
+  gravel: (id, seed) => gravelPattern(id, seed, PAL.paper2, [PAL.edge, PAL.edge, PAL.accent, PAL.paper]),
+  grass: (id, seed, n = 60) => grassPattern(id, seed, PAL.paper2, [PAL.edge, PAL.accent, PAL.edge], 160, n),
+};
+
 /* ===================================================================== */
 /*  3. THE FRIDAY NIGHT MARKET (gridded, night)                            */
 /* ===================================================================== */
@@ -1319,32 +1437,55 @@ function nightMarket() {
   }
 
   // ---------- labels and ways in and out ----------
-  const fl = (x, y, t, o = {}) => label(x, y, t, { size: 30, weight: 800, ...o });
-  top.push(fl(1500, 205, "ST BRIDE'S MARKET HALL", { size: 34, font: "display", weight: 700, ls: 3 }));
-  top.push(fl(1500, 253, "covered hall, iron roof, full of stalls", { size: 22, weight: 600 }));
-  top.push(fl(1500, 935, "ST BRIDE'S STEPS", { size: 30, font: "display", weight: 700, ls: 3 }));
-  top.push(fl(1650, 690, "Grace's broadcast desk", { size: 22, weight: 700 }));
-  top.push(fl(1500, 1180, "The crowd in front of the steps", { size: 26, weight: 700 }));
-  top.push(fl(200, 1150, "THE LANES OF STALLS", { size: 26, font: "display", weight: 700, ls: 2, rot: -90 }));
-  top.push(fl(600, 1150, "food, records, clothes, fortune-tellers", { size: 20, weight: 700, rot: -90 }));
-  top.push(fl(500, 340, "Chip shop", { size: 26 }));
-  top.push(fl(500, 372, "(Bea's flat above)", { size: 20, weight: 600 }));
-  top.push(fl(2500, 1325, "THE FOOD YARD", { size: 28, font: "display", weight: 700, ls: 2 }));
-  top.push(fl(2745, 1260, "Small stage", { size: 22 }));
-  top.push(fl(2200, 1565, "Salt-fish stall", { size: 22 }), fl(2350, 1610, "salt bins", { size: 18, weight: 700 }));
-  top.push(fl(2200, 330, "Bell Street", { size: 26, rot: -90 }));
-  top.push(fl(550, 1745, "Market Street arch", { size: 22 }));
-  const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 26, ...o });
-  top.push(way(550, 1955, 90, "Way in and out: Market Street", { lx: 550, ly: 1868 }));
-  top.push(way(2500, 1975, 90, "Way in and out: the Harbour Steps, down to the harbour road", { lx: 2500, ly: 1835, size: 24 }));
-  top.push(way(40, 150, 180, "Way in and out: Cooper's Lane", { lx: 110, ly: 150, anchor: "start" }));
-  top.push(way(2200, 40, -90, "Way in and out: through the hall", { lx: 2200, ly: 145, size: 22 }));
+  const labels = [];
+  if (!PRINT) {
+    const fl = (x, y, t, o = {}) => label(x, y, t, { size: 30, weight: 800, ...o });
+    labels.push(fl(1500, 205, "ST BRIDE'S MARKET HALL", { size: 34, font: "display", weight: 700, ls: 3 }));
+    labels.push(fl(1500, 253, "covered hall, iron roof, full of stalls", { size: 22, weight: 600 }));
+    labels.push(fl(1500, 935, "ST BRIDE'S STEPS", { size: 30, font: "display", weight: 700, ls: 3 }));
+    labels.push(fl(1650, 690, "Grace's broadcast desk", { size: 22, weight: 700 }));
+    labels.push(fl(1500, 1180, "The crowd in front of the steps", { size: 26, weight: 700 }));
+    labels.push(fl(200, 1150, "THE LANES OF STALLS", { size: 26, font: "display", weight: 700, ls: 2, rot: -90 }));
+    labels.push(fl(600, 1150, "food, records, clothes, fortune-tellers", { size: 20, weight: 700, rot: -90 }));
+    labels.push(fl(500, 340, "Chip shop", { size: 26 }));
+    labels.push(fl(500, 372, "(Bea's flat above)", { size: 20, weight: 600 }));
+    labels.push(fl(2500, 1325, "THE FOOD YARD", { size: 28, font: "display", weight: 700, ls: 2 }));
+    labels.push(fl(2745, 1260, "Small stage", { size: 22 }));
+    labels.push(fl(2200, 1565, "Salt-fish stall", { size: 22 }), fl(2350, 1610, "salt bins", { size: 18, weight: 700 }));
+    labels.push(fl(2200, 330, "Bell Street", { size: 26, rot: -90 }));
+    labels.push(fl(550, 1745, "Market Street arch", { size: 22 }));
+    const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 26, ...o });
+    labels.push(way(550, 1955, 90, "Way in and out: Market Street", { lx: 550, ly: 1868 }));
+    labels.push(way(2500, 1975, 90, "Way in and out: the Harbour Steps, down to the harbour road", { lx: 2500, ly: 1835, size: 24 }));
+    labels.push(way(40, 150, 180, "Way in and out: Cooper's Lane", { lx: 110, ly: 150, anchor: "start" }));
+    labels.push(way(2200, 40, -90, "Way in and out: through the hall", { lx: 2200, ly: 145, size: 22 }));
+  } else {
+    const T = (x, y, t, o = {}) => plabel(x, y, t, { size: 66, font: "display", ls: 3, ...o });
+    const F = (x, y, t, o = {}) => plabel(x, y, t, { size: 54, ...o });
+    labels.push(T(1500, 250, "ST BRIDE'S MARKET HALL", { size: 70 }));
+    labels.push(T(1500, 905, "ST BRIDE'S STEPS"));
+    labels.push(F(1500, 668, "Grace's broadcast desk", { size: 52 }));
+    labels.push(F(1500, 1200, "The crowd in front of the steps"));
+    labels.push(T(200, 1150, "THE LANES OF STALLS", { size: 58, rot: -90, ls: 2 }));
+    labels.push(F(600, 1150, "food, records, clothes, fortune-tellers", { size: 50, rot: -90 }));
+    labels.push(F(500, 325, "Chip shop", { size: 58 }), F(500, 395, "(Bea's flat above)", { size: 50 }));
+    labels.push(T(2500, 1340, "THE FOOD YARD", { size: 62, ls: 2 }));
+    labels.push(F(2745, 1240, "Small stage", { size: 50 }));
+    labels.push(F(2215, 1555, "Salt-fish stall", { size: 50 }));
+    labels.push(F(2200, 330, "Bell Street", { rot: -90 }));
+    labels.push(F(550, 1735, "Market Street arch", { size: 50 }));
+    labels.push(pwayMarker(550, 1950, 90, "Way in and out: Market Street", { lx: 550, ly: 1878 }));
+    labels.push(pwayMarker(2500, 1950, 90, ["Way in and out:", "the Harbour Steps"], { lx: 2370, ly: 1830, anchor: "end" }));
+    labels.push(pwayMarker(60, 150, 180, "Way in and out: Cooper's Lane", { lx: 150, ly: 150, anchor: "start" }));
+    labels.push(pwayMarker(2200, 60, -90, ["Way in and out: through", "the hall to Bell Street"], { lx: 2300, ly: 100, anchor: "start" }));
+  }
 
-  const body = out.join("") +
+  const body = PRINT ? out.join("") + top.join("") + labels.join("") + printFrame() :
+    out.join("") +
     rect(0, 0, W, H, { fill: "#8a96bc", style: "mix-blend-mode:multiply" }) +
     grp(lights, { style: "mix-blend-mode:screen" }) +
     rect(0, 0, W, H, { filter: "url(#nm-grain)" }) +
-    top.join("");
+    top.join("") + labels.join("");
 
   const data = {
     width: W, height: H, grid: G,
@@ -1367,6 +1508,18 @@ function nightMarket() {
       innocent: [1400, 700],
     },
   };
+  if (PRINT) {
+    const pd = {
+      ...printTownDefs(),
+      "nm-cobble": printGround.cobble("nm-cobble", 51, 20),
+      "nm-cobble-lane": printGround.cobble("nm-cobble-lane", 52, 18),
+      "nm-flags": printGround.slab("nm-flags", 53, 40),
+      "nm-hallfloor": slabPattern("nm-hallfloor", 54, [PAL.paper2, PAL.accentB, PAL.paper2], PAL.edge, 200, 40),
+      "nm-boards": printGround.planks("nm-boards", 55),
+      "nm-yard": printGround.gravel("nm-yard", 56),
+    };
+    return { name: "night-market", svg: bookSvg("Map: the Friday night market", body, defs, pd), data };
+  }
   return { name: "night-market", svg: svgDoc(body, defs), data };
 }
 
@@ -1407,7 +1560,7 @@ function radioTower() {
 
   // ---------- the hillside ----------
   out.push(rect(0, 0, W, H, { fill: "url(#rt-grass)" }));
-  out.push(rect(0, 0, W, H, { filter: "url(#rt-mottle)" }));
+  if (!PRINT) out.push(rect(0, 0, W, H, { filter: "url(#rt-mottle)" }));
   // the gardens of the big houses, at the foot of the bank (left edge)
   out.push(path("M0 0 L170 0 C 190 300, 150 600, 180 900 C 200 1200, 160 1500, 190 1750 L 230 2000 L0 2000 Z", { fill: "url(#rt-lawn)" }));
   for (let i = 0; i < 9; i++) out.push(rect(0, i * 230 - 40, 160, 115, { fill: "#fff", opacity: 0.025 })); // mowing stripes
@@ -1480,7 +1633,7 @@ function radioTower() {
 
   // ---------- the yard: gravel and nettles ----------
   const yard = [[820, 520], [1050, 380], [1400, 330], [1780, 340], [2250, 360], [2300, 760], [2120, 980], [2150, 1300], [1900, 1480], [1500, 1520], [1100, 1560], [800, 1660], [700, 1640], [760, 1300], [700, 1000], [740, 700]];
-  out.push(`<mask id="rt-yardmask" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}">` + path(smoothD(yard, true), { fill: "#fff", filter: "url(#rt-feather)" }) + `</mask>`);
+  out.push(`<mask id="rt-yardmask" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}">` + path(smoothD(yard, true), { fill: "#fff", filter: PRINT ? undefined : "url(#rt-feather)" }) + `</mask>`);
   out.push(rect(0, 0, W, H, { fill: "url(#rt-gravel)", mask: "url(#rt-yardmask)" }));
   // worn track from the gate to the tower and on to the hut door
   out.push(path(smoothD([[800, 1700], [880, 1500], [1100, 1300], [1300, 1170], [1500, 1150], [1750, 1000], [1880, 760], [1900, 705]]), { fill: "none", stroke: "#6e695f", "stroke-width": 60, "stroke-linecap": "round", opacity: 0.55 }));
@@ -1656,32 +1809,55 @@ function radioTower() {
   }
 
   // ---------- labels and ways in and out ----------
-  const fl = (x, y, t, o = {}) => label(x, y, t, { size: 30, weight: 800, ...o });
-  top.push(fl(1450, 1300, "THE OLD RADIO TOWER", { size: 36, font: "display", weight: 700, ls: 3 }));
-  top.push(fl(1450, 1345, "six glowing valves hang from the aerial at the top", { size: 22, weight: 700 }));
-  top.push(fl(2000, 345, "Transmitter hut", { size: 26 }));
-  top.push(fl(1990, 590, ["dead valves, desk,", "1926 logbook"], { size: 18, weight: 700 }));
-  top.push(fl(1000, 1150, "The yard", { size: 26 }), fl(1000, 1185, "gravel and nettles", { size: 18, weight: 700 }));
-  top.push(fl(2450, 570, "Cable trench (covered)", { size: 22 }));
-  top.push(fl(800, 1560, "Iron gate", { size: 22 }), fl(800, 1590, "chain rusted through", { size: 17, weight: 700 }));
-  top.push(fl(2728, 300 - 0, "Observatory", { size: 28, font: "display", weight: 700 }));
-  top.push(fl(2640, 1600, "Observatory path", { size: 22, rot: 76 }));
-  top.push(fl(88, 1010, ["Gardens of", "the big", "houses"], { size: 22 }));
-  top.push(fl(285, 640, "Steep bank", { size: 22, rot: -90 }));
-  top.push(fl(1480, 160, "Chain-link fence round the whole hilltop", { size: 20, weight: 700, opacity: 0.9 }));
-  top.push(fl(975, 1850, "Steep lane", { size: 22, anchor: "start" }));
-  const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 24, ...o });
-  top.push(way(860, 1965, 90, "Way in and out: the front gate", { lx: 1000, ly: 1935, anchor: "start" }));
-  top.push(way(2520, 1150, 0, "Way in and out:", { lx: 2620, ly: 1080, anchor: "start" }), fl(2620, 1110, "the gap in the fence", { size: 24, anchor: "start", fill: "#ffd98a" }));
-  top.push(way(2750, 712, -90, "Way in and out:", { lx: 2830, ly: 845, anchor: "middle" }), fl(2830, 875, "the cable trench", { size: 24, fill: "#ffd98a" }));
-  top.push(way(265, 1050, 180, "Way out only:", { lx: 255, ly: 1180, anchor: "middle", size: 22 }), fl(255, 1208, "slide down the bank", { size: 20, fill: "#ffd98a" }), fl(255, 1232, "(too steep to climb up)", { size: 17, weight: 700, fill: "#ffd98a" }));
+  const labels = [];
+  if (!PRINT) {
+    const fl = (x, y, t, o = {}) => label(x, y, t, { size: 30, weight: 800, ...o });
+    labels.push(fl(1450, 1300, "THE OLD RADIO TOWER", { size: 36, font: "display", weight: 700, ls: 3 }));
+    labels.push(fl(1450, 1345, "six glowing valves hang from the aerial at the top", { size: 22, weight: 700 }));
+    labels.push(fl(2000, 345, "Transmitter hut", { size: 26 }));
+    labels.push(fl(1990, 590, ["dead valves, desk,", "1926 logbook"], { size: 18, weight: 700 }));
+    labels.push(fl(1000, 1150, "The yard", { size: 26 }), fl(1000, 1185, "gravel and nettles", { size: 18, weight: 700 }));
+    labels.push(fl(2450, 570, "Cable trench (covered)", { size: 22 }));
+    labels.push(fl(800, 1560, "Iron gate", { size: 22 }), fl(800, 1590, "chain rusted through", { size: 17, weight: 700 }));
+    labels.push(fl(2728, 300 - 0, "Observatory", { size: 28, font: "display", weight: 700 }));
+    labels.push(fl(2640, 1600, "Observatory path", { size: 22, rot: 76 }));
+    labels.push(fl(88, 1010, ["Gardens of", "the big", "houses"], { size: 22 }));
+    labels.push(fl(285, 640, "Steep bank", { size: 22, rot: -90 }));
+    labels.push(fl(1480, 160, "Chain-link fence round the whole hilltop", { size: 20, weight: 700, opacity: 0.9 }));
+    labels.push(fl(975, 1850, "Steep lane", { size: 22, anchor: "start" }));
+    const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 24, ...o });
+    labels.push(way(860, 1965, 90, "Way in and out: the front gate", { lx: 1000, ly: 1935, anchor: "start" }));
+    labels.push(way(2520, 1150, 0, "Way in and out:", { lx: 2620, ly: 1080, anchor: "start" }), fl(2620, 1110, "the gap in the fence", { size: 24, anchor: "start", fill: "#ffd98a" }));
+    labels.push(way(2750, 712, -90, "Way in and out:", { lx: 2830, ly: 845, anchor: "middle" }), fl(2830, 875, "the cable trench", { size: 24, fill: "#ffd98a" }));
+    labels.push(way(265, 1050, 180, "Way out only:", { lx: 255, ly: 1180, anchor: "middle", size: 22 }), fl(255, 1208, "slide down the bank", { size: 20, fill: "#ffd98a" }), fl(255, 1232, "(too steep to climb up)", { size: 17, weight: 700, fill: "#ffd98a" }));
+  } else {
+    const T = (x, y, t, o = {}) => plabel(x, y, t, { size: 66, font: "display", ls: 3, ...o });
+    const F = (x, y, t, o = {}) => plabel(x, y, t, { size: 54, ...o });
+    labels.push(T(1450, 1290, "THE OLD RADIO TOWER", { size: 70 }));
+    labels.push(F(1450, 1362, "six glowing valves hang at the top", { size: 50 }));
+    labels.push(F(2000, 338, "Transmitter hut", { size: 56 }));
+    labels.push(F(1000, 1150, "The yard", { size: 58 }), F(1000, 1215, "gravel and nettles", { size: 50 }));
+    labels.push(F(2450, 548, ["Cable trench", "(covered)"], { size: 50 }));
+    labels.push(F(800, 1545, "Iron gate, chain rusted through", { size: 50 }));
+    labels.push(T(2728, 300, "Observatory", { size: 60, ls: 1 }));
+    labels.push(F(2655, 1640, "Observatory path", { size: 50, rot: 76 }));
+    labels.push(F(88, 985, "Gardens of the big houses", { size: 52, rot: -90 }));
+    labels.push(F(292, 520, "Steep bank", { size: 52, rot: -90 }));
+    labels.push(F(1480, 148, "Chain-link fence round the whole hilltop", { size: 50 }));
+    labels.push(F(1000, 1845, "Steep lane", { size: 52, anchor: "start" }));
+    labels.push(pwayMarker(860, 1950, 90, "Way in and out: the front gate", { lx: 1000, ly: 1930, anchor: "start" }));
+    labels.push(pwayMarker(2510, 1150, 0, ["Way in and out:", "the gap in", "the fence"], { lx: 2790, ly: 1270 }));
+    labels.push(pwayMarker(2750, 730, -90, ["Way in and out:", "the cable trench"], { lx: 2790, ly: 875 }));
+    labels.push(pwayMarker(275, 1050, 180, ["Way out only:", "slide down", "the bank (too", "steep to climb)"], { lx: 255, ly: 1300, size: 50 }));
+  }
 
-  const body = out.join("") +
+  const body = PRINT ? out.join("") + top.join("") + labels.join("") + printFrame() :
+    out.join("") +
     rect(0, 0, W, H, { fill: "#95a3c8", style: "mix-blend-mode:multiply" }) +
     grp(lights, { style: "mix-blend-mode:screen" }) +
     rect(0, 0, W, H, { fill: "url(#rt-vignette)" }) +
     rect(0, 0, W, H, { filter: "url(#rt-grain)" }) +
-    top.join("");
+    top.join("") + labels.join("");
 
   const data = {
     width: W, height: H, grid: G,
@@ -1703,6 +1879,18 @@ function radioTower() {
       innocent: null,
     },
   };
+  if (PRINT) {
+    const pd = {
+      ...printTownDefs(),
+      "rt-grass": printGround.grass("rt-grass", 61, 50),
+      "rt-lawn": grassPattern("rt-lawn", 62, PAL.paper, [PAL.edge, PAL.paper2], 160, 40),
+      "rt-gravel": printGround.gravel("rt-gravel", 63),
+      "rt-concrete": slabPattern("rt-concrete", 64, [PAL.paper2, PAL.edge, PAL.paper2], PAL.accent, 200, 50),
+      "rt-floor": printGround.planks("rt-floor", 65, 18),
+      "rt-lane": printGround.cobble("rt-lane", 66, 18),
+    };
+    return { name: "radio-tower", svg: bookSvg("Map: the old radio tower", body, defs, pd), data };
+  }
   return { name: "radio-tower", svg: svgDoc(body, defs), data };
 }
 
@@ -2042,7 +2230,40 @@ function larkhaven() {
 }
 
 /* ===================================================================== */
-const MAPS = { larkhaven, "lantern-house": lanternHouse, "night-market": nightMarket, "radio-tower": radioTower };
+/** Render a book map the way the book shows it (book fonts loaded by family name,
+ *  the SVG sized by CSS), at the print width and PRINT_DPI, plus a 2x copy for close checks. */
+async function renderBookCheck(browser, name, svg) {
+  const px = Math.round(PRINT_W_IN * PRINT_DPI);
+  const html = `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}\nhtml,body{margin:0;padding:0;background:${PAL.paper}}` +
+    `.fig{width:${px}px}.fig svg{display:block;width:100%;height:auto}</style></head><body><div class="fig">${svg}</div></body></html>`;
+  const htmlPath = join(OUT, `${name}-print.html`);
+  writeFileSync(htmlPath, html);
+  for (const scale of [1, 2]) {
+    const page = await browser.newPage({ viewport: { width: px, height: Math.round(px * H / W) }, deviceScaleFactor: scale });
+    try {
+      await page.goto(pathToFileURL(htmlPath).href, { waitUntil: "load" });
+      const faces = ['700 30px "Alegreya Sans"', '800 30px "Alegreya Sans"', 'italic 700 30px "Alegreya Sans"', '700 30px "Fraunces"'];
+      const missing = await page.evaluate(async fs => {
+        await Promise.all(fs.map(f => document.fonts.load(f)));
+        await document.fonts.ready;
+        return fs.filter(f => !document.fonts.check(f));
+      }, faces);
+      if (missing.length) throw new Error(`${name} (print): fonts not loaded: ${missing.join(", ")}`);
+      await page.screenshot({ path: join(OUT, `${name}-print${scale === 2 ? "@2x" : ""}.png`), clip: { x: 0, y: 0, width: px, height: Math.round(px * H / W) } });
+    } finally {
+      await page.close();
+    }
+  }
+}
+
+const MAPS = {
+  larkhaven, "lantern-house": lanternHouse,
+  "night-market": nightMarket, "radio-tower": radioTower,
+  // "mariner-theatre": marinerTheatre, "harbour-fireworks": harbourFireworks,
+  // "drowned-village": drownedVillage, "long-pier": longPier,
+};
+/** The showdown maps: each also gets a print version for the book. */
+const BOOK_MAPS = new Set(["night-market", "radio-tower", "mariner-theatre", "harbour-fireworks", "drowned-village", "long-pier"]);
 
 const want = process.argv.slice(2);
 for (const w of want) if (!MAPS[w]) { console.error(`unknown map: ${w} (have: ${Object.keys(MAPS).join(", ")})`); process.exit(1); }
@@ -2051,9 +2272,18 @@ mkdirSync(DEST, { recursive: true });
 const browser = await chromium.launch(CHROME ? { executablePath: CHROME } : {});
 try {
   for (const name of (want.length ? want : Object.keys(MAPS))) {
+    PRINT = false;
     const map = MAPS[name]();
     checkTokens(name, map.data.tokens);
     await renderMap(browser, map);
+    if (!BOOK_MAPS.has(name)) continue;
+    PRINT = true;
+    const book = MAPS[name]();
+    PRINT = false;
+    const { kb, minPt } = checkBookSvg(name, book.svg);
+    writeFileSync(join(BOOK_ART, `map-${name}.svg`), book.svg);
+    await renderBookCheck(browser, name, book.svg);
+    console.log(`${name}: book/art/map-${name}.svg ${kb.toFixed(0)} KB, smallest label ${minPt.toFixed(1)} pt at ${PRINT_W_IN} in`);
   }
 } finally {
   await browser.close();

@@ -38,7 +38,6 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     callUsed: false, senseScene: -1, carefulRounds: 0,
     use: {},
     muted: new Set(), // Hush: characters who can't cast on this round's turn
-    lost: new Set(),  // Lure: characters who lose this round's turn
   };
   const half = () => Math.ceil(st.cluesNeeded / 2);
   if (season.bookPage) st.clues = half(); // "next time, start with half the Clues"
@@ -346,10 +345,9 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     // Hush and Lure land on a character's next turn: this round's for everyone who will act this
     // round (in round 1 the threat has just acted; in later rounds it acted after everyone's turn).
     st.muted = new Set();
-    st.lost = new Set();
     const turnFlags = () => {
       for (const c of standing(all)) {
-        if (c.lured) { c.lured = false; st.lost.add(c); acted.add(c); use("lure:lostTurn"); } // "they lose their next action"
+        if (c.lured) { c.lured = false; acted.add(c); use("lure:lostTurn"); } // "they lose their next action"
         if (c.hushed) { c.hushed = false; st.muted.add(c); use("hush:mutedTurn"); }        // "can't cast on their next action"
       }
     };
@@ -364,7 +362,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     }
     // Pick a guard for a loose innocent nobody is carrying out.
     if (innocentLoose() && !st.threat.broken) {
-      const cands = standing(coven.witches).filter(x => !st.lost.has(x)); // a lured witch has no action to guard with
+      const cands = standing(coven.witches).filter(x => !acted.has(x)); // guarding is an action: only witches who haven't acted (a lured witch is in `acted`)
       if (cands.length > 1) {
         const guard = minBy(cands, x => attackPool(x).pool);
         st.innocent.guard = guard; acted.add(guard); use("guard");
@@ -629,8 +627,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
         if (r && r.result === RESULT.FAILURE) use("turned:failure");
         return;
       }
-      case "drownedChoir": return lure(TJ);         // Lure: not an attack; Hold, Shield and Sight's miss don't touch it
-      case "lureAttack": attackOn(target(4), 0); return lure(TJ); // candidate fix (not in the book): one attack, then Lure
+      case "drownedChoir": attackOn(target(4), 0); return lure(TJ); // Lure (ruling 88): one attack, then the Lure roll
       default: throw new Error(`unknown threat ${move}`);
     }
   }
@@ -654,7 +651,11 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     }
   }
 
-  /** Lure: the standing character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action. */
+  /**
+   * Lure's roll (ruling 88): the standing character with the lowest Heart rolls Heart against Danger; on a
+   * Failure they lose their next action. No Hurt on a Partial or a Failure. The roll isn't an attack, so
+   * Hold, Shield and Sight's miss don't touch it.
+   */
   function lure(TJ) {
     const up = standing(all);
     if (!up.length) return;
@@ -664,7 +665,6 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     const buy = TJ.lureDice === "none" ? 0 : Math.min(2, spareMagic(t, RESERVE));
     const r = roll(t, { rating: "heart", action: "lure", difficulty: threatDanger(), power: false, buy });
     if (r.result === RESULT.FAILURE && !t.lured) { t.lured = true; use("lure:failure"); }
-    if (TJ.lureCost === "hurt" && (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE)) hurt(t, 1);
   }
 
   /**

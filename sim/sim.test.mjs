@@ -151,12 +151,12 @@ test("Hush is two attacks plus its rider; Drain is a plain attack plus its heal"
 
 test("every signature move keeps the tracks inside their limits, and its own effect fires", async () => {
   const { THREATS } = await import("./params.mjs");
-  const own = { quietMan: "hush:hushed", ashWidow: "cinders:attack", mirrorThief: "face:magic", nightNurse: "drain:fired", vesperCrane: "turned:failure", drownedChoir: "lure:lostTurn", lureAttack: "lure:lostTurn", faceHeavy: "face:magic" };
+  const own = { quietMan: "hush:hushed", ashWidow: "cinders:attack", mirrorThief: "face:magic", nightNurse: "drain:fired", vesperCrane: "turned:failure", drownedChoir: "lure:lostTurn", faceHeavy: "face:magic" };
   for (const threat of [...THREATS.values, ...Object.keys(THREATS.candidates)]) {
     let fired = 0;
     for (let seed = 0; seed < 150; seed++) for (const label of ["easy", "standard", "hard"]) {
       const players = 3 + (seed % 3);
-      const { ep, coven } = play(seed, label, players, seed % 2 === 0, withThreat(threat, threat === "drownedChoir" ? { threatJudgement: { lureCost: "hurt", lureDice: "spare" } } : {}));
+      const { ep, coven } = play(seed, label, players, seed % 2 === 0, withThreat(threat, threat === "drownedChoir" && seed % 2 ? { threatJudgement: { lureDice: "none" } } : {}));
       const N = NUMBERS[label];
       assert.ok(["win", "partial", "loss"].includes(ep.result));
       assert.ok(ep.doomEnd <= N.doomMax && ep.exposure <= N.exposureMax && ep.rounds <= N.doomMax);

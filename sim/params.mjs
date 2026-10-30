@@ -180,7 +180,7 @@ export const THREATS = {
     "A move picks only standing characters, when it starts; a target who goes Down during the move isn't attacked again (rulings 63, 81).",
     "\"One attack\" is aimed like a 4–5: the most Hurt, standing. \"Two different characters\" are the most Hurt, then the next most Hurt, both standing (ruling 63).",
     "Ties go to the Storyteller; the simulator picks at random (ruling 63).",
-    "Hold: an attacking move puts the guardian first and uses Hold up; a move that isn't an attack (Lure) ignores Hold, which stays for the next attack (rulings 64, 82).",
+    "Hold: an attacking move puts the guardian first and uses Hold up; a part of a move that isn't an attack (Lure's roll) ignores Hold, which stays for the next attack (rulings 64, 82, 88).",
     "A 6 still goes for a free innocent instead of the move (attacking their guard, or taking them), as before (Ch 7, ruling 85).",
     "\"Next action\" (Hush, Lure) is the character's next turn: this round's in round 1, when the threat acts first, and next round's after that, when everyone has had their turn. A Down character keeps it until they are back up and take a turn (ruling 63).",
     "The player policies are REPORT.md's; nobody plays around a move (for example, nobody keeps Heart high against Lure or Magic low against Borrowed Face).",
@@ -229,17 +229,12 @@ export const THREATS = {
     },
     drownedChoir: {
       name: "The Drowned Choir: Lure", short: "Lure", threat: "The Drowned Choir", episode: 3,
-      doc: "The standing character with the lowest Heart (the guardian included; ties at random) rolls Heart against Danger. No Power fits it and it isn't casting. On a Failure they lose their next action: that turn they do nothing (no action, so no potion either; they can still help, defend and use Sight's miss). Not an attack, so Shield, Hold and Sight's miss don't touch it and Hold stays for the next attack. A second Lure before that turn changes nothing. See threatJudgement for the Partial and the dice.",
-      ref: "Ch 10 The Drowned Choir; REVIEW 63, 81, 82",
+      doc: "Ruling 88: one attack, aimed like a 4–5 (most Hurt, standing; the guardian under Hold). Then the standing character with the lowest Heart (the guardian included; ties at random) rolls Heart against Danger. No Power fits that roll and it isn't casting. No Hurt on a Partial or a Failure; on a Failure they lose their next action: that turn they do nothing (no action, so no potion either; they can still help, defend and use Sight's miss). The roll isn't an attack, so Shield, Hold and Sight's miss don't touch it, and Hold stays for the next attack. A second Lure before that turn changes nothing. The players' dice for the roll are threatJudgement.lureDice.",
+      ref: "Ruling 88 in book/REVIEW.md (one attack, then the Lure roll; no Hurt from the roll); Ch 10 The Drowned Choir; REVIEW 63, 81, 82",
     },
   },
   /** Candidate fixes, not in the book. REPORT-threats.md §8 tests them; they are never a default. */
   candidates: {
-    lureAttack: {
-      name: "Lure with an attack (candidate)", short: "Lure + attack", for: "drownedChoir",
-      doc: "Not in the book. 'Lure: one attack; then the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action.' The attack is aimed like a 4–5; Lure then works as above. Makes Lure 'one attack with a side effect', the pattern Ch 10 gives for a new move.",
-      ref: "Candidate fix for Ch 10 The Drowned Choir",
-    },
     faceHeavy: {
       name: "Borrowed Face at Hit +1 (candidate)", short: "Borrowed Face, Hit +1", for: "mirrorThief",
       doc: "Not in the book. 'Borrowed Face: attack the witch with the most Magic left, with Hit 1 higher; on a Failure they also lose 1 Magic.' Otherwise as Borrowed Face.",
@@ -248,14 +243,8 @@ export const THREATS = {
   },
 };
 
-/** What the signature moves leave open. Swept for the episodes in REPORT-threats.md. */
+/** What the signature moves leave to the players. Swept for Low Tide in REPORT-threats.md. (Lure's Partial was open until ruling 88: no Hurt.) */
 export const THREAT_JUDGEMENT = {
-  lureCost: {
-    default: "none",
-    values: ["none", "hurt"],
-    doc: "Lure's roll: only what the move says (none: a Failure loses the next action, a Partial does nothing), or the general Cost rule on top (hurt: a Partial or a Failure also costs 1 Hurt, as any showdown roll does). The defence table says 'That is all the Hurt the roll does'; Lure has no such line.",
-    ref: "Ch 2 Costs: 'In a showdown: 1 Hurt'; Ch 10 The Drowned Choir",
-  },
   lureDice: {
     default: "spare",
     values: ["spare", "none"],
