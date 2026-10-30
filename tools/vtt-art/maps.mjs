@@ -1686,7 +1686,7 @@ function radioTower() {
   const data = {
     width: W, height: H, grid: G,
     points: [
-      { key: "way-front-gate", label: "The lane and the gate: an iron gate with a rusted chain (rusted through) and a sign, Radio Larkhaven. Private. (a way in and out)", x: 800, y: 1700 },
+      { key: "way-front-gate", label: "The lane and the gate: a steep lane ends at an iron gate with a rusted chain (rusted through) and a sign: Radio Larkhaven. Private. (a way in and out)", x: 800, y: 1700 },
       { key: "way-fence-gap", label: "A gap in the fence by the observatory path (a way in and out)", x: 2400, y: 1150 },
       { key: "way-cable-trench", label: "The cable trench, from the observatory grounds (a way in and out)", x: 2750, y: 650 },
       { key: "way-steep-bank", label: "The steep bank down into the gardens of the big houses (a way out only: too steep to climb up, easy to slide down)", x: 330, y: 1050 },

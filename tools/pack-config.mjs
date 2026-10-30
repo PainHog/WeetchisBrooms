@@ -26,6 +26,7 @@ export const PACKS = [
   { file: "coven", out: "coven", collection: "actors", type: "Actor", subtype: null },
   { file: "threats", out: "threats", collection: "actors", type: "Actor", subtype: "threat" },
   { file: "rules", out: "rules", collection: "journal", type: "JournalEntry", subtype: null },
+  { file: "adventures", out: "adventures", collection: "adventures", type: "Adventure", subtype: null },
 ];
 
 /** Deterministic 16-char alphanumeric id from a namespace + key (sha256 hex prefix). */

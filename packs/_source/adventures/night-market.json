@@ -1,0 +1,898 @@
+{
+  "key": "night-market",
+  "name": "Episode 1: Night Market",
+  "img": "systems/witch-ward/assets/scenes/night-market.webp",
+  "caption": "A ready-to-play one-shot: an Easy episode against the Quiet Man.",
+  "description": "<p>Friday night in Old Town, a singer's voice is stolen in front of a hundred people. The coven has until Doom fills to find the Quiet Man before he takes the seventh voice he needs.</p><p>Includes the ready-made coven and Rook, the Quiet Man, Grace Ellery and Bea Santos; four scenes (Larkhaven, the Lantern House, the Friday Night Market, the Old Radio Tower); the full episode journal from the rulebook; the Life calls and episode generator tables; and macros to start the episode and open the Episode Tracker. Start with the journal <em>Night Market: run this one-shot</em>.</p>",
+  "folders": [
+    {
+      "key": "f-coven",
+      "name": "Night Market: the coven",
+      "type": "Actor"
+    },
+    {
+      "key": "f-threat",
+      "name": "Night Market: the threat",
+      "type": "Actor"
+    },
+    {
+      "key": "f-people",
+      "name": "Night Market: people",
+      "type": "Actor"
+    },
+    {
+      "key": "f-scenes",
+      "name": "Night Market",
+      "type": "Scene"
+    },
+    {
+      "key": "f-journal",
+      "name": "Night Market",
+      "type": "JournalEntry"
+    },
+    {
+      "key": "f-tables",
+      "name": "Witch & Ward tables",
+      "type": "RollTable"
+    },
+    {
+      "key": "f-macros",
+      "name": "Witch & Ward",
+      "type": "Macro"
+    }
+  ],
+  "actors": [
+    {
+      "key": "dana-okafor",
+      "name": "Dana Okafor",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/dana-okafor.webp",
+      "token": "systems/witch-ward/assets/tokens/dana-okafor.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 2,
+        "nerve": 3,
+        "craft": 1,
+        "power": "force",
+        "life": "Nurse",
+        "tie": "Grew up next door to the Lantern House",
+        "look": "Tall, short natural hair, scrubs under a denim jacket; a silver ring on her left thumb",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "marco-rossi",
+      "name": "Marco Rossi",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/marco-rossi.webp",
+      "token": "systems/witch-ward/assets/tokens/marco-rossi.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 1,
+        "nerve": 3,
+        "craft": 2,
+        "power": "flame",
+        "life": "Mechanic",
+        "tie": "Cousin of the family that owns the house",
+        "look": "Stocky, oil on his hands, rolled sleeves; a burn scar on his right forearm",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: he."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "june-takeda",
+      "name": "June Takeda",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/june-takeda.webp",
+      "token": "systems/witch-ward/assets/tokens/june-takeda.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 3,
+        "nerve": 1,
+        "craft": 2,
+        "power": "sight",
+        "life": "Student",
+        "tie": "Found the Book in a second-hand shop and followed it home",
+        "look": "Small, round glasses, a yellow raincoat; always carries a notebook",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "quinn-abernathy",
+      "name": "Quinn Abernathy",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/quinn-abernathy.webp",
+      "token": "systems/witch-ward/assets/tokens/quinn-abernathy.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 3,
+        "wits": 2,
+        "nerve": 1,
+        "craft": 2,
+        "power": "voice",
+        "life": "Teacher",
+        "tie": "Old friend of Dana's from school",
+        "look": "Lanky, curly red hair, cardigan, a whistle on a cord",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: they."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "tess-lindqvist",
+      "name": "Tess Lindqvist",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/tess-lindqvist.webp",
+      "token": "systems/witch-ward/assets/tokens/tess-lindqvist.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 1,
+        "wits": 2,
+        "nerve": 3,
+        "craft": 2,
+        "power": "veil",
+        "life": "Bus driver",
+        "tie": "Inherited a room in the house from her gran",
+        "look": "Broad-shouldered, blonde braid, driver's uniform; a pale streak in her braid",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "noor-haddad",
+      "name": "Noor Haddad",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/noor-haddad.webp",
+      "token": "systems/witch-ward/assets/tokens/noor-haddad.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 2,
+        "nerve": 1,
+        "craft": 3,
+        "power": "wild",
+        "life": "Shop worker",
+        "tie": "Answered an advert for a lodger and stayed",
+        "look": "Headscarf in green, soil under her nails; a crow feather in her pocket",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she. Works at a garden centre."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "rook",
+      "name": "Rook",
+      "type": "guardian",
+      "img": "systems/witch-ward/assets/tokens/rook.webp",
+      "token": "systems/witch-ward/assets/tokens/rook.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 3,
+        "wits": 2,
+        "nerve": 2,
+        "hurt": 0,
+        "ward": 5,
+        "look": "In human shape, a very tall, very still person in a long grey coat, grey-eyed, who speaks little. In animal shape, a large black rook.",
+        "notes": "A protective spirit bound to the Lantern House by an old promise. It calls the witches \"the household\". When it Carries someone, the air folds like a page and they are elsewhere."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "quiet-man",
+      "name": "The Quiet Man",
+      "type": "threat",
+      "img": "systems/witch-ward/assets/tokens/quiet-man.webp",
+      "token": "systems/witch-ward/assets/tokens/quiet-man.webp",
+      "disposition": -1,
+      "system": {
+        "what": "A demon in a grey suit who steals voices",
+        "plan": "Seven stolen voices to sing a door open",
+        "weakness": "His own name spoken aloud, and salt",
+        "hiddenPlace": "The old radio tower in the Heights",
+        "publicPlace": "The Friday night market",
+        "signature": "Hush: attack two different characters; the first one he hurts can't cast on their next action.",
+        "notes": "",
+        "signatureIsAttack": true
+      },
+      "folder": "f-threat"
+    },
+    {
+      "key": "grace-ellery",
+      "name": "Grace Ellery",
+      "type": "person",
+      "img": "systems/witch-ward/assets/tokens/grace-ellery.webp",
+      "token": "systems/witch-ward/assets/tokens/grace-ellery.webp",
+      "disposition": 0,
+      "folder": "f-people",
+      "system": {
+        "role": "innocent",
+        "look": "",
+        "notes": "Grace hosts the late show on Radio Larkhaven, every weeknight from ten till two. Her voice is famous across the city: warm, low and easy to trust. Taxi drivers, night nurses and insomniacs all know it. She grew up on the Docks, lives in a flat on the Harbour, and is brash, kind and more frightened than she lets on. Next Friday, Grace is broadcasting live from the night market. That is where the Quiet Man will take her if Doom reaches the Showdown mark."
+      }
+    },
+    {
+      "key": "bea-santos",
+      "name": "Bea Santos",
+      "type": "person",
+      "img": "systems/witch-ward/assets/tokens/bea-santos.webp",
+      "token": "systems/witch-ward/assets/tokens/bea-santos.webp",
+      "disposition": 0,
+      "folder": "f-people",
+      "system": {
+        "role": "witness",
+        "look": "",
+        "notes": "The singer at the night market whose voice was stolen. See the episode journal, Leads."
+      }
+    },
+    {
+      "key": "bystander",
+      "name": "Bystander",
+      "type": "person",
+      "img": "systems/witch-ward/assets/tokens/bystander.webp",
+      "token": "systems/witch-ward/assets/tokens/bystander.webp",
+      "disposition": 0,
+      "folder": "f-people",
+      "system": {
+        "role": "bystander",
+        "look": "",
+        "notes": "Anyone else at the scene."
+      }
+    }
+  ],
+  "journal": [
+    {
+      "key": "run",
+      "name": "Night Market: run this one-shot",
+      "folder": "f-journal",
+      "pages": [
+        {
+          "key": "start",
+          "name": "Start here",
+          "content": "\n<p>This is the book's Episode 1 (Chapter 14), ready to play: an Easy episode against <strong>the Quiet Man</strong>, for 3–5 players and a Storyteller. Play takes 2–3 hours.</p>\n<h2>Before the players arrive</h2>\n<ol>\n<li>Give each player one witch from the <strong>Night Market: the coven</strong> folder (right-click the actor, Configure Ownership, set the player to Owner). If a player wants to play <strong>Rook</strong>, give them Rook; if nobody does, leave Rook unowned.</li>\n<li>Show the players the <strong>Night Market: for the players</strong> journal and the <strong>Lantern House</strong> scene.</li>\n<li>Run the macro <strong>Start Night Market</strong> (or open the Episode Tracker from the Actors sidebar and press Start an episode). Easy and the Quiet Man are already picked; tick the witches being played, and Rook only if a player plays it. Press Start. Every number for your group is set for you.</li>\n</ol>\n<h2>Playing</h2>\n<ol>\n<li>Read the opening aloud (it's in the player journal), then roll on the <strong>Night Market: Life calls</strong> table for each witch, or pick.</li>\n<li><strong>Investigation:</strong> use the <strong>Larkhaven</strong> scene; its pins are the places the leads send the coven. Each character takes one action a scene: players roll from their sheets. When everyone has acted, press <strong>End the scene</strong> on the tracker.</li>\n<li>When the tracker says the coven may go to it, the players choose: go now (the <strong>Old Radio Tower</strong> scene, a hidden showdown) or keep looking for the Weakness. If Doom reaches the mark first, the Quiet Man comes to them: the <strong>Friday Night Market</strong> scene, with Grace in his grip.</li>\n<li><strong>Showdown:</strong> round 1, press <strong>The threat acts</strong> first. Each target clicks Defend on the card. Then the characters act, then <strong>End the round</strong>. From round 2, the characters act first. When he's Broken, press <strong>The Unmaking</strong>.</li>\n<li>Play the closing scene from the episode journal.</li>\n</ol>\n<p>The full rules are in the <em>Rules and episodes</em> compendium and the rulebook. The episode journal below is the book's text.</p>"
+        }
+      ]
+    },
+    {
+      "key": "episode",
+      "name": "Episode 1: Night Market (Storyteller)",
+      "folder": "f-journal",
+      "pages": [
+        {
+          "key": "storyteller",
+          "name": "Storyteller only",
+          "content": "</header>\n\n  <aside class=\"box gm\">\n    <h4>Storyteller only</h4>\n    <p>This chapter is for the Storyteller. Players shouldn’t read it before they play it: the fun is in finding out.</p>\n  </aside>\n\n  <p class=\"opener\">A demon called the Quiet Man is stealing voices across Larkhaven. He has taken six. He needs seven to sing a door open, and the seventh he wants is the most famous voice in the city. This is an Easy episode, built for a first night.</p>"
+        },
+        {
+          "key": "setting-up",
+          "name": "Setting up",
+          "content": "<p>Set every number at the start of the episode. They don’t change if someone joins or leaves. Doom, Exposure and Clues start at 0.</p>\n\n  <table class=\"tbl\">\n    <thead><tr><th>Easy</th><th>Number</th></tr></thead>\n    <tbody>\n      <tr><td>Lead Difficulty</td><td>1 (so no Partials on leads)</td></tr>\n      <tr><td>Defence</td><td>1 (2 until the coven knows the Weakness)</td></tr>\n      <tr><td>Danger</td><td>1</td></tr>\n      <tr><td>Hit</td><td>2</td></tr>\n      <tr><td>Attacks a round</td><td>1 against 3 characters, 2 against 4 or 5</td></tr>\n      <tr><td>Exposure boxes</td><td>5</td></tr>\n      <tr><td>Doom</td><td>12 boxes, Showdown mark at 5</td></tr>\n    </tbody>\n  </table>\n\n  <p><strong>Clues</strong> depend on <strong>n</strong>: the witches, plus the guardian if a player plays it. At Easy you need 3 × n.</p>\n  <table class=\"tbl\">\n    <thead><tr><th>Characters (n)</th><th class=\"num\">Clues needed</th><th class=\"num\">Half (what and where)</th></tr></thead>\n    <tbody>\n      <tr><td>3</td><td class=\"num\">9</td><td class=\"num\">5</td></tr>\n      <tr><td>4</td><td class=\"num\">12</td><td class=\"num\">6</td></tr>\n      <tr><td>5</td><td class=\"num\">15</td><td class=\"num\">8</td></tr>\n    </tbody>\n  </table>\n\n  <p><strong>Toughness</strong> depends on <strong>w</strong>, the witches only. At Easy it is 3 × w, plus 3 against 3 witches with no guardian player. The Unmaking’s Difficulty is the number of witches, +2 without the Weakness.</p>\n  <table class=\"tbl\">\n    <thead><tr><th>Witches (w)</th><th class=\"num\">Toughness</th></tr></thead>\n    <tbody>\n      <tr><td>2</td><td class=\"num\">6</td></tr>\n      <tr><td>3, with a guardian player</td><td class=\"num\">9</td></tr>\n      <tr><td>3, no guardian player</td><td class=\"num\">12</td></tr>\n      <tr><td>4</td><td class=\"num\">12</td></tr>\n      <tr><td>5</td><td class=\"num\">15</td></tr>\n    </tbody>\n  </table>\n  <p>Played later in a season, add the season’s Toughness (Chapter 8).</p>"
+        },
+        {
+          "key": "the-opening",
+          "name": "The opening",
+          "content": "<p>Read this aloud, then ask the players where their witches are standing.</p>\n  <p><em>Friday night in Old Town. The night market fills the lanes around St Bride’s market hall: frying onions, fairy lights, a hundred voices at once. On the steps of the hall, Bea Santos tunes her guitar, as she does every week, and the crowd goes quiet for her first song. She smiles. She opens her mouth. Nothing comes out. Not a note, not a breath. Her hands fly to her throat. At the edge of the crowd, a man in a grey suit tips his hat and walks away into the fog, and the only ones who see him go are you.</em></p>\n  <p>Then tell each witch what their Life wants from them this episode (the Life calls table below).</p>"
+        },
+        {
+          "key": "the-innocent-grace-ellery",
+          "name": "The innocent: Grace Ellery",
+          "content": "<p>Grace hosts the late show on Radio Larkhaven, every weeknight from ten till two. Her voice is famous across the city: warm, low and easy to trust. Taxi drivers, night nurses and insomniacs all know it. She grew up on the Docks, lives in a flat on the Harbour, and is brash, kind and more frightened than she lets on.</p>\n  <p>Next Friday, Grace is broadcasting live from the night market. That is where the Quiet Man will take her if Doom reaches the Showdown mark.</p>"
+        },
+        {
+          "key": "the-threat-the-quiet-man",
+          "name": "The threat: the Quiet Man",
+          "content": "<p>His stat block is in Chapter 10. He is a demon in a grey suit who steals voices. He never uses his own voice: he speaks in the voices he has stolen. He catches each one in an old glass radio valve that glows faintly, and hangs it at the top of his tower.</p>\n  <ul>\n    <li><strong>Plan:</strong> seven stolen voices to sing a door open. He has six after the opening.</li>\n    <li><strong>Weakness:</strong> his own name spoken aloud, and salt. His name is <strong>Ambrose Lisk</strong>.</li>\n    <li><strong>Hidden place:</strong> the old radio tower in the Heights.</li>\n    <li><strong>Public place:</strong> the Friday night market.</li>\n    <li><strong>Signature move (on a 6):</strong> <strong>Hush:</strong> attack two different characters; the first one he hurts can’t cast on their next action. If the innocent is there and free, he goes for her instead.</li>\n  </ul>\n\n  <aside class=\"box rule\">\n    <h3>Go to him, or wait?</h3>\n    <p>At the end of each scene, Doom +1. If Doom has reached 5, it’s too late: the Quiet Man comes to the coven at the night market, with Grace in his grip. If not, and the coven has half the Clues, it knows what he is and where he hides, and may go to the radio tower (this takes no scene). Grace isn’t there.</p>\n  </aside>"
+        },
+        {
+          "key": "leads",
+          "name": "Leads",
+          "content": "<p>Here are six leads to offer. Each says where it happens, the roll, and which Powers fit. Rolls are against the Lead Difficulty (1). A success gives 1 Clue, a Critical 2.</p>\n  <ul>\n    <li>Use the <strong>What and where</strong> answer while the coven has fewer than half the Clues. Use the <strong>Weakness</strong> answer once it has half or more.</li>\n    <li>Players can come back to a lead. Show them something new there each time.</li>\n    <li>When the coven has all the Clues, tell them the whole Weakness plainly, whichever lead gave the last one.</li>\n    <li>Out in the city, a cost is Exposure +1 if the witch was casting (a Power or Reveal), or else 1 Hurt. Anyone else the coven talks to is a talking lead too.</li>\n  </ul>\n\n  <h3>1. Bea Santos (talking)</h3>\n  <p><strong>Where:</strong> her flat over the chip shop on Cooper’s Lane, Old Town. <strong>Roll:</strong> Heart. <strong>Powers that fit:</strong> Sight, Voice, Wild.</p>\n  <p><strong>What and where:</strong> Bea can’t speak, but she writes fast. A quiet man asked her for “one song, just for me” and paid her with an old silver coin stamped with a radio mast. When she sang, her voice came out of her as a little light and went into a glass valve in his hand. The coin is from Radio Larkhaven’s first year, 1926.</p>\n  <p><strong>Weakness:</strong> He wouldn’t come near the chip-shop counter. He walked the long way round a spilled salt cellar, and the salt hissed where his shadow touched it.</p>\n\n  <h3>2. Grace Ellery (talking)</h3>\n  <p><strong>Where:</strong> the Radio Larkhaven studio in Old Town, after her show. <strong>Roll:</strong> Heart. <strong>Powers that fit:</strong> Sight, Voice, Wild.</p>\n  <p><strong>What and where:</strong> For a week, a caller has rung her phone-in every night and said nothing. Behind the silence, very faintly, five or six voices sing together. Radio Larkhaven began in 1926 in the old radio tower in the Heights. The station still owns the tower and keeps it locked.</p>\n  <p><strong>Weakness:</strong> Grace goes pale and tells the truth: twenty years ago a man in a grey suit offered her a voice people would stop and listen to. She signed his card. She still has it, in a drawer at the studio. It says <em>A. Lisk</em>. (This is the twist; see below.)</p>\n\n  <h3>3. The market lanes (searching)</h3>\n  <p><strong>Where:</strong> the night market after closing, around St Bride’s market hall. <strong>Roll:</strong> Wits. <strong>Powers that fit:</strong> Sight, Veil, Wild.</p>\n  <p><strong>What and where:</strong> Every radio on every stall died the moment Bea went silent. Each one is stuck on the same old wavelength, marked on the dials as “Larkhaven Tower”. A trail of grey threads from his suit leads to the bus stop for the Heights.</p>\n  <p><strong>Weakness:</strong> At the salt-fish stall, a ring of coarse salt on the cobbles is still unbroken. Inside it, the last few notes of Bea’s song still hang in the air. He couldn’t step in to take them.</p>\n\n  <h3>4. The voice clinic (searching)</h3>\n  <p><strong>Where:</strong> the files of the voice clinic at Larkhaven General. A nurse’s Life might fit here. <strong>Roll:</strong> Wits. <strong>Powers that fit:</strong> Sight, Veil, Wild.</p>\n  <p><strong>What and where:</strong> Five patients this month lost their voices overnight, with no cause anyone can find. Put their addresses on a map and they ring the Heights. Every one of them can see the old radio tower from their bedroom window.</p>\n  <p><strong>Weakness:</strong> One patient, a fish seller from the Harbour, can still whisper. Her notes say she threw a fistful of salt at “the grey man”, and he dropped the valve before he could close it.</p>\n\n  <h3>5. The Book (research at home)</h3>\n  <p><strong>Where:</strong> the attic of the Lantern House. <strong>Roll:</strong> Wits with +1 die (the Book), with no Exposure; one character per scene. It is a searching lead. <strong>Powers that fit:</strong> Sight, Veil, Wild.</p>\n  <p><strong>What and where:</strong> A page in an old hand: <em>Hush-men</em>, demons who gather voices, always seven, to sing a door open. They nest high up, in places where voices were once sent out into the air.</p>\n  <p><strong>Weakness:</strong> <em>Salt stops its mouth. Speak its true name aloud and it comes undone. It hides its name where it first sang.</em> The coven will have to find the name in the city.</p>\n\n  <h3>6. The steps of St Bride’s (Reveal)</h3>\n  <p><strong>Where:</strong> the steps of the market hall, where Bea sang. Nothing ordinary shows here, so Heart and Wits find nothing. <strong>Roll:</strong> Reveal (Craft, 1 Magic); a success gives 1 more Clue. It is casting, so a cost is Exposure +1. <strong>Powers that fit:</strong> Sight.</p>\n  <p><strong>What and where:</strong> A fine silver thread, what is left of Bea’s voice, runs from the steps up over the roofs, north to the Heights. It ends at the top of the old radio tower.</p>\n  <p><strong>Weakness:</strong> The thread hums one word, over and over, in Bea’s voice: the name he made her sing. <em>Lisk.</em> Where it passes over the salt bins at the fish stall, it frays.</p>"
+        },
+        {
+          "key": "life-calls",
+          "name": "Life calls",
+          "content": "<p>At the opening, find each witch’s Life (the number is its roll on the Life table) and tell them what it wants this episode. Answering takes their action for one scene, needs no roll and gives 1 Magic. If they haven’t answered by the showdown, they lose 1 Magic (or take 1 Hurt if they have none).</p>\n  <table class=\"tbl\">\n    <thead><tr><th class=\"num\">d6</th><th>Life</th><th>This episode’s call</th></tr></thead>\n    <tbody>\n      <tr><td class=\"num\">1</td><td>Student</td><td>A group project is due on Friday, and the rest of the group has gone quiet. Someone has to spend a night in the library.</td></tr>\n      <tr><td class=\"num\">2</td><td>Nurse</td><td>The ward is two nurses short. The nurse in charge asks for one more night shift, “just this once”.</td></tr>\n      <tr><td class=\"num\">3</td><td>Shop worker</td><td>Stocktake. Every shelf counted before the weekend, with the manager watching.</td></tr>\n      <tr><td class=\"num\">4</td><td>Teacher</td><td>Parents’ evening runs till nine, and one parent wants to talk about everything.</td></tr>\n      <tr><td class=\"num\">5</td><td>Mechanic</td><td>A market trader’s van has to be running by Friday, or her stall won’t get to the night market.</td></tr>\n      <tr><td class=\"num\">6</td><td>Bus driver</td><td>Covering the late route up to the Heights. A regular passenger, who always says goodnight, hasn’t been on the bus all week.</td></tr>\n    </tbody>\n  </table>"
+        },
+        {
+          "key": "the-hidden-place-the-old-radio-tower",
+          "name": "The hidden place: the old radio tower",
+          "content": "<figure class=\"map\"><figcaption>Map: to come.</figcaption></figure>\n  <p>A fenced hilltop above the big houses of the Heights, next to the observatory. The coven goes to it with half the Clues; going takes no scene. Nothing here needs a roll to get past. If the coven retreats, everyone leaves together by any way out. Grace isn’t here.</p>\n  <ul>\n    <li><strong>The lane and the gate.</strong> A steep lane ends at an iron gate with a rusted chain and a sign: <em>Radio Larkhaven. Private.</em> A chain-link fence runs round the whole hilltop.</li>\n    <li><strong>The transmitter hut.</strong> A brick hut with boarded windows. Inside: racks of dead valves, a desk, a 1926 logbook, and thick cables running out and up the tower.</li>\n    <li><strong>The yard.</strong> Gravel and nettles round the tower’s four concrete feet. Steel guy wires hum in the wind, though there is no wind.</li>\n    <li><strong>The tower.</strong> A steel lattice mast with a caged ladder, a platform halfway up, and a platform at the top. Six glowing valves hang from the old aerial up there, wired together. This is where he sings.</li>\n    <li><strong>The cable trench.</strong> A covered trench runs from the hut, under the fence, into the observatory grounds.</li>\n  </ul>\n  <p><strong>Ways in:</strong> the front gate (the chain is rusted through); a gap in the fence by the observatory path; the cable trench from the observatory grounds. <strong>Ways out:</strong> the same three, and the steep bank down into the gardens of the big houses (too steep to climb up, easy to slide down).</p>\n  <p>The Quiet Man waits at the top of the tower, then steps off the platform and floats down to meet the coven, hat in hand.</p>"
+        },
+        {
+          "key": "the-public-place-the-friday-night-market",
+          "name": "The public place: the Friday night market",
+          "content": "<figure class=\"map\"><figcaption>Map: to come.</figcaption></figure>\n  <p>If Doom reaches the Showdown mark, it is Friday again, and the market is packed. In a public place, every round in which anyone was casting raises Exposure by 1 (once per round). Nothing here needs a roll to get past.</p>\n  <ul>\n    <li><strong>The Market Street arch.</strong> A striped arch at the bottom of the hill, the busiest way in.</li>\n    <li><strong>The lanes of stalls.</strong> Food, records, second-hand clothes and fortune-tellers, under strings of fairy lights.</li>\n    <li><strong>St Bride’s steps.</strong> Grace’s broadcast desk is set up here, with speakers playing her show to the whole market.</li>\n    <li><strong>St Bride’s market hall.</strong> The covered hall with its iron roof, full of stalls, with side doors onto Bell Street.</li>\n    <li><strong>The food yard.</strong> Long tables, a small stage and the salt-fish stall.</li>\n    <li><strong>The Harbour Steps.</strong> A stone stair from the food yard down to the harbour road.</li>\n    <li><strong>Cooper’s Lane.</strong> A narrow back alley behind the chip shop.</li>\n  </ul>\n  <p><strong>Ways in and out:</strong> the Market Street arch; the Harbour Steps; Cooper’s Lane; through the market hall to Bell Street.</p>\n  <p><strong>In his grip:</strong> the Quiet Man stands behind Grace at her desk with one grey hand on her shoulder. When she tries to speak into the microphone, nothing comes out of her, and her voice comes out of him. To free her, roll Nerve against Defence; only a success frees her. If she is still in his grip at the end of the first round, she is lost. Once she is free, Rook (or the coven’s call) can Carry her to a place it knows, such as the Lantern House.</p>"
+        },
+        {
+          "key": "the-twist",
+          "name": "The twist",
+          "content": "<p>Grace’s famous voice isn’t hers. Twenty years ago she was a shy girl with a thin, quiet voice who dreamed of radio. A polite man in a grey suit offered her a voice people would stop and listen to, on loan. She signed his card. The voice she has is his own: that is why he never speaks with it. He needs it back to finish his song.</p>\n  <p>The twist comes out on Grace’s lead, or in the showdown, when the Quiet Man speaks for the first time in Grace’s voice. Grace is ashamed and afraid. She may beg the coven to keep her secret, or try to bargain with him herself. Let the players decide what to tell her and what to tell anyone else. The twist changes no rules.</p>"
+        },
+        {
+          "key": "endings",
+          "name": "Endings",
+          "content": "<p><strong>Win</strong> (he is destroyed, and Grace is safe). Lisk comes undone like a suit with the stitches pulled. The valves crack, and six stolen voices fly home over the roofs like sparks. Grace keeps the voice: with its owner gone, it is hers now. Next Friday, Bea sings again.</p>\n  <p><strong>Partial</strong> (he fled, or he was destroyed but Grace was lost). If he fled, he climbs back to the tower with the voices he has and waits to collect the rest. The stolen voices stay stolen. If he was destroyed but Grace was lost, the six voices come home, but Grace went through the half-open door with him. Radio Larkhaven plays her old shows every night, and the city waits for her to come back.</p>\n  <p><strong>Loss</strong> (Doom filled, every witch Down, or the coven retreated). If Doom filled, his plan is complete: Grace is lost and he escapes. On the seventh night, every radio in Larkhaven plays seven voices singing, and above the Heights a door opens in the air. If every witch went Down or the coven retreated, he walks away into the fog, polite as ever. If Grace was still in the fight, she goes with him and is lost. He will be back.</p>\n  <p><strong>Seen</strong> (the result drops one step; a Loss stays a Loss). By morning, a video from the market is everywhere: people with fire in their hands and a man in grey who floats. Or, if the coven was Seen during the investigation, a photo of a witch casting on Cooper’s Lane is on the front of the local paper. Someone at Radio Larkhaven wants to interview them.</p>\n  <p><strong>Carry-over.</strong> If he was destroyed, the Quiet Man gets a page in the Book (next time, start with half the Clues, rounded up). If he wasn’t, he comes back later, when the Storyteller chooses, with 2 more Toughness each time. A witch who is Down when the coven loses (except by retreating) gets a Scar: 1 Hurt at the start of the next episode.</p>"
+        },
+        {
+          "key": "closing-scene",
+          "name": "Closing scene",
+          "content": "<p>A week later, the night market is back. Give each player a short Life scene: who noticed they were missing this week, and what it cost them. Then end at the market. If Bea has her voice back, she sings on the steps. Grace’s show plays from every stall. Near midnight she says, “This one’s for whoever was at the market last Friday. You know who you are.” Back at the Lantern House, the lamp over the door is still burning.</p>"
+        }
+      ]
+    },
+    {
+      "key": "players",
+      "name": "Night Market: for the players",
+      "folder": "f-journal",
+      "observer": true,
+      "pages": [
+        {
+          "key": "opening",
+          "name": "The opening",
+          "content": "<p><em>Friday night in Old Town. The night market fills the lanes around St Bride’s market hall: frying onions, fairy lights, a hundred voices at once. On the steps of the hall, Bea Santos tunes her guitar, as she does every week, and the crowd goes quiet for her first song. She smiles. She opens her mouth. Nothing comes out. Not a note, not a breath. Her hands fly to her throat. At the edge of the crowd, a man in a grey suit tips his hat and walks away into the fog, and the only ones who see him go are you.</em></p>"
+        },
+        {
+          "key": "house",
+          "name": "The Lantern House",
+          "content": "\n<p>A narrow, three-storey house in Old Town with a lamp over the door that has never gone out. The Book lives in the attic. The kitchen is where potions get brewed. The guardian, Rook, is bound to the house.</p>\n<ul>\n<li><strong>Ground floor:</strong> front room, kitchen (brewing), back door to a walled garden.</li>\n<li><strong>First floor:</strong> three bedrooms, bathroom.</li>\n<li><strong>Attic:</strong> the Book on a lectern, old trunks, a round window over the street.</li>\n</ul>\n<p>Researching the Book happens here: a lead using Wits, +1 die, with no Exposure (one character a scene, who may also brew that scene).</p>"
+        }
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "key": "life-calls",
+      "name": "Night Market: Life calls",
+      "folder": "f-tables",
+      "description": "Episode 1: what each witch's Life wants from them this episode.",
+      "results": [
+        "Student: A group project is due on Friday, and the rest of the group has gone quiet. Someone has to spend a night in the library.",
+        "Nurse: The ward is two nurses short. The nurse in charge asks for one more night shift, “just this once”.",
+        "Shop worker: Stocktake. Every shelf counted before the weekend, with the manager watching.",
+        "Teacher: Parents’ evening runs till nine, and one parent wants to talk about everything.",
+        "Mechanic: A market trader’s van has to be running by Friday, or her stall won’t get to the night market.",
+        "Bus driver: Covering the late route up to the Heights. A regular passenger, who always says goodnight, hasn’t been on the bus all week."
+      ]
+    },
+    {
+      "key": "gen-threat",
+      "name": "Episode generator: Threat",
+      "folder": "f-tables",
+      "description": "Chapter 11: roll each table once.",
+      "results": [
+        "The Quiet Man",
+        "The Ash Widow",
+        "The Mirror Thief",
+        "The Night Nurse",
+        "Vesper Crane",
+        "The Drowned Choir"
+      ]
+    },
+    {
+      "key": "gen-innocent",
+      "name": "Episode generator: Innocent",
+      "folder": "f-tables",
+      "description": "Chapter 11: roll each table once.",
+      "results": [
+        "A local celebrity",
+        "A child",
+        "A witch's relative",
+        "A stranger with a gift",
+        "Someone who saw too much",
+        "Someone the threat once loved"
+      ]
+    },
+    {
+      "key": "gen-plan-what-happens-at-doom-12",
+      "name": "Episode generator: Plan",
+      "folder": "f-tables",
+      "description": "Chapter 11: roll each table once.",
+      "results": [
+        "Takes the innocent away for good",
+        "Opens a door for something worse",
+        "Takes the innocent's face, voice or name",
+        "Feeds and grows stronger (next time it returns, +2 Toughness)",
+        "Steals something from the coven (the Book, a memory)",
+        "Ends a family line"
+      ]
+    },
+    {
+      "key": "gen-public-place",
+      "name": "Episode generator: Public place",
+      "folder": "f-tables",
+      "description": "Chapter 11: roll each table once.",
+      "results": [
+        "The night market",
+        "A festival",
+        "A hospital",
+        "A school or university",
+        "A ferry, pier or station",
+        "A wedding, funeral or party"
+      ]
+    },
+    {
+      "key": "gen-hidden-place",
+      "name": "Episode generator: Hidden place",
+      "folder": "f-tables",
+      "description": "Chapter 11: roll each table once.",
+      "results": [
+        "An abandoned building",
+        "Under the city (tunnels, basements)",
+        "A place the sea or river covers",
+        "A closed shop or theatre",
+        "The old radio tower or the observatory",
+        "Somewhere the coven knows well"
+      ]
+    },
+    {
+      "key": "gen-twist",
+      "name": "Episode generator: Twist",
+      "folder": "f-tables",
+      "description": "Chapter 11: roll each table once.",
+      "results": [
+        "A witch's Life is tied to the innocent",
+        "A second, weaker threat is helping",
+        "The innocent doesn't want to be saved",
+        "The threat was once a witch",
+        "A reporter is following the coven (start with Exposure 1)",
+        "None"
+      ]
+    }
+  ],
+  "macros": [
+    {
+      "key": "start",
+      "name": "Start Night Market",
+      "folder": "f-macros",
+      "img": "icons/svg/book.svg",
+      "command": "game.witchWard.episode.startDialog({ label: \"easy\", threatName: \"The Quiet Man\" });"
+    },
+    {
+      "key": "tracker",
+      "name": "Episode Tracker",
+      "folder": "f-macros",
+      "img": "icons/svg/clockwork.svg",
+      "command": "game.witchWard.tracker();"
+    }
+  ],
+  "scenes": [
+    {
+      "key": "larkhaven",
+      "name": "Larkhaven",
+      "background": "systems/witch-ward/assets/scenes/larkhaven.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": true,
+      "journal": "episode",
+      "journalPage": "leads",
+      "folder": "f-scenes",
+      "tokens": [],
+      "notes": [
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 1700,
+          "y": 1010,
+          "text": "The Lantern House (Old Town): the coven's home. The Book is in the attic (lead 5)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 1480,
+          "y": 1185,
+          "text": "St Bride's market hall and the Friday night market (Old Town): the market lanes (lead 3), the steps of St Bride's (lead 6), and the public place",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 1395,
+          "y": 1145,
+          "text": "Bea Santos's flat over the chip shop on Cooper's Lane (Old Town): lead 1",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 1270,
+          "y": 1040,
+          "text": "The Radio Larkhaven studio (Old Town), where Grace Ellery hosts the late show: lead 2",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 960,
+          "y": 950,
+          "text": "The voice clinic at Larkhaven General: lead 4",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 1885,
+          "y": 1250,
+          "text": "The bus stop for the Heights, where the trail of grey threads leads (lead 3)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "leads",
+          "x": 1640,
+          "y": 225,
+          "text": "The old radio tower (the Heights), next to the observatory: the Quiet Man's hidden place",
+          "icon": "icons/svg/book.svg"
+        }
+      ]
+    },
+    {
+      "key": "lantern-house",
+      "name": "The Lantern House",
+      "background": "systems/witch-ward/assets/scenes/lantern-house.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": false,
+      "journal": "players",
+      "journalPage": "house",
+      "folder": "f-scenes",
+      "tokens": [
+        {
+          "actor": "dana-okafor",
+          "x": 500,
+          "y": 1600
+        },
+        {
+          "actor": "marco-rossi",
+          "x": 700,
+          "y": 1300
+        },
+        {
+          "actor": "june-takeda",
+          "x": 400,
+          "y": 1100
+        },
+        {
+          "actor": "quinn-abernathy",
+          "x": 500,
+          "y": 500
+        },
+        {
+          "actor": "tess-lindqvist",
+          "x": 300,
+          "y": 1400
+        },
+        {
+          "actor": "noor-haddad",
+          "x": 1600,
+          "y": 1600
+        },
+        {
+          "actor": "rook",
+          "x": 2600,
+          "y": 1300
+        }
+      ],
+      "notes": []
+    },
+    {
+      "key": "night-market",
+      "name": "The Friday Night Market",
+      "background": "systems/witch-ward/assets/scenes/night-market.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": false,
+      "journal": "episode",
+      "journalPage": "the-public-place-the-friday-night-market",
+      "folder": "f-scenes",
+      "tokens": [
+        {
+          "actor": "dana-okafor",
+          "x": 300,
+          "y": 1700
+        },
+        {
+          "actor": "marco-rossi",
+          "x": 400,
+          "y": 1700
+        },
+        {
+          "actor": "june-takeda",
+          "x": 500,
+          "y": 1700
+        },
+        {
+          "actor": "quinn-abernathy",
+          "x": 600,
+          "y": 1700
+        },
+        {
+          "actor": "tess-lindqvist",
+          "x": 700,
+          "y": 1700
+        },
+        {
+          "actor": "noor-haddad",
+          "x": 500,
+          "y": 1600
+        },
+        {
+          "actor": "rook",
+          "x": 600,
+          "y": 1600
+        },
+        {
+          "actor": "quiet-man",
+          "x": 1400,
+          "y": 600
+        },
+        {
+          "actor": "grace-ellery",
+          "x": 1400,
+          "y": 700
+        }
+      ],
+      "notes": [
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 550,
+          "y": 1800,
+          "text": "The Market Street arch: a striped arch at the bottom of the hill, the busiest way in (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 2500,
+          "y": 1750,
+          "text": "The Harbour Steps: a stone stair from the food yard down to the harbour road (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 150,
+          "y": 150,
+          "text": "Cooper's Lane: a narrow back alley behind the chip shop (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 2200,
+          "y": 300,
+          "text": "Through the market hall to Bell Street, by the side doors (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 1500,
+          "y": 850,
+          "text": "St Bride's steps: Grace's broadcast desk, with speakers playing her show to the whole market",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 1500,
+          "y": 300,
+          "text": "St Bride's market hall: the covered hall with its iron roof, full of stalls, with side doors onto Bell Street",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 600,
+          "y": 1300,
+          "text": "The lanes of stalls: food, records, second-hand clothes and fortune-tellers, under strings of fairy lights",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 2500,
+          "y": 1350,
+          "text": "The food yard: long tables, a small stage and the salt-fish stall",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 2250,
+          "y": 1650,
+          "text": "The salt-fish stall, with its salt bins",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 500,
+          "y": 450,
+          "text": "The chip shop on Cooper's Lane (Bea Santos lives in the flat above)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-friday-night-market",
+          "x": 1500,
+          "y": 1250,
+          "text": "The crowd in front of St Bride's steps",
+          "icon": "icons/svg/book.svg"
+        }
+      ]
+    },
+    {
+      "key": "radio-tower",
+      "name": "The Old Radio Tower",
+      "background": "systems/witch-ward/assets/scenes/radio-tower.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": false,
+      "journal": "episode",
+      "journalPage": "the-hidden-place-the-old-radio-tower",
+      "folder": "f-scenes",
+      "tokens": [
+        {
+          "actor": "dana-okafor",
+          "x": 600,
+          "y": 1500
+        },
+        {
+          "actor": "marco-rossi",
+          "x": 700,
+          "y": 1500
+        },
+        {
+          "actor": "june-takeda",
+          "x": 800,
+          "y": 1500
+        },
+        {
+          "actor": "quinn-abernathy",
+          "x": 900,
+          "y": 1500
+        },
+        {
+          "actor": "tess-lindqvist",
+          "x": 600,
+          "y": 1400
+        },
+        {
+          "actor": "noor-haddad",
+          "x": 700,
+          "y": 1400
+        },
+        {
+          "actor": "rook",
+          "x": 800,
+          "y": 1400
+        },
+        {
+          "actor": "quiet-man",
+          "x": 1400,
+          "y": 900
+        }
+      ],
+      "notes": [
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 800,
+          "y": 1700,
+          "text": "The lane and the gate: a steep lane ends at an iron gate with a rusted chain (rusted through) and a sign: Radio Larkhaven. Private. (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 2400,
+          "y": 1150,
+          "text": "A gap in the fence by the observatory path (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 2750,
+          "y": 650,
+          "text": "The cable trench, from the observatory grounds (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 330,
+          "y": 1050,
+          "text": "The steep bank down into the gardens of the big houses (a way out only: too steep to climb up, easy to slide down)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 2000,
+          "y": 550,
+          "text": "The transmitter hut: brick, boarded windows. Inside: racks of dead valves, a desk, a 1926 logbook, thick cables running out and up the tower",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 1000,
+          "y": 1250,
+          "text": "The yard: gravel and nettles round the tower's four concrete feet. Steel guy wires hum, though there is no wind",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 1450,
+          "y": 1100,
+          "text": "The tower: a steel lattice mast with a caged ladder, a platform halfway up and a platform at the top",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 1450,
+          "y": 950,
+          "text": "Six glowing valves hang from the old aerial at the top, wired together. This is where he sings",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 2300,
+          "y": 650,
+          "text": "The cable trench: covered, it runs from the hut, under the fence, into the observatory grounds",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-old-radio-tower",
+          "x": 2728,
+          "y": 420,
+          "text": "The observatory, next door",
+          "icon": "icons/svg/book.svg"
+        }
+      ]
+    }
+  ]
+}
