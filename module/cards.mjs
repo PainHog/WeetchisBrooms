@@ -69,6 +69,7 @@ export async function performRoll(actor, spec) {
   }
   const updates = {};
   if (cost) updates[`system.${purse}`] = sys[purse] - cost;
+  if (sys.down && (spec.surge || spec.potion)) { ui.notifications.warn(`${actor.name} is Down: no Surges or potions.`); return null; }
   if (spec.surge && !isGuardian) {
     if (sys.surgeUsed) { ui.notifications.warn(`${actor.name} has already used a Surge this scene.`); return null; }
     updates["system.surgeUsed"] = true;
@@ -260,7 +261,7 @@ async function markApplied(message, lines) {
 /* ------------------------------------------------------------------ */
 
 const RULE_TEXT = {
-  last: "whoever hurt it last", most: "whoever has the most Hurt marked and is still standing (ties: the Storyteller picks)",
+  last: "whoever hurt it last", most: "whoever has the most Hurt marked and is still standing",
   signature: "its signature move", innocent: "it takes the free, unguarded innocent: they're lost", guard: "it attacks the innocent's guard",
   hold: "Hold: it must target the guardian",
 };
@@ -293,7 +294,15 @@ export async function threatTurn() {
     }
     if (t.rule === "guard") t = { ...t, candidates: coven.filter(c => !c.down) }; // whoever is guarding
     if (t.takesInnocent) s = { ...s, innocent: "lost" };
-    const sig = t.rule === "signature" ? `: ${esc(threat?.system.signature ?? "Attacks two different characters.")}` : "";
+    // Ruling 92: a tie for the target is settled by a die roll among the tied characters.
+    let tie = "";
+    if ((t.rule === "most" || t.rule === "guard") && t.candidates.length > 1) {
+      const pick = await new Roll(`1d${t.candidates.length}`).evaluate();
+      const chosen = t.candidates[pick.total - 1];
+      tie = ` (a tie: rolled ${pick.total} of ${t.candidates.length}, so ${esc(chosen.name)})`;
+      t = { ...t, candidates: [chosen] };
+    }
+    const sig = t.rule === "signature" ? `: ${esc(threat?.system.signature ?? "Attacks two different characters.")}` : tie;
     const buttons = t.candidates.map(c => `<button type="button" data-ww-action="defend" data-actor="${c.id}">Defend: ${esc(c.name)}</button>`).join("");
     rows.push(`<li class="ww-attack"><span class="ww-die">${d6}</span> ${esc(RULE_TEXT[t.rule])}${sig}<div class="ww-buttons">${buttons}</div></li>`);
   }
@@ -348,6 +357,7 @@ export async function applyGiftCard(message) {
 export async function drinkHealing(actor, { targetId = null } = {}) {
   const s = getEpisode();
   if (!s?.active || !s.potions?.includes("healing")) { ui.notifications.warn("The coven has no Healing potion."); return null; }
+  if (actor.system.down) { ui.notifications.warn(`${actor.name} is Down and can't use a potion; someone else can use one on them.`); return null; }
   const target = game.actors.get(targetId ?? actor.id) ?? actor;
   const content = `<div class="ww-card ww-potion"><header><strong>${esc(actor.name)}</strong>: Healing potion${target.id !== actor.id ? ` for ${esc(target.name)}` : ""}</header><div class="ww-summary"></div></div>`;
   return ChatMessage.create({ speaker: ChatMessage.getSpeaker({ actor }), content, flags: { [FLAG]: { card: { kind: CARD.potion, actorId: actor.id, targetId: target.id, applied: false } } } });

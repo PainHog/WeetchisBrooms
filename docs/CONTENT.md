@@ -52,7 +52,7 @@ Every threat uses the stat column of the episode's difficulty label (Defence, Da
 | **The Mirror Thief** | A thin creature that wears stolen faces | A face to keep forever | Its true reflection: make it look in an old mirror | Behind the mirrors of a closed department store | St Bride's market hall | **Borrowed Face:** attack the witch with the most Magic left; on a Failure they also lose 1 Magic |
 | **The Night Nurse** | A creature that feeds on the sleeping sick | One more night of feeding before the moon turns | Iron, and being called by the name of someone it killed | The closed wing of Larkhaven General | The hospital car park at shift change | **Drain:** one attack; if it does any Hurt, the threat clears 2 damage |
 | **Vesper Crane** | A witch who stole other witches' power | The coven's Book | The spell she broke to steal her power, read back to her | The library's locked basement | The university graduation | **Turned Spell:** one attack with Hit 1 higher |
-| **The Drowned Choir** | Ghosts of a village the sea took | One more voice for the choir | A bell from the drowned church, rung at low tide | The drowned village in Saltmarsh at low tide | The long pier at dusk | **Lure:** the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action |
+| **The Drowned Choir** | Ghosts of a village the sea took | One more voice for the choir | A bell from the drowned church, rung at low tide | The drowned village in Saltmarsh at low tide | The long pier at dusk | **Lure:** one attack; then the standing character with the lowest Heart rolls Heart against Danger (no Hurt on a Partial or a Failure); on a Failure they lose their next action |
 
 ## Ready-made episodes
 

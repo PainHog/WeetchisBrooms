@@ -15,8 +15,8 @@
     "weakness": "A bell from the drowned church, rung at low tide",
     "hiddenPlace": "The drowned village in Saltmarsh at low tide",
     "publicPlace": "The long pier at dusk",
-    "signature": "Lure: the character with the lowest Heart rolls Heart against Danger; on a Failure they lose their next action.",
+    "signature": "Lure: one attack; then the standing character with the lowest Heart rolls Heart against Danger (no Hurt on a Partial or a Failure); on a Failure they lose their next action.",
     "notes": "",
-    "signatureIsAttack": false
+    "signatureIsAttack": true
   }
 }
