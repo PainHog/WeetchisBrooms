@@ -1,4 +1,4 @@
-# Witch & Ward (working title): working rules for Claude
+# Witch & Ward (working title): working rules
 
 Author and designer: **Richard Moore**. Richard's earlier games were reviewed with simulators and agent playtests, and the same mistakes kept turning up. The lessons are written down in this repository. His earlier games are *Heisty Spideys* (v4.8, with a fully automated Foundry VTT system), *Don't Get Forked* (v0.3), *Nine Lives Gang* (v0.8), *Second Nature* (v0.1) and *Nightwake* (v0.1), each with its own Foundry system.
 
@@ -20,9 +20,15 @@ This game is built on the concept of the original *Charmed* TV show, and Richard
 - **Give every concept the game's own word,** keep it in the glossary, and check each new term against that list and against Richard's other games.
 - **If an idea leans on something distinctive from the show,** say so and offer an alternative.
 
+## Richard's standing rules (2026-10-30)
+- **No tool labels or credits anywhere.** Never name, label or credit the assistant or software that helped make the game: not in the game, the book, the Foundry system, the code, the docs, commit messages or commit trailers. Richard rewrites everything himself, so there is no credit or disclosure line.
+- **Plain English.** Short, simple words and sentences. Don't dress things up.
+- **Pick the recommended option.** For every design decision, work out two or three options, choose the recommended one, and record it in the `docs/DESIGN.md` Decisions log with the date and a line on what else was considered. Don't stop to ask.
+- **Only contact Richard for** serious questions, approvals (such as approving the core rules), or when a piece of work is done.
+- **The game must feel as full as the show's concept:** threats, spells, potions, fighting, investigating, keeping magic secret, and everyday life, with real choices for the players in each.
+
 ## The author decides the game
-- **Never invent game content without Richard's approval.** That includes rules, numbers, witches, the guardian, powers, spells and potions, demons and other threats, innocents, episodes, setting text and the names of mechanics.
-- **For each decision,** give two or three concrete options, with a recommendation and why. Wait for Richard's choice, then record it in the `docs/DESIGN.md` Decisions log with the date.
+- **Richard owns every decision.** Under his standing rules above, decisions are made by picking the recommended option and logging it; Richard can overrule any logged decision at any time. That covers rules, numbers, witches, the guardian, powers, spells and potions, demons and other threats, innocents, episodes, setting text and the names of mechanics.
 - **When one of Richard's ideas would repeat a mistake from `docs/DESIGN-RULES.md` Part A,** say so straight away, name the rule, and offer options.
 - **Wording clarifications and fixes** for things the book already implies may be made directly. Anything that changes numbers or adds rules goes to Richard first.
 - **When Richard gives feedback on art or layout,** fix it and audit the whole book for the same kind of mistake.
@@ -52,5 +58,5 @@ After every version, run `docs/REVIEW-PROCEDURE.md`. A version isn't done until 
 
 ## Housekeeping
 - Commit and push work in progress often; sessions and agents can stop at any time (usage limits). Resume stopped agents rather than restarting the work.
-- Keep model names out of commits, code and docs (except a required commit trailer).
-- **Credits:** "Game design & writing: Richard Moore"; "Editing, layout & illustration: Produced with AI assistance (Claude, by Anthropic), directed and approved by Richard Moore".
+- No tool labels or credits in commits, code or docs, and no commit trailers (see Richard's standing rules).
+- **Credits:** "Game design & writing: Richard Moore".

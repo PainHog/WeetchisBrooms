@@ -52,7 +52,7 @@ jobs:
         run: |
           zip -r system.zip . \
             -x ".git/*" -x ".github/*" -x ".gitignore" -x "node_modules/*" -x "*.zip" \
-            -x "package.json" -x "package-lock.json" -x "CLAUDE.md" \
+            -x "package.json" -x "package-lock.json" -x "AGENTS.md" \
             -x "tools/*" -x "test/*" -x "packs/_source/*" -x "*/.gitkeep" \
             -x "book/*" -x "sim/*" -x "docs/*" \
             -x "packs/*/LOCK" -x "packs/*/LOG" -x "packs/*/LOG.old"

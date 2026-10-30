@@ -136,7 +136,7 @@ The **core ideas were never the problem**: the dice, the main loop and the fun h
   - a printer-friendly white version;
   - for print-on-demand: 0.125 in bleed, a cover spread with spine, all fonts embedded and credited, no Type 3 fonts.
 - [ ] Credits and rights:
-  - an AI-assistance disclosure ("Editing, layout & illustration: Produced with AI assistance (Claude, by Anthropic), directed and approved by Richard Moore"), plus maps and art credits;
+  - maps and art credits;
   - an image source log;
   - name and logo trademark search (e.g. "Nine Lives" against the 9Lives cat-food brand);
   - no famous-character echoes;
