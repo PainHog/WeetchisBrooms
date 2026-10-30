@@ -1,6 +1,6 @@
 # Witch & Ward (working title): design document
 
-This is a living document. **§1 Pitch** is Richard's own. **§3 Decisions** lists only what Richard has approved. Everything in §4–§6 is undecided until Richard chooses.
+This is a living document. **§1 Pitch** is Richard's own. **§3 Decisions** lists what Richard has approved. Since 2026-10-30 that includes choices made under his standing rule: pick the recommended option and log it (he can overrule any of them). Everything in §4–§6 is undecided until Richard chooses.
 
 ## 1. Pitch (Richard Moore, 2026-10-30)
 
@@ -51,6 +51,15 @@ The pitch gave no name. Richard chose *Witch & Ward* after the name check (§2),
 | Date | Decision | Notes |
 |---|---|---|
 | 2026-10-30 | Premise as in the pitch: a group of witches, more than three allowed, with an optional guardian played by one player, in a new game built on the concept of the original *Charmed* show without any of its material | Title is a working title (§2), chosen by Richard after the name check |
+| 2026-10-30 | **Q1 Tone:** supernatural drama with humour. Witch life, family and romance run alongside the demon of the week. Demons can be frightening; no gore; deaths happen off the page | Also considered: comedy first; horror first |
+| 2026-10-30 | **Q1 Ages:** 13+ | Also considered: 10+ |
+| 2026-10-30 | **Q1 Romance:** an optional story thread with no rules attached, mostly with people from the witches' everyday lives. A witch–guardian romance is not part of the default setup, because a forbidden witch–guardian romance was a central storyline in the show | Also considered: a relationship track with rules; no romance |
+| 2026-10-30 | **Q1 Players:** 3–5 players plus the Storyteller | Also considered: 3–6; 2–6 |
+| 2026-10-30 | **Q1 Session:** one episode per session, 2–3 hours | Also considered: 3–4 hours; a short and a long mode |
+| 2026-10-30 | **Q1 Shape:** standalone episodes that can be strung into a season. Each episode works on its own; a season adds light carry-over | Also considered: one-off episodes only; campaign first |
+| 2026-10-30 | **Q1 Setting:** today, in an invented city (name to come). Not San Francisco, the show's city | Also considered: the late 1990s or no fixed era; a real city; no fixed city |
+| 2026-10-30 | **Q1 Title:** keep *Witch & Ward*. Never call the guardian a "Warden" (*Nightwake* uses that word) | Also considered: *Witches & Wards*; decide later |
+| 2026-10-30 | **Q1 Links:** standalone. No shared world with Richard's other games | — |
 
 ## 4. Early flags: where the pitch meets the lessons in `DESIGN-RULES.md`
 These aren't decisions. They're the first things to settle, because each one has already caused trouble in an earlier game.
