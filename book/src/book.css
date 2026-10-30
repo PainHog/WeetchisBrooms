@@ -443,6 +443,7 @@ figure.diagram { break-inside: avoid; margin: 0.04in 0 0.12in; }
 }
 .sheet-grid.tall td { height: 0.8in; }
 .sheet-grid .blank { display: none; }
+.sheet .blank.short { flex: 1 1 0.4in; min-width: 0.35in; }   /* a short write-in, several to a line */
 .sheet .box-check {
   display: inline-block; width: 0.15in; height: 0.15in; margin: 0 0.03in 0 0.12in;
   border: 1.5px solid var(--ink); border-radius: 3px; vertical-align: -0.02in;

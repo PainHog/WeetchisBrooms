@@ -287,6 +287,10 @@ export async function threatTurn() {
       t = { ...t, candidates: [...g, ...t.candidates.filter(c => !c.guardian)] };
       s = { ...s, hold: false };
     }
+    if (t.rule === "guard" && s.hold && coven.some(c => c.guardian && !c.down)) { // ruling 85: Hold sends the attack on the guard to the guardian
+      t = { ...t, rule: "hold", candidates: coven.filter(c => c.guardian && !c.down) };
+      s = { ...s, hold: false };
+    }
     if (t.rule === "guard") t = { ...t, candidates: coven.filter(c => !c.down) }; // whoever is guarding
     if (t.takesInnocent) s = { ...s, innocent: "lost" };
     const sig = t.rule === "signature" ? `: ${esc(threat?.system.signature ?? "Attacks two different characters.")}` : "";
