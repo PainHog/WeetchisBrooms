@@ -3230,8 +3230,7 @@ function drownedVillage() {
     for (let x = 1340; x < 2020; x += 100) out.push(rect(x, 238, 50, 16, { rx: 4, fill: pc("#7a6a52", PAL.accent), stroke: "#2a2018", "stroke-width": 2 })); // log edging
     const car = (x, y, col) => rect(x + 6, y + 8, 110, 200, { rx: 22, fill: "#000", opacity: 0.4 }) + rect(x, y, 110, 200, { rx: 24, fill: col, stroke: "#0e1012", "stroke-width": 4 }) +
       rect(x + 12, y + 40, 86, 44, { rx: 8, fill: pc("#2a3440", PAL.dark) }) + rect(x + 14, y + 140, 82, 32, { rx: 8, fill: pc("#2a3440", PAL.dark) });
-    out.push(car(1335, 20, "#6a7a8a"));
-    if (!PRINT) out.push(car(1850, 20, "#8a4a3a")); // (one car is enough in print, where the labels need the room)
+    if (!PRINT) out.push(car(1335, 20, "#6a7a8a"), car(1850, 20, "#8a4a3a")); // (no cars in print: the labels need the room)
     // the information board by the start of the causeway
     out.push(rect(1700, 195, 90, 16, { fill: pc("#5a4a34", PAL.soft), stroke: "#1a140c", "stroke-width": 2 }) + rect(1708, 186, 74, 8, { fill: pc("#e8e0c8", PAL.paper) }));
   }
@@ -3407,7 +3406,7 @@ function drownedVillage() {
     labels.push(T(2720, 840, "THE REED BEDS", { size: 54, ls: 2 }));
     labels.push(F(2790, 285, ["The hide", "(stilts)"], { size: 50, anchor: "start" }), F(2800, 500, ["boat"], { size: 50, anchor: "start" }));
     labels.push(F(2290, 810, "reed channel", { size: 50, italic: true, rot: -50 }));
-    labels.push(F(1665, 180, ["Birdwatchers'", "car park"], { size: 50, anchor: "start" }));
+    labels.push(F(1515, 130, ["Birdwatchers'", "car park"], { size: 50, anchor: "end" }));
     labels.push(F(620, 285, "The sea wall", { size: 54 }));
     labels.push(T(1800, 1560, "THE MUDFLATS", { size: 58, ls: 4 }));
     labels.push(F(2300, 1880, "low water: the tide comes in", { size: 50, italic: true }));
