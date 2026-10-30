@@ -176,7 +176,8 @@ export function attackTarget(state, d6, coven) {
   if (d6 === 6) {
     if (state.innocent === "free") return { rule: "innocent", candidates: [], takesInnocent: true };
     if (state.innocent === "guarded") return { rule: "guard", candidates: [], takesInnocent: false };
-    return { rule: "signature", candidates: standing, takesInnocent: false };
+    // Ruling 63: a move's targets are the most Hurt, then the next most Hurt, still standing.
+    return { rule: "signature", candidates: [...standing].sort((a, b) => b.hurt - a.hurt), takesInnocent: false };
   }
   if (state.hold) return { rule: "hold", candidates: coven.filter(c => c.guardian && !c.down), takesInnocent: false };
   if (d6 <= 3) {
