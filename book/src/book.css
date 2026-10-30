@@ -466,6 +466,7 @@ hr { border: none; height: 0; margin: 0.1in 0; }
 .keep > :last-child { margin-bottom: 0.075in; }
 /* a full-width table kept with its heading: the pair spans both columns together */
 .keep:has(> .tbl.wide) { column-span: all; }
+.keep:has(> figure.map), .chapter > figure.map { column-span: all; }   /* maps at full text width: labels print at 7.5pt or more */
 
 /* end-of-chapter measurement marker (build passes only) */
 .end-marker { column-span: all; height: 0; margin: 0; position: relative; }
