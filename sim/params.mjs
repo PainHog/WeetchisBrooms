@@ -42,6 +42,7 @@ export const RULES = {
   threatFirst: true,    // in round 1 of every showdown the threat acts before the characters (v0.6: after)
   bindingBoost: true,   // Binding is used with an attack: if the attack works, the threat loses its next attack (v0.6: no roll)
   bankLostAttacks: false, // lost attacks beyond the one-a-round limit wait for later rounds (v0.6) or are wasted (v0.7)
+  noBindTwice: false,   // the threat can't lose attacks two rounds in a row
   shieldPerRound: 1,    // Shields the guardian can use each round
   blastingBoost: true,  // Blasting: 2 more damage on your attack this round if it works (v0.5: 2 damage with no roll)
   maxLostAttacks: 1,    // the threat loses at most this many attacks a round, whatever the cause (99 = no limit)
@@ -139,6 +140,11 @@ export const POLICY = {
     default: "sensible",
     values: ["sensible", "random"],
     doc: "sensible: the 3 goes where the Power is used most; random: any legal spread.",
+  },
+  bind: {
+    default: "wild",
+    values: ["wild", "any"],
+    doc: "Who casts Bind in a showdown: only a Wild witch (wild), or the best Craft witch whenever the threat has an attack left to lose (any).",
   },
   publicCare: {
     default: "careful",

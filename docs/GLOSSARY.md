@@ -23,12 +23,12 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Failure** | Fewer successes than half the Difficulty. It doesn't work and there's a cost. |
 | **Free** | A showdown action: Nerve against Defence to pull the innocent out of the threat's grip; only a success works. |
 | **Gift** | One of the guardian's abilities: Mend, Shield, Carry, Sense, Hold. |
-| **Guard** | A showdown action: until your next action, if the threat goes for the freed innocent, it attacks you instead. It ends if you go Down. |
+| **Guard** | A showdown action: until the threat has next acted, if it goes for the freed innocent, it attacks you instead. It ends if you go Down. |
 | **Guardian** | The coven's protective spirit, bound to its home by an old promise; human or animal shape; no masters. Never called a "Warden". |
 | **Heart** | The rating for people: talking, comforting, lying, reading people. |
 | **Hit** (threat stat) | The Hurt a threat deals when a defence fails. |
 | **Hurt** | Damage to a character: 4 boxes for a witch, 5 for the guardian. Used instead of "Harm", which another of Richard's books uses. |
-| **In its grip** | The innocent at the start of a public showdown. Lost if still in the threat's grip after it acts in the first round. |
+| **In its grip** | The innocent at the start of a public showdown. Lost if still in the threat's grip at the end of the first round. |
 | **Innocent** | The person the threat wants this episode. |
 | **Lead** | An investigation action that can find Clues. |
 | **Life** | A witch's everyday job or role. It calls once per episode. |
@@ -36,7 +36,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Nerve** | The rating for moving, fighting and standing firm. |
 | **Partial** | At least half the Difficulty but not all of it: it works, with a cost. |
 | **Power** | Each witch's one gift: Force, Flame, Sight, Voice, Veil or Wild. |
-| **Round** | One turn of the showdown: everyone acts, the threat acts, Doom rises. |
+| **Round** | One turn of the showdown: everyone acts, the threat acts, Doom rises. In round 1 the threat acts first. |
 | **Scar** | 1 Hurt carried into the next episode by a witch who was Down when the coven lost. |
 | **Scene** | One step of the investigation: everyone acts, Doom rises. The whole showdown counts as one scene for once-per-scene limits. |
 | **Season** | A run of episodes with carry-over. |

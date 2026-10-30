@@ -102,7 +102,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   /** "Cost: if you used magic where ordinary people could see, Exposure +1; otherwise 1 Hurt." */
   function investigationCost(ch, usedMagic, isPublic) {
     if (J.investigationCost === "none") return;
-    if (usedMagic && isPublic) { if (st.veiledScene !== st.scene) raiseExposure(1); }
+    if (usedMagic && isPublic) { if (st.veiledScene !== st.scene) raiseExposure(1); else hurt(ch, 1); } // under Veil, the cost is 1 Hurt
     else hurt(ch, 1);
   }
   const use = k => { st.use[k] = (st.use[k] || 0) + 1; };
@@ -466,7 +466,11 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       }
     }
     // Wild: Bind (with a Surge the first time: the threat's Defence is 1 lower this round).
-    if (ch.power === "wild" && ch.magic >= RESERVE + 1 && !careful && T.skip === 0) {
+    const binder = P.bind === "any"
+      ? maxBy(standing(coven.witches).filter(x => !acted.has(x) && x.magic >= RESERVE + 1), x => x.ratings.craft + (fits(x, "bind") ? R.powerDice : 0)) === ch
+      : ch.power === "wild";
+    const bindBlocked = R.noBindTwice && T.lostLastRound;
+    if (binder && ch.magic >= RESERVE + 1 && !careful && T.skip === 0 && !bindBlocked) {
       spend(ch, 1);
       use("spell:bind");
       const surged = surgeOk(ch, RESERVE) ? (surge(ch), true) : false;
@@ -538,8 +542,9 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   function threatActs() {
     const T = st.threat;
     let lost = 0;
+    const canLose = !(R.noBindTwice && T.lostLastRound); // "can't lose attacks two rounds in a row"
     for (let i = 0; i < T.attacks; i++) {
-      if (T.skip > 0 && lost < R.maxLostAttacks) { T.skip--; lost++; continue; } // "loses its next attack" (at most one a round)
+      if (canLose && T.skip > 0 && lost < R.maxLostAttacks) { T.skip--; lost++; continue; } // "loses its next attack" (at most one a round)
       const d = rng.d6();
       if (d === 6) {
         if (innocentLoose()) {
@@ -557,6 +562,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       attackOn(target(d), 0);
     }
     if (!R.bankLostAttacks) T.skip = 0; // "any more are wasted"
+    T.lostLastRound = lost > 0;
   }
 
   function target(d) {

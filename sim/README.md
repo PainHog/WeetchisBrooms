@@ -1,7 +1,7 @@
 # Rules simulator — method
 
 The first simulator for Witch & Ward is built: it plays whole episodes by
-`docs/CORE-RULES.md` (v0.7) and writes `sim/REPORT.md`.
+`docs/CORE-RULES.md` (v0.8) and writes `sim/REPORT.md`.
 
 ```
 npm run sim                                   # node sim/run.mjs → sim/REPORT.md (2,000 episodes per cell, seed 1)
