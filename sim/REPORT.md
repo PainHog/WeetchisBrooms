@@ -1,6 +1,6 @@
 # Witch & Ward: simulator report
 
-Rules: `docs/CORE-RULES.md` v0.8. Command: `node sim/run.mjs --runs 2000 --seed 1 --sweep-runs 500`. 2,000 episodes per cell, 36,000 in all. Same seed, same report.
+Rules: `docs/CORE-RULES.md` v0.9. Command: `node sim/run.mjs --runs 2000 --seed 1 --sweep-runs 500`. 2,000 episodes per cell, 36,000 in all. Same seed, same report.
 
 A **cell** is one difficulty label, one number of players (3, 4 or 5), with or without a guardian player. With a guardian player, one player plays the guardian and the rest play witches. **Win / Partial / Loss** are the episode results from CORE-RULES "The end".
 
@@ -195,7 +195,7 @@ Each row changes one setting and re-runs Standard and Hard (500 episodes per cel
 | rules | v0.1 Unmaking (1 die per joiner, fixed Difficulty, Partial destroys) | 83% / 5% | 69% / 19% |
 | rules | v0.2 innocent (not held at the start of a public showdown) | 75% / 5% | 64% / 16% |
 | rules | v0.2 Weakness (no Defence +1 without it, no extra damage with it) | 67% / 14% | 44% / 40% |
-| rules | v0.3 potions (using one is an action, brewing is its own action, one potion per brew) | 66% / 17% | 43% / 43% |
+| rules | v0.3 potions (using one is an action, brewing is its own action, one potion per brew) | 66% / 17% | 43% / 44% |
 | rules | no extra Toughness against 3 characters | 74% / 7% | 61% / 21% |
 | rules | success on 5–6 instead of 4–6 | 15% / 63% | 7% / 82% |
 
@@ -250,7 +250,7 @@ Eight episodes in a row with the same coven (500 seasons each for 3 witches, 3 w
 | broken | Later season episodes got much easier (v0.5) | The end: Season | Growth with no matching threat growth took Standard from 74% to 87% wins by episode 5. v0.7: threats get 2 more Toughness per witch after the 2nd and 4th episodes, then no more; across 8 episodes Standard holds at 72–79% and Hard at 56–64%. | v0.7 |
 | broken | Covens Broke the threat before it acted (v0.6) | Showdown | Every character acted before the threat, and with the Weakness, Surges and potions a coven Broke a Standard threat in round 1 about 90% of the time (verification playtest). v0.7: the threat acts first in round 1; Binding needs a working attack; lost attacks beyond one a round are wasted; Shield once a round. | v0.7 (verification playtest) |
 | info | Going early is only a real choice one scene before the mark | Investigation | Before Doom 4 there's no reason to go without the Weakness: waiting costs nothing until the next scene would reach the mark. The choice that matters is at Doom 4 (go now, hidden, maybe without the Weakness; or wait, likely be found in public with it). Rushing in early loses badly (section 10). | kept |
-| info | Veil's Surge covers a whole public showdown | Powers: Veil | The showdown is one scene, so one Veil Surge removes Exposure for the rest of a public fight. It's Veil's job and Veil isn't above average (§7), so it stays; watch it in later playtests. | kept |
+| info | Veil's Surge covered a whole public showdown (v0.8) | Powers: Veil | The showdown is one scene, so one Veil Surge removed Exposure for the rest of a public fight (flagged in two playtests). v0.9: in a showdown it lasts this round and the next. Veil stays at the Power average. | v0.9 |
 | info | Players should keep 2 Magic for the Unmaking | Magic | Covens that spent down to 0 couldn't afford the Unmaking and the threat fled. The simulated players keep 2 each until the threat is Broken; the book should give that advice. | v0.2 (advice) |
 | broken | The innocent was almost never lost, and going in early beat waiting for the Weakness (v0.2) | The threat; The Unmaking | In v0.2 guarding or carrying the innocent always worked, and a coven that went in without the Weakness did as well or better than one that waited and was found (Hard: 20% vs 10% losses). v0.3: a public showdown starts with the threat holding the innocent (free them in round 1 or lose them), and until the coven knows the Weakness the threat's Defence is 1 higher; once it knows, attacks that work do 1 more damage. Waiting for the Weakness and going early now come out within about a point of each other, and rushing in with half the Clues loses badly. | v0.3 (Richard, 2026-10-30) |
 | broken | Small groups fell behind at Hard (v0.3 draft) | [T] Clues needed | With 3n + 4 Clues, 3-player covens found the Weakness far less often and won about 45% at Hard against 65% for 5 players. Clues are now 4 per character at Hard (and 4 per character minus 1 at Standard, 3 per character at Easy), which brings every size within a few points. | v0.3 |

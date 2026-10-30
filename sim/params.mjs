@@ -43,6 +43,7 @@ export const RULES = {
   bindingBoost: true,   // Binding is used with an attack: if the attack works, the threat loses its next attack (v0.6: no roll)
   bankLostAttacks: false, // lost attacks beyond the one-a-round limit wait for later rounds (v0.6) or are wasted (v0.7)
   noBindTwice: false,   // the threat can't lose attacks two rounds in a row
+  veilRounds: 2,        // in a showdown, Veil's Surge hides casting for this round and the next (99 = the whole showdown, v0.8)
   shieldPerRound: 1,    // Shields the guardian can use each round
   blastingBoost: true,  // Blasting: 2 more damage on your attack this round if it works (v0.5: 2 damage with no roll)
   maxLostAttacks: 1,    // the threat loses at most this many attacks a round, whatever the cause (99 = no limit)

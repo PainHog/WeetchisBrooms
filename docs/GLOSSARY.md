@@ -23,7 +23,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Failure** | Fewer successes than half the Difficulty. It doesn't work and there's a cost. |
 | **Free** | A showdown action: Nerve against Defence to pull the innocent out of the threat's grip; only a success works. |
 | **Gift** | One of the guardian's abilities: Mend, Shield, Carry, Sense, Hold. |
-| **Guard** | A showdown action: until the threat has next acted, if it goes for the freed innocent, it attacks you instead. It ends if you go Down. |
+| **Guard** | A showdown action: until the end of the threat's next turn, if it goes for the freed innocent, it attacks you instead. It ends if you go Down. |
 | **Guardian** | The coven's protective spirit, bound to its home by an old promise; human or animal shape; no masters. Never called a "Warden". |
 | **Heart** | The rating for people: talking, comforting, lying, reading people. |
 | **Hit** (threat stat) | The Hurt a threat deals when a defence fails. |
@@ -40,7 +40,7 @@ One meaning per word (DESIGN-RULES A16). Every term here was checked against the
 | **Scar** | 1 Hurt carried into the next episode by a witch who was Down when the coven lost. |
 | **Scene** | One step of the investigation: everyone acts, Doom rises. The whole showdown counts as one scene for once-per-scene limits. |
 | **Season** | A run of episodes with carry-over. |
-| **Seen** | Exposure is full; the episode's result drops one step, and any further rise in Exposure becomes Doom +1. |
+| **Seen** | Exposure is full; the episode's result drops one step, and any further rise in Exposure becomes Doom +1 (once per round or scene). |
 | **Showdown** | The fight with the threat. |
 | **Showdown mark** | Doom 5: if Doom reaches it, the threat comes to the coven in a public place. |
 | **Spell** | Reveal, Bind, Blast, Shelter, Hide or the Unmaking (Craft, 1 Magic). |

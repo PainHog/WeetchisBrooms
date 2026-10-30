@@ -1,4 +1,4 @@
-# Core rules review: v0.4 to v0.8
+# Core rules review: v0.4 to v0.9
 
 The review procedure (`docs/REVIEW-PROCEDURE.md`) run on the core rules: a rules review of v0.4 (§1 below), two real-dice playtests of v0.4 (§2), the fixes made in v0.5 and v0.6 (§3), and a verification playtest of v0.6 with the v0.7 fixes (§4).
 
@@ -80,7 +80,8 @@ What both found most: free potions (no roll, no action) and stacked "loses its n
 - **v0.7** (`book/REVIEW.md` #43–51): the threat acts first in round 1; Binding needs a working attack; extra lost attacks are wasted; Shield once a round; Shelter and guarding end if you go Down; Toughness 3w / 3w / 4w; season threat growth of 2 Toughness per witch after the 2nd and 4th episodes; the verification's small items.
 - **Simulator after v0.7** (`sim/REPORT.md`): wins 85 / 73 / 59% and losses 0 / 8 / 23% (Easy / Standard / Hard); a witch goes Down in 39% of Standard and 61% of Hard episodes; every Power within 1.5 points; a guardian player within 5 points of an extra witch; seasons hold at 72–78% (Standard) and 55–64% (Hard) over 8 episodes.
 - **Verification of v0.7** (`sim/playtests/verify-v0.7.md`, real dice, two episodes: Hard with 4 witches and a guardian, Standard with 3 witches and no guardian): both **clean** (no blocker, no invented ruling on core flow), both Wins, and the threat attacked in every fight. Of the 18 v0.6 issues, 10 fixed, 5 partly, 2 kept by choice, 1 changed differently. It found one wording blocker in the public-showdown path (the innocent check read as coming before anyone could act), fixed in **v0.8** with other small items (`book/REVIEW.md` #52–56).
-- **Clean playtests so far:** two (both v0.7 episodes). Neither went down the public-showdown path, so the next playtest should force one.
+- **Public-showdown playtest of v0.8** (`sim/playtests/verify-v0.8.md`, real dice: Standard with 3 witches and a guardian, Easy with 3 new players and no guardian, both forced into public showdowns): both **clean**, both Wins. Of the 13 v0.7 issues, 8 fixed, 2 partly, 3 kept. The innocent was freed after the threat's first strike in both. Small fixes went into **v0.9** (`book/REVIEW.md` #57–61): Veil's Surge lasts two rounds in a showdown; guard and Shelter last to the end of the threat's next turn; you may leave your Power off a roll.
+- **Clean playtests in a row:** four (two on v0.7, two on v0.8), covering hidden and public showdowns, Easy, Standard and Hard, 3 to 5 players, with and without a guardian player.
 
 ## 5. Still open
 

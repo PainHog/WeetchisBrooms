@@ -28,7 +28,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     doom: 0, exposure: 0, seen: false, clues: 0,
     cluesNeeded: N.cluesPer * n + N.cluesAdd,  // [T] Clues needed
     scene: 0, phase: "investigation", place: "hidden", forced: false,
-    veiledScene: -1, veiledShowdown: false,
+    veiledScene: -1, veiledUntil: 0,
     innocent: { present: false, safe: false, lost: false, guard: null, held: false },
     threat: null, round: 0, magicThisRound: false, ended: null,
     brewed: 0, potionsUsed: 0, unmakeTries: 0, unmakeLog: [], cluesAtShowdown: 0, doomAtShowdown: 0,
@@ -274,7 +274,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     let surged = false;
     const quiet = R.hideQuiet; // "Casting Hide never raises Exposure."
     if (ch.power === "voice" && surgeOk(ch, 0)) { surge(ch, quiet); surged = true; }
-    if (ch.power === "veil" && st.phase === "showdown" && st.place === "public" && surgeOk(ch, 0)) { surge(ch, quiet); st.veiledShowdown = true; }
+    if (ch.power === "veil" && st.phase === "showdown" && st.place === "public" && surgeOk(ch, 0)) { surge(ch, quiet); st.veiledUntil = st.round + R.veilRounds - 1; } // "this round and the next"
     const r = roll(ch, { rating: "craft", action: "hide", difficulty: 2, spell: true, quiet });
     if (works(r.result)) lowerExposure((r.result === RESULT.CRITICAL ? 2 : 1) + (surged ? 1 : 0));
     if (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE) {
@@ -308,6 +308,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (by === "allWitches") return g ? 0 : settings.size.toughnessMod[n] || 0; // only covens with no guardian player
     return settings.size.toughnessMod[by === "w" ? w : n] || 0;
   }
+  const veiledNow = () => st.phase === "showdown" && st.veiledUntil >= st.round && st.veiledUntil > 0;
   function threatExposed() {
     const i = st.innocent;
     return i.present && !i.safe && !i.lost;
@@ -368,7 +369,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (!T.broken && !(st.round === 1 && R.threatFirst)) threatActs(); // "Then the threat acts."
     if (st.innocent.held && T.broken) st.innocent.held = false; // a Broken threat lets go
     if (st.innocent.held && st.round >= R.innocentHeld) { st.innocent.held = false; st.innocent.lost = true; } // "still held at the end of round 2: lost"
-    if (st.place === "public" && st.magicThisRound && !st.veiledShowdown) raiseExposure(1); // once per round
+    if (st.place === "public" && st.magicThisRound && !veiledNow()) raiseExposure(1); // once per round
     if (standing(coven.witches).length === 0) return end("allDown");
     if (T.broken) {
       if (J.brokenFlees === "thisRound" || st.round >= T.brokenRound + 1) return end("fled");
@@ -379,7 +380,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   }
 
   function carefulRound() {
-    return P.publicCare === "careful" && st.place === "public" && !st.seen && !st.veiledShowdown && st.exposure >= N.exposureMax - 1;
+    return P.publicCare === "careful" && st.place === "public" && !st.seen && !veiledNow() && st.exposure >= N.exposureMax - 1;
   }
 
   function mendTarget() {
@@ -450,9 +451,9 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       usePotion("healing"); heal(maxBy(needHeal, x => x.hurt * 10 + attackPool(x).pool), R.potionHeal); return;
     }
     // Veil in a public showdown: Hide with a Surge, so the rest of the showdown is unseen.
-    if (ch.power === "veil" && st.place === "public" && !st.veiledShowdown && !st.seen && ch.magic >= RESERVE + 1 + R.surgeCost) return hide(ch);
+    if (ch.power === "veil" && st.place === "public" && !veiledNow() && !st.seen && ch.magic >= RESERVE + 1 + R.surgeCost) return hide(ch);
     // Voice in a public showdown with Exposure climbing: Hide.
-    if (ch.power === "voice" && st.place === "public" && !st.seen && !st.veiledShowdown && st.exposure >= N.exposureMax - 2 && ch.magic >= RESERVE + 1) return hide(ch);
+    if (ch.power === "voice" && st.place === "public" && !st.seen && !veiledNow() && st.exposure >= N.exposureMax - 2 && ch.magic >= RESERVE + 1) return hide(ch);
     // Study the threat if the Weakness is still unknown.
     if (!weakness()) {
       const studiers = standing(coven.witches).filter(x => !acted.has(x));
