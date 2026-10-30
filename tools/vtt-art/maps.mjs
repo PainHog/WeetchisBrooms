@@ -156,17 +156,19 @@ function treeCrown(cx, cy, r, R, o = {}) {
 
 /* ------------------------------------------------------------ labels ---- */
 const FAM = { display: "Fraunces", serif: "Alegreya", sans: "Alegreya Sans" };
-/** Text with a dark halo so it reads on any ground. `text` may be an array of lines. */
+/** Text with a dark halo so it reads on any ground. `text` may be an array of lines.
+ *  halo: false draws plain filled text with no stroke (the print maps: see plabel). */
 function label(x, y, text, o = {}) {
   const { size = 28, weight = 700, font = "sans", fill = "#f6eedb", halo = "#0c1016", hw = Math.max(4, size * 0.24),
     anchor = "middle", ls, rot = 0, italic = false, opacity, lh = 1.12 } = o;
   const lines = Array.isArray(text) ? text : [text];
   const y0 = y - ((lines.length - 1) * size * lh) / 2;
   const inner = lines.map((t, i) => el("tspan", { x, y: y0 + i * size * lh }, esc(t))).join("");
+  const stroke = halo === false ? {} : { stroke: halo, "stroke-width": hw, "stroke-linejoin": "round", "paint-order": "stroke" };
   return el("text", {
     x, y: y0, "font-family": FAM[font], "font-size": size, "font-weight": weight, "font-style": italic ? "italic" : undefined,
-    "text-anchor": anchor, "dominant-baseline": "central", "letter-spacing": ls, fill, stroke: halo, "stroke-width": hw,
-    "stroke-linejoin": "round", "paint-order": "stroke", opacity, transform: rot ? `rotate(${rot} ${x} ${y})` : undefined,
+    "text-anchor": anchor, "dominant-baseline": "central", "letter-spacing": ls, fill, ...stroke,
+    opacity, transform: rot ? `rotate(${rot} ${x} ${y})` : undefined,
   }, inner);
 }
 /** A way in and out: an arrow pointing off the map plus a label tag. */
@@ -474,6 +476,10 @@ function checkBookSvg(name, svg) {
   if (!/<title>[^<]+<\/title>/.test(svg)) bad.push("no <title>");
   for (const [re, what] of [[/<image\b/, "<image>"], [/<script\b/i, "<script>"], [/<filter\b|filter="/, "a filter"], [/feTurbulence|feGaussianBlur/, "a filter primitive"],
     [/mix-blend-mode/, "a blend mode"], [/@font-face|@import/, "a web font"], [/(href|src)="(https?:|data:|file:)/, "an external link"], [/url\((?!#)/, "an external url()"]]) if (re.test(svg)) bad.push(what);
+  // no stroke on text: Chromium's PDF output turns stroked text into Type 3 fonts (release gates)
+  const strokedText = [...svg.matchAll(/<(text|tspan)\b[^>]*>/g)].filter(m => /\s(stroke(-[a-z]+)?|paint-order)="|style="[^"]*stroke/.test(m[0]) && !/\sstroke="none"/.test(m[0]));
+  if (strokedText.length) bad.push(`${strokedText.length} text element(s) with a stroke`);
+  if (/data-halo=/.test(svg)) bad.push("a label without its paper tag (data-halo left)");
   const fams = new Set([...svg.matchAll(/font-family="([^"]+)"/g)].map(m => m[1]));
   for (const f of fams) if (f !== "Fraunces" && f !== "Alegreya Sans") bad.push(`font ${f}`);
   const sizes = [...svg.matchAll(/font-size="([\d.]+)"/g)].map(m => +m[1]);
@@ -487,10 +493,62 @@ function checkBookSvg(name, svg) {
   return { kb, minPt };
 }
 
-/** Print label: ink on a paper halo. */
+/** Print label: ink on a paper tag. The text itself is plain filled text with no stroke:
+ *  Chromium's PDF output turns stroked text (a stroke halo with paint-order) into Type 3
+ *  fonts, which the release gates forbid. So the label is wrapped in a group marked
+ *  data-halo (the tag's padding), and addHalos() measures the text in the browser and
+ *  puts a rounded paper rectangle behind each line. A rotated label rotates the group. */
 function plabel(x, y, text, o = {}) {
   const size = o.size ?? 54;
-  return label(x, y, text, { weight: 700, fill: PAL.ink, halo: PAL.paper, hw: Math.max(8, size * 0.26), ...o, size });
+  const { rot = 0, ...rest } = o;
+  const t = label(x, y, text, { weight: 700, fill: PAL.ink, ...rest, size, halo: false, rot: 0 });
+  return el("g", { "data-halo": f1(size * 0.2), transform: rot ? `rotate(${rot} ${x} ${y})` : undefined }, t);
+}
+/** Measure every print label in the browser (book fonts loaded) and put a rounded paper
+ *  tag behind each line of it; strip the data-halo marks. Also checks, in the browser,
+ *  that no text has a computed stroke, and warns when two labels' tags overlap. */
+async function addHalos(browser, name, svg) {
+  const html = `<!doctype html><html><head><meta charset="utf-8"><style>${FONTS}\nhtml,body{margin:0;padding:0}svg{display:block;width:${W}px;height:${H}px}</style></head><body>${svg}</body></html>`;
+  const htmlPath = join(OUT, `${name}-halo.html`);
+  writeFileSync(htmlPath, html);
+  const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+  let res;
+  try {
+    await page.goto(pathToFileURL(htmlPath).href, { waitUntil: "load" });
+    res = await page.evaluate(async faces => {
+      await Promise.all(faces.map(f => document.fonts.load(f)));
+      await document.fonts.ready;
+      const missing = faces.filter(f => !document.fonts.check(f));
+      const groups = [...document.querySelectorAll("g[data-halo]")].map(g => {
+        const pad = +g.getAttribute("data-halo");
+        return [...g.querySelectorAll("tspan")].map(t => {
+          const b = t.getBBox(), c = t.getBoundingClientRect();
+          return { x: b.x - pad, y: b.y - pad * 0.15, w: b.width + pad * 2, h: b.height + pad * 0.3, rx: pad * 1.2,
+            box: [c.left - pad, c.top, c.right + pad, c.bottom], text: t.textContent };
+        });
+      });
+      const stroked = [...document.querySelectorAll("text, tspan")].filter(t => getComputedStyle(t).stroke !== "none").map(t => t.textContent);
+      return { missing, groups, stroked };
+    }, ['700 30px "Alegreya Sans"', '800 30px "Alegreya Sans"', 'italic 700 30px "Alegreya Sans"', '700 30px "Fraunces"']);
+  } finally {
+    await page.close();
+  }
+  if (res.missing.length) throw new Error(`${name} (labels): fonts not loaded: ${res.missing.join(", ")}`);
+  if (res.stroked.length) throw new Error(`${name} (labels): text with a stroke: ${res.stroked.join(" | ")}`);
+  // warn when two different labels' tags overlap
+  const all = res.groups.flatMap((g, i) => g.map(l => ({ i, b: l.box, t: l.text })));
+  for (let a = 0; a < all.length; a++) for (let b = a + 1; b < all.length; b++) {
+    if (all[a].i === all[b].i) continue;
+    const p = all[a].b, q = all[b].b;
+    if (p[0] < q[2] && q[0] < p[2] && p[1] < q[3] && q[1] < p[3]) console.warn(`  WARNING: ${name}: the tags of "${all[a].t}" and "${all[b].t}" overlap`);
+  }
+  let k = 0;
+  const out = svg.replace(/<g data-halo="[\d.]+"( transform="[^"]*")?>/g, (m, tf) => {
+    const tags = (res.groups[k++] ?? []).map(l => rect(l.x, l.y, l.w, l.h, { rx: l.rx, fill: PAL.paper, opacity: 0.92 })).join("");
+    return `<g${tf ?? ""}>${tags}`;
+  });
+  if (k !== res.groups.length) throw new Error(`${name} (labels): ${k} marks but ${res.groups.length} labels measured`);
+  return out;
 }
 /** Print way marker: a solid double arrow pointing off the map, and its label. */
 function pwayMarker(x, y, angleDeg, text, o = {}) {
@@ -3815,6 +3873,7 @@ try {
     PRINT = true;
     const book = MAPS[name]();
     PRINT = false;
+    book.svg = await addHalos(browser, name, book.svg);
     writeFileSync(join(OUT, `${name}-print.svg`), book.svg);
     const { kb, minPt } = checkBookSvg(name, book.svg);
     writeFileSync(join(BOOK_ART, `map-${name}.svg`), book.svg);
