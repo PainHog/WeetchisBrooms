@@ -19,6 +19,7 @@
  * Chromium: $CHROME_PATH, else /opt/pw-browsers/chromium when present, else
  * Playwright's own default browser.
  */
+import { spawnSync } from "node:child_process";
 import { chromium } from "playwright-core";
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname, relative } from "node:path";
@@ -45,6 +46,10 @@ const DRAFT = process.argv.includes("--draft");
 // --print: print-on-demand files — an interior with 0.125in bleed on every edge
 // (no covers, even page count) plus separate front and back covers with bleed.
 const PRINT = process.argv.includes("--print");
+// --white: a printer-friendly copy for home printers: no covers, white part pages,
+// and no decorative art (chapter headers, part pictures, end-of-chapter spots).
+// Portraits, maps and the sheets stay.
+const WHITE = !PRINT && process.argv.includes("--white");
 const BLEED_IN = PRINT ? 0.125 : 0;
 const CHROME = process.env.CHROME_PATH ?? (existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined);
 
@@ -250,6 +255,17 @@ const PRINT_CSS = `
 @page blankp { @bottom-center { content: none; } }
 `;
 
+const WHITE_CSS = `
+:root { --paper: #ffffff; }
+html, body { background: #ffffff; }
+@page part { background: #ffffff; }
+.part { background: #ffffff !important; color: var(--ink); }
+.part h1 { color: var(--ink); }
+.part-kicker { color: var(--dark); }
+.part-lede { color: var(--ink-soft); }
+.part .part-art, .chapter-head .chapter-art, .tailpiece { display: none !important; }
+`;
+
 const sectionOf = (html, cls) => (html.match(new RegExp(`<section class="${cls}"[\\s\\S]*?<\\/section>`)) ?? [null])[0];
 
 function page(pages, markers, spots = {}, { only = null, padBlank = false } = {}) {
@@ -261,8 +277,8 @@ function page(pages, markers, spots = {}, { only = null, padBlank = false } = {}
     // the Table of Contents follows the credits page (or the cover if there is none)
     const anchor = sectionOf(content, "credits") ?? sectionOf(content, "cover");
     content = anchor ? content.replace(anchor, anchor + "\n" + toc) : toc + content;
-    if (PRINT) {
-      // the print interior carries no covers: those are separate files
+    if (PRINT || WHITE) {
+      // the print interior carries no covers (those are separate files), and the printer-friendly copy has none
       for (const cls of ["cover", "back-cover"]) { const sec = sectionOf(content, cls); if (sec) content = content.replace(sec, ""); }
       if (padBlank) content += `\n<section class="blank-page"></section>`;
     }
@@ -288,6 +304,7 @@ function page(pages, markers, spots = {}, { only = null, padBlank = false } = {}
 <style>${css}</style>
 <style>${FOOTER_CSS}</style>
 ${PRINT ? `<style>${PRINT_CSS}</style>` : ""}
+${WHITE ? `<style>${WHITE_CSS}</style>` : ""}
 </head><body>
 ${content}
 </body></html>`;
@@ -351,7 +368,7 @@ try {
   if (missing.length) throw new Error(`could not locate on any page: ${missing.join(", ")}`);
 
   // Pass 2: place spot illustrations; drop any that would move a page, and re-check.
-  let spots = planSpots(p1.ends);
+  let spots = WHITE ? {} : planSpots(p1.ends);
   for (let attempt = 0; attempt < 4; attempt++) {
     const pass2 = join(DIST, ".pass2.pdf");
     await printPdf(browser, page(p1.found, true, spots), pass2);
@@ -364,9 +381,9 @@ try {
     if (shifted.length && !moved.length) spots = {};
   }
 
-  const out = join(DIST, PRINT ? `${FILE_STEM}_v${VERSION}_print-interior.pdf` : `${FILE_STEM}_v${VERSION}.pdf`);
+  const out = join(DIST, PRINT ? `${FILE_STEM}_v${VERSION}_print-interior.pdf` : WHITE ? `${FILE_STEM}_v${VERSION}_printer-friendly.pdf` : `${FILE_STEM}_v${VERSION}.pdf`);
   let html = page(p1.found, false, spots);
-  if (!PRINT) writeFileSync(join(DIST, HTML_NAME), html);
+  if (!PRINT && !WHITE) writeFileSync(join(DIST, HTML_NAME), html);
   await printPdf(browser, html, out);
   let { pages } = await pageMap(out);
   if (pages !== p1.pages) throw new Error("pass 1 and the final pass paginated differently — TOC numbers may be wrong");
@@ -383,6 +400,10 @@ try {
       await printPdf(browser, page(null, false, {}, { only: cls }), f);
       console.log(`Built ${relative(ROOT, f)} (${8.5 + 2 * BLEED_IN}in × ${11 + 2 * BLEED_IN}in, bleed included).`);
     }
+    // The cover spread (back, spine, front) for print-on-demand, from the two cover files.
+    const r = spawnSync("python3", [join(BOOK, "tools", "cover-spread.py"), DIST, `${FILE_STEM}_v${VERSION}`, String(pages)], { encoding: "utf8" });
+    if (r.status === 0) console.log(r.stdout.trim());
+    else warn.push(`cover spread not built (needs python3 with pymupdf): ${(r.stderr || r.error?.message || "").trim().split("\n").pop()}`);
   }
   for (const e of entries) {
     const sp = spots[e.id];

@@ -17,7 +17,8 @@ A tabletop roleplaying game about a group of witches, by **Richard Moore**. It t
 ```
 npm install
 npm run build:book          # rulebook PDF → book/dist/
-node book/build.mjs --print # print-on-demand interior + covers
+node book/build.mjs --print # print-on-demand interior, covers and cover spread
+node book/build.mjs --white # printer-friendly white copy for home printers
 npm run check               # validate the Foundry system + run tests
 ```
 
