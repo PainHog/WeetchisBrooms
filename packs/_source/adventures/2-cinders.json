@@ -1,0 +1,759 @@
+{
+  "key": "2-cinders",
+  "name": "Episode 2: Cinders",
+  "img": "systems/witch-ward/assets/scenes/harbour-fireworks.webp",
+  "caption": "A ready-to-play episode: Standard, against the Ash Widow.",
+  "description": "<p>A row of old houses burns in the shape of a wedding ring. A firefighter is getting married next week, and the Ash Widow wants the bride.</p><p>Includes the ready-made coven and Rook, the Ash Widow, Hannah Price; four scenes (Larkhaven, the Lantern House, The Harbour Fireworks, The Mariner Theatre); the full episode journal from the rulebook; the Life calls table; and macros to start the episode and open the Episode Tracker. Start with the journal <em>Cinders: run this episode</em>. Import one episode per world, or delete the last one's actors first, so names don't repeat.</p>",
+  "folders": [
+    {
+      "key": "f-coven",
+      "name": "Cinders: the coven",
+      "type": "Actor"
+    },
+    {
+      "key": "f-threat",
+      "name": "Cinders: the threat",
+      "type": "Actor"
+    },
+    {
+      "key": "f-people",
+      "name": "Cinders: people",
+      "type": "Actor"
+    },
+    {
+      "key": "f-scenes",
+      "name": "Cinders",
+      "type": "Scene"
+    },
+    {
+      "key": "f-journal",
+      "name": "Cinders",
+      "type": "JournalEntry"
+    },
+    {
+      "key": "f-tables",
+      "name": "Witch & Ward tables",
+      "type": "RollTable"
+    },
+    {
+      "key": "f-macros",
+      "name": "Witch & Ward",
+      "type": "Macro"
+    }
+  ],
+  "actors": [
+    {
+      "key": "dana-okafor",
+      "name": "Dana Okafor",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/dana-okafor.webp",
+      "token": "systems/witch-ward/assets/tokens/dana-okafor.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 2,
+        "nerve": 3,
+        "craft": 1,
+        "power": "force",
+        "life": "Nurse",
+        "tie": "Grew up next door to the Lantern House",
+        "look": "Tall, short natural hair, scrubs under a denim jacket; a silver ring on her left thumb",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "marco-rossi",
+      "name": "Marco Rossi",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/marco-rossi.webp",
+      "token": "systems/witch-ward/assets/tokens/marco-rossi.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 1,
+        "nerve": 3,
+        "craft": 2,
+        "power": "flame",
+        "life": "Mechanic",
+        "tie": "Cousin of the family that owns the house",
+        "look": "Stocky, oil on his hands, rolled sleeves; a burn scar on his right forearm",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: he."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "june-takeda",
+      "name": "June Takeda",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/june-takeda.webp",
+      "token": "systems/witch-ward/assets/tokens/june-takeda.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 3,
+        "nerve": 1,
+        "craft": 2,
+        "power": "sight",
+        "life": "Student",
+        "tie": "Found the Book in a second-hand shop and followed it home",
+        "look": "Small, round glasses, a yellow raincoat; always carries a notebook",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "quinn-abernathy",
+      "name": "Quinn Abernathy",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/quinn-abernathy.webp",
+      "token": "systems/witch-ward/assets/tokens/quinn-abernathy.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 3,
+        "wits": 2,
+        "nerve": 1,
+        "craft": 2,
+        "power": "voice",
+        "life": "Teacher",
+        "tie": "Old friend of Dana's from school",
+        "look": "Lanky, curly red hair, cardigan, a whistle on a cord",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: they."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "tess-lindqvist",
+      "name": "Tess Lindqvist",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/tess-lindqvist.webp",
+      "token": "systems/witch-ward/assets/tokens/tess-lindqvist.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 1,
+        "wits": 2,
+        "nerve": 3,
+        "craft": 2,
+        "power": "veil",
+        "life": "Bus driver",
+        "tie": "Inherited a room in the house from her gran",
+        "look": "Broad-shouldered, blonde braid, driver's uniform; a pale streak in her braid",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "noor-haddad",
+      "name": "Noor Haddad",
+      "type": "witch",
+      "img": "systems/witch-ward/assets/tokens/noor-haddad.webp",
+      "token": "systems/witch-ward/assets/tokens/noor-haddad.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 2,
+        "wits": 2,
+        "nerve": 1,
+        "craft": 3,
+        "power": "wild",
+        "life": "Shop worker",
+        "tie": "Answered an advert for a lodger and stayed",
+        "look": "Headscarf in green, soil under her nails; a crow feather in her pocket",
+        "hurt": 0,
+        "magic": 5,
+        "lifeAnswered": false,
+        "surgeUsed": false,
+        "scar": false,
+        "notes": "Pronouns: she. Works at a garden centre."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "rook",
+      "name": "Rook",
+      "type": "guardian",
+      "img": "systems/witch-ward/assets/tokens/rook.webp",
+      "token": "systems/witch-ward/assets/tokens/rook.webp",
+      "disposition": 1,
+      "system": {
+        "heart": 3,
+        "wits": 2,
+        "nerve": 2,
+        "hurt": 0,
+        "ward": 5,
+        "look": "In human shape, a very tall, very still person in a long grey coat, grey-eyed, who speaks little. In animal shape, a large black rook.",
+        "notes": "A protective spirit bound to the Lantern House by an old promise. It calls the witches \"the household\". When it Carries someone, the air folds like a page and they are elsewhere."
+      },
+      "folder": "f-coven"
+    },
+    {
+      "key": "ash-widow",
+      "name": "The Ash Widow",
+      "type": "threat",
+      "img": "systems/witch-ward/assets/tokens/ash-widow.webp",
+      "token": "systems/witch-ward/assets/tokens/ash-widow.webp",
+      "disposition": -1,
+      "system": {
+        "what": "A fire spirit in a burned wedding dress",
+        "plan": "To burn the house where she died, with a bride inside",
+        "weakness": "Water from the harbour, blessed by a coven",
+        "hiddenPlace": "The burned-out theatre on the Docks",
+        "publicPlace": "The harbour fireworks",
+        "signature": "Cinders: attack every character, but Hit is 1.",
+        "notes": "",
+        "signatureIsAttack": true
+      },
+      "folder": "f-threat"
+    },
+    {
+      "key": "hannah-price",
+      "name": "Hannah Price",
+      "type": "person",
+      "img": "icons/svg/mystery-man.svg",
+      "token": "icons/svg/mystery-man.svg",
+      "disposition": 0,
+      "folder": "f-people",
+      "system": {
+        "role": "innocent",
+        "look": "",
+        "notes": "Hannah is a firefighter at the Old Town fire station: practical, funny and fearless about everything except her own wedding. She marries Jess Moran next Saturday. They have just bought their first house, an old terrace at 7 Ropewalk Lane , one street over from Tanner’s Row. They move in after the wedding. Hannah was the firefighter in the street, and she hasn’t told anyone what she saw. This week Larkhaven holds its harbour fireworks. Hannah’s crew is on standby on the quayside, and that is where the Ash Widow will take her if Doom reaches the Showdown mark."
+      }
+    },
+    {
+      "key": "bystander",
+      "name": "Bystander",
+      "type": "person",
+      "img": "systems/witch-ward/assets/tokens/bystander.webp",
+      "token": "systems/witch-ward/assets/tokens/bystander.webp",
+      "disposition": 0,
+      "folder": "f-people",
+      "system": {
+        "role": "bystander",
+        "look": "",
+        "notes": "Anyone else at the scene."
+      }
+    }
+  ],
+  "journal": [
+    {
+      "key": "run",
+      "name": "Cinders: run this episode",
+      "folder": "f-journal",
+      "pages": [
+        {
+          "key": "start",
+          "name": "Start here",
+          "content": "\n<p>This is the book's Episode 2 (Chapter 15), ready to play: a Standard episode against <strong>the Ash Widow</strong>, for 3–5 players and a Storyteller. Play takes 2–3 hours.</p>\n<h2>Before the players arrive</h2>\n<ol>\n<li>Give each player one witch from the <strong>Cinders: the coven</strong> folder (right-click the actor, Configure Ownership, set the player to Owner). If a player wants to play <strong>Rook</strong>, give them Rook; if nobody does, leave Rook unowned.</li>\n<li>Show the players the <strong>Cinders: for the players</strong> journal and the <strong>Lantern House</strong> scene.</li>\n<li>Run the macro <strong>Start Cinders</strong> (or open the Episode Tracker from the Actors sidebar and press Start an episode). Standard and the Ash Widow are already picked; tick the witches being played, and Rook only if a player plays it. Press Start. Every number for your group is set for you.</li>\n</ol>\n<h2>Playing</h2>\n<ol>\n<li>Read the opening aloud (it's in the player journal), then roll on the <strong>Cinders: Life calls</strong> table for each witch, or pick.</li>\n<li><strong>Investigation:</strong> use the <strong>Larkhaven</strong> scene for the city. Each character takes one action a scene: players roll from their sheets. When everyone has acted, press <strong>End the scene</strong> on the tracker.</li>\n<li>When the tracker says the coven may go to it, the players choose: go now (<strong>The Mariner Theatre</strong>, a hidden showdown) or keep looking for the Weakness. If Doom reaches the mark first, the threat comes to them: <strong>The Harbour Fireworks</strong>, with Hannah Price in its grip.</li>\n<li><strong>Showdown:</strong> round 1, press <strong>The threat acts</strong> first. Each target clicks Defend on the card. Then the characters act, then <strong>End the round</strong>. From round 2, the characters act first. When the threat is Broken, press <strong>The Unmaking</strong>.</li>\n<li>Play the closing scene from the episode journal.</li>\n</ol>\n<p>The full rules are in the <em>Rules and episodes</em> compendium and the rulebook. The episode journal below is the book's text.</p>"
+        }
+      ]
+    },
+    {
+      "key": "episode",
+      "name": "Episode 2: Cinders (Storyteller)",
+      "folder": "f-journal",
+      "pages": [
+        {
+          "key": "storyteller",
+          "name": "Storyteller only",
+          "content": "</header>\n\n  <aside class=\"box gm\">\n    <h4>Storyteller only</h4>\n    <p>This chapter is for the Storyteller. Players shouldn’t read it before they play it: the fun is in finding out.</p>\n  </aside>\n\n  <p class=\"opener\">More than a hundred years ago, a bride died in a fire on her wedding night. Now the Ash Widow walks the Docks again, looking for the house where she died. She wants to burn it, with a bride inside, and a firefighter who is getting married next week has just bought it. This is a Standard episode.</p>"
+        },
+        {
+          "key": "setting-up",
+          "name": "Setting up",
+          "content": "<p>Set every number at the start of the episode. They don’t change if someone joins or leaves. Doom, Exposure and Clues start at 0.</p>\n\n  <table class=\"tbl\">\n    <thead><tr><th>Standard</th><th>Number</th></tr></thead>\n    <tbody>\n      <tr><td>Lead Difficulty</td><td>2</td></tr>\n      <tr><td>Defence</td><td>2 (3 until the coven knows the Weakness)</td></tr>\n      <tr><td>Danger</td><td>3</td></tr>\n      <tr><td>Hit</td><td>2</td></tr>\n      <tr><td>Attacks a round</td><td>1 against 3 characters, 2 against 4 or 5</td></tr>\n      <tr><td>Exposure boxes</td><td>4 (cross out box 5 on the tracker)</td></tr>\n      <tr><td>Doom</td><td>12 boxes, Showdown mark at 5</td></tr>\n    </tbody>\n  </table>\n\n  <p><strong>Clues</strong> depend on <strong>n</strong>: the witches, plus the guardian if a player plays it. At Standard you need 4 × n − 1.</p>\n  <table class=\"tbl\">\n    <thead><tr><th>Characters (n)</th><th class=\"num\">Clues needed</th><th class=\"num\">Half (what and where)</th></tr></thead>\n    <tbody>\n      <tr><td>3</td><td class=\"num\">11</td><td class=\"num\">6</td></tr>\n      <tr><td>4</td><td class=\"num\">15</td><td class=\"num\">8</td></tr>\n      <tr><td>5</td><td class=\"num\">19</td><td class=\"num\">10</td></tr>\n    </tbody>\n  </table>\n\n  <p><strong>Toughness</strong> depends on <strong>w</strong>, the witches only. At Standard it is 3 × w, plus 3 against 3 witches with no guardian player. The Unmaking’s Difficulty is the number of witches, +2 without the Weakness.</p>\n  <table class=\"tbl\">\n    <thead><tr><th>Witches (w)</th><th class=\"num\">Toughness</th></tr></thead>\n    <tbody>\n      <tr><td>2</td><td class=\"num\">6</td></tr>\n      <tr><td>3, with a guardian player</td><td class=\"num\">9</td></tr>\n      <tr><td>3, no guardian player</td><td class=\"num\">12</td></tr>\n      <tr><td>4</td><td class=\"num\">12</td></tr>\n      <tr><td>5</td><td class=\"num\">15</td></tr>\n    </tbody>\n  </table>\n  <p>Played later in a season, add the season’s Toughness (Chapter 8).</p>"
+        },
+        {
+          "key": "the-opening",
+          "name": "The opening",
+          "content": "<p>Read this aloud, then ask the players where their witches were when they saw the smoke.</p>\n  <p><em>Saturday night on the Docks. Sirens. Smoke rolls up from Tanner’s Row, a terrace of old houses one street back from the water. From the hill you can see that this fire isn’t spreading the way fires do. It runs in a perfect circle through the back gardens, house to house, a ring of flame with one bright knot of fire at the top, like a wedding ring dropped on the city. The fire crews get everyone out. One firefighter stops in the street and stares into the flames, at a woman in a wedding dress burned grey-white, who stares back. The air smells of smoke and orange blossom. Then the woman is gone, and the ring goes out all at once.</em></p>\n  <p>Then tell each witch what their Life wants from them this episode (the Life calls table below).</p>\n  <p>The opening isn’t a scene (Chapter 9). If the players run into the smoke after the woman in the wedding dress or go to help the fire crews, let them: by the time they get there, she is gone. What they wanted to do becomes their first lead in scene 1.</p>"
+        },
+        {
+          "key": "the-innocent-hannah-price",
+          "name": "The innocent: Hannah Price",
+          "content": "<p>Hannah is a firefighter at the Old Town fire station: practical, funny and fearless about everything except her own wedding. She marries Jess Moran next Saturday. They have just bought their first house, an old terrace at <strong>7 Ropewalk Lane</strong>, one street over from Tanner’s Row. They move in after the wedding. Hannah was the firefighter in the street, and she hasn’t told anyone what she saw.</p>\n  <p>This week Larkhaven holds its harbour fireworks. Hannah’s crew is on standby on the quayside, and that is where the Ash Widow will take her if Doom reaches the Showdown mark.</p>"
+        },
+        {
+          "key": "the-threat-the-ash-widow",
+          "name": "The threat: the Ash Widow",
+          "content": "<p>Her stat block is in Chapter 10. She is a fire spirit in a burned wedding dress. In life she was <strong>Clara Wren</strong>. In 1911 she married Edwin Hale, and the wedding party was held at the Mariner Theatre on the Docks. That night their new house on Ropewalk Lane caught fire. Edwin died trying to reach her, and she died a few minutes later: a widow for those few minutes. Docks people have called her the Ash Widow ever since.</p>\n  <ul>\n    <li><strong>Plan:</strong> to burn the house where she died, with a bride inside.</li>\n    <li><strong>Weakness:</strong> water from the harbour, blessed by a coven.</li>\n    <li><strong>Hidden place:</strong> the burned-out theatre on the Docks (the Mariner).</li>\n    <li><strong>Public place:</strong> the harbour fireworks.</li>\n    <li><strong>Signature move (on a 6):</strong> <strong>Cinders:</strong> attack every character, but Hit is 1. If the innocent is there and free, she goes for her instead.</li>\n  </ul>\n\n  <aside class=\"box rule\">\n    <h3>Go to her, or wait?</h3>\n    <p>At the end of each scene, Doom +1. If Doom has reached 5, it’s too late: the Ash Widow comes to the coven at the harbour fireworks, with Hannah in her grip. If not, and the coven has half the Clues, it knows what she is and where she hides, and may go to the Mariner (this takes no scene). Hannah isn’t there.</p>\n  </aside>\n  <p><strong>As Doom rises.</strong> At Doom 2, a ring is scorched into the front step of 7 Ropewalk Lane, and the new paint inside blisters, though nothing burns. At Doom 4, Hannah finds her wedding veil in her locker at the fire station, scorched in a perfect ring and smelling of orange blossom. From Doom 6, in the showdown, the flames round the fight climb higher each round, in a perfect ring that never spreads.</p>"
+        },
+        {
+          "key": "leads",
+          "name": "Leads",
+          "content": "<p>Here are six leads to offer. Each says where it happens, the roll, and which Powers fit. Rolls are against the Lead Difficulty (2). A success gives 1 Clue, a Critical 2, a Partial 1 with a cost.</p>\n  <ul>\n    <li>Use the <strong>What and where</strong> answer while the coven has fewer than half the Clues (count them before the roll). Use the <strong>Weakness</strong> answer once it has half or more.</li>\n    <li>Players can come back to a lead. Show them something new there each time.</li>\n    <li>When the coven has all the Clues, tell them the whole Weakness plainly, whichever lead gave the last one.</li>\n    <li>Out in the city, a cost is Exposure +1 if the witch was casting (a Power or Reveal), or else 1 Hurt. Anyone else the coven talks to is a talking lead too.</li>\n  </ul>\n\n  <h3>1. Hannah Price (talking)</h3>\n  <p><strong>Where:</strong> the Old Town fire station, between shifts. <strong>Roll:</strong> Heart. <strong>Powers that fit:</strong> Sight, Voice, Wild.</p>\n  <p><strong>What and where:</strong> In the flames at Tanner’s Row, a woman in a burned wedding dress asked her, in a voice like paper catching, “Are you to be married?” The ring of fire started at the end of the row nearest the old Mariner Theatre. Hannah mentions, without thinking, that she has just bought a house one street over.</p>\n  <p><strong>Weakness:</strong> Water from the hoses, off the mains, did nothing. Only the fireboat’s pumps, drawing straight from the harbour, made the flames shrink back, “like it hurt”.</p>\n\n  <h3>2. Winnie Doyle (talking)</h3>\n  <p><strong>Where:</strong> the Seaview care home on the Harbour. Winnie is 91 and ran the bar at the Mariner until it burned in 1979. <strong>Roll:</strong> Heart. <strong>Powers that fit:</strong> Sight, Voice, Wild.</p>\n  <p><strong>What and where:</strong> Winnie tells the story of Clara Wren: married in 1911, the party at the Mariner, the fire on Ropewalk Lane that night. She saw the Ash Widow herself, standing on the Mariner’s stage the night it burned in 1979. “She sleeps in there. In the ashes.”</p>\n  <p><strong>Weakness:</strong> Winnie’s mother told her that in 1911 the Old Town women put out the fire at the Mariner with buckets of harbour water, “and they said words over every bucket”. Then, quieter: “Clara Wren was one of them. That’s why they burned her house.”</p>\n\n  <h3>3. Tanner’s Row (searching)</h3>\n  <p><strong>Where:</strong> the burned houses on the Docks, behind the fire service tape. <strong>Roll:</strong> Wits. <strong>Powers that fit:</strong> Sight, Veil, Wild.</p>\n  <p><strong>What and where:</strong> Small bare footprints in the ash come from the direction of the Mariner Theatre and go round the row, door to door. Every door number is scorched away. She was looking for one house. In one letterbox is a charred wedding invitation: <em>Hannah Price and Jess Moran, next Saturday</em>.</p>\n  <p><strong>Weakness:</strong> Wherever the fireboat’s harbour water pooled, the ash won’t settle. A scrap of burnt lace near a puddle curls away from it and crumbles.</p>\n\n  <h3>4. The newspaper archive (searching)</h3>\n  <p><strong>Where:</strong> the university library on University Hill (the open floors, not the locked basement). A student’s Life might fit here. <strong>Roll:</strong> Wits. <strong>Powers that fit:</strong> Sight, Veil, Wild.</p>\n  <p><strong>What and where:</strong> <em>The Larkhaven Courier</em>, 1911: “Bride dies in Ropewalk Lane fire on wedding night”, with a photograph of Clara Wren. The Mariner burned again in 1952 and 1979, both times on the night of a big wedding in the city. This year’s property notices: <em>7 Ropewalk Lane, sold to H. Price and J. Moran</em>.</p>\n  <p><strong>Weakness:</strong> A letter to the editor from 1911: the fire brigade couldn’t save the Mariner, but “a line of Old Town women with buckets from the harbour” put it out, “talking over every bucket like a church full of grandmothers”.</p>\n\n  <h3>5. The Book (research at home)</h3>\n  <p><strong>Where:</strong> the attic of the Lantern House. <strong>Roll:</strong> Wits with +1 die (the Book), with no Exposure; one character per scene. It is a searching lead. <strong>Powers that fit:</strong> Sight, Veil, Wild.</p>\n  <p><strong>What and where:</strong> A page on <em>brides of ash</em>: a woman who dies by fire on her wedding night may burn on until the house she died in burns again, with a bride inside. Between fires, she rests where she was last happy. For Clara, that was the stage of the Mariner.</p>\n  <p><strong>Weakness:</strong> In the margin of that page, notes in a small neat hand, signed <em>C. W.</em>: harbour water, blessed by a coven, puts out any fire that walks. Clara Wren wrote in this Book. (This is the twist; see below.)</p>\n\n  <h3>6. 7 Ropewalk Lane (Reveal)</h3>\n  <p><strong>Where:</strong> Hannah and Jess’s new house, empty and smelling of paint. Nothing ordinary shows here, so Heart and Wits find nothing. <strong>Roll:</strong> Reveal (Craft, 1 Magic); a success gives 1 more Clue. It is casting, so a cost is Exposure +1. <strong>Powers that fit:</strong> Sight.</p>\n  <p><strong>What and where:</strong> Reveal shows the house as it was on the night in 1911: burning, with a woman in white at the upstairs window. A trail of glowing footprints leads out of the front door and down to the Mariner Theatre.</p>\n  <p><strong>Weakness:</strong> At the end of the lane, on the old harbour steps, Reveal shows marks cut into the stone, glowing faintly. This is where Clara’s coven blessed the water.</p>"
+        },
+        {
+          "key": "life-calls",
+          "name": "Life calls",
+          "content": "<p>At the opening, find each witch’s Life (the number is its roll on the Life table) and tell them what it wants this episode. Answering takes their action for one scene, needs no roll and gives 1 Magic. If they haven’t answered by the showdown, they lose 1 Magic (or take 1 Hurt if they have none).</p>\n  <table class=\"tbl\">\n    <thead><tr><th class=\"num\">d6</th><th>Life</th><th>This episode’s call</th></tr></thead>\n    <tbody>\n      <tr><td class=\"num\">1</td><td>Student</td><td>A revision session the lecturer says “you’ll regret missing”, on the same night as a best friend’s birthday.</td></tr>\n      <tr><td class=\"num\">2</td><td>Nurse</td><td>The burns unit needs cover after the Tanner’s Row fire.</td></tr>\n      <tr><td class=\"num\">3</td><td>Shop worker</td><td>A rush order for Saturday: two hundred white roses for a wedding, every one checked by hand.</td></tr>\n      <tr><td class=\"num\">4</td><td>Teacher</td><td>A class trip to the harbour festival needs one more adult, or it’s cancelled.</td></tr>\n      <tr><td class=\"num\">5</td><td>Mechanic</td><td>A vintage car booked for a wedding on Saturday won’t start. The bride’s mother rings every hour.</td></tr>\n      <tr><td class=\"num\">6</td><td>Bus driver</td><td>The diversion round Tanner’s Row has doubled the route, and the night bus needs a driver.</td></tr>\n    </tbody>\n  </table>"
+        },
+        {
+          "key": "the-hidden-place-the-mariner-theatre",
+          "name": "The hidden place: the Mariner Theatre",
+          "content": "<p>A burned-out theatre in the middle of the Docks, between new flats and the container yard. Nobody has managed to knock it down. The coven goes to it with half the Clues; going takes no scene. Nothing here needs a roll to get past. If the coven retreats, everyone leaves together by any way out. Hannah isn’t here.</p>\n  <ul>\n    <li><strong>The front.</strong> Boarded doors under a sagging canopy, an old ticket booth and a sign: <em>Danger. Keep Out.</em></li>\n    <li><strong>The foyer.</strong> A black marble floor, a grand staircase that ends in empty air, and a wall of mirrors cracked by heat.</li>\n    <li><strong>The stalls.</strong> Rows of burnt seats under a roof that is mostly sky. Ash drifts down like snow, though nothing is burning.</li>\n    <li><strong>The stage.</strong> The boards are sound. A wedding arch of wire and wax flowers still stands at the back. This is where she sleeps.</li>\n    <li><strong>The fly gallery.</strong> Iron walkways high above the stage, hung with old ropes.</li>\n    <li><strong>Under the stage.</strong> Damp dressing rooms. At high tide, harbour water seeps in ankle-deep.</li>\n  </ul>\n  <p><strong>Ways in:</strong> the front doors (the boards come away); the stage door from the container yard; the loading dock at the side, with its roller door half up; the broken roof, from the warehouse next door. <strong>Ways out:</strong> the same four.</p>\n  <p>The Ash Widow rises out of the ash on the stage. The wax flowers on the arch melt, and every seat in the stalls catches light at once, though none of them burns away.</p>"
+        },
+        {
+          "key": "the-public-place-the-harbour-fireworks",
+          "name": "The public place: the harbour fireworks",
+          "content": "<p>If Doom reaches the Showdown mark, it is fireworks night, and half of Larkhaven is on the quayside. In a public place, every round in which anyone was casting raises Exposure by 1 (once per round). Nothing here needs a roll to get past.</p>\n  <ul>\n    <li><strong>The quayside.</strong> Thousands of people, food vans and music. Hannah’s fire engine is parked here, and the fireboat is moored at the quay.</li>\n    <li><strong>The fireworks barge.</strong> Moored out in the harbour. The show is fired from here.</li>\n    <li><strong>The ferry terminal.</strong> A glass hall, open late for the festival.</li>\n    <li><strong>The fish market roof.</strong> A flat roof where people climb for a better view.</li>\n    <li><strong>The promenade.</strong> The wide walk from Old Town to the long pier.</li>\n    <li><strong>The harbour steps.</strong> Stone steps down to the water, where small boats tie up.</li>\n  </ul>\n  <p><strong>Ways in and out:</strong> the promenade from Old Town; through the ferry terminal; the fish market lane; by boat to the harbour steps.</p>\n  <p><strong>In her grip:</strong> as the first rocket goes up, it bursts white and falls burning onto the quay, and the Ash Widow walks out of the sparks with her arms round Hannah. Hannah’s helmet is melting. To free her, roll Nerve against Defence; only a success frees her. If she is still in her grip at the end of the first round, she is lost. Once she is free, Rook (or the coven’s call) can Carry her to a place it knows, such as the Lantern House.</p>"
+        },
+        {
+          "key": "the-twist",
+          "name": "The twist",
+          "content": "<p>Clara Wren was a witch, and she lived in the Lantern House before she married. Her notes are in the margins of the Book. In 1911, someone saw her cast and talked. By her wedding night, half the Docks believed she was a witch, and somebody set her new house alight. Her coven blessed harbour water and saved the Mariner, but they were too late for her.</p>\n  <p>The twist comes out on Winnie’s lead and in the Book, or in the showdown, when the Ash Widow looks at the coven and whispers, “You’re from the lamp house. So was I.” It is a hard reminder of why magic stays secret. The twist changes no rules.</p>"
+        },
+        {
+          "key": "endings",
+          "name": "Endings",
+          "content": "<p><strong>Win</strong> (she is destroyed, and Hannah is safe). The blessed water hisses over her. The fire goes out of her dress, and for a moment she is a young woman in white, smiling. “Tell Edwin I waited,” she says, and she is gone. On Saturday, Hannah marries Jess.</p>\n  <p><strong>Partial</strong> (she fled, or she was destroyed but Hannah was lost). If she fled, she sinks into the ashes of the Mariner and waits for the next wedding in Larkhaven. Hannah marries, but every wedding in the city this year has a fire engine parked outside. If she was destroyed but Hannah was lost, the Widow took Hannah into the fire with her as she went out, and no one finds her. Jess keeps the keys to Ropewalk Lane and won’t sell.</p>\n  <p><strong>Loss</strong> (Doom filled, every witch Down, or the coven retreated). If Doom filled, her plan is complete: Hannah is lost and the Ash Widow escapes. On the night before the wedding, 7 Ropewalk Lane burns again, in a perfect ring, with Hannah inside. If every witch went Down or the coven retreated, she walks away through the flames, still asking everyone she passes if they are to be married. If Hannah was still in the fight, the Widow takes her into the fire, and she is lost.</p>\n  <p><strong>Seen</strong> (the result drops one step; a Loss stays a Loss). The fireworks crowd filmed everything. By morning, “Larkhaven’s burning bride” and the people who fought her are on every phone in the city. Or, if the coven was Seen during the investigation, someone caught a witch casting at Tanner’s Row, and the fire service wants a word.</p>\n  <p><strong>Carry-over.</strong> If she was destroyed, the Ash Widow gets a page in the Book (next time, start with half the Clues, rounded up). If she wasn’t, she comes back later, when the Storyteller chooses, with 2 more Toughness each time. A witch who is Down when the coven loses (except by retreating) gets a Scar: 1 Hurt at the start of the next episode.</p>"
+        },
+        {
+          "key": "closing-scene",
+          "name": "Closing scene",
+          "content": "<p>Saturday comes. Give each player a short Life scene: what they missed this week, and who forgave them. Then go to the wedding, if there is one, or to the empty house on Ropewalk Lane if there isn’t. Hannah raises a glass “to absent friends” and looks straight at the coven. End in the attic of the Lantern House, where the coven opens the Book to Clara Wren’s neat notes and decides what to write beside them.</p>"
+        }
+      ]
+    },
+    {
+      "key": "players",
+      "name": "Cinders: for the players",
+      "folder": "f-journal",
+      "observer": true,
+      "pages": [
+        {
+          "key": "opening",
+          "name": "The opening",
+          "content": "<p><em>Saturday night on the Docks. Sirens. Smoke rolls up from Tanner’s Row, a terrace of old houses one street back from the water. From the hill you can see that this fire isn’t spreading the way fires do. It runs in a perfect circle through the back gardens, house to house, a ring of flame with one bright knot of fire at the top, like a wedding ring dropped on the city. The fire crews get everyone out. One firefighter stops in the street and stares into the flames, at a woman in a wedding dress burned grey-white, who stares back. The air smells of smoke and orange blossom. Then the woman is gone, and the ring goes out all at once.</em></p>"
+        },
+        {
+          "key": "house",
+          "name": "The Lantern House",
+          "content": "\n<p>A narrow, three-storey house in Old Town with a lamp over the door that has never gone out. The Book lives in the attic. The kitchen is where potions get brewed. The guardian, Rook, is bound to the house.</p>\n<ul>\n<li><strong>Ground floor:</strong> front room, kitchen (brewing), back door to a walled garden.</li>\n<li><strong>First floor:</strong> three bedrooms, bathroom.</li>\n<li><strong>Attic:</strong> the Book on a lectern, old trunks, a round window over the street.</li>\n</ul>\n<p>Researching the Book happens here: a lead using Wits, +1 die, with no Exposure (one character a scene, who may also brew that scene).</p>"
+        }
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "key": "life-calls",
+      "name": "Cinders: Life calls",
+      "folder": "f-tables",
+      "description": "Episode 2: what each witch's Life wants from them this episode.",
+      "results": [
+        "Student: A revision session the lecturer says “you’ll regret missing”, on the same night as a best friend’s birthday.",
+        "Nurse: The burns unit needs cover after the Tanner’s Row fire.",
+        "Shop worker: A rush order for Saturday: two hundred white roses for a wedding, every one checked by hand.",
+        "Teacher: A class trip to the harbour festival needs one more adult, or it’s cancelled.",
+        "Mechanic: A vintage car booked for a wedding on Saturday won’t start. The bride’s mother rings every hour.",
+        "Bus driver: The diversion round Tanner’s Row has doubled the route, and the night bus needs a driver."
+      ]
+    }
+  ],
+  "macros": [
+    {
+      "key": "start",
+      "name": "Start Cinders",
+      "folder": "f-macros",
+      "img": "icons/svg/book.svg",
+      "command": "game.witchWard.episode.startDialog({ label: \"standard\", threatName: \"The Ash Widow\" });"
+    },
+    {
+      "key": "tracker",
+      "name": "Episode Tracker",
+      "folder": "f-macros",
+      "img": "icons/svg/clockwork.svg",
+      "command": "game.witchWard.tracker();"
+    }
+  ],
+  "scenes": [
+    {
+      "key": "larkhaven",
+      "name": "Larkhaven",
+      "background": "systems/witch-ward/assets/scenes/larkhaven.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": true,
+      "journal": "episode",
+      "journalPage": "leads",
+      "folder": "f-scenes",
+      "tokens": [],
+      "notes": []
+    },
+    {
+      "key": "lantern-house",
+      "name": "The Lantern House",
+      "background": "systems/witch-ward/assets/scenes/lantern-house.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": false,
+      "journal": "players",
+      "journalPage": "house",
+      "folder": "f-scenes",
+      "tokens": [
+        {
+          "actor": "dana-okafor",
+          "x": 500,
+          "y": 1600
+        },
+        {
+          "actor": "marco-rossi",
+          "x": 700,
+          "y": 1300
+        },
+        {
+          "actor": "june-takeda",
+          "x": 400,
+          "y": 1100
+        },
+        {
+          "actor": "quinn-abernathy",
+          "x": 500,
+          "y": 500
+        },
+        {
+          "actor": "tess-lindqvist",
+          "x": 300,
+          "y": 1400
+        },
+        {
+          "actor": "noor-haddad",
+          "x": 1600,
+          "y": 1600
+        },
+        {
+          "actor": "rook",
+          "x": 2600,
+          "y": 1300
+        }
+      ],
+      "notes": []
+    },
+    {
+      "key": "harbour-fireworks",
+      "name": "The Harbour Fireworks",
+      "background": "systems/witch-ward/assets/scenes/harbour-fireworks.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": false,
+      "journal": "episode",
+      "journalPage": "the-public-place-the-harbour-fireworks",
+      "folder": "f-scenes",
+      "tokens": [
+        {
+          "actor": "dana-okafor",
+          "x": 2600,
+          "y": 300
+        },
+        {
+          "actor": "marco-rossi",
+          "x": 2700,
+          "y": 300
+        },
+        {
+          "actor": "june-takeda",
+          "x": 2800,
+          "y": 300
+        },
+        {
+          "actor": "quinn-abernathy",
+          "x": 2600,
+          "y": 400
+        },
+        {
+          "actor": "tess-lindqvist",
+          "x": 2700,
+          "y": 400
+        },
+        {
+          "actor": "noor-haddad",
+          "x": 2800,
+          "y": 400
+        },
+        {
+          "actor": "rook",
+          "x": 2700,
+          "y": 500
+        },
+        {
+          "actor": "ash-widow",
+          "x": 2100,
+          "y": 800
+        },
+        {
+          "actor": "hannah-price",
+          "x": 2200,
+          "y": 800
+        }
+      ],
+      "notes": [
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2720,
+          "y": 150,
+          "text": "The promenade from Old Town (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2000,
+          "y": 120,
+          "text": "Through the ferry terminal (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 910,
+          "y": 150,
+          "text": "The fish market lane (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 700,
+          "y": 1300,
+          "text": "By boat to the harbour steps (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 1200,
+          "y": 950,
+          "text": "The quayside: thousands of people, food vans and music. Hannah's fire engine is parked here, and the fireboat is moored at the quay",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2260,
+          "y": 1095,
+          "text": "Hannah's fire engine",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2180,
+          "y": 1335,
+          "text": "The fireboat, moored at the quay (its pumps draw straight from the harbour)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2150,
+          "y": 870,
+          "text": "Where the first rocket bursts white and falls burning onto the quay: the Ash Widow walks out of the sparks with Hannah in her grip",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 1530,
+          "y": 1700,
+          "text": "The fireworks barge: moored out in the harbour. The show is fired from here",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2000,
+          "y": 370,
+          "text": "The ferry terminal: a glass hall, open late for the festival",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 400,
+          "y": 360,
+          "text": "The fish market roof: a flat roof where people climb for a better view (the iron stair in the lane)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 2720,
+          "y": 700,
+          "text": "The promenade: the wide walk from Old Town to the long pier",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-public-place-the-harbour-fireworks",
+          "x": 780,
+          "y": 1200,
+          "text": "The harbour steps: stone steps down to the water, where small boats tie up",
+          "icon": "icons/svg/book.svg"
+        }
+      ]
+    },
+    {
+      "key": "mariner-theatre",
+      "name": "The Mariner Theatre",
+      "background": "systems/witch-ward/assets/scenes/mariner-theatre.webp",
+      "width": 3000,
+      "height": 2000,
+      "grid": 100,
+      "gridless": false,
+      "journal": "episode",
+      "journalPage": "the-hidden-place-the-mariner-theatre",
+      "folder": "f-scenes",
+      "tokens": [
+        {
+          "actor": "dana-okafor",
+          "x": 2700,
+          "y": 800
+        },
+        {
+          "actor": "marco-rossi",
+          "x": 2800,
+          "y": 800
+        },
+        {
+          "actor": "june-takeda",
+          "x": 2900,
+          "y": 800
+        },
+        {
+          "actor": "quinn-abernathy",
+          "x": 2800,
+          "y": 900
+        },
+        {
+          "actor": "tess-lindqvist",
+          "x": 2900,
+          "y": 900
+        },
+        {
+          "actor": "noor-haddad",
+          "x": 2800,
+          "y": 1000
+        },
+        {
+          "actor": "rook",
+          "x": 2900,
+          "y": 1000
+        },
+        {
+          "actor": "ash-widow",
+          "x": 800,
+          "y": 900
+        }
+      ],
+      "notes": [
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 2500,
+          "y": 950,
+          "text": "The front doors: boarded, under a sagging canopy; the boards come away (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 600,
+          "y": 1100,
+          "text": "The stage door, from the container yard (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 825,
+          "y": 1500,
+          "text": "The loading dock at the side, with its roller door half up (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 910,
+          "y": 380,
+          "text": "The broken roof, from the warehouse next door: across onto the fly gallery (a way in and out)",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 2620,
+          "y": 950,
+          "text": "The front: boarded doors under a sagging canopy, an old ticket booth and a sign: Danger. Keep Out.",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 2290,
+          "y": 950,
+          "text": "The foyer: a black marble floor, a grand staircase that ends in empty air, and a wall of mirrors cracked by heat",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 1700,
+          "y": 950,
+          "text": "The stalls: rows of burnt seats under a roof that is mostly sky. Ash drifts down like snow, though nothing is burning",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 900,
+          "y": 950,
+          "text": "The stage: the boards are sound. A wedding arch of wire and wax flowers still stands at the back. This is where she sleeps",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 930,
+          "y": 460,
+          "text": "The fly gallery: iron walkways high above the stage, hung with old ropes",
+          "icon": "icons/svg/book.svg"
+        },
+        {
+          "journal": "episode",
+          "page": "the-hidden-place-the-mariner-theatre",
+          "x": 300,
+          "y": 1650,
+          "text": "Under the stage (inset): damp dressing rooms. At high tide, harbour water seeps in ankle-deep",
+          "icon": "icons/svg/book.svg"
+        }
+      ]
+    }
+  ]
+}

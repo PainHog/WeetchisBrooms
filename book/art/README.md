@@ -7,13 +7,43 @@ rendered piece is looked at (`node book/tools/preview-art.mjs <outDir>`) before 
 called done. Every SVG has a `viewBox` and **no** fixed width or height; the CSS sizes it.
 No `<image>`, `<script>`, filters such as `feTurbulence`, or external links.
 
-## House style — TBD
+## House style: TEMP test art
 
-The art direction is **undecided**. Until the author picks it, art uses the neutral
-PLACEHOLDER palette below (the same tokens as `book/src/book.css` and `C` in
-`book/tools/art-gen/lib.mjs`; change all three together).
+The art direction is **undecided**. The art in the book now is **TEMP test art**, made so the
+book can be read and laid out with pictures in place. Richard can replace all of it.
+
+The test style is the one already used for the game's Foundry art (`tools/vtt-art/tokens.mjs`,
+`tools/vtt-art/maps.mjs`): flat, hand-built vector shapes, soft gradients with light from the
+upper left, and a dark ink outline (`#22191f`). Scenes are night-time Larkhaven, a harbour city:
+navy and slate skies and shadows, warm lamp-gold light, lit windows. People are simple and
+rounded, about six heads tall. A coven member always matches their token, with every asymmetric
+feature on their own side (never mirror-flipped): see `ART-LOG.md`. Figures taller than about
+1in at print size have five-fingered hands; smaller ones have simple hands. Nothing may echo the
+TV show the game is loosely based on (no knot symbols, no glowing blue guardian lights or
+sparkles, no famous manor house; `AGENTS.md`).
+
+The book's page colours stay as they are (the placeholder palette below). The test art uses its
+own palette, kept in `K` in `tools/art-gen/scenes/vignettes.mjs`; use tints and shades of these:
+
+| Colour | Hex | Use |
+|---|---|---|
+| ink | `#22191f` | every outline |
+| night navy | `#0e1324` → `#32406a` | skies, deep shadow |
+| slate | `#4e5a74`, `#6f7a92` | distant buildings, stone, fog |
+| lamp gold | `#f2c14e`, `#ffdf94`, `#e0913a` | lamps, lit windows, candle and fire light |
+| coven violet | `#7b5bc4` | the coven's colour (Binding potion, curtains, details) |
+| guardian brass | `#c29a45` | Rook's colour, frames, brass fittings |
+| danger red | `#b5473f` | threats, fire, warnings (always with a shape or symbol too) |
+| calm green | `#3f7f58` | used sparingly (Healing potion, plants) |
+| fire | `#ff8a2e`, `#ffd27a` | flames and embers |
+
+Potions carry a label symbol as well as a colour (rule 18): Healing a cross (green, round
+flask), Blasting a star-burst (red, tall bottle), Binding two linked rings (violet, square bottle).
 
 ## Palette — TBD (placeholder values)
+
+The book's page colours: the same tokens as `book/src/book.css` and `C` in
+`book/tools/art-gen/lib.mjs` (change all three together).
 
 | Token | Hex | Use |
 |---|---|---|
@@ -37,7 +67,7 @@ PLACEHOLDER palette below (the same tokens as `book/src/book.css` and `C` in
 | Kind | Aspect | Where |
 |---|---|---|
 | Cover | 612×792 (portrait page) | `section.cover` |
-| Wide | about 3:1 | chapter vignettes (`.chapter-art`, 1.8in tall), part pages (`.part-art`) |
+| Wide | about 3:1 | part pages (`.part-art`, 900×300); chapter vignettes (`.chapter-art`, 1.8in tall at full text width, so drawn at 1185×300 to fill the box) |
 | Spot | about 4:3 | end-of-chapter spots (placed by the build), back-cover panel |
 | Portrait / badge | square | `.entry .portrait`, `.entry .badge`, `.statblock .portrait` |
 
@@ -45,7 +75,47 @@ PLACEHOLDER palette below (the same tokens as `book/src/book.css` and `C` in
 
 **Placeholders** (`tools/art-gen/scenes/placeholders.mjs`)
 - `placeholder-cover`: cover-shaped placeholder (612×792)
-- `placeholder-wide`: wide placeholder (3:1), used by the Part One page and Chapter 1
-- `placeholder`: 4:3 placeholder, used by the back cover
+- `placeholder-wide`: wide placeholder (3:1), no longer used
+- `placeholder`: 4:3 placeholder, no longer used
 
-No real art exists yet.
+**Part pages, chapter vignettes and spots: TEMP test art** (`tools/art-gen/scenes/vignettes.mjs`;
+`node book/tools/art-gen/scenes/vignettes.mjs [name ...]` writes them). Object and character
+tables: `ART-LOG.md`.
+
+Part pages (900×300, framed):
+- `part-one`: the coven (six witches and Rook) on the harbour road at night, Old Town on the hill behind
+- `part-two`: the Storyteller's table from above: the Larkhaven map with pins, the episode tracker, dice, tea
+- `part-three`: the Lantern House lit up; beyond it the night market, the burned theatre and the long pier
+
+Chapter vignettes (1185×300):
+- `vignette-ch01`: Larkhaven at night: the docks, Old Town, the Heights, the harbour, lighthouse, ferry and pier
+- `vignette-ch02`: a roll: six dice spilled from a cup (6, 6, 5 together; 2, 1, 1 apart), a witch sheet, the rulebook
+- `vignette-ch03`: the six witches side by side on an Old Town street
+- `vignette-ch04`: Rook in human shape by the Lantern House bay window, and in rook shape on a gatepost
+- `vignette-ch05`: the attic: Noor holds up a potion, the Book on its lectern, Marco holds a flame
+- `vignette-ch06`: an investigation on a burned street: June notes footprints, Dana questions a neighbour, Noor asks a gull
+- `vignette-ch07`: a showdown: the coven and Rook against the Mirror Thief in a closed department store
+- `vignette-ch08`: seasons: the walled garden's apple tree through the year, the Book open in front
+- `vignette-ch09`: the Storyteller and players at the table in the front room
+- `vignette-ch10`: the six threats side by side in a red fog
+- `vignette-ch11`: the episode generator: index cards on a cork board, six dice rolled on the desk
+- `vignette-ch12`: the first night: the table set with sheets, pencils and a tray of dice, from above
+- `vignette-ch13`: the Lantern House on its steep street, the lamp lit over the door
+- `vignette-ch14`: the Friday night market: Bea sings on St Bride's steps; the Quiet Man stands at the crowd's edge
+- `vignette-ch15`: the Ash Widow at the door of the burned-out Mariner Theatre
+- `vignette-ch16`: dusk at low tide: the drowned church in the mud, the choir faint in its nave, the long pier
+
+Spots (800×600, framed; placed by `SPOTS` in `book/build.mjs`, one per chapter, never repeated):
+- `spot-last-bus` (Ch 1): the last bus at a stop in the fog, Tess at the wheel
+- `spot-archive` (Ch 2): June reads old newspapers in the university library
+- `spot-garage` (Ch 3): Marco at the garage, a van's bonnet propped open
+- `spot-rook-chimney` (Ch 4): Rook as a rook on the Lantern House chimney
+- `spot-brewing` (Ch 5): Noor brewing at the kitchen range
+- `spot-cafe` (Ch 8): Quinn on a date at a café window table
+- `spot-seen` (Ch 9): a bystander films Marco's burning skip on a phone
+- `spot-night-nurse` (Ch 10): the Night Nurse in the closed wing of Larkhaven General
+- `spot-ferry` (Ch 11): the evening ferry; a young woman's face in the glass beside an old man
+- `spot-silent-singer` (Ch 12): Bea sings and her voice drifts as a light into a glass valve
+- `spot-radio-tower` (Ch 14): the old radio tower, six glowing valves hung from its cross-arm
+- `spot-fireworks` (Ch 15): the harbour fireworks, a crowd and fire crew on the quay, a pale figure far off
+- `spot-fog-bell` (Ch 16): the small bell of St Agnes by the lighthouse lamp room at dusk

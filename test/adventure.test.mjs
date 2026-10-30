@@ -9,7 +9,8 @@ import { join } from "node:path";
 import { ROOT, PACKS, readSource, toCliDoc } from "../tools/pack-config.mjs";
 
 const def = PACKS.find(p => p.type === "Adventure");
-const raw = readSource(def.file).find(r => r.key === "night-market");
+const all = readSource(def.file);
+const raw = all.find(r => r.key === "1-night-market");
 const adv = toCliDoc(def, raw, 0);
 const local = src => (src?.startsWith("systems/witch-ward/") ? join(ROOT, src.slice("systems/witch-ward/".length)) : null);
 
@@ -43,7 +44,17 @@ test("every token, note and folder link resolves; tokens sit on the map and on t
   assert.ok(showdown.tokens.some(t => t.name === "Grace Ellery"), "the innocent is at the public showdown");
 });
 
-test("every image the adventure uses exists", () => {
+test("all three episodes build, with their threat, innocent and maps, and every image exists", () => {
+  assert.equal(all.length, 3);
+  const want = { "2-cinders": ["The Ash Widow", "Hannah Price"], "3-low-tide": ["The Drowned Choir", "Finn Marlow"] };
+  for (const [key, names] of Object.entries(want)) {
+    const a = toCliDoc(def, all.find(r => r.key === key), 1);
+    for (const n of names) assert.ok(a.actors.some(x => x.name === n), `${key}: ${n}`);
+    assert.equal(a.scenes.length, 4);
+    const pub = a.scenes[2];
+    assert.ok(pub.tokens.some(t => t.name === names[1]), `${key}: the innocent at the public showdown`);
+    for (const src of [a.img, ...a.scenes.map(s => s.background.src), ...a.actors.map(x => x.img)]) { const f = local(src); if (f) assert.ok(existsSync(f), src); }
+  }
   const imgs = [adv.img, ...adv.actors.flatMap(a => [a.img, a.prototypeToken.texture.src]), ...adv.scenes.flatMap(s => [s.background.src, ...s.tokens.map(t => t.texture.src)])];
   for (const src of imgs) { const f = local(src); if (f) assert.ok(existsSync(f), src); }
 });

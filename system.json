@@ -2,7 +2,7 @@
   "id": "witch-ward",
   "type": "system",
   "title": "Witch & Ward",
-  "description": "The Foundry VTT game system for Witch & Ward, a tabletop roleplaying game by Richard Moore: witch, guardian, threat and person sheets, a roll dialog, an Episode Tracker, roll cards that apply their results, and a ready-to-play one-shot (Episode 1: Night Market) with maps and tokens.",
+  "description": "The Foundry VTT game system for Witch & Ward, a tabletop roleplaying game by Richard Moore: witch, guardian, threat and person sheets, a roll dialog, an Episode Tracker, roll cards that apply their results, and the book's three ready-made episodes as adventures with maps and tokens.",
   "version": "0.9.0",
   "compatibility": {
     "minimum": "13",
@@ -38,7 +38,7 @@
   "packs": [
     {
       "name": "adventures",
-      "label": "Adventures (one-shots)",
+      "label": "Adventures (ready-made episodes)",
       "path": "packs/adventures",
       "type": "Adventure",
       "system": "witch-ward",
