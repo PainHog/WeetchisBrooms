@@ -218,8 +218,8 @@ Eight episodes in a row with the same coven (500 seasons each for 3 witches, 3 w
 
 | Label | Ep 1 | Ep 2 | Ep 3 | Ep 4 | Ep 5 | Ep 6 | Ep 7 | Ep 8 |
 |---|---|---|---|---|---|---|---|---|
-| Standard | 73 / 9 | 73 / 9 | 80 / 7 | 81 / 5 | 83 / 4 | 81 / 4 | 82 / 4 | 82 / 4 |
-| Hard | 60 / 25 | 59 / 25 | 66 / 20 | 70 / 17 | 70 / 17 | 70 / 16 | 71 / 17 | 70 / 17 |
+| Standard | 73 / 9 | 73 / 9 | 77 / 9 | 78 / 7 | 73 / 12 | 72 / 10 | 76 / 9 | 77 / 9 |
+| Hard | 60 / 25 | 59 / 25 | 62 / 26 | 64 / 22 | 56 / 31 | 55 / 31 | 60 / 28 | 59 / 29 |
 
 ## 12. Rule gaps and findings
 
@@ -245,7 +245,7 @@ Eight episodes in a row with the same coven (500 seasons each for 3 witches, 3 w
 | gap | Half the Clues and the Showdown mark in the same scene (v0.4) | Investigation | The coven decides to go after Doom rises at the end of the scene; if Doom has reached the mark, the threat comes to them. | v0.5 (playtest A, review) |
 | broken | Potions skipped too many rolls (v0.5) | Potions; The threat | Blasting potions did damage with no roll and no action, and Bind plus a Binding potion cancelled every attack. v0.6: Blasting adds 2 damage to an attack that works; the threat loses at most one attack a round; a Partial brew makes one potion. | v0.6 (playtest B) |
 | broken | Sense was dominated by helping (v0.5) | Gifts: Sense | Same cost as a Ward helper, same die, but only on leads. v0.6: its die sits outside the +2 limit. (A '+1 Clue' version made guardian covens about 10 points stronger.) | v0.6 (playtest B) |
-| broken | Later season episodes got much easier (v0.5) | The end: Season | Growth with no matching threat growth took Standard from 74% to 87% wins by episode 5. v0.6: threats get 1 more Toughness per witch at each growth step. Later episodes still run 3–8 points easier than a one-off, mostly from Book pages. | v0.6 |
+| broken | Later season episodes got much easier (v0.5) | The end: Season | Growth with no matching threat growth took Standard from 74% to 87% wins by episode 5. v0.7: threats get 2 more Toughness per witch after the 2nd and 4th episodes, then no more; across 8 episodes Standard holds at 72–79% and Hard at 56–64%. | v0.7 |
 | broken | Covens Broke the threat before it acted (v0.6) | Showdown | Every character acted before the threat, and with the Weakness, Surges and potions a coven Broke a Standard threat in round 1 about 90% of the time (verification playtest). v0.7: the threat acts first in round 1; Binding needs a working attack; lost attacks beyond one a round are wasted; Shield once a round. | v0.7 (verification playtest) |
 | info | Going early is only a real choice one scene before the mark | Investigation | Before Doom 4 there's no reason to go without the Weakness: waiting costs nothing until the next scene would reach the mark. The choice that matters is at Doom 4 (go now, hidden, maybe without the Weakness; or wait, likely be found in public with it). Rushing in early loses badly (section 10). | kept |
 | info | Veil's Surge covers a whole public showdown | Powers: Veil | The showdown is one scene, so one Veil Surge removes Exposure for the rest of a public fight. It's Veil's job and Veil isn't above average (§7), so it stays; watch it in later playtests. | kept |

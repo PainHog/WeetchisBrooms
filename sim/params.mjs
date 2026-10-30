@@ -49,7 +49,10 @@ export const RULES = {
   senseClue: false,     // Sense: a lead this scene that succeeds gives 1 more Clue (instead of a die)
   senseOutside: true,   // Sense's die doesn't count toward the +2 limit (v0.5: it did)
   wildBrew: true,       // Wild's Surge on a brew makes 1 more potion
-  seasonToughness: 1,  // season: the threat has this much more Toughness per witch for every growth step the coven has taken
+  bookPages: true,      // season: a Book page means starting with half the Clues
+  growthRule: "any",   // season growth: "any" rating (most 4), "belowHighest" or "upTo3"
+  seasonToughness: 2,  // season: the threat has this much more Toughness per witch for every growth step the coven has taken…
+  seasonCap: 2,        // …counting at most this many steps ("after the 2nd and 4th episodes")
   seasonDanger: 0,     // season: +1 Danger every this many growth steps (0 = never)
   seenToDoom: true,     // once Seen, any further Exposure rise becomes +1 Doom instead
   potionCap: "characters", // most potions the coven can carry: "characters" (one per character), "witches" (one per witch) or a number (99 = no cap)
