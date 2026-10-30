@@ -2984,9 +2984,10 @@ function harbourFireworks() {
     }
     // festoon lights across the quay, building to lamp post
     const add = (a, b, o) => { const st = lightString(a, b, R, o); lights.push(st.glow); top.push(st.wire); };
-    for (const x of [400, 800, 1200, 1600, 2000, 2400]) add([x, 700], [x + 120, 1180], { bend: 0.02, gap: 30 });
-    add([220, 1000], [2860, 1000], { bend: 0.01, gap: 30 });
-    for (const x of [400, 1200, 2000]) lamp(x, 1180, 200, 0.9);
+    // each string runs from a building front to a lamp post at the quay edge (none over the fire engine)
+    for (const [x, y] of [[400, 720], [1100, 620], [1500, 620], [1800, 620]]) add([x, y], [x + 120, 1180], { bend: 0.02, gap: 30 });
+    add([200, 1000], [2868, 1000], { bend: 0.01, gap: 30 }); // cold store wall to the promenade railing
+    for (const x of [520, 1220, 1620, 1920]) lamp(x, 1180, 200, 0.9);
   }
   // ---------- the harbour steps and the small boats ----------
   {
@@ -3025,10 +3026,10 @@ function harbourFireworks() {
     out.push(bollard(1990, QY - 18), bollard(2400, QY - 18));
     for (const x of [300, 1500, 2700]) out.push(bollard(x, QY - 18));
     // a hose from the engine to the quay edge
-    out.push(path(`M${ex + 300} ${ey + eh} C ${ex + 300} ${ey + eh + 40}, ${ex + 220} ${QY - 50}, ${ex + 150} ${QY - 20}`, { fill: "none", stroke: pc("#d8c890", PAL.edge), "stroke-width": 8, "stroke-linecap": "round" }));
+    out.push(path(`M${ex + 300} ${ey + eh} C ${ex + 300} ${ey + eh + 40}, ${ex + 200} ${QY - 50}, ${ex + 150} ${QY - 6} S ${ex + 120} ${QY + 50}, ${ex + 110} ${QY + 72}`, { fill: "none", stroke: pc("#d8c890", PAL.edge), "stroke-width": 8, "stroke-linecap": "round" })); // a hose from the engine down onto the fireboat
   }
   // ---------- where the first rocket falls: a burst of white sparks on the quay ----------
-  const BURST = [2250, 840];
+  const BURST = [2150, 870];
   {
     const [x, y] = BURST;
     if (PRINT) {
@@ -3064,7 +3065,7 @@ function harbourFireworks() {
     labels.push(T(1200, 920, "THE QUAYSIDE", { size: 38 }), fl(1200, 965, "thousands of people, food vans and music", { size: 22 }));
     labels.push(fl(2260, 970, "Hannah's fire engine", { size: 22 }));
     labels.push(fl(2180, 1445, "The fireboat, moored at the quay", { size: 22 }));
-    labels.push(fl(2250, 735, "where the first rocket falls", { size: 20, italic: true }));
+    labels.push(fl(2150, 770, "where the first rocket falls", { size: 20, italic: true }));
     labels.push(T(1530, 1860, "THE FIREWORKS BARGE", { size: 30 }), fl(1530, 1900, "moored out in the harbour: the show is fired from here", { size: 20 }));
     labels.push(T(2000, 300, "FERRY TERMINAL", { size: 28 }), fl(2000, 335, "a glass hall, open late for the festival", { size: 18 }));
     labels.push(T(400, 200, "FISH MARKET ROOF", { size: 28 }), fl(400, 235, "a flat roof where people climb for a better view", { size: 18 }));
@@ -3074,20 +3075,20 @@ function harbourFireworks() {
     labels.push(fl(780, 1120, "The harbour steps", { size: 22 }), fl(720, 1475, "small boats tie up here", { size: 18 }));
     labels.push(fl(650, 750, "Music", { size: 20 }));
     labels.push(fl(1250, 790, "Food vans", { size: 20 }));
-    labels.push(T(700, 1700, "THE HARBOUR", { size: 30, ls: 6, opacity: 0.85 }));
+    labels.push(T(2450, 1720, "THE HARBOUR", { size: 30, ls: 6, opacity: 0.85 }));
     const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 22, ...o });
     labels.push(way(910, 50, -90, ["Way in and out:", "the fish market lane"], { lx: 1020, ly: 90, anchor: "start" }));
     labels.push(way(2000, 50, -90, ["Way in and out: through", "the ferry terminal"], { lx: 2090, ly: 75, anchor: "start" }));
     labels.push(way(2720, 50, -90, ["Way in and out: the", "promenade, from Old Town"], { lx: 2640, ly: 210, anchor: "middle" }));
-    labels.push(way(650, 1950, 90, ["Way in and out: by boat,", "to the harbour steps"], { lx: 780, ly: 1600, anchor: "start" }));
+    labels.push(way(650, 1950, 90, ["Way in and out: by boat,", "to the harbour steps"], { lx: 730, ly: 1925, anchor: "start" }));
   } else {
     const T = (x, y, t, o = {}) => plabel(x, y, t, { size: 64, font: "display", ls: 3, ...o });
     const F = (x, y, t, o = {}) => plabel(x, y, t, { size: 52, ...o });
     labels.push(T(1200, 920, "THE QUAYSIDE", { size: 72 }), F(1200, 995, "crowds, food vans and music"));
     labels.push(F(2260, 960, "Hannah's fire engine", { size: 50 }));
     labels.push(F(2180, 1455, "The fireboat", { size: 50 }));
-    labels.push(F(2250, 720, "where the first rocket falls", { size: 50, italic: true }));
-    labels.push(T(1530, 1860, "THE FIREWORKS BARGE", { size: 56, ls: 2 }));
+    labels.push(F(2150, 755, ["where the first", "rocket falls"], { size: 50, italic: true }));
+    labels.push(T(1500, 1870, "THE FIREWORKS BARGE", { size: 50, ls: 2 }));
     labels.push(T(2000, 300, "FERRY", { size: 56 }), T(2000, 370, "TERMINAL", { size: 56 }), F(2000, 440, "glass hall", { size: 50 }));
     labels.push(T(400, 200, "FISH MARKET", { size: 58, ls: 2 }), T(400, 270, "ROOF", { size: 58, ls: 2 }), F(400, 345, "people climb up here", { size: 50 }));
     labels.push(F(780, 470, ["iron", "stair"], { size: 50, anchor: "end" }));
@@ -3096,11 +3097,11 @@ function harbourFireworks() {
     labels.push(F(780, 1110, "The harbour steps", { size: 52 }));
     labels.push(F(660, 735, "Music", { size: 50 }));
     labels.push(F(1250, 800, "Food vans", { size: 50 }));
-    labels.push(T(560, 1700, "THE HARBOUR", { size: 60, ls: 6 }));
+    labels.push(T(2450, 1720, "THE HARBOUR", { size: 60, ls: 6 }));
     labels.push(pwayMarker(910, 70, -90, ["Way in and out:", "the fish market lane"], { lx: 1020, ly: 100, anchor: "start", size: 50 }));
     labels.push(pwayMarker(2000, 70, -90, ["Way in and out: through", "the ferry terminal"], { lx: 2090, ly: 100, anchor: "start", size: 50 }));
     labels.push(pwayMarker(2720, 70, -90, ["Way in and out:", "the promenade,", "from Old Town"], { lx: 2700, ly: 300, size: 50 }));
-    labels.push(pwayMarker(650, 1940, 90, ["Way in and out: by boat,", "to the harbour steps"], { lx: 790, ly: 1570, anchor: "start", size: 50 }));
+    labels.push(pwayMarker(650, 1940, 90, ["Way in and out:", "by boat, to the", "harbour steps"], { lx: 730, ly: 1880, anchor: "start", size: 50 }));
   }
 
   const body = PRINT ? out.join("") + top.join("") + labels.join("") + printFrame() :
@@ -3129,8 +3130,8 @@ function harbourFireworks() {
     ],
     tokens: {
       coven: [[2600, 300], [2700, 300], [2800, 300], [2600, 400], [2700, 400], [2800, 400], [2700, 500]], // on the promenade, coming from Old Town
-      threat: [2200, 800], // out of the sparks where the rocket fell
-      innocent: [2300, 800], // Hannah, in her grip
+      threat: [2100, 800], // out of the sparks where the rocket fell
+      innocent: [2200, 800], // Hannah, in her grip
     },
   };
   if (PRINT) {
@@ -3148,6 +3149,317 @@ function harbourFireworks() {
     return { name: "harbour-fireworks", svg: bookSvg("Map: the harbour fireworks", body, defs, pd), data };
   }
   return { name: "harbour-fireworks", svg: svgDoc(body, defs), data };
+}
+
+/* ===================================================================== */
+/*  7. THE DROWNED VILLAGE (gridded, dusk, low tide): Episode 3's hidden   */
+/* ===================================================================== */
+// Old Saltby under the Saltmarsh mud, showing at the lowest tide (book/src/chapters/
+// 34-ch16.html). Land to the north, the sea to the south, the Harbour to the west.
+// This is an outdoor map, so a square is a few metres, not one stride. Grid plan:
+//   The sea wall         rows 2-3 from the left edge to col 12; steps down to the mud at col 12
+//   Car park             cols 13-19, rows 0-2 (the birdwatchers' car park); the causeway starts here
+//   The causeway         from the car park (col 16) south-west to the village street (col 13, row 10)
+//   The reed beds        cols 20-29, rows 0-9: channels of black water; the hide on stilts
+//                        (col 26, row 2) with its boardwalk off the top edge and the boat below it
+//   The village street   row 10-11, cols 8-19: cottage wall stumps either side, the well (col 18)
+//   The churchyard       cols 19-27, rows 9-16; St Agnes's: tower cols 20-21, nave cols 21-25,
+//                        rows 12-14, chancel col 25-26
+//   The mudflats         everything else down to the low-water line (row 18); the sea below it
+function drownedVillage() {
+  const R = rng(1824);
+  const pc = (f, p) => PRINT ? p : f;
+  const defs = [
+    mudPattern("dv-mud", 91, "#5a5246", "#9e9ca4", "#3a3228", 200, 26),
+    mudPattern("dv-mud-wet", 92, "#4c463c", "#aaa8b0", "#2e2820", 200, 34),
+    reedPattern("dv-reeds", 93, "#4e4a2c", ["#8a8450", "#6e6a3c", "#9a9258", "#5a5630", "#b0a468"], 120, 170, 2.2),
+    waterPattern("dv-sea", 94, "#2c4250", ["#5a7a8a", "#4a6a7a", "#6a8a98"], 240, 30, 2.4),
+    waterPattern("dv-black", 95, "#12191d", ["#3a4a56", "#2a3a44"], 160, 14, 2),
+    grassPattern("dv-grass", 96, "#45553a", ["#55684a", "#3c4c33", "#607452", "#4d5e40"], 160, 90),
+    gravelPattern("dv-gravel", 97, "#625e56", ["#746f66", "#56524b", "#807a70", "#6a665e"], 120, 220),
+    slabPattern("dv-stone", 98, ["#7a756a", "#827c70", "#726d63", "#6c675e"], "#3e3a34", 200, 34),
+    cobblePattern("dv-cobble", 99, ["#6a655c", "#726c62", "#625d55", "#78726a"], "#2a2620", 200, 18),
+    plankPattern("dv-wood", 100, ["#6a5a44", "#726248", "#62523e"], "#2a2018", 200, 14),
+    glowGrad("dv-ghost", "#cfe6ff", 0.38, 0.4),
+    glowGrad("dv-sun", "#ffb070", 0.5, 0.45),
+    `<linearGradient id="dv-dusk" x1="0" x2="1" y1="0" y2="0.4"><stop offset="0" stop-color="#ff9a6a" stop-opacity="0.28"/><stop offset="0.6" stop-color="#c890b0" stop-opacity="0.08"/><stop offset="1" stop-color="#8a80b0" stop-opacity="0"/></linearGradient>`,
+    grainFilter("dv-grain", 0.05),
+  ].join("");
+  const out = [], lights = [], top = [];
+
+  // ---------- the mudflats, the sea, the land ----------
+  out.push(rect(0, 0, W, H, { fill: "url(#dv-mud)" }));
+  // wetter, shinier mud towards the sea; the low-water line; the sea
+  const lowWater = [[0, 1760], [300, 1790], [650, 1770], [1000, 1810], [1400, 1790], [1800, 1820], [2200, 1800], [2600, 1830], [3000, 1810]];
+  const lwS = sampleSmooth(lowWater, 12);
+  out.push(path(polyD([[0, 1450], [3000, 1550], ...lwS.slice().reverse()]), { fill: "url(#dv-mud-wet)", opacity: 0.8 }));
+  out.push(path(polyD([...lwS, [3000, H], [0, H]]), { fill: "url(#dv-sea)" }));
+  out.push(path(polyD(lwS, false), { fill: "none", stroke: pc("#c8d4dc", PAL.ink), "stroke-width": 4, opacity: 0.7 }));
+  for (let x = 120; x < 3000; x += 260) out.push(path(`M${x} ${1800 + 30 + (x % 3) * 6} q 30 -10 60 0 t 60 0`, { fill: "none", stroke: pc("#e0eaf0", PAL.paper), "stroke-width": 3, opacity: 0.6 })); // the first ripples of the tide
+  // pools and creeks of black water across the flats
+  const creek = (pts, w) => {
+    out.push(path(smoothD(pts), { fill: "none", stroke: pc("#2a241c", PAL.accent), "stroke-width": w + 14, "stroke-linecap": "round", "stroke-linejoin": "round" }));
+    out.push(path(smoothD(pts), { fill: "none", stroke: "url(#dv-black)", "stroke-width": w, "stroke-linecap": "round", "stroke-linejoin": "round" }));
+  };
+  creek([[700, 1250], [820, 1420], [760, 1600], [880, 1790]], 30);
+  creek([[300, 900], [420, 1100], [380, 1350], [470, 1560], [420, 1780]], 26);
+  creek([[2750, 1250], [2820, 1450], [2700, 1620], [2760, 1800]], 28);
+  for (const [x, y, r] of [[1200, 1600, 50], [1700, 1650, 40], [550, 650, 46], [2350, 1750, 36], [150, 1300, 40]]) out.push(path(smoothD(blobPts(x, y, r, R, 12, 0.3), true), { fill: "url(#dv-black)", stroke: pc("#2a241c", PAL.accent), "stroke-width": 5 }));
+  // the land north of the sea wall: rough grass, a field fence
+  out.push(path("M0 0 L1320 0 L1320 250 L0 250 Z", { fill: "url(#dv-grass)" }));
+  for (let x = 60; x < 1300; x += 120) out.push(circle(x, 60, 6, { fill: pc("#5a4a38", PAL.soft) }));
+  out.push(line(0, 60, 1300, 60, { stroke: pc("#7a6a52", PAL.soft), "stroke-width": 3 }));
+  out.push(path(smoothD([[0, 150], [400, 140], [800, 160], [1250, 150]]), { fill: "none", stroke: pc("#6a6452", PAL.edge), "stroke-width": 26, opacity: 0.7 })); // a field path
+
+  // ---------- the sea wall (from the Harbour side) ----------
+  {
+    const y0 = 240, y1 = 330;
+    out.push(rect(0, y1, 1260, 30, { fill: "#000", opacity: 0.35 }));
+    out.push(rect(0, y0, 1260, y1 - y0, { fill: "url(#dv-stone)", stroke: pc("#24221e", PAL.ink), "stroke-width": 4 }));
+    out.push(line(0, y0 + 8, 1260, y0 + 8, { stroke: pc("#a09a8c", PAL.paper), "stroke-width": 3, opacity: 0.7 }));
+    // weed and barnacles along its sea face
+    for (let x = 10; x < 1250; x += 18) out.push(ellipse(x + R() * 10, y1 + 6 + R() * 8, 8 + R() * 8, 4 + R() * 3, { fill: pc(["#4a5a38", "#5a6a40", "#3a4a30"][Math.floor(R() * 3)], PAL.soft), opacity: 0.85 }));
+    // steps down onto the mud at its east end
+    for (let i = 0; i < 6; i++) out.push(rect(1160, y1 + i * 18, 100, 18, { fill: pc(`rgb(${118 - i * 7},${112 - i * 7},${100 - i * 6})`, i < 3 ? PAL.edge : PAL.accent), stroke: "#24221e", "stroke-width": 2 }));
+    out.push(rect(1260, y0, 60, y1 - y0 + 108, { fill: "url(#dv-stone)", stroke: pc("#24221e", PAL.ink), "stroke-width": 4 })); // the wall's end pier
+  }
+  // ---------- the birdwatchers' car park ----------
+  {
+    out.push(rect(1320, 0, 700, 250, { fill: "url(#dv-gravel)" }));
+    out.push(rect(1320, 0, 700, 250, { fill: "none", stroke: pc("#3a352c", PAL.ink), "stroke-width": 4 }));
+    for (let x = 1340; x < 2020; x += 100) out.push(rect(x, 238, 50, 16, { rx: 4, fill: pc("#7a6a52", PAL.accent), stroke: "#2a2018", "stroke-width": 2 })); // log edging
+    const car = (x, y, col) => rect(x + 6, y + 8, 110, 200, { rx: 22, fill: "#000", opacity: 0.4 }) + rect(x, y, 110, 200, { rx: 24, fill: col, stroke: "#0e1012", "stroke-width": 4 }) +
+      rect(x + 12, y + 40, 86, 44, { rx: 8, fill: pc("#2a3440", PAL.dark) }) + rect(x + 14, y + 140, 82, 32, { rx: 8, fill: pc("#2a3440", PAL.dark) });
+    out.push(car(1335, 20, "#6a7a8a"));
+    if (!PRINT) out.push(car(1850, 20, "#8a4a3a")); // (one car is enough in print, where the labels need the room)
+    // the information board by the start of the causeway
+    out.push(rect(1700, 195, 90, 16, { fill: pc("#5a4a34", PAL.soft), stroke: "#1a140c", "stroke-width": 2 }) + rect(1708, 186, 74, 8, { fill: pc("#e8e0c8", PAL.paper) }));
+  }
+  // ---------- the reed beds, the reed channel, the hide on stilts ----------
+  const reedEdge = [[2020, 0], [2000, 220], [1960, 450], [2010, 700], [1960, 880], [2050, 960], [2300, 1000], [2600, 990], [2850, 1060], [3000, 1100], [3000, 0]];
+  {
+    out.push(path(smoothD(reedEdge, true), { fill: "url(#dv-reeds)" }));
+    out.push(path(smoothD(reedEdge.slice(0, -1)), { fill: "none", stroke: pc("#2e2a18", PAL.accent), "stroke-width": 6, opacity: 0.7 }));
+    // reed tufts spilling past the edge
+    const es = sampleSmooth(reedEdge.slice(0, -1), 30);
+    for (let i = 0; i < 40; i++) {
+      const p = es[Math.floor(R() * es.length)];
+      out.push(circle(p[0] + (R() - 0.6) * 60, p[1] + (R() - 0.3) * 50, 10 + R() * 12, { fill: pc("#6e6a3c", PAL.edge), opacity: 0.8 }));
+    }
+    // channels of black water; the main one runs from below the hide to the churchyard
+    const main = [[2700, 330], [2640, 470], [2500, 600], [2420, 760], [2300, 900], [2240, 1010]];
+    const side = [[[2500, 600], [2700, 680], [2900, 640], [3020, 700]], [[2420, 760], [2200, 640], [2100, 470], [2140, 250]], [[2640, 470], [2860, 380], [3020, 330]]];
+    const ch = (pts, w) => { out.push(path(smoothD(pts), { fill: "none", stroke: pc("#2a2618", PAL.accent), "stroke-width": w + 16, "stroke-linecap": "round", "stroke-linejoin": "round" })); out.push(path(smoothD(pts), { fill: "none", stroke: "url(#dv-black)", "stroke-width": w, "stroke-linecap": "round", "stroke-linejoin": "round" })); };
+    for (const s of side) ch(s, 44);
+    ch(main, 84);
+    // the hide's boardwalk, from the top edge to the hide
+    out.push(rect(2622, -10, 56, 240, { fill: "url(#dv-wood)", stroke: "#1a140c", "stroke-width": 3 }));
+    for (let y = 30; y < 230; y += 60) for (const x of [2618, 2682]) out.push(circle(x, y, 6, { fill: pc("#3a2e22", PAL.dark) }));
+    // the hide: a wooden hut on stilts, a slot window facing the marsh, a ladder down to the boat
+    const hx = 2570, hy = 210, hw = 160, hh = 120;
+    for (const [dx, dy] of [[8, 8], [hw - 8, 8], [8, hh - 8], [hw - 8, hh - 8]]) out.push(circle(hx + dx + 10, hy + dy + 14, 9, { fill: "#000", opacity: 0.35 }));
+    out.push(rect(hx + 12, hy + 16, hw, hh, { fill: "#000", opacity: 0.4 }));
+    out.push(rect(hx, hy, hw, hh, { fill: pc("#5a4a34", PAL.soft), stroke: "#14100a", "stroke-width": 4 }));
+    out.push(rect(hx, hy, hw, hh / 2, { fill: pc("#6a5a40", PAL.accent) }), line(hx, hy + hh / 2, hx + hw, hy + hh / 2, { stroke: "#14100a", "stroke-width": 3 })); // the pitched roof
+    out.push(rect(hx + 20, hy + hh - 6, hw - 40, 8, { fill: pc("#14100a", PAL.ink) })); // the viewing slot
+    out.push(line(hx + 120, hy + hh, hx + 120, hy + hh + 60, { stroke: pc("#7a6448", PAL.dark), "stroke-width": 4 }), line(hx + 142, hy + hh, hx + 142, hy + hh + 60, { stroke: pc("#7a6448", PAL.dark), "stroke-width": 4 }));
+    for (let y = hy + hh + 10; y < hy + hh + 60; y += 12) out.push(line(hx + 120, y, hx + 142, y, { stroke: pc("#7a6448", PAL.dark), "stroke-width": 3 }));
+    // the flat-bottomed boat, tied below the hide, its pole lying in it
+    const bx = 2700, by = 420;
+    out.push(grp([rect(-112 + 6, -34 + 8, 224, 68, { rx: 6, fill: "#000", opacity: 0.4 }), rect(-112, -34, 224, 68, { rx: 8, fill: pc("#6a5a44", PAL.edge), stroke: "#14100a", "stroke-width": 4 }),
+      rect(-100, -24, 200, 48, { rx: 4, fill: pc("#4a3c2c", PAL.accent), stroke: "#14100a", "stroke-width": 1.5 }), rect(-30, -24, 14, 48, { fill: pc("#7a6448", PAL.paper2) }), rect(40, -24, 14, 48, { fill: pc("#7a6448", PAL.paper2) }),
+      line(-100, -10, 104, 8, { stroke: pc("#a08860", PAL.dark), "stroke-width": 5, "stroke-linecap": "round" })], { transform: `translate(${bx} ${by}) rotate(-62)` }));
+    out.push(rope([hx + 131, hy + hh + 58], [bx - 32, by - 60], 0.15));
+  }
+  // ---------- the causeway: old stones from the car park out across the mud ----------
+  const causeway = [[1600, 240], [1590, 420], [1530, 620], [1440, 820], [1360, 1000], [1340, 1060]];
+  {
+    out.push(path(smoothD(causeway), { fill: "none", stroke: "#000", "stroke-width": 140, opacity: 0.3, transform: "translate(6 10)", "stroke-linecap": "round" }));
+    out.push(path(smoothD(causeway), { fill: "none", stroke: pc("#3a352c", PAL.ink), "stroke-width": 128, "stroke-linecap": "round" }));
+    out.push(path(smoothD(causeway), { fill: "none", stroke: "url(#dv-stone)", "stroke-width": 116, "stroke-linecap": "round" }));
+    out.push(path(smoothD(causeway), { fill: "none", stroke: pc("#a09a8c", PAL.paper), "stroke-width": 2, "stroke-dasharray": "4 30", opacity: 0.6 }));
+    // weed along both edges
+    const cs = sampleSmooth(causeway, 22);
+    for (let i = 1; i < cs.length - 1; i++) {
+      const [x, y] = cs[i], [x2, y2] = cs[i + 1], L = dist(cs[i], cs[i + 1]) || 1, nx = -(y2 - y) / L, ny = (x2 - x) / L;
+      for (const sgn of [1, -1]) if (R() < 0.7) out.push(ellipse(x + nx * sgn * 60, y + ny * sgn * 60, 9 + R() * 7, 5 + R() * 3, { fill: pc(["#4a5a38", "#5a6a40", "#3a4a30"][i % 3], PAL.soft), opacity: 0.85 }));
+    }
+  }
+  // ---------- the village street: cobbles, cottage wall stumps, the well ----------
+  {
+    const st = [[820, 1075], [1100, 1068], [1400, 1080], [1700, 1072], [1950, 1078]];
+    out.push(path(smoothD(st), { fill: "none", stroke: pc("#2a241c", PAL.accent), "stroke-width": 108, "stroke-linecap": "round" }));
+    out.push(path(smoothD(st), { fill: "none", stroke: "url(#dv-cobble)", "stroke-width": 96, "stroke-linecap": "round" }));
+    // mud drifted over the cobbles in places
+    for (const [x, y, rx, ry] of [[980, 1060, 70, 40], [1560, 1095, 90, 36], [1240, 1085, 50, 30]]) out.push(ellipse(x, y, rx, ry, { fill: "url(#dv-mud)", opacity: 0.85 }));
+    // the little square at the east end, and the well with no water in it
+    out.push(path(smoothD(blobPts(1870, 1075, 120, R, 14, 0.08), true), { fill: "url(#dv-cobble)", stroke: pc("#2a241c", PAL.accent), "stroke-width": 8 }));
+    out.push(circle(1876, 1083, 52, { fill: "#000", opacity: 0.4 }), circle(1870, 1075, 52, { fill: "url(#dv-stone)", stroke: pc("#24221e", PAL.ink), "stroke-width": 4 }), circle(1870, 1075, 32, { fill: pc("#0a0806", PAL.ink), stroke: "#24221e", "stroke-width": 3 }));
+    for (let i = 0; i < 6; i++) { const a = R() * Math.PI * 2; out.push(circle(1870 + Math.cos(a) * 42, 1075 + Math.sin(a) * 42, 3, { fill: pc("#e8e2d2", PAL.paper) })); } // shells on the rim
+    // cottage stumps: low broken walls round mud-filled floors, a hearthstone in each
+    const cottage = (x, y, w, h, gaps, seed) => {
+      const r2 = rng(seed);
+      out.push(rect(x, y, w, h, { fill: "url(#dv-mud-wet)" }));
+      const sw = { fill: pc("#6e695e", PAL.soft), edge: pc("#24221e", PAL.ink) };
+      out.push(wall(x, y, x + w, y, 26, gaps.n ?? [], sw), wall(x, y + h, x + w, y + h, 26, gaps.s ?? [], sw), wall(x, y, x, y + h, 26, gaps.w ?? [], sw), wall(x + w, y, x + w, y + h, 26, gaps.e ?? [], sw));
+      for (let i = 0; i < 7; i++) { const t = r2(); const side = Math.floor(r2() * 4); const px = side < 2 ? x + t * w : side === 2 ? x : x + w, py = side < 2 ? (side ? y + h : y) : y + t * h; out.push(rect(px - 12 + (r2() - 0.5) * 30, py - 8 + (r2() - 0.5) * 30, 24, 16, { rx: 3, fill: pc("#6e695e", PAL.edge), stroke: "#24221e", "stroke-width": 2, transform: `rotate(${f1(r2() * 90)} ${f1(px)} ${f1(py)})` })); } // fallen stones
+      out.push(rect(x + w / 2 - 34, y + 22, 68, 40, { fill: pc("#5a5650", PAL.accent), stroke: "#24221e", "stroke-width": 2.5 })); // hearthstone
+      for (let i = 0; i < 4; i++) out.push(ellipse(x + 30 + r2() * (w - 60), y + 30 + r2() * (h - 60), 14, 7, { fill: pc("#4a5a38", PAL.soft), opacity: 0.85 }));
+    };
+    cottage(880, 730, 330, 250, { s: [[130, 210]], e: [[60, 120]] }, 1);
+    cottage(1460, 740, 320, 230, { s: [[100, 180]], n: [[200, 260]] }, 2);
+    cottage(900, 1170, 340, 240, { n: [[150, 230]], w: [[90, 160]] }, 3);
+    cottage(1400, 1170, 330, 250, { n: [[110, 190]], e: [[150, 220]] }, 4);
+  }
+  // ---------- the churchyard: a broken wall round leaning, shell-crusted stones ----------
+  const CY = { x0: 1990, y0: 940, x1: 2720, y1: 1700 };
+  {
+    const cw = { fill: pc("#6e695e", PAL.soft), edge: pc("#24221e", PAL.ink) };
+    out.push(wall(CY.x0, CY.y0, CY.x1, CY.y0, 20, [[180, 340], [500, 560]], cw), wall(CY.x0, CY.y1, CY.x1, CY.y1, 20, [[120, 260], [420, 470]], cw));
+    out.push(wall(CY.x0, CY.y0, CY.x0, CY.y1, 20, [[80, 200], [420, 480]], cw), wall(CY.x1, CY.y0, CY.x1, CY.y1, 20, [[200, 330]], cw));
+    // gravestones: half buried, leaning, shells crusted on them
+    const stones = [];
+    for (let i = 0; i < 26; i++) {
+      const x = CY.x0 + 60 + R() * (CY.x1 - CY.x0 - 120), y = CY.y0 + 60 + R() * (CY.y1 - CY.y0 - 120);
+      if (x > 1990 && x < 2690 && y > 1190 && y < 1470) continue; // the church
+      if (stones.some(([sx, sy]) => Math.hypot(sx - x, sy - y) < 70)) continue;
+      stones.push([x, y]);
+      const lean = (R() - 0.5) * 50;
+      out.push(grp([rect(-24 + 6, -10 + 8, 48, 20, { rx: 8, fill: "#000", opacity: 0.35 }), rect(-24, -10, 48, 20, { rx: 9, fill: pc("#8a857a", PAL.edge), stroke: "#24221e", "stroke-width": 2.5 }),
+        rect(-20, -6, 40, 6, { rx: 3, fill: pc("#a8a294", PAL.paper2), opacity: 0.7 }),
+        ...[0, 1, 2, 3].map(k => circle(-16 + k * 10 + R() * 4, 2 + R() * 4, 2.6, { fill: pc("#ece6d6", PAL.light), stroke: "#6a645a", "stroke-width": 0.8 }))], { transform: `translate(${f1(x)} ${f1(y)}) rotate(${f1(lean)})` }));
+    }
+  }
+  // ---------- St Agnes's church: roofless nave and chancel, the whole tower ----------
+  {
+    const nx0 = 2160, nx1 = 2560, ny0 = 1200, ny1 = 1450; // the nave
+    out.push(rect(nx0 + 10, ny0 + 12, 520, ny1 - ny0, { fill: "#000", opacity: 0.3 }));
+    out.push(rect(nx0, ny0, nx1 - nx0, ny1 - ny0, { fill: "url(#dv-stone)", opacity: 0.55 }), rect(nx0, ny0, nx1 - nx0, ny1 - ny0, { fill: "url(#dv-mud-wet)", opacity: 0.6 }));
+    out.push(rect(nx1, 1240, 110, 170, { fill: "url(#dv-mud-wet)" })); // the chancel floor
+    // rows of old pew ends, where the choir stands
+    for (let r = 0; r < 4; r++) { // four rows each side of the aisle
+      const x = nx0 + 50 + r * 80;
+      out.push(rect(x, ny0 + 25, 16, 70, { rx: 3, fill: pc("#3a2e22", PAL.soft), stroke: "#14100a", "stroke-width": 2 }), rect(x, ny1 - 95, 16, 70, { rx: 3, fill: pc("#3a2e22", PAL.soft), stroke: "#14100a", "stroke-width": 2 }));
+    }
+    out.push(rect(nx1 - 10, 1295, 60, 60, { fill: pc("#7a756a", PAL.accent), stroke: "#24221e", "stroke-width": 3 })); // the altar stone
+    lights.push(ellipse((nx0 + nx1) / 2, (ny0 + ny1) / 2, 300, 190, { fill: "url(#dv-ghost)" }));
+    const sw = { fill: pc("#7a756a", PAL.dark), edge: pc("#24221e", PAL.ink) };
+    out.push(wall(nx0, ny0, nx1, ny0, 40, [[90, 130], [250, 290]], sw)); // north wall, window gaps
+    out.push(wall(nx0, ny1, nx1, ny1, 40, [[60, 140], [250, 290]], sw)); // south wall: the door and a window
+    out.push(wall(nx1, ny0, nx1, 1240, 40, [], sw), wall(nx1, 1410, nx1, ny1, 40, [], sw));
+    out.push(wall(nx1, 1240, nx1 + 110, 1240, 34, [], sw), wall(nx1, 1410, nx1 + 110, 1410, 34, [], sw), wall(nx1 + 110, 1240, nx1 + 110, 1410, 34, [[60, 110]], sw)); // the chancel
+    // the tower at the west end: whole, its top open to show the empty bell frame
+    const tx0 = 2010, ty0 = 1250, ts = 150;
+    out.push(rect(tx0 + 12, ty0 + 16, ts, ts, { fill: "#000", opacity: 0.45 }));
+    out.push(rect(tx0, ty0, ts, ts, { fill: pc("#7a756a", PAL.dark), stroke: pc("#24221e", PAL.ink), "stroke-width": 5 }));
+    out.push(rect(tx0 + 22, ty0 + 22, ts - 44, ts - 44, { fill: pc("#1a1612", PAL.paper2) }));
+    // the bell frame: timber beams making three bell pits, all empty
+    const fb = { fill: pc("#5a4430", PAL.soft), stroke: "#14100a", "stroke-width": 2 };
+    out.push(rect(tx0 + 26, ty0 + 30, ts - 52, 12, fb), rect(tx0 + 26, ty0 + ts - 42, ts - 52, 12, fb));
+    for (const k of [0, 1, 2, 3]) out.push(rect(tx0 + 26 + k * ((ts - 52 - 10) / 3), ty0 + 30, 10, ts - 60, fb));
+    for (const k of [0, 1, 2]) out.push(circle(tx0 + 26 + 5 + (k + 0.5) * ((ts - 52 - 10) / 3), ty0 + ts / 2, 11, { fill: "none", stroke: pc("#8a7050", PAL.accent), "stroke-width": 2, "stroke-dasharray": "4 4" })); // where the bells hung
+    for (const [dx, dy] of [[0, 0], [ts, 0], [0, ts], [ts, ts]]) out.push(rect(tx0 + dx - 10, ty0 + dy - 10, 20, 20, { fill: pc("#8a857a", PAL.accent), stroke: "#24221e", "stroke-width": 2 })); // corner stones of the parapet
+    // the tower arch into the nave, shells and weed on the walls
+    out.push(rect(tx0 + ts - 4, 1300, 14, 50, { fill: pc("#1a1612", PAL.paper2) }));
+    for (let i = 0; i < 40; i++) { const t = R(); const onN = R() < 0.5; out.push(circle(nx0 + t * (nx1 - nx0), (onN ? ny0 : ny1) + (R() - 0.5) * 30, 2.6, { fill: pc("#ece6d6", PAL.light) })); }
+  }
+  // ---------- dusk light ----------
+  lights.push(rect(0, 0, W, H, { fill: "url(#dv-dusk)" }));
+  lights.push(ellipse(0, 400, 900, 700, { fill: "url(#dv-sun)", opacity: 0.6 }));
+  // the mud shines: streaks of sky caught on the wet flats
+  for (let i = 0; i < 40; i++) { const x = R() * W, y = 1200 + R() * 560; lights.push(ellipse(x, y, 60 + R() * 120, 6 + R() * 6, { fill: "#f0c8b0", opacity: 0.08 + R() * 0.08 })); }
+
+  // ---------- labels and ways in and out ----------
+  const labels = [];
+  if (!PRINT) {
+    const fl = (x, y, t, o = {}) => label(x, y, t, { size: 26, weight: 800, ...o });
+    const T = (x, y, t, o = {}) => fl(x, y, t, { size: 30, font: "display", weight: 700, ls: 3, ...o });
+    labels.push(T(1060, 1530, "OLD SALTBY", { size: 40, ls: 6 }), fl(1060, 1578, "the drowned village, at low tide", { size: 22, italic: true }));
+    labels.push(T(2360, 1150, "ST AGNES'S CHURCH", { size: 26, ls: 2 }), fl(2360, 1325, "the nave: the choir stands in rows", { size: 18, weight: 700 }));
+    labels.push(fl(2085, 1440, ["The tower (whole):", "empty bell frame"], { size: 17, weight: 700 }));
+    labels.push(T(2400, 1640, "THE CHURCHYARD", { size: 22, ls: 2 }), fl(2400, 1668, "leaning stones, half buried, crusted with shells", { size: 16, weight: 700 }));
+    labels.push(T(1360, 1130, "THE VILLAGE STREET", { size: 22, ls: 2 }));
+    labels.push(fl(1050, 860, "cottage walls", { size: 18, weight: 700 }), fl(1870, 1165, "well (dry)", { size: 18, weight: 700 }));
+    labels.push(T(1660, 560, "THE CAUSEWAY", { size: 24, rot: -66, ls: 2 }), fl(1430, 520, ["old stones; the sea", "covers it at high tide"], { size: 17, weight: 700 }));
+    labels.push(T(2720, 840, "THE REED BEDS", { size: 26, ls: 2 }), fl(2720, 875, "tall reeds and channels of black water", { size: 17, weight: 700 }));
+    labels.push(fl(2780, 260, ["The hide", "(on stilts)"], { size: 20, anchor: "start" }), fl(2780, 470, ["the boat,", "tied below"], { size: 17, weight: 700, anchor: "start" }));
+    labels.push(fl(2330, 800, "the reed channel", { size: 18, italic: true, rot: -50 }));
+    labels.push(fl(1700, 163, "Birdwatchers' car park", { size: 20 }));
+    labels.push(fl(620, 290, "The sea wall", { size: 24 }));
+    labels.push(T(1700, 1560, "THE MUDFLATS", { size: 30, ls: 4 }), fl(1700, 1598, "open, shining mud all the way to the sea", { size: 18, weight: 700 }));
+    labels.push(fl(2300, 1860, "low-water line: the tide comes in from here", { size: 20, italic: true }));
+    const way = (x, y, ang, t, o) => wayMarker(x, y, ang, t, { size: 22, ...o });
+    labels.push(way(50, 285, 180, ["Way in and out: along the sea", "wall, from the Harbour side"], { lx: 120, ly: 400, anchor: "start" }));
+    labels.push(way(1600, 45, -90, ["Way in and out:", "the causeway,", "from the car park"], { lx: 1640, ly: 75, anchor: "start" }));
+    labels.push(way(2650, 45, -90, ["Way in and out: the reed channel", "by boat, from the hide"], { lx: 2400, ly: 40, anchor: "end" }));
+    labels.push(way(50, 1650, 180, ["Way out only: the long walk across", "the mudflats to the beach under the long pier"], { lx: 120, ly: 1720, anchor: "start" }));
+  } else {
+    const T = (x, y, t, o = {}) => plabel(x, y, t, { size: 62, font: "display", ls: 3, ...o });
+    const F = (x, y, t, o = {}) => plabel(x, y, t, { size: 52, ...o });
+    labels.push(T(1060, 1530, "OLD SALTBY", { size: 74, ls: 6 }), F(1060, 1605, "the drowned village", { size: 52, italic: true }));
+    labels.push(T(2360, 1140, "ST AGNES'S", { size: 54, ls: 2 }));
+    labels.push(F(2380, 1325, "the nave", { size: 50 }));
+    labels.push(F(2085, 1470, ["tower: empty", "bell frame"], { size: 50 }));
+    labels.push(T(2380, 1610, "CHURCHYARD", { size: 50, ls: 2 }));
+    labels.push(T(1360, 1130, "THE STREET", { size: 52, ls: 2 }));
+    labels.push(F(1045, 850, ["cottage", "walls"], { size: 50 }), F(1870, 1180, "dry well", { size: 50 }));
+    labels.push(T(1660, 580, "THE CAUSEWAY", { size: 52, rot: -66, ls: 2 }));
+    labels.push(T(2720, 840, "THE REED BEDS", { size: 54, ls: 2 }));
+    labels.push(F(2790, 285, ["The hide", "(stilts)"], { size: 50, anchor: "start" }), F(2800, 500, ["boat"], { size: 50, anchor: "start" }));
+    labels.push(F(2290, 810, "reed channel", { size: 50, italic: true, rot: -50 }));
+    labels.push(F(1665, 180, ["Birdwatchers'", "car park"], { size: 50, anchor: "start" }));
+    labels.push(F(620, 285, "The sea wall", { size: 54 }));
+    labels.push(T(1800, 1560, "THE MUDFLATS", { size: 58, ls: 4 }));
+    labels.push(F(2300, 1880, "low water: the tide comes in", { size: 50, italic: true }));
+    labels.push(pwayMarker(60, 285, 180, ["Way in and out: along the", "sea wall, from the Harbour"], { lx: 150, ly: 430, anchor: "start", size: 50 }));
+    labels.push(pwayMarker(1600, 44, -90, ["Way in and out:", "the causeway"], { lx: 1665, ly: 72, anchor: "start", size: 50 }));
+    labels.push(pwayMarker(2650, 60, -90, ["Way in and out:", "the reed channel,", "by boat from the hide"], { lx: 2590, ly: 122, anchor: "end", size: 50 }));
+    labels.push(pwayMarker(60, 1650, 180, ["Way out only: the long walk", "across the mudflats to the", "beach under the long pier"], { lx: 150, ly: 1800, anchor: "start", size: 50 }));
+  }
+
+  const body = PRINT ? out.join("") + top.join("") + labels.join("") + printFrame() :
+    out.join("") +
+    rect(0, 0, W, H, { fill: "#c4b8d0", style: "mix-blend-mode:multiply" }) +
+    grp(lights, { style: "mix-blend-mode:screen" }) +
+    rect(0, 0, W, H, { filter: "url(#dv-grain)" }) +
+    top.join("") + labels.join("");
+
+  const data = {
+    width: W, height: H, grid: G,
+    points: [
+      { key: "way-causeway", label: "The causeway from the birdwatchers' car park (a way in and out)", x: 1600, y: 250 },
+      { key: "way-reed-channel", label: "The reed channel by boat, from the hide (a way in and out)", x: 2650, y: 330 },
+      { key: "way-sea-wall", label: "Along the sea wall from the Harbour side (a way in and out)", x: 150, y: 285 },
+      { key: "way-mudflats", label: "The long walk across the mudflats to the beach under the long pier (a way out only)", x: 150, y: 1650 },
+      { key: "the-causeway", label: "The causeway: a raised path of old stones from the birdwatchers' car park out across the mud. The sea covers it at high tide", x: 1500, y: 640 },
+      { key: "reed-beds", label: "The reed beds: tall reeds and channels of black water. The hide stands on stilts, with a flat-bottomed boat tied below it", x: 2650, y: 270 },
+      { key: "village-street", label: "The village street: the stumps of cottage walls in the mud, a well with no water in it, a lane of cobbles", x: 1360, y: 1075 },
+      { key: "churchyard", label: "The churchyard: leaning stones, half buried, crusted with shells", x: 2400, y: 1600 },
+      { key: "st-agnes", label: "St Agnes's church: roofless walls round the nave, where the choir stands in rows. The tower is still whole, with an empty bell frame at the top", x: 2360, y: 1325 },
+      { key: "mudflats", label: "The mudflats: open, shining mud all the way to the sea and round the bay to the beach under the long pier. As Doom rises, so does the water", x: 1700, y: 1650 },
+    ],
+    tokens: {
+      coven: [[1500, 200], [1600, 200], [1700, 200], [1500, 300], [1600, 300], [1500, 400], [1600, 400]], // at the start of the causeway
+      threat: [2300, 1300], // the choir, in the nave
+      innocent: null,
+    },
+  };
+  if (PRINT) {
+    const pd = {
+      "dv-mud": mudPattern("dv-mud", 91, PAL.paper2, PAL.edge, PAL.accent, 200, 12),
+      "dv-mud-wet": mudPattern("dv-mud-wet", 92, PAL.accentB, PAL.edge, PAL.accent, 200, 14),
+      "dv-reeds": reedPattern("dv-reeds", 93, PAL.paper2, [PAL.accent, PAL.soft, PAL.edge], 120, 70, 2.4),
+      "dv-sea": waterPattern("dv-sea", 94, PAL.edge, [PAL.paper, PAL.accent], 240, 16, 3),
+      "dv-black": waterPattern("dv-black", 95, PAL.accent, [PAL.paper2, PAL.edge], 160, 8, 2.4),
+      "dv-grass": printGround.grass("dv-grass", 96, 36),
+      "dv-gravel": printGround.gravel("dv-gravel", 97),
+      "dv-stone": slabPattern("dv-stone", 98, [PAL.edge, PAL.paper2, PAL.edge], PAL.accent, 200, 34),
+      "dv-cobble": cobblePattern("dv-cobble", 99, [PAL.edge, PAL.paper2], PAL.accent, 200, 18, false),
+      "dv-wood": printGround.planks("dv-wood", 100, 14),
+    };
+    return { name: "drowned-village", svg: bookSvg("Map: the drowned village at low tide", body, defs, pd), data };
+  }
+  return { name: "drowned-village", svg: svgDoc(body, defs), data };
 }
 
 /* ===================================================================== */
@@ -3181,7 +3493,7 @@ const MAPS = {
   larkhaven, "lantern-house": lanternHouse,
   "night-market": nightMarket, "radio-tower": radioTower,
   "mariner-theatre": marinerTheatre, "harbour-fireworks": harbourFireworks,
-  // "drowned-village": drownedVillage, "long-pier": longPier,
+  "drowned-village": drownedVillage, // "long-pier": longPier,
 };
 /** The showdown maps: each also gets a print version for the book. */
 const BOOK_MAPS = new Set(["night-market", "radio-tower", "mariner-theatre", "harbour-fireworks", "drowned-village", "long-pier"]);

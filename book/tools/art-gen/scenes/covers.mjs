@@ -88,7 +88,7 @@ function limb(A, pts, w0, w1, color, o = {}) {
     L.push([pts[i][0] - dy / len * w, pts[i][1] + dx / len * w]); R.push([pts[i][0] + dy / len * w, pts[i][1] - dx / len * w]);
   }
   const a = pts[0], b = pts[1], len = Math.hypot(b[0] - a[0], b[1] - a[1]);
-  const cap = [a[0] - (b[0] - a[0]) / len * w0 * 0.42, a[1] - (b[1] - a[1]) / len * w0 * 0.42];
+  const cap = [a[0] - (b[0] - a[0]) / len * w0 * 0.22, a[1] - (b[1] - a[1]) / len * w0 * 0.22];
   const Le = L[n - 1], Re = R[n - 1];
   const all = [cap, ...L.slice(0, n - 1), [Le[0], Le[1], 1], [Re[0], Re[1], 1], ...R.slice(0, n - 1).reverse()];
   return fill(A, smooth(all), color, { hi: o.hi ?? 0.14, lo: o.lo ?? 0.32 });
@@ -105,17 +105,18 @@ function dirOf(a, b) { const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(
  */
 function hangHand(A, wrist, deg, skin, thumb, o = {}) {
   const ts = thumb, k = getK();
-  const palm = smooth([[-25, -6], [25, -6], [28, 26], [24, 50], [-24, 50], [-28, 26]]);
-  const fingers = [[-18, 34], [-6, 40], [6, 38], [18, 31]].map(([x, len]) => [[x, 44], [x + 0.6, 44 + len * 0.6], [x - ts * 1.5, 44 + len]]);
-  const th = [[ts * 16, 8], [ts * 30, 26], [ts * 28, 50]];
-  const fw = 12.5, tw = 14, ow = 3.4 * k;
+  skin = dk(skin, 0.07);
+  const palm = smooth([[-21, -6], [21, -6], [24, 24], [20, 46], [-20, 46], [-24, 24]]);
+  const fingers = [[-15, 28], [-5, 33], [5, 32], [15, 26]].map(([x, len]) => [[x, 40], [x + ts * 1, 40 + len * 0.6], [x + ts * 4, 40 + len]]);
+  const th = [[ts * 13, 6], [ts * 22, 24], [ts * 19, 44]];
+  const fw = 10.5, tw = 12, ow = 3 * k;
   let s = P(palm, INK, { s: INK, w: ow, raw: true });
   for (const f of fingers) s += S(smooth(f, false), INK, fw + ow, undefined, { raw: true });
   s += P(palm, skin);
   for (const f of fingers) s += S(smooth(f, false), skin, fw, undefined, { raw: true });
   // finger divisions and knuckles
-  s += S(`M-12,46 L-12.5,${44 + 30} M0,46 L0,${44 + 34} M12,46 L12.5,${44 + 30}`, dk(skin, 0.4), 2.4, 0.9, { raw: true });
-  s += S(`M-20,38 Q0,34 20,38`, dk(skin, 0.3), 1.8, 0.6, { raw: true });
+  s += S(`M-10,42 L${-10 + ts * 2},${40 + 26} M0,42 L${ts * 2.5},${40 + 30} M10,42 L${10 + ts * 2},${40 + 26}`, dk(skin, 0.4), 2.2, 0.9, { raw: true });
+  s += S(`M-17,34 Q0,30 17,34`, dk(skin, 0.3), 1.6, 0.6, { raw: true });
   // thumb on top, towards the centre line
   s += S(smooth(th, false), INK, tw + ow, undefined, { raw: true }) + S(smooth(th, false), skin, tw, undefined, { raw: true });
   if (o.ring) {
@@ -132,9 +133,9 @@ const getK = () => KNOW;
 /** An arm hanging at the figure's side, with its hand. side −1 = viewer's left (the person's right arm). */
 function hangArm(A, y, sd, o) {
   const { sw, col, skin, w0 = 62, w1 = 50, out = 0, cuff, bare = false } = o;
-  const sh = [CX + sd * (sw - 22), y(0.205)];
-  const el = [CX + sd * (sw + 6 + out), y(0.395)];
-  const wr = [CX + sd * (sw - 2 + out * 1.4), y(0.52)];
+  const sh = [CX + sd * (sw - w0 / 2 - 1), y(0.212)];
+  const el = [CX + sd * (sw - w0 / 2 + 14 + out), y(0.395)];
+  const wr = [CX + sd * (sw - w0 / 2 + 12 + out * 1.4), y(0.515)];
   let s = "";
   if (bare) {   // rolled sleeve to the elbow, bare forearm
     s += limb(A, [sh, el], w0, w0 - 6, col);
@@ -232,7 +233,7 @@ function marcoBody(A, look = 0) {
   s += E(el[0] + 6, el[1] - 40, 6, 3.5, oil, { op: 0.45 });
   s += palmHand(A, wr[0] + 2, wr[1] - 30, -6, mix(skin, "#e0b088", 0.3), { side: 1 });
   s += E(wr[0] - 4, wr[1] - 40, 7, 4, oil, { op: 0.4 }) + E(wr[0] + 12, wr[1] - 18, 5, 3, oil, { op: 0.35 });
-  s += flameInHand(A, wr[0] + 1, wr[1] - 40);
+  s += flameInHand(A, wr[0] - 2, wr[1] - 92);
   s += neck(A, skin, 32, 205, y(0.165), ch.hd.chin);
   s += fill(A, `M${CX - 40},${r(y(0.158))} L${CX},${r(y(0.205))} L${CX + 40},${r(y(0.158))} L${CX + 46},${r(y(0.175))} L${CX},${r(y(0.225))} L${CX - 46},${r(y(0.175))} Z`, shirt, { s: false });
   for (const sd of [-1, 1]) s += fill(A, smooth([[CX + sd * 32, y(0.148)], [CX + sd * 74, y(0.16)], [CX + sd * 86, y(0.175)], [CX + sd * 56, y(0.205), 1], [CX + sd * 42, y(0.178)], [CX + sd * 34, y(0.163)]]), lt(shirt, 0.08), { w: 2.6 });
@@ -266,19 +267,18 @@ function juneBody(A, look = 0) {
   s += ch.hood(A).replace(/<path/, `<path transform="translate(0 ${r(y(0.155) - 268)})"`);
   // right arm (viewer's left) hangs
   s += hangArm(A, y, -1, { sw, col: coat, skin, cuff: dk(coat, 0.08) });
-  // left arm bent: the notebook held flat to her chest, thumb on its cover
-  const sh = [CX + (sw - 22), y(0.205)], el = [CX + sw + 6, y(0.37)], wr = [CX + 70, y(0.29)];
-  const nb = [[CX + 18, y(0.235)], [CX + 76, y(0.228)], [CX + 84, y(0.33)], [CX + 26, y(0.337)]];
-  s += P(poly([[CX + 76, y(0.228)], [CX + 82, y(0.23)], [CX + 90, y(0.33)], [CX + 84, y(0.33)]]), "#f3ead6", { s: INK, w: 2.2 });   // page edges
+  // left arm bent: the notebook held flat to her chest; her hand round its right edge, thumb on the cover
+  const sh = [CX + (sw - 30), y(0.212)], el = [CX + sw + 4, y(0.385)], wr = [CX + 100, y(0.31)];
+  const nb = [[CX + 4, y(0.222)], [CX + 92, y(0.214)], [CX + 100, y(0.362)], [CX + 12, y(0.37)]];
+  s += P(poly([[CX + 92, y(0.214)], [CX + 99, y(0.216)], [CX + 107, y(0.362)], [CX + 100, y(0.362)]]), "#f3ead6", { s: INK, w: 2.2 });   // page edges
   s += fill(A, poly(nb), "#b8463a", { hi: 0.12, w: 2.6 });
-  s += S(`M${CX + 70},${r(y(0.23))} L${CX + 78},${r(y(0.332))}`, "#2a1f22", 3) + S(`M${CX + 26},${r(y(0.255))} L${CX + 72},${r(y(0.25))}`, "#d9a36a", 1.6, 0.8);
-  s += limb(A, [sh, el, wr], 60, 50, coat);
+  s += S(`M${CX + 84},${r(y(0.216))} L${CX + 92},${r(y(0.364))}`, "#2a1f22", 3.4) + S(`M${CX + 12},${r(y(0.245))} L${CX + 80},${r(y(0.24))}`, "#d9a36a", 1.8, 0.8);   // elastic strap and a label line
+  s += limb(A, [sh, el, wr], 58, 50, coat);
   s += cuffBand(A, el, wr, 52, dk(coat, 0.08));
-  // her hand over the notebook's edge: back of the hand, four fingers across the cover, thumb along it
-  const hx = wr[0] - 4, hy = wr[1] - 4;
-  s += shaded(A, smooth([[hx - 4, hy - 20], [hx + 14, hy - 22], [hx + 22, hy - 4], [hx + 18, hy + 18], [hx + 2, hy + 22], [hx - 8, hy + 4]]), skin, { w: 2.4 });
-  for (const [dy, len] of [[-16, 26], [-6, 30], [4, 29], [14, 23]]) s += capsule([[hx - 2, hy + dy], [hx - 2 - len, hy + dy - 2]], 9, skin, { ow: 3.4 });
-  s += capsule([[hx + 8, hy - 20], [hx - 6, hy - 30], [hx - 24, hy - 32]], 10, skin, { ow: 3.4 });
+  const hx = wr[0] - 6, hy = wr[1] - 6;
+  s += shaded(A, smooth([[hx - 6, hy - 20], [hx + 12, hy - 22], [hx + 20, hy - 4], [hx + 16, hy + 18], [hx, hy + 22], [hx - 10, hy + 4]]), skin, { w: 2.4 });
+  for (const [dy, len] of [[-14, 26], [-4, 30], [6, 29], [16, 23]]) s += capsule([[hx - 4, hy + dy], [hx - 4 - len, hy + dy - 1]], 9, skin, { ow: 3.4 });
+  s += capsule([[hx + 6, hy - 20], [hx - 8, hy - 30], [hx - 26, hy - 32]], 10, skin, { ow: 3.4 });
   s += neck(A, skin, 22, 205, y(0.17), ch.hd.chin);
   s += fill(A, `M${CX - 30},${r(y(0.158))} L${CX},${r(y(0.19))} L${CX + 30},${r(y(0.158))} L${CX + 34},${r(y(0.18))} L${CX},${r(y(0.215))} L${CX - 34},${r(y(0.18))} Z`, "#2f5f63", { w: 2.4 });   // teal jumper
   for (const sd of [-1, 1]) s += fill(A, smooth([[CX + sd * 24, y(0.15)], [CX + sd * 56, y(0.16)], [CX + sd * 66, y(0.175)], [CX + sd * 44, y(0.205), 1], [CX + sd * 32, y(0.18)], [CX + sd * 26, y(0.165)]]), lt(coat, 0.08), { w: 2.6 });
@@ -374,7 +374,7 @@ function noorBody(A, look = 0) {
   s += capsule([[hx, hy - 20], [hx + 14, hy - 30], [hx + 28, hy - 30]], 10, skin, { ow: 3.4 });
   // headscarf over the shoulders, then the head
   s += neck(A, skin, 24, 200, y(0.17), ch.hd.chin);
-  s += ch.over(A).replace(/<path/g, `<path transform="translate(0 ${r(y(0.155) - 268)})"`).replace(/(<path transform="translate\(0 [^"]*\)")/, "$1");
+  s += ch.over(A).replace(/<path/g, `<path transform="translate(0 ${r(y(0.155) - 268)})"`);   // the scarf, moved to this body's neck
   s += withEyes(ch, look, A);
   return s;
 }
@@ -414,7 +414,7 @@ function rookBody(A, look = 0) {
   for (const sd of [-1, 1]) s += hangArm(A, y, sd, { sw, col: coat, skin, hand, w0: 60, w1: 50, cuff: dk(coat, 0.12) });
   s += neck(A, skin, 22, 200, y(0.17), ch.hd.chin);
   s += fill(A, `M${CX - 25},${r(y(0.152))} Q${CX},${r(y(0.16))} ${CX + 25},${r(y(0.152))} L${CX + 30},${r(y(0.17))} L${CX},${r(y(0.215))} L${CX - 30},${r(y(0.17))} Z`, "#2e2d35", { w: 2.4 });
-  s += ch.collar(A, y(0.215)).replace(/<path/g, `<path transform="translate(0 ${r(y(0.155) - 268) * 0})"`);
+  s += ch.collar(A, y(0.215));
   s += withEyes(ch, look, A);
   return s;
 }
@@ -544,13 +544,13 @@ function lanternHouse(A, x0, base, k, o = {}) {
 }
 
 /** The lantern hanging from (x, top): cap, glowing glass, brass frame, finial. Returns {s, glow:[x,y]}. */
-function lamp(A, x, top, k) {
+function lamp(A, x, top, k, wk = k / 0.31) {
   const w = 34 * k, h = 52 * k, cy = top + 12 * k + h / 2;
   let s = C(x, cy, 26 * k * 4, A.rad([[0, "#ffd98a", 0.55], [0.35, "#ffc35a", 0.18], [1, "#ffc35a", 0]]));
-  s += C(x, top - 1 * k, 3 * k, "none", { s: "#1b1a1f", w: 1.2 * k / 0.31 });   // the ring on the hook
+  s += C(x, top - 1 * k, 3 * k, "none", { s: "#1b1a1f", w: 1.2 * wk });   // the ring on the hook
   s += P(poly([[x - w * 0.62, top + 12 * k], [x, top], [x + w * 0.62, top + 12 * k]]), "#1b1a1f", { s: INK, w: 1 });
-  s += P(poly([[x - w / 2, top + 12 * k], [x + w / 2, top + 12 * k], [x + w * 0.42, top + 12 * k + h], [x - w * 0.42, top + 12 * k + h]]), A.rad([[0, "#fffbe6"], [0.6, "#ffe08a"], [1, "#f2b84a"]]), { s: NIGHT.brass, w: 1.4 * k / 0.31 });
-  s += S(`M${r(x)},${r(top + 12 * k)} L${r(x)},${r(top + 12 * k + h)}`, NIGHT.brass, 1 * k / 0.31);
+  s += P(poly([[x - w / 2, top + 12 * k], [x + w / 2, top + 12 * k], [x + w * 0.42, top + 12 * k + h], [x - w * 0.42, top + 12 * k + h]]), A.rad([[0, "#fffbe6"], [0.6, "#ffe08a"], [1, "#f2b84a"]]), { s: NIGHT.brass, w: 1.4 * wk });
+  s += S(`M${r(x)},${r(top + 12 * k)} L${r(x)},${r(top + 12 * k + h)}`, NIGHT.brass, 1 * wk);
   s += P(poly([[x - w * 0.46, top + 12 * k + h], [x + w * 0.46, top + 12 * k + h], [x + w * 0.2, top + 20 * k + h], [x - w * 0.2, top + 20 * k + h]]), "#1b1a1f", { s: INK, w: 0.8 });
   return { s, glow: [x, cy] };
 }
@@ -594,7 +594,6 @@ function cobbles(A, w, h, horizon, kerbY, slope, cx) {
   // row depth in cm from the camera, stepping 14 cm; screen y of a row = horizon + 150 * f / dist
   const f = (kerbY - horizon) / 150 * 840;   // the kerb is 840 cm away
   for (let dist = 840, row = 0; ; dist -= 14 * Math.max(1, dist / 600), row++) {
-    const Y = horizon + 150 * f / dist / 840 * 840 / 1;
     const yy = horizon + (150 * (f / dist));
     if (yy > h + 10) break;
     const sc = (yy - horizon) / 150;   // units per cm here
@@ -602,8 +601,7 @@ function cobbles(A, w, h, horizon, kerbY, slope, cx) {
     const rh = next - yy;
     d += `M0,${r(gy(0, yy))} L${w},${r(gy(w, yy))}`;
     const cw = 20 * sc * Math.max(1, dist / 600), off = (row % 2) * cw / 2 + rnd() * cw * 0.3;
-    for (let x = -off; x < w; x += cw) { d += `M${r(x)},${r(gy(x, yy))} L${r(x - slope * 0)},${r(gy(x, yy) + rh)}`; if (rh > 3) hi += `M${r(x + cw * 0.18)},${r(gy(x, yy) + rh * 0.3)} L${r(x + cw * 0.7)},${r(gy(x + cw * 0.5, yy) + rh * 0.3)}`; }
-    void Y;
+    for (let x = -off; x < w; x += cw) { d += `M${r(x)},${r(gy(x, yy))} L${r(x)},${r(gy(x, yy) + rh)}`; if (rh > 3) hi += `M${r(x + cw * 0.18)},${r(gy(x, yy) + rh * 0.3)} L${r(x + cw * 0.7)},${r(gy(x + cw * 0.5, yy) + rh * 0.3)}`; }
   }
   s += S(d, "#0b0e17", 0.9, 0.85) + S(hi, "#56607e", 0.8, 0.45);
   return s;
@@ -667,19 +665,24 @@ function cover() {
   const gy = (x, y0) => y0 - SL * (x - CXs);                // a ground line through (306, y0), rising to the right
   const kH = 0.31;                                           // houses: screen units per cm
   const base0 = HOR + 150 * kH;                             // house fronts' foot at x = 306
-  let s = sky(A, W, Hh, HOR, [362, 214, 19]);
-  // the Heights: a dark hill up to the right, the big houses' lit windows, the old radio tower
-  s += P(smooth([[300, 330], [380, 300], [450, 262], [520, 236], [600, 226], [640, 230], [640, 420, 1], [300, 420, 1]]), A.lin([[0, "#1f2944"], [1, "#151b2e"]], 0, 0, 0, 1));
-  const rnd = rng(5);
-  for (let i = 0; i < 16; i++) { const x = 400 + rnd() * 210, yy = 300 - (x - 400) * 0.28 + rnd() * 40; s += P(poly([[x, yy], [x + 3, yy], [x + 3, yy + 2.4], [x, yy + 2.4]]), "#f2c46b", { op: 0.55 + rnd() * 0.3 }); }
-  s += radioTower(A, 548, 232, 66);
+  let s = sky(A, W, Hh, HOR, [313, 203, 18]);
+  // the Heights: a dark hill rising to the right behind the roofs, its big houses' lit windows, and the old radio tower on top
+  const ridge = [[300, 312], [380, 290], [460, 258], [540, 228], [612, 212], [640, 210]];
+  const ridgeY = x => { for (let i = 0; i < ridge.length - 1; i++) { const [a, b] = [ridge[i], ridge[i + 1]]; if (x <= b[0]) return a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0]); } return 210; };
+  s += P(smooth([...ridge, [640, 420, 1], [300, 420, 1]]), A.lin([[0, "#121a2e"], [1, "#0c111d"]], 0, 0, 0, 1));
+  s += S(smooth(ridge, false), "#2e3a5e", 1.2, 0.9);
+  for (const [hx, hw, hh] of [[452, 22, 12], [486, 26, 14], [584, 24, 13]]) {   // big houses behind their hedges
+    const hy = ridgeY(hx + hw / 2) + 6;
+    s += P(poly([[hx, hy], [hx, hy - hh], [hx + hw / 2, hy - hh - 8], [hx + hw, hy - hh], [hx + hw, hy]]), "#161d33", { s: "#0a0d16", w: 0.8 });
+    s += P(poly([[hx + 4, hy - hh + 4], [hx + 8, hy - hh + 4], [hx + 8, hy - hh + 7.5], [hx + 4, hy - hh + 7.5]]), "#f2c46b", { op: 0.85 }) + P(poly([[hx + hw - 9, hy - hh + 4], [hx + hw - 5, hy - hh + 4], [hx + hw - 5, hy - hh + 7.5], [hx + hw - 9, hy - hh + 7.5]]), "#f2c46b", { op: 0.6 });
+    s += E(hx + hw / 2, hy + 1, hw * 0.8, 4, "#0e1a1a");   // hedge
+  }
+  s += radioTower(A, 548, ridgeY(548) + 1, 64);
   // houses: the left neighbour (downhill), the Lantern House, the right neighbour (uphill) with an archway
   const lhX0 = 166, lhBase = gy(lhX0 + 155, base0) - 2;
   const LH = lanternHouse(A, lhX0, lhBase, kH);
   const left = terrace(A, -20, lhX0, gy(lhX0, base0) + 1, kH, { floors: 2, col: "#525873", lit: ["10", "02"], curtain: "#b88a5a", chimney: 40, dormer: 60 });
-  const left2X = -20;
-  void left2X;
-  const right = terrace(A, LH.x1, 640, gy(640, base0) - 4, kH, { floors: 3, col: "#4b5068", lit: ["11", "21", "00"], brick: false, chimney: 560, arch: 1, roofCol: "#262c3e" });
+  const right = terrace(A, LH.x1, 640, gy(640, base0) - 4, kH, { floors: 2, col: "#4b5068", lit: ["11", "00"], brick: false, chimney: 470, arch: 1, roofCol: "#262c3e" });
   s += left.s + right.s + LH.s;
   // the archway (a close running up the hill) in the right neighbour, with the Quiet Man inside
   const aw = 46, ax = 546, aBase = gy(ax + aw / 2, base0) - 4, aTop = aBase - 82;
@@ -725,15 +728,99 @@ function cover() {
 
 function backCover() {
   const A = new Art();
-  const W = 800, Hh = 600, HOR = 330;
-  const k = 1.5;                       // the house front: screen units per cm (front 1.5 per cm)
-  const base = HOR + 150 * k * 0.5;    // the doorstep line
-  let s = tag("rect", { x: 0, y: 0, width: W, height: Hh, fill: "#1a2136" });
-  // the brick front of the Lantern House around the door
-  s += P(poly([[0, 0], [W, 0], [W, Hh], [0, Hh]]), A.lin([[0, "#6a4038"], [0.5, FAC.brick], [1, "#4a2c26"]], 0, 0, 1, 0.3));
-  s += bricks(A, 0, 0, W, Hh, k * 0.31 / 0.31 * 1);
-  void base;
-  return ["0 0 800 600", "Rook in human shape on the doorstep of the Lantern House", A.out() + s];
+  const W = 800, Hh = 600;
+  const k = 2.1;                        // the house front: screen units per cm
+  const stepTop = 560;                  // Rook stands on the doorstep, 18 cm above the street
+  const HOR = stepTop - 132 * k;        // the eye 150 cm above the street, so 132 cm above the step
+  const VPX = 400;
+  const dX = 300, dW = 95 * k, dH = 210 * k, dY = stepTop - dH, dR = dX + dW;   // the doorway
+  let s = "";
+  // ---- the hall, seen through the open door (lit, warm). Depth scale at d cm inside: k * 250 / (250 + d).
+  const kd = d => k * 250 / (250 + d);
+  const fy = d => HOR + 132 * kd(d);                        // floor line at depth d
+  const wx = (d, side) => VPX + side * 55 * kd(d);          // hall walls, 110 cm apart
+  const back = 350, cy = d => fy(d) - 262 * kd(d);          // back wall, ceiling
+  let hall = P(poly([[wx(0, -1) - 60, dY - 40], [wx(0, 1) + 60, dY - 40], [wx(0, 1) + 60, stepTop], [wx(0, -1) - 60, stepTop]]), "#5a3a2a");
+  hall += P(poly([[wx(back, -1), cy(back)], [wx(back, 1), cy(back)], [wx(back, 1), fy(back)], [wx(back, -1), fy(back)]]), A.lin([[0, "#f6dca2"], [1, "#d9a85e"]], 0, 0, 0, 1));   // back wall
+  hall += P(poly([[wx(0, -1), dY - 40], [wx(back, -1), cy(back)], [wx(back, -1), fy(back)], [wx(0, -1), stepTop]]), A.lin([[0, "#c98a4a"], [1, "#e8bb72"]], 0, 0, 1, 0));   // left wall
+  hall += P(poly([[wx(0, 1), dY - 40], [wx(back, 1), cy(back)], [wx(back, 1), fy(back)], [wx(0, 1), stepTop]]), A.lin([[0, "#e8bb72"], [1, "#b97a3e"]], 0, 0, 1, 0));    // right wall
+  hall += P(poly([[wx(0, -1), stepTop], [wx(back, -1), fy(back)], [wx(back, 1), fy(back)], [wx(0, 1), stepTop]]), A.lin([[0, "#8a5a3a"], [1, "#5e3a26"]], 0, 0, 0, 1));   // floorboards
+  for (const t of [-0.6, -0.2, 0.2, 0.6]) hall += S(`M${r(VPX + t * 55 * kd(0))},${stepTop} L${r(VPX + t * 55 * kd(back))},${r(fy(back))}`, "#4a2e1e", 1.2, 0.6);
+  hall += P(poly([[VPX - 30 * kd(20), fy(20)], [VPX + 30 * kd(20), fy(20)], [VPX + 30 * kd(300), fy(300)], [VPX - 30 * kd(300), fy(300)]]), "#7a2e3a", { op: 0.85 });   // a runner rug
+  // stairs going up along the right wall, with a banister
+  for (let i = 0; i < 8; i++) {
+    const d0 = 120 + i * 26, rise = 19 * (i + 1);
+    const yy = fy(d0) - rise * kd(d0), x0 = wx(d0, 1) - 80 * kd(d0);
+    hall += P(poly([[x0, yy], [wx(d0, 1), yy], [wx(d0, 1), yy + 19 * kd(d0)], [x0, yy + 19 * kd(d0)]]), i % 2 ? "#a56a3e" : "#8f5a34", { s: "#4a2e1e", w: 0.8 });
+  }
+  hall += S(`M${r(wx(110, 1) - 82 * kd(110))},${r(fy(110) - 95 * kd(110))} L${r(wx(320, 1) - 82 * kd(320))},${r(fy(320) - 250 * kd(320))}`, "#3a2416", 3);
+  hall += S(`M${r(wx(110, 1) - 82 * kd(110))},${r(fy(110) - 95 * kd(110))} L${r(wx(110, 1) - 82 * kd(110))},${r(fy(110))}`, "#3a2416", 4);   // newel post
+  // a hanging light in the hall
+  const hx = VPX - 10, hTop = cy(200);
+  hall += S(`M${hx},${r(hTop)} L${hx},${r(hTop + 40 * kd(200))}`, "#2a1a12", 1.4);
+  hall += C(hx, hTop + 52 * kd(200), 60, A.rad([[0, "#fff1c4", 0.6], [1, "#fff1c4", 0]])) + P(`M${r(hx - 14)},${r(hTop + 40 * kd(200))} L${r(hx + 14)},${r(hTop + 40 * kd(200))} L${r(hx + 22)},${r(hTop + 58 * kd(200))} L${r(hx - 22)},${r(hTop + 58 * kd(200))} Z`, "#f6e2a8", { s: "#5a3a22", w: 1.2 });
+  // the coat stand, left of the hall, as tall and as still as Rook: a pole on three feet, hooks at the top,
+  // with a violet scarf and a yellow raincoat (June's: she sleeps here more nights than at home)
+  const cd = 110, ck = kd(cd), cx = wx(cd, -1) + 22 * ck, cf = fy(cd), ctop = cf - 185 * ck;
+  hall += E(cx, cf + 2, 30 * ck, 5 * ck, "#2a160c", { op: 0.5 });
+  hall += S(`M${r(cx)},${r(cf - 30 * ck)} L${r(cx - 24 * ck)},${r(cf)} M${r(cx)},${r(cf - 30 * ck)} L${r(cx + 24 * ck)},${r(cf)} M${r(cx)},${r(cf - 30 * ck)} L${r(cx + 4 * ck)},${r(cf + 4 * ck)}`, "#3a2416", 3.4);
+  hall += S(`M${r(cx)},${r(cf - 30 * ck)} L${r(cx)},${r(ctop)}`, "#4a2e1e", 4.2) + C(cx, ctop - 3, 4.5, "#4a2e1e");
+  hall += S(`M${r(cx)},${r(ctop + 14 * ck)} q${r(-18 * ck)},${r(-2 * ck)} ${r(-20 * ck)},${r(-14 * ck)} M${r(cx)},${r(ctop + 14 * ck)} q${r(18 * ck)},${r(-2 * ck)} ${r(20 * ck)},${r(-14 * ck)}`, "#4a2e1e", 2.6);
+  hall += P(smooth([[cx - 20 * ck, ctop + 2 * ck], [cx - 30 * ck, ctop + 30 * ck], [cx - 34 * ck, ctop + 100 * ck, 1], [cx - 8 * ck, ctop + 104 * ck, 1], [cx - 12 * ck, ctop + 30 * ck], [cx - 16 * ck, ctop + 4 * ck]]), "#f4c22f", { s: INK, w: 1.6 });   // the raincoat, on the left hook
+  hall += S(`M${r(cx - 22 * ck)},${r(ctop + 40 * ck)} L${r(cx - 20 * ck)},${r(ctop + 96 * ck)}`, dk("#f4c22f", 0.3), 1.2);
+  hall += P(poly([[cx + 16 * ck, ctop], [cx + 24 * ck, ctop], [cx + 26 * ck, ctop + 80 * ck], [cx + 18 * ck, ctop + 82 * ck]]), "#7b5bc4", { s: INK, w: 1.4 });   // the scarf, on the right hook
+  hall += S(`M${r(cx + 18 * ck)},${r(ctop + 82 * ck)} l0,6 M${r(cx + 22 * ck)},${r(ctop + 82 * ck)} l0,6 M${r(cx + 26 * ck)},${r(ctop + 80 * ck)} l0,6`, "#7b5bc4", 1.4);
+  // the door leaf, opened inwards against the left wall
+  hall += P(poly([[dX, dY], [dX + 26, dY + 14], [dX + 26, stepTop - 6], [dX, stepTop]]), A.lin([[0, "#3c5478"], [1, "#2c3d58"]], 0, 0, 1, 0), { s: INK, w: 1.6 });
+  hall += C(dX + 18, dY + dH * 0.55, 3.6, "#d9b55a", { s: INK, w: 0.8 });
+  s += G(hall, { clip: A.clip(poly([[dX, dY], [dR, dY], [dR, stepTop], [dX, stepTop]])) });
+  // ---- the brick front around the door (as on the cover: red brick, white bay window, stone door surround)
+  const brickD = `M0,0 H${W} V${Hh} H0 Z M${dX},${dY} V${stepTop} H${dR} V${dY} Z`;
+  let front = P(brickD, A.lin([[0, "#6e4236"], [0.5, FAC.brick], [1, "#5a362c"]], 0, 0, 1, 0.4), { fr: "evenodd" });
+  front += G(bricks(A, 0, 0, W, Hh, k), { clip: A.clip(brickD) });
+  // the right neighbour (render), past the party wall
+  const party = dR + 50 * k;
+  front += P(poly([[party, 0], [W, 0], [W, Hh], [party, Hh]]), A.lin([[0, "#575c76"], [1, "#3e4258"]], 0, 0, 1, 0), { s: INK, w: 2 });
+  front += sash(A, party + 70, 150, 160, 260, { sw: 2.4 });
+  // the bay window, its right end (the rest is off to the left)
+  const bayR = dX - 50 * k, bayTop = dY + 20;
+  front += P(poly([[-10, bayTop - 50], [bayR + 14, bayTop - 50], [bayR - 6, bayTop - 90], [-10, bayTop - 90]]), FAC.slate, { s: INK, w: 2 });   // its little roof
+  front += P(poly([[-10, bayTop - 50], [bayR, bayTop - 50], [bayR, 600], [-10, 600]]), "#efe7d6", { s: INK, w: 2 });
+  for (const [px, pw, cur] of [[bayR - 92, 76, false], [-10, bayR - 112, true]]) {
+    front += P(poly([[px, bayTop - 30], [px + pw, bayTop - 30], [px + pw, 470], [px, 470]]), A.lin([[0, "#ffe9a8"], [0.6, "#f2c46b"], [1, "#c98a3e"]], 0, 0, 0, 1), { s: INK, w: 1.6 });
+    if (cur) front += P(poly([[px + pw, bayTop - 30], [px + pw - 34, bayTop - 30], [px + pw - 22, 470], [px + pw, 470]]), "#c0503a", { s: INK, w: 1 });
+    front += S(`M${r(px)},${r(bayTop + 140)} L${r(px + pw)},${r(bayTop + 140)}`, "#efe7d6", 3);
+  }
+  front += P(poly([[-10, 470], [bayR + 6, 470], [bayR + 6, 488], [-10, 488]]), FAC.stone, { s: INK, w: 1.6 });
+  // the stone door surround with the gold fanlight (rays), the step, the pavement
+  const fr = dW / 2;
+  front += P(`M${dX - 18},${stepTop} L${dX - 18},${dY} A${fr + 18},${fr + 18} 0 0 1 ${r(dR + 18)},${dY} L${r(dR + 18)},${stepTop} L${r(dR)},${stepTop} L${r(dR)},${dY} L${dX},${dY} L${dX},${stepTop} Z`, A.lin([[0, "#e6dcc6"], [1, "#b9ad96"]], 0, 0, 1, 1), { s: INK, w: 2 });
+  front += P(`M${dX},${dY} A${r(fr)},${r(fr)} 0 0 1 ${r(dR)},${dY} Z`, A.rad([[0, "#fff1c4"], [1, "#f0b850"]], 0.5, 1, 0.9), { s: INK, w: 1.8 });
+  let rays = "";
+  for (const a of [30, 60, 90, 120, 150]) { const t = a * Math.PI / 180; rays += `M${r(dX + fr)},${dY} L${r(dX + fr - Math.cos(t) * fr)},${r(dY - Math.sin(t) * fr)}`; }
+  front += S(rays, "#9a7a3a", 2.2) + P(`M${r(dX + fr - 14)},${dY} A14,14 0 0 1 ${r(dX + fr + 14)},${dY} Z`, "#9a7a3a");
+  front += P(poly([[dX - 40, stepTop], [dR + 40, stepTop], [dR + 46, 600], [dX - 46, 600]]), A.lin([[0, "#b8ae9a"], [1, "#8a8170"]], 0, 0, 0, 1), { s: INK, w: 2 });   // the doorstep
+  front += P(poly([[dX - 40, stepTop], [dR + 40, stepTop], [dR + 40, stepTop + 6], [dX - 40, stepTop + 6]]), "#cfc6b2");
+  // a black feather lying on the step (Rook's other shape)
+  front += P(smooth([[dX + 20, 580], [dX + 34, 574], [dX + 64, 571], [dX + 86, 574], [dX + 66, 580], [dX + 34, 582]]), "#16141a", { s: INK, w: 1.2 });
+  front += S(`M${dX + 16},581 L${dX + 84},574`, "#5a5568", 1, 0.9);
+  front += E(dX + 52, 583, 34, 3, "#000", { op: 0.25 });
+  s += front;
+  // ---- the lamp: an iron bracket on the wall right of the door, the lantern hanging by the fanlight
+  const bx = dR + 84, lx = dR + 40, ly = 40;
+  s += P(poly([[bx - 6, ly - 4], [bx + 8, ly - 4], [bx + 8, ly + 70], [bx - 6, ly + 70]]), "#1b1a1f", { s: INK, w: 1.2 });
+  s += S(`M${bx},${ly + 8} L${lx},${ly + 8}`, "#1b1a1f", 6);
+  s += S(`M${bx},${ly + 56} Q${bx - 34},${ly + 52} ${bx - 40},${ly + 30} Q${bx - 42},${ly + 12} ${bx - 26},${ly + 14}`, "#1b1a1f", 4.4);
+  s += S(`M${lx},${ly + 8} L${lx},${ly + 22}`, "#1b1a1f", 2.6);
+  s += lamp(A, lx, ly + 26, k * 0.62, 2).s;
+  // ---- Rook in human shape, on the threshold: very tall, very still
+  s += E(VPX + 30, stepTop + 2, 92, 10, "#000", { op: 0.35 });
+  s += place({ N: 8.0, draw: () => rookBody(A, 0) }, VPX + 30, stepTop, 200, stepTop - 150 * k, 2);   // k units per cm on the step
+  // the lamp's light on Rook and the step, night at the edges
+  s += tag("rect", { x: 0, y: 0, width: W, height: Hh, fill: A.rad([[0, "#ffd98a", 0.16], [0.5, "#ffd98a", 0.05], [1, "#ffd98a", 0]], lx / W, 0.12, 0.7) });
+  s += tag("rect", { x: 0, y: 0, width: W, height: Hh, fill: A.rad([[0, "#0b1120", 0], [0.6, "#0b1120", 0.05], [1, "#0b1120", 0.55]], 0.5, 0.45, 0.75) });
+  const body = G(s, { clip: A.clip(`M18,0 H${W - 18} A18,18 0 0 1 ${W},18 V${Hh - 18} A18,18 0 0 1 ${W - 18},${Hh} H18 A18,18 0 0 1 0,${Hh - 18} V18 A18,18 0 0 1 18,0 Z`) });
+  return ["0 0 800 600", "Rook in human shape, very tall and still in a long grey coat, on the doorstep of the Lantern House under its lamp; behind, the lit hall with its stairs and a coat stand just as tall, a yellow raincoat and a violet scarf on its hooks; a black feather on the step", A.out() + body];
 }
 
 export const COVERS = { cover, "back-cover": backCover };

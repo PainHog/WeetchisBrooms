@@ -771,6 +771,15 @@ function civ(o = {}) {
     if (p.under) s += p.under(aL, aR);
   s += aR.svg + aL.svg;
     if (q.prop) s += q.prop(aL, aR);
+    if (q.back) {
+      s += head(c, q.skin, { w: q.headW ?? 0.97, ears: true });
+      const backHair = q.style === "long" || q.style === "beanie" ? [[-7.8, q.hairLen ?? -72, 1], [-8, -90], [-5.6, -97.6], [0, -99.2], [5.6, -97.6], [8, -90], [7.8, q.hairLen ?? -72, 1]] : q.style === "bald" ? null : [[-6.4, -84.6, 1], [-6.8, -92], [-4.8, -97.6], [0, -99.2], [4.8, -97.6], [6.8, -92], [6.4, -84.6, 1], [0, -82.4]];
+      if (q.style === "curly") s += curls(c, [[0, -92, 8.4], [-6, -87, 4.6], [6, -87, 4.6], [-3, -84, 4], [3, -84, 4]], q.hair, 33);
+      else if (backHair) s += P(sm(backHair), shade(q.hair, 0.18, 0.25), { s: INK, w: lw });
+      if (q.style === "bun") s += C(0, -96, 3, q.hair, { s: INK, w: lw });
+      if (q.style === "beanie") s += P(sm([[-7.2, -92], [-6.6, -97.6], [-3, -100.6], [3, -100.6], [6.6, -97.6], [7.2, -92]]), shade(q.hatC ?? "#b5482e", 0.18, 0.3), { s: INK, w: lw });
+      return s;
+    }
     s += head(c, q.skin, { w: q.headW ?? 0.97, ears: q.style !== "beanie" && q.style !== "long" });
     s += face(c, { skin: q.skin, lw, dx: q.look ?? 0, brow: q.brow ?? dk(q.hair, 0.2), mouth: q.mouth, eyeC: q.eyeC, glasses: q.glasses });
     const cap = [[-6.6, -88.2, 1], [-6.8, -93], [-4.8, -97.6], [0, -99.2], [4.8, -97.6], [6.8, -93], [6.6, -88.2, 1], [5.8, -91.6], [3.6, -93.8], [0, -94.4], [-3.6, -93.8], [-5.8, -91.6]];
@@ -1086,8 +1095,9 @@ function dieBox(x, y, size, n, f, g, o = {}) {
     return pos.map(([u, v]) => map(u, v)).map(([px, py, rx, ry]) => E(px, py, rx, ry, INK)).join("");
   };
   s += pips(f, (u, v) => [x + a / 2 + u * a, y - a / 2 + v * a, a * 0.08, a * 0.08]);
-  s += pips(n, (u, v) => [x + a / 2 + ox / 2 + u * a + v * ox, y - a - oy / 2 + v * oy, a * 0.08, a * 0.055]);
-  s += pips(g, (u, v) => [x + a + ox / 2 + u * ox, y - a / 2 - oy / 2 + v * a + u * oy * 0.9, a * 0.04, a * 0.075]);
+  // top face: u across, v from back (−) to front (+); right face: u from front (−) to back (+), v down
+  s += pips(n, (u, v) => [x + a * (0.5 + u) + ox * (0.5 - v), y - a - oy * (0.5 - v), a * 0.075, a * 0.05]);
+  s += pips(g, (u, v) => [x + a + ox * (0.5 + u), y - a / 2 + v * a - oy * (0.5 + u), a * 0.035, a * 0.075]);
   return s;
 }
 
@@ -1279,8 +1289,9 @@ function pier(x0, x1, deckY, waterY, o = {}) {
     for (let i = 0; i < 4; i++) s += R(x0 + 5 + i * 11.5, deckY - 20, 7, 13, K.lamp, { s: INK, w: sw * 0.5, op: 0.9 });
   }
   // pier head: bandstand
-  s += R(x1 - 30, deckY - 20, 26, 17, "none", { s: "#8a8f9c", w: sw * 0.7 });
-  s += P(`M${r(x1 - 34)},${r(deckY - 20)}Q${r(x1 - 17)},${r(deckY - 34)} ${r(x1)},${r(deckY - 20)}Z`, shade("#3f7f58", 0.12, 0.3), { s: INK, w: sw });
+  const hx = o.headAt === "x0" ? x0 + 34 : x1;
+  s += R(hx - 30, deckY - 20, 26, 17, "none", { s: "#8a8f9c", w: sw * 0.7 });
+  s += P(`M${r(hx - 34)},${r(deckY - 20)}Q${r(hx - 17)},${r(deckY - 34)} ${r(hx)},${r(deckY - 20)}Z`, shade("#3f7f58", 0.12, 0.3), { s: INK, w: sw });
   return s;
 }
 
@@ -1540,34 +1551,38 @@ piece("part-two", () => {
 
 // ----- Chapter 2: dice and a roll
 piece("vignette-ch02", () => {
-  const W = 1185, H = 300, tY = 150;
+  const W = 1185, H = 300, tY = 96;
   let s = R(0, 0, W, tY, lin([[0, "#1c2238"], [1, "#2c2c40"]]));
-  s += C(600, 40, 420, glow(K.lamp, 0.25));
+  // the window behind the table: Larkhaven's roofs at night
+  s += R(760, 8, 300, 88, lin([[0, K.n1], [1, K.n3]]), { s: INK, w: 2 });
+  s += G(terraceRow(756, 1066, 96, { seed: 22, hMin: 22, hMax: 34, wMin: 20, wMax: 30, litP: 0.5, sw: 0.9 }) + stars(23, 765, 12, 1055, 50, 12), { clip: clip(R(760, 8, 300, 88, "#000")) });
+  s += S(`M910,8V96M760,52H1060`, "#4a3a30", 5) + R(760, 8, 300, 88, "none", { s: "#4a3a30", w: 7 }) + R(756, 4, 308, 96, "none", { s: INK, w: 2 });
+  s += C(480, 30, 380, glow(K.lamp, 0.25));
   // the table top, seen from just above
   s += woodTop(0, tY, W, H - tY, 3, "#6a4a34");
   s += R(0, tY, W, 6, "#4a3424") + S(`M0,${tY}H${W}`, INK, 2);
   s += R(0, tY, W, H - tY, lin([[0, "#000", 0.3], [0.4, "#000", 0], [1, "#000", 0.15]]));
-  // a witch sheet lying flat with a pencil on it
-  const sh0 = [[70, 268], [330, 268], [400, 196], [140, 196]];
+  // a witch sheet lying flat with a pencil on it; the rulebook and a mug at the back
+  const sh0 = [[40, 286], [300, 286], [370, 214], [110, 214]];
   s += P(poly(sh0.map(([x, y]) => [x + 4, y + 4])), "#000", { op: 0.25 }) + P(poly(sh0), lin([[0, "#f6eedc"], [1, "#ddd0b4"]]), { s: INK, w: 1.6 });
   let d = "";
-  for (let i = 0; i < 6; i++) { const t = 0.18 + i * 0.12; d += `M${r(100 + 70 * t + 20)},${r(268 - 72 * t)}h${r(120 + (i % 3) * 20)}`; }
+  for (let i = 0; i < 6; i++) { const t = 0.16 + i * 0.12; d += `M${r(70 + 70 * t + 20)},${r(286 - 72 * t)}h${r(110 + (i % 3) * 20)}`; }
   s += S(d, "#6a5a4a", 1.2, { op: 0.6 });
-  for (let i = 0; i < 5; i++) s += R(250 + i * 15 - 20 * 0.0, 238, 10, 10, "none", { s: "#6a5a4a", w: 1 });
-  s += pencil(170, 252, 300, 230, { w: 7 });
+  for (let i = 0; i < 4; i++) s += R(232 + i * 15, 256, 10, 10, "none", { s: "#6a5a4a", w: 1 });
+  s += pencil(140, 270, 270, 248, { w: 7 });
+  s += P(poly([[120, 196], [250, 196], [282, 160], [152, 160]]), shade("#2b3348", 0.2, 0.3), { s: INK, w: 1.6 }) + P(poly([[120, 196], [250, 196], [250, 204], [120, 204]]), "#e8dcc4", { s: INK, w: 1.4 });
+  s += shadow(366, 186, 34, 5, 0.35) + R(340, 140, 52, 46, shade(K.green, 0.2, 0.3), { s: INK, w: 1.6, rx: 4 }) + E(366, 140, 26, 7, "#5a3e2c", { s: INK, w: 1.6 }) + P(`M392,150Q412,152 410,166Q408,178 392,176`, "none", { s: INK, w: 5 }) + P(`M392,150Q412,152 410,166Q408,178 392,176`, "none", { s: K.green, w: 2.6 });
   // the dice cup lying on its side, its mouth toward the dice
-  s += shadow(520, 262, 70, 9, 0.4);
-  s += P(`M450,206L560,214L560,262L450,262Z`, shade("#5a2f3a", 0.15, 0.35), { s: INK, w: 2 });
-  s += S(`M452,222L558,228M452,246L558,250`, "#c29a45", 2);
-  s += E(450, 234, 14, 28, "#3a1f28", { s: INK, w: 2 });
-  s += E(560, 238, 16, 25, "#2a161c", { s: INK, w: 2 }) + E(562, 240, 11, 19, "#140a0e");
-  // six dice: three successes (6, 6, 5) pushed together, three misses (2, 1, 1) left where they fell
-  s += dieBox(640, 262, 34, 6, 3, 2) + dieBox(686, 270, 34, 6, 2, 4) + dieBox(668, 226, 30, 5, 1, 3);
-  s += dieBox(842, 256, 32, 2, 1, 4) + dieBox(930, 274, 32, 1, 2, 3) + dieBox(1010, 240, 30, 1, 4, 2);
-  s += S(`M956,214Q990,196 1012,206M962,226Q992,214 1008,220`, "#f4efe4", 2, { op: 0.6 });               // the last die still rolling
-  // a few spare dice and the coven's potion counters at the far end
-  s += dieBox(1090, 214, 22, 3, 1, 2) + dieBox(1122, 220, 22, 4, 1, 5);
-  return { vb: `0 0 ${W} ${H}`, title: "A roll: six dice spilled from a cup across the table, beside a witch sheet", body: s };
+  s += shadow(520, 262, 74, 9, 0.4);
+  s += P(`M440,196L566,206L566,262L440,262Z`, shade("#5a2f3a", 0.15, 0.35), { s: INK, w: 2 });
+  s += S(`M442,214L564,222M442,244L564,248`, "#c29a45", 2);
+  s += E(440, 229, 15, 33, "#3a1f28", { s: INK, w: 2 });
+  s += E(566, 234, 18, 28, "#2a161c", { s: INK, w: 2 }) + E(568, 236, 12, 21, "#140a0e");
+  // six dice: the three successes (6, 6, 5) together, the three misses (2, 1, 1) where they fell
+  s += dieBox(626, 284, 50, 6, 3, 2) + dieBox(700, 266, 50, 6, 2, 4) + dieBox(612, 216, 44, 5, 1, 3);
+  s += dieBox(842, 256, 46, 2, 1, 4) + dieBox(930, 290, 46, 1, 2, 3) + dieBox(1040, 236, 42, 1, 4, 2);
+  s += S(`M972,192Q1010,170 1036,182M978,206Q1012,190 1032,198`, "#f4efe4", 2.4, { op: 0.6 });         // the last die still rolling
+  return { vb: `0 0 ${W} ${H}`, title: "A roll: six dice spilled from a cup across the table, beside a witch sheet and the rulebook", body: s };
 });
 
 // ----- Chapter 5: magic (a spell, a potion and the Book, in the attic)
@@ -1595,17 +1610,17 @@ piece("vignette-ch05", () => {
   s += R(372, 222, 116, 48, shade("#5a3a2a", 0.15, 0.3), { s: INK, w: 2, rx: 4 }) + R(372, 222, 116, 12, "#4a2e22", { s: INK, w: 1.6, rx: 4 }) + R(424, 234, 12, 14, K.brass, { s: INK, w: 1.4 });
   s += candle(398, 222, 26) + candle(458, 222, 20);
   // potions on a wall shelf (resting within the shelf), held up on two iron brackets
-  s += R(150, 150, 170, 7, K.woodD, { s: INK, w: 1.6 });
-  for (const bx of [166, 300]) s += P(`M${bx},157V178L${bx + 4},178Q${bx + 4},162 ${bx + 16},157Z`, "#2d3038", { s: INK, w: 1 });
-  s += bottle(180, 150, 34, "heal") + bottle(222, 150, 38, "blast") + bottle(264, 150, 34, "bind") + bottle(300, 150, 30, "heal");
+  s += R(70, 150, 170, 7, K.woodD, { s: INK, w: 1.6 });
+  for (const bx of [86, 220]) s += P(`M${bx},157V178L${bx + 4},178Q${bx + 4},162 ${bx + 16},157Z`, "#2d3038", { s: INK, w: 1 });
+  s += bottle(100, 150, 34, "heal") + bottle(142, 150, 38, "blast") + bottle(184, 150, 34, "bind") + bottle(220, 150, 30, "heal");
   // Noor holds a healing potion up to the light
-  s += shadow(250, fl, 20, 3.4, 0.5);
-  s += fig(noor, 250, fl, 196, { look: 1.2, right: [-17, -70], under: (aL, aR) => { const [x, y] = aR.wrist; return bottle(x - 0.5, y + 7.5, 13, "heal", { sw: 0.6 }); } });
+  s += shadow(320, fl, 20, 3.4, 0.5);
+  s += fig(noor, 320, fl, 196, { look: 1.2, right: [-19, -70], under: (aL, aR) => { const [x, y] = aR.wrist; return bottle(x - 0.5, y + 7.5, 13, "heal", { sw: 0.6 }); } });
   // Marco casts: a small flame burning above his open LEFT palm
   s += shadow(900, fl, 22, 3.6, 0.5);
   s += fig(marco, 900, fl, 210, {
-    look: -1.2, left: [16, -66], prop: (aL) => {
-      const [x, y] = aL.wrist, fx = x + 2.4, fy = y - 5;
+    look: -1.2, left: [22, -57], prop: (aL) => {
+      const [x, y] = aL.wrist, fx = x + 2.6, fy = y - 3.4;
       return C(fx, fy - 2, 16, glow(K.fire, 0.5)) + P(`M${r(fx)},${r(fy - 9)}Q${r(fx + 3.4)},${r(fy - 3)} ${r(fx + 2.2)},${r(fy + 1.2)}Q${r(fx)},${r(fy + 2.6)} ${r(fx - 2.2)},${r(fy + 1.2)}Q${r(fx - 3.2)},${r(fy - 2.6)} ${r(fx)},${r(fy - 9)}Z`, lin([[0, K.fireHi], [1, K.fire]]), { s: dk(K.fire, 0.4), w: 0.5 }) + P(`M${r(fx)},${r(fy - 4.4)}Q${r(fx + 1.4)},${r(fy - 1)} ${r(fx)},${r(fy + 0.8)}Q${r(fx - 1.4)},${r(fy - 1)} ${r(fx)},${r(fy - 4.4)}Z`, "#fff3c8");
     }
   });
@@ -1721,8 +1736,8 @@ piece("vignette-ch08", () => {
       if (q.name === "autumn") for (let k = 0; k < 10; k++) { const lx = x0 + 10 + R0() * (pw - 20), ly = 226 + R0() * 60; p += E(lx, ly, 3.4, 1.6, "#c97a2e", { op: 0.9 }); }
       if (q.name === "spring") for (let k = 0; k < 7; k++) { const lx = tx - 60 + R0() * 120, ly = ty - 50 + R0() * 50; p += C(lx, ly, 1.6, "#f6dde4"); }
     } else {
-      p += S(`M${tx - 40},${ty - 92}Q${tx - 30},${ty - 110} ${tx - 50},${ty - 120}M${tx + 42},${ty - 96}Q${tx + 50},${ty - 112} ${tx + 36},${ty - 126}M${tx - 4},${ty - 112}Q${tx + 10},${ty - 124} ${tx + 6},${ty - 136}`, INK, 3) + S(`M${tx - 40},${ty - 92}Q${tx - 30},${ty - 110} ${tx - 50},${ty - 120}M${tx + 42},${ty - 96}Q${tx + 50},${ty - 112} ${tx + 36},${ty - 126}`, "#f2f4f8", 1.4);
-      p += S(`M${tx - 40},${ty - 93}h-8M${tx + 42},${ty - 97}h8`, "#f2f4f8", 3);
+      p += S(`M${tx - 40},${ty - 92}Q${tx - 30},${ty - 110} ${tx - 50},${ty - 120}M${tx + 42},${ty - 96}Q${tx + 50},${ty - 112} ${tx + 36},${ty - 126}M${tx - 4},${ty - 112}Q${tx + 10},${ty - 124} ${tx + 6},${ty - 136}`, INK, 4.4) + S(`M${tx - 40},${ty - 92}Q${tx - 30},${ty - 110} ${tx - 50},${ty - 120}M${tx + 42},${ty - 96}Q${tx + 50},${ty - 112} ${tx + 36},${ty - 126}M${tx - 4},${ty - 112}Q${tx + 10},${ty - 124} ${tx + 6},${ty - 136}`, "#5a3e2c", 2.4);
+      p += S(`M${tx},${ty - 63}Q${tx - 24},${ty - 85} ${tx - 40},${ty - 93}M${tx + 2},${ty - 67}Q${tx + 22},${ty - 89} ${tx + 42},${ty - 97}`, "#f2f4f8", 1.6);
       const R0 = rng(90);
       for (let k = 0; k < 40; k++) p += C(x0 + R0() * pw, R0() * 210, 1 + R0() * 1.2, "#f4f6fa", { op: 0.85 });
       p += R(x0, 144, pw, 5, "#f2f4f8", { s: INK, w: 0.8 });
@@ -1737,7 +1752,7 @@ piece("vignette-ch08", () => {
   s += R(0, 268, W, 32, shade(K.wood, 0.12, 0.3), { s: INK, w: 2 });
   s += shadow(592, 270, 150, 8, 0.4);
   s += openBook(592, 252, 250, { drawing: "leaf", seed: 8, ribbon: true });
-  for (const [k, op] of [[0.5, 0.95], [0.75, 0.9]]) s += P(`M594,${r(252 - 70)}Q${r(594 + 60 * k)},${r(252 - 130 * k)} ${r(594 + 110 * k)},${r(252 - 60 - 40 * k)}L${r(594 + 112 * k)},${r(252 + 40 - 30 * k)}Q${r(594 + 50 * k)},${r(252 - 20 * k)} 594,${r(252 + 70)}Z`, "#f4ecd8", { s: INK, w: 1.2, op });
+  s += P(`M592,180Q628,150 664,150Q680,151 688,158L688,300L592,300Z`.replace("L688,300L592,300", "Q676,232 692,292Q640,288 592,322"), lin([[0, "#fbf5e6"], [1, "#e2d6bc"]], 0, 0, 1, 0), { s: INK, w: 1.4 });
   return { vb: `0 0 ${W} ${H}`, title: "Seasons: the walled garden's apple tree in spring, summer, autumn and winter, with the Book open in front", body: s };
 });
 
@@ -1815,7 +1830,7 @@ piece("vignette-ch12", () => {
   // the Storyteller's end: the tracker, this book (closed) and the episode notes
   s += sheet(868, 150, 54, 74, 90, { lines: 6, seed: 7, boxes: 6 });
   s += R(296, 118, 56, 70, "#000", { op: 0.3, rx: 3, tf: "translate(4 5)" }) + R(296, 118, 56, 70, shade("#2b3348", 0.2, 0.3), { s: INK, w: 1.6, rx: 3 }) + R(302, 126, 44, 54, "none", { s: K.brass, w: 1.2, rx: 2 });
-  s += C(324, 146, 8, "none", { s: K.brass, w: 1.4 }) + S(`M324,154v14`, K.brass, 1.4);
+  s += P(`M318,144L330,144L332,166L316,166Z`, "none", { s: K.brass, w: 1.4 }) + P(`M315,144L324,136L333,144Z`, "none", { s: K.brass, w: 1.4 }) + C(324, 133, 2.4, "none", { s: K.brass, w: 1.2 }) + C(324, 155, 3, K.brass, { op: 0.8 });
   // the shared dice pile in a tray (13 dice), a bowl of crisps, a jug and glasses
   s += R(530, 128, 124, 44, shade("#3a2a3a", 0.15, 0.3), { s: INK, w: 1.6, rx: 8 }) + R(536, 134, 112, 32, "#2a1e2a", { rx: 6 });
   const R1 = rng(12);
@@ -1825,6 +1840,262 @@ piece("vignette-ch12", () => {
   s += mugTop(712, 150, 17, { col: "#c9d6dc", drink: "#bcd6e6", hand: -20 });
   for (const [x, y] of [[420, 132], [760, 128], [760, 172], [420, 170]]) s += C(x + 3, y + 4, 9, "#000", { op: 0.2 }) + C(x, y, 9, "#dfe9ee", { s: INK, w: 1.2, fop: 0.7 }) + C(x, y, 6.6, "#bcd6e6", { op: 0.7 });
   return { vb: `0 0 ${W} ${H}`, title: "The first night: the table set for the coven, with sheets, pencils, a tray of dice, crisps and the Storyteller's notes", body: s };
+});
+
+// ---------------------------------------------------------------- more threats
+/** The Night Nurse: an old-fashioned nurse's veil cap and cape, grey-violet skin, dark-ringed eyes, a white lily. */
+const nightNurse = (c, p = {}) => civ({
+  skin: "#b9b4c8", hair: "#3e3a40", style: "short", top: "#d8d6cf", bottom: "#d8d6cf", shoe: "#2a2a30", coat: "#27304a", coatLen: -30, mouth: "flat", eyeC: "#2a2430", skirt: -22, skirtC: "#d8d6cf",
+  prop: (aL) => { const [x, y] = aL.wrist; return S(`M${r(x + 1)},${r(y + 1)}L${r(x + 2)},${r(y - 9)}`, "#4a7a4a", 0.8) + P(`M${r(x + 2)},${r(y - 9)}l-2.4,-3.2l2.4,1.2l2.4,-1.2z`, "#f6f4ee", { s: INK, w: 0.4 }); },
+  ...p,
+})(c, { ...p, left: p.left ?? [5, -58] }) + G(P(sm([[-8.6, -78, 1], [-8, -92], [-5.6, -98.8], [0, -100.6], [5.6, -98.8], [8, -92], [8.6, -78, 1], [6.6, -80], [6.2, -92.6], [0, -94.4], [-6.2, -92.6], [-6.6, -80]]), "#f2f0ea", { s: INK, w: c.lw }) + E(-2.4, -89.4, 1.6, 1.2, "#4a3a5a", { op: 0.45 }) + E(2.4, -89.4, 1.6, 1.2, "#4a3a5a", { op: 0.45 }));
+
+/** Vesper Crane: a witch who stole other witches' power. Silver bob, long plum coat, a necklace of small glowing vials. */
+const vesper = (c, p = {}) => civ({
+  skin: "#efdccf", hair: "#cfcbd6", style: "long", hairLen: -80, top: "#1e1a22", bottom: "#2a2230", shoe: "#1a1418", coat: "#43243f", coatLen: -14, mouth: "flat", eyeC: "#8a6a2a",
+  prop: () => { let t = S(`M-3.4,-78Q0,-71 3.4,-78`, "#c9a24a", 0.5); ["#b5473f", "#3f7f58", "#7b5bc4", "#c29a45", "#4f72a8"].forEach((col, i) => { const x = -2.6 + i * 1.3, y = -74.6 + Math.abs(i - 2) * -0.6; t += R(x - 0.45, y, 0.9, 2.2, col, { s: INK, w: 0.25 }); }); return t; },
+  ...p,
+})(c, p);
+
+// ----- Chapter 7: a showdown (the Mirror Thief, behind the mirrors of a closed department store)
+piece("vignette-ch07", () => {
+  const W = 1185, H = 300, g = 290;
+  let s = R(0, 0, W, H, lin([[0, "#1a1c2a"], [1, "#2a2a3a"]]));
+  // the back wall: tall mirrors in gilt frames, fixed to the wall; one shattered
+  for (let i = 0; i < 6; i++) {
+    const x = 40 + i * 190, broken = i === 4;
+    s += R(x - 6, 26, 112, 214, shade("#8a6a3a", 0.2, 0.35), { s: INK, w: 2 });
+    s += R(x, 32, 100, 202, broken ? "#141622" : lin([[0, "#5a6a7a"], [0.5, "#2e3a4a"], [1, "#1e2634"]], 0, 0, 1, 1), { s: INK, w: 1.4 });
+    if (!broken) s += P(poly([[x + 14, 32], [x + 40, 32], [x + 8, 120], [x, 120], [x, 70]]), "#ffffff", { op: 0.08 }) + S(`M${x + 60},${40}L${x + 30},${130}`, "#ffffff", 2, { op: 0.12 });
+    else {
+      s += P(poly([[x, 32], [x + 46, 32], [x + 30, 70], [x, 96]]), lin([[0, "#5a6a7a"], [1, "#2e3a4a"]]), { s: INK, w: 1 }) + P(poly([[x + 100, 120], [x + 100, 234], [x + 62, 234], [x + 78, 170]]), lin([[0, "#4a5a6a"], [1, "#2e3a4a"]]), { s: INK, w: 1 });
+      s += C(x + 50, 130, 70, glow("#9fb4c8", 0.18));
+    }
+  }
+  s += R(0, 240, W, 50, lin([[0, "#2a2838"], [1, "#22202e"]]));
+  s += R(0, g - 22, W, H - g + 22, lin([[0, "#3a3848"], [1, "#2a2836"]]), { s: INK, w: 1.6 });
+  let tl = "";
+  for (let x = -40; x < W + 40; x += 90) tl += `M${x},${g - 22}L${x - 30},${H}`;
+  s += S(tl + `M0,${g - 8}H${W}`, "#1e1c28", 1.2, { op: 0.7 });
+  const R0 = rng(77);
+  for (let i = 0; i < 9; i++) { const x = 800 + R0() * 150, y = g - 16 + R0() * 18; s += P(poly([[x, y], [x + 6 + R0() * 6, y - 2], [x + 4, y + 3]]), "#8fa3b8", { s: INK, w: 0.8 }); }
+  // dust sheets over the display tables
+  s += P(sm([[30, g - 10, 1], [34, g - 50], [60, g - 66], [120, g - 64], [140, g - 46], [146, g - 10, 1]]), shade("#bfbab0", 0.1, 0.3), { s: INK, w: 1.6 }) + shadow(88, g - 10, 60, 4);
+  s += P(sm([[1066, g - 10, 1], [1070, g - 56], [1096, g - 72], [1150, g - 70], [1172, g - 52], [1176, g - 10, 1]]), shade("#bfbab0", 0.1, 0.3), { s: INK, w: 1.6 }) + shadow(1120, g - 10, 60, 4);
+  // Noor's Bind: ivy from a big planter wraps the creature's legs (the stems reach into the soil)
+  s += shadow(880, g, 34, 5, 0.45);
+  s += P(poly([[856, g], [850, g - 34], [910, g - 34], [904, g]]), shade("#8a5a3a", 0.15, 0.3), { s: INK, w: 1.6 }) + R(846, g - 40, 68, 8, "#9a6a4a", { s: INK, w: 1.4 }) + E(880, g - 38, 30, 3, "#3b2a1e");
+  // the Mirror Thief, its long right hand grabbing at Rook
+  const tx = 990;
+  s += shadow(tx, g, 40, 5, 0.5);
+  s += fig(mirrorThief, tx, g, 268, { reach: [-34, -70], left: [16, -46], spread: 3.4 });
+  const ivy = `M874,${g - 38}C864,${g - 80} 930,${g - 70} 962,${g - 60}C990,${g - 52} 1020,${g - 70} 1010,${g - 90}M886,${g - 38}C898,${g - 70} 950,${g - 40} 980,${g - 30}C1006,${g - 22} 1020,${g - 44} 1008,${g - 56}M870,${g - 38}C840,${g - 70} 856,${g - 110} 896,${g - 104}`;
+  s += S(ivy, INK, 6) + S(ivy, "#3f7f58", 3.4);
+  for (const [lx, ly, a] of [[930, g - 70, -30], [962, g - 60, 20], [990, g - 54, -10], [950, g - 42, 30], [994, g - 26, -20], [856, g - 90, 40], [888, g - 104, -20], [1010, g - 86, 10]]) s += E(lx, ly, 6, 3.4, "#5aa070", { s: INK, w: 0.9, tf: `rotate(${a} ${lx} ${ly})` });
+  // Dana's Force: a dust-sheeted bust flies over Rook's head at the creature
+  s += S(`M560,54Q640,40 720,46M570,70Q650,58 716,62M600,86Q660,78 712,80`, "#cfd6e6", 2, { op: 0.5 });
+  s += `<g transform="translate(760 62) rotate(18)">${P(sm([[-16, 14, 1], [-14, -4], [-8, -14], [0, -18], [8, -14], [14, -4], [16, 14, 1]]), shade("#bfbab0", 0.1, 0.3), { s: INK, w: 1.4 })}${R(-18, 14, 36, 6, K.woodD, { s: INK, w: 1.2 })}</g>`;
+  // the coven: Dana, Noor, Marco (a ball of fire ready in his hand); Rook steps in to take the blow
+  s += shadow(130, g, 20, 3.6, 0.5) + fig(dana, 130, g, 204, { look: 1.6, left: [22, -74], right: [-12, -46], mouth: "grim" });
+  s += shadow(300, g, 18, 3.4, 0.5) + fig(noor, 300, g, 184, { look: 1.6, left: [24, -58], mouth: "grim" });
+  s += shadow(450, g, 22, 3.6, 0.5) + fig(marco, 450, g, 196, {
+    look: 1.6, mouth: "grim", left: [20, -82], prop: (aL) => {
+      const [x, y] = aL.wrist, fx = x + 1.6, fy = y - 7;
+      return C(fx, fy, 14, glow(K.fire, 0.55)) + C(fx, fy, 4.6, rad([[0, "#fff3c8"], [0.5, K.fireHi], [1, K.fire]]), { s: dk(K.fire, 0.4), w: 0.5 }) + P(`M${r(fx - 3.6)},${r(fy - 2)}Q${r(fx - 1)},${r(fy - 10)} ${r(fx + 1)},${r(fy - 12)}Q${r(fx + 2)},${r(fy - 7)} ${r(fx + 3.8)},${r(fy - 2)}Z`, K.fire, { op: 0.85 });
+    }
+  });
+  s += shadow(740, g, 24, 4, 0.5) + fig(rookMan, 740, g, 230, { look: 1.4, left: [20, -78], right: [-14, -50] });
+  return { vb: `0 0 ${W} ${H}`, title: "A showdown in a closed department store: the coven and Rook against the Mirror Thief", body: s };
+});
+
+// ----- Chapter 9: the Storyteller's table (players around it, the Storyteller at the end)
+piece("vignette-ch09", () => {
+  const W = 1185, H = 300, tY = 206;
+  let s = R(0, 0, W, H, lin([[0, "#3a2c3a"], [1, "#2a2230"]]));
+  // the front room: a window onto the night street, a bookcase
+  s += R(70, 26, 190, 140, lin([[0, K.n1], [1, K.n3]]), { s: INK, w: 2 });
+  s += G(terraceRow(66, 266, 166, { seed: 91, hMin: 40, hMax: 60, wMin: 34, wMax: 46, litP: 0.5, sw: 1 }) + stars(91, 74, 30, 256, 80, 10), { clip: clip(R(70, 26, 190, 140, "#000")) });
+  s += S(`M165,26V166M70,96H260`, "#5a4030", 5) + R(70, 26, 190, 140, "none", { s: "#5a4030", w: 8 }) + R(64, 20, 202, 152, "none", { s: INK, w: 2 });
+  s += P(`M56,14Q90,90 70,180L44,180Q60,90 40,14Z`, K.violetLo, { s: INK, w: 1.4 }) + P(`M274,14Q240,90 262,180L288,180Q272,90 292,14Z`, K.violetLo, { s: INK, w: 1.4 }) + R(36, 10, 262, 6, K.woodD, { s: INK, w: 1.4 });
+  s += R(930, 20, 210, 190, shade(K.woodD, 0.1, 0.3), { s: INK, w: 2 });
+  for (let i = 0; i < 4; i++) {
+    const y = 26 + i * 46;
+    s += R(938, y + 40, 194, 5, K.wood, { s: INK, w: 1 });
+    const R0 = rng(i + 9);
+    for (let x = 942; x < 1124;) { const bw = 7 + R0() * 9, bh = 26 + R0() * 12; s += R(x, y + 40 - bh, bw, bh, ["#7b5bc4", "#3f7f58", "#b5473f", "#c29a45", "#4f72a8", "#8a6a5a"][Math.floor(R0() * 6)], { s: INK, w: 0.8 }); x += bw + 1; }
+  }
+  // the lamp over the table, on its cord from the ceiling
+  s += S(`M560,0V50`, INK, 1.6) + P(`M530,74Q560,40 590,74Z`, shade(K.brass, 0.25, 0.3), { s: INK, w: 1.6 }) + E(560, 74, 30, 4, K.glow, { s: INK, w: 1 }) + C(560, 120, 300, glow(K.lamp, 0.3));
+  // the players, seated behind the table (only their upper halves show above it)
+  const seat = (fn, x, h, p) => fig(fn, x, tY - 0.36 * h + h, h, p);
+  s += seat(civ({ skin: "#8a5a3c", hair: "#1a1210", style: "curly", top: "#c29a45", glasses: true }), 400, 190, { look: 0.8, left: [9, -56], right: [-9, -56] });
+  s += seat(civ({ skin: "#e8c4a8", hair: "#7a4a2a", style: "long", top: "#3f7f58", hairLen: -76 }), 520, 180, { look: 0.6, mouth: "grin", left: [6, -78], right: [-9, -58], bendL: -1 });
+  s += seat(civ({ skin: "#c9936a", hair: "#2a1a12", style: "short", top: "#4f72a8", hat: null }), 650, 190, { look: 1, left: [10, -56], right: [-10, -56] });
+  s += seat(civ({ skin: "#f0d0b8", hair: "#c4a060", style: "bun", top: "#b5473f" }), 770, 182, { look: 1.2, mouth: "o", left: [9, -56], right: [-9, -56] });
+  // dice thrown above the table, mid-roll, from the second player's raised hand
+  s += S(`M548,150Q560,136 568,140M550,156Q574,146 588,160`, "#f4efe4", 1.6, { op: 0.55 });
+  s += dieTop(572, 146, 12, 5, { rot: 20, sw: 1 }) + dieTop(594, 168, 12, 2, { rot: -15, sw: 1 });
+  // the table, with a long cloth to the floor
+  s += P(poly([[300, tY], [880, tY], [890, tY + 12], [290, tY + 12]]), lin([[0, "#7a5236"], [1, "#9a6e4a"]]), { s: INK, w: 1.6 });
+  s += P(poly([[290, tY + 12], [890, tY + 12], [896, H + 2], [284, H + 2]]), shade(K.violetLo, 0.12, 0.3), { s: INK, w: 1.6 });
+  s += S(`M290,${tY + 20}H890`, K.brass, 2);
+  // on the table: sheets lying flat, mugs, dice, the tracker
+  s += P(poly([[360, tY + 9], [410, tY + 9], [416, tY + 3], [366, tY + 3]]), K.paper, { s: INK, w: 1 }) + P(poly([[600, tY + 9], [650, tY + 9], [656, tY + 3], [606, tY + 3]]), K.paper, { s: INK, w: 1 }) + P(poly([[740, tY + 9], [790, tY + 9], [796, tY + 3], [746, tY + 3]]), K.paper, { s: INK, w: 1 });
+  for (const [x, col] of [[452, K.green], [700, "#c9d6dc"], [826, K.red]]) s += R(x - 9, tY - 12, 18, 18, shade(col, 0.2, 0.3), { s: INK, w: 1.2, rx: 2 }) + E(x, tY - 12, 9, 2.4, "#5a3e2c", { s: INK, w: 1 });
+  s += dieBox(480, tY + 8, 12, 6, 2, 4, { sw: 1 }) + dieBox(500, tY + 9, 12, 3, 1, 2, { sw: 1 });
+  // the Storyteller, standing at the end with the episode tracker
+  s += fig(civ({ skin: "#d9a982", hair: "#2a2420", style: "short", top: "#2b3348", bottom: "#3a3a44", coat: "#5a4a6a", coatLen: -42, glasses: true, mouth: "grin" }), 960, 292, 226, {
+    look: -1.4, left: [6, -60], right: [-16, -66],
+    prop: (aL) => { const [x, y] = aL.wrist; return R(x - 2, y - 9, 11, 14, K.paper, { s: INK, w: 0.6, tf: `rotate(-10 ${r(x)} ${r(y)})` }) + S(`M${r(x)},${r(y - 6)}h6M${r(x)},${r(y - 3)}h6`, "#6a5a4a", 0.4) + hand(aL.wrist, aL.dir, 4.6, "#d9a982", 0.8, { side: -1 }); },
+  });
+  return { vb: `0 0 ${W} ${H}`, title: "The Storyteller at the end of the table, players rolling dice in the front room", body: s };
+});
+
+// ----- Chapter 10: the threats, side by side in the fog
+piece("vignette-ch10", () => {
+  const W = 1185, H = 300, g = 292;
+  let s = R(0, 0, W, H, lin([[0, "#140f1c"], [0.6, "#2a1622"], [1, "#3a1a22"]]));
+  s += E(592, 230, 640, 140, K.red, { op: 0.16 });
+  const line = [[quietMan, 100, 236, {}], [ashWidow, 290, 222, {}], [mirrorThief, 500, 262, { reach: [-16, -44], left: [16, -44], spread: 2.4 }], [nightNurse, 700, 214, {}], [vesper, 880, 224, {}]];
+  for (const [fn, x, h, p] of line) s += C(x, g - h * 0.6, h * 0.55, glow(K.red, 0.3)) + fig(fn, x, g, h, p);
+  // the Drowned Choir: three ghosts standing waist-deep in the fog
+  s += C(1080, 200, 110, glow("#7fc9b6", 0.2));
+  s += fig(ghost, 1040, g + 78, 200, { bonnet: true }) + fig(ghost, 1124, g + 82, 196, { hair: "#28423f" }) + fig(ghost, 1082, g + 100, 214, {});
+  // fog over their feet
+  s += R(0, 236, W, 64, lin([[0, "#5a4a5a", 0], [0.5, "#5a4a5a", 0.55], [1, "#4a3a4a", 0.9]]));
+  for (const [x, w] of [[120, 220], [420, 260], [760, 240], [1060, 220]]) s += E(x, 270, w, 26, "#6a5a6a", { op: 0.35 });
+  return { vb: `0 0 ${W} ${H}`, title: "The threats of Larkhaven in a red fog: the Quiet Man, the Ash Widow, the Mirror Thief, the Night Nurse, Vesper Crane and the Drowned Choir", body: s };
+});
+
+/** A market stall seen from the front: a striped awning on two poles, a counter with goods. */
+function stall(x, g, w, o = {}) {
+  const { a = K.red, b = "#efe6d2", goods = "jars", sw = 1.4, lit = true } = o;
+  const h = w * 0.9;
+  let s = shadow(x + w / 2, g, w * 0.55, 4, 0.4);
+  for (const px of [x + 3, x + w - 3]) s += R(px - 2, g - h, 4, h, "#5a4030", { s: INK, w: sw * 0.7 });
+  s += R(x, g - h * 0.42, w, h * 0.42, shade(K.wood, 0.12, 0.3), { s: INK, w: sw });
+  s += R(x - 2, g - h * 0.46, w + 4, 5, K.woodL, { s: INK, w: sw * 0.8 });
+  const R0 = rng(Math.round(x));
+  if (goods === "jars") for (let i = 0; i < Math.floor(w / 10); i++) s += R(x + 4 + i * 10, g - h * 0.46 - 8, 7, 8, ["#c97a2e", K.gold, K.red, K.green][i % 4], { s: INK, w: 0.6, rx: 1 });
+  else if (goods === "fruit") for (let i = 0; i < Math.floor(w / 7); i++) s += C(x + 5 + i * 7, g - h * 0.46 - 3, 3, ["#e0913a", K.red, "#8cc94a"][Math.floor(R0() * 3)], { s: INK, w: 0.5 });
+  else if (goods === "records") for (let i = 0; i < Math.floor(w / 12); i++) s += R(x + 4 + i * 12, g - h * 0.46 - 11, 10, 11, ["#3a3a44", "#7b5bc4", "#b5473f"][i % 3], { s: INK, w: 0.6 });
+  // awning: stripes, scalloped front edge
+  const ay = g - h, n = 6, sw2 = (w + 8) / n;
+  for (let i = 0; i < n; i++) s += P(poly([[x - 4 + i * sw2, ay], [x - 4 + (i + 1) * sw2, ay], [x - 4 + (i + 1) * sw2 + 2, ay - 14], [x - 4 + i * sw2 + 2, ay - 14]]), i % 2 ? b : a);
+  let sc = `M${r(x - 4)},${r(ay)}`;
+  for (let i = 0; i < n; i++) sc += `q${r(sw2 / 2)},7 ${r(sw2)},0`;
+  s += P(sc + "Z", a, { s: INK, w: sw * 0.7 });
+  s += P(poly([[x - 4, ay], [x + w + 4, ay], [x + w + 6, ay - 14], [x - 2, ay - 14]]), "none", { s: INK, w: sw });
+  if (lit) s += C(x + w / 2, ay + 10, w * 0.6, glow(K.lamp, 0.35));
+  return s;
+}
+
+// ----- Chapter 14: the night market, and the Quiet Man in the crowd
+piece("vignette-ch14", () => {
+  const W = 1185, H = 300, g = 292;
+  let s = sky(W, H, K.n0, K.n3, K.n1);
+  s += stars(141, 0, 4, W, 70, 30);
+  s += terraceRow(-20, 380, 168, { seed: 142, hMin: 60, hMax: 80, wMin: 50, wMax: 70, litP: 0.5 }) + terraceRow(800, W + 20, 168, { seed: 143, hMin: 60, hMax: 80, wMin: 50, wMax: 70, litP: 0.5 });
+  s += marketHall(370, 196, 440, 150, { sw: 2 });
+  s += R(340, 196, 500, 10, K.stone, { s: INK, w: 1.6 }) + R(320, 206, 540, 10, lt(K.stone, 0.06), { s: INK, w: 1.6 });     // St Bride's steps
+  s += cobbles(0, 214, W, H, 144, { c: "#3a3f54", line: "#22263a", rows: 5 });
+  // Bea sings on the steps with her guitar
+  s += shadow(590, 206, 10, 2, 0.4) + fig(civ({ skin: "#d9a982", hair: "#2b1a13", style: "beanie", top: "#efe6d2", coat: "#6c7040", coatLen: -44, bottom: "#3a3a44", mouth: "open", hairLen: -70 }), 590, 206, 120, {
+    left: [4, -58], right: [-6, -52],
+    under: () => P(`M-6,-46Q-14,-46 -14,-40Q-14,-34 -6,-34Q-2,-30 4,-34Q10,-34 10,-40Q10,-46 4,-46Q-1,-50 -6,-46Z`, shade("#d49a52", 0.2, 0.3), { s: INK, w: 0.8 }) + C(-2, -40, 2, "#3a2a1a") + R(2, -60, 2.4, 20, "#5a3a22", { s: INK, w: 0.5, tf: "rotate(30 2 -40)" }),
+  });
+  // string lights hung from pole to pole over the lanes
+  for (const px of [40, 300, 880, 1140]) s += R(px - 2.5, 60, 5, 162, "#2d3038", { s: INK, w: 1.2 }) + shadow(px, 222, 6, 1.5);
+  s += stringLights([40, 64], [300, 64], 18, 12) + stringLights([880, 64], [1140, 64], 18, 12) + stringLights([300, 64], [370, 100], 6, 4) + stringLights([810, 100], [880, 64], 6, 4);
+  s += stall(20, 250, 110, { a: K.red, goods: "jars" }) + stall(150, 252, 100, { a: K.green, goods: "fruit" }) + stall(920, 252, 100, { a: K.violet, goods: "records" }) + stall(1050, 250, 120, { a: K.brass, goods: "jars" });
+  // the crowd, watching Bea (their backs to us), at different depths
+  const crowd = [[380, 250, 110, "#e8c4a8", "#5a3a2a", "#4f72a8", "long"], [470, 246, 104, "#8a5a3c", "#1a1210", "#b5473f", "short"], [700, 248, 106, "#f0d0b8", "#c4a060", "#3f7f58", "bun"], [790, 252, 110, "#c9936a", "#2a1a12", "#c29a45", "curly"], [300, 284, 140, "#d9a982", "#3a2a20", "#5a4a6a", "short"], [540, 290, 146, "#6e4632", "#1b1412", "#e0913a", "short"], [640, 280, 136, "#f2d4b9", "#6a4a32", "#7b5bc4", "long"], [880, 290, 142, "#e8c8b0", "#7a6a5a", "#3e5a7a", "short"]];
+  crowd.sort((a, b) => a[1] - b[1]);
+  for (const [x, y, h, skin, hair, top, style] of crowd) s += shadow(x, y, h * 0.1, 2.4, 0.4) + fig(civ({ skin, hair, style, top, bottom: "#30343f", back: true, hairLen: -74 }), x, y, h, {});
+  // the Quiet Man, at the edge of the crowd and facing the other way, very still, holding a stolen voice in a glass valve
+  s += C(1000, 200, 70, glow(K.lamp, 0.16));
+  s += shadow(1000, g, 18, 3, 0.55) + fig(quietMan, 1000, g, 178, {});
+  return { vb: `0 0 ${W} ${H}`, title: "The Friday night market at St Bride's: stalls, string lights, a crowd watching Bea sing on the steps, and the Quiet Man standing still at its edge", body: s };
+});
+
+// ----- Chapter 15: the Ash Widow at the burned-out Mariner Theatre
+piece("vignette-ch15", () => {
+  const W = 1185, H = 300, g = 288;
+  let s = sky(W, H, K.n0, "#3a2236", K.n1);
+  s += stars(151, 0, 4, W, 80, 26);
+  // the docks behind: cranes, container stacks, new flats with lit windows
+  s += crane(90, 230, 150, "#3e4a63") + crane(1090, 230, 160, "#3e4a63");
+  s += block(940, 230, 110, 150, "#4a5068", { rows: 7, cols: 4, seed: 3, litP: 0.5 }) + block(150, 230, 90, 120, "#4a5068", { rows: 6, cols: 3, seed: 4, litP: 0.4 });
+  for (let i = 0; i < 10; i++) s += R(20 + (i % 5) * 34, 230 - 14 - Math.floor(i / 5) * 14, 33, 14, ["#7b5bc4", "#3f7f58", "#b5473f", "#c29a45", "#4f72a8"][i % 5], { s: INK, w: 0.9, op: 0.8 });
+  // the Mariner: a classical front, burned; roof fallen in, charred beams against the sky
+  const tx = 330, tw = 520, top = 60;
+  s += C(tx + tw / 2, 180, 300, glow(K.fire, 0.18));
+  s += P(poly([[tx, g], [tx, top + 40], [tx + 60, top + 40], [tx + 90, top], [tx + 180, top + 28], [tx + 260, top - 6], [tx + 330, top + 30], [tx + 420, top + 8], [tx + 460, top + 40], [tx + tw, top + 40], [tx + tw, g]]), shade("#5a4a46", 0.1, 0.3), { s: INK, w: 2 });
+  s += S(`M${tx + 120},${top + 30}L${tx + 150},${top - 18}M${tx + 200},${top + 24}L${tx + 230},${top - 26}M${tx + 360},${top + 28}L${tx + 380},${top - 10}`, INK, 7) + S(`M${tx + 120},${top + 30}L${tx + 150},${top - 18}M${tx + 200},${top + 24}L${tx + 230},${top - 26}M${tx + 360},${top + 28}L${tx + 380},${top - 10}`, "#2a2020", 4);
+  s += R(tx - 6, top + 40, tw + 12, 10, "#6a5a54", { s: INK, w: 1.6 });
+  for (const sx of [tx + 70, tx + 450]) s += R(sx - 12, top + 50, 24, g - top - 50, shade("#6a5a54", 0.12, 0.3), { s: INK, w: 1.6 });
+  // soot streaks over the upper windows, glowing inside
+  for (let i = 0; i < 5; i++) {
+    const wx = tx + 110 + i * 64;
+    s += P(`M${wx},${top + 130}V${top + 84}A16,16 0 0 1 ${wx + 32},${top + 84}V${top + 130}Z`, lin([[0, K.amber], [1, K.red]]), { s: INK, w: 1.6 });
+    s += P(`M${wx - 4},${top + 76}Q${wx + 16},${top + 30} ${wx + 36},${top + 76}Z`, "#1a1416", { op: 0.75 });
+  }
+  // three arched doorways, boarded; a sagging canopy over the middle one, still hung on its chains
+  for (let i = 0; i < 3; i++) {
+    const dx = tx + 120 + i * 110;
+    s += P(`M${dx},${g}V${g - 70}A28,28 0 0 1 ${dx + 56},${g - 70}V${g}Z`, "#1a1416", { s: INK, w: 1.8 });
+    s += S(`M${dx + 2},${g - 60}L${dx + 54},${g - 40}M${dx + 2},${g - 30}L${dx + 54},${g - 46}M${dx + 2},${g - 16}H${dx + 54}`, "#6a5444", 6) + S(`M${dx + 2},${g - 60}L${dx + 54},${g - 40}M${dx + 2},${g - 30}L${dx + 54},${g - 46}M${dx + 2},${g - 16}H${dx + 54}`, INK, 1, { op: 0.5 });
+  }
+  s += S(`M${tx + 210},${g - 140}L${tx + 230},${g - 112}M${tx + 330},${g - 140}L${tx + 316},${g - 106}`, "#2d3038", 1.6);
+  s += P(poly([[tx + 220, g - 112], [tx + 324, g - 104], [tx + 330, g - 96], [tx + 214, g - 106]]), "#3a2e2c", { s: INK, w: 1.6 });
+  // the ticket booth at the side
+  s += R(tx + 476, g - 64, 36, 64, shade("#4a3a36", 0.1, 0.3), { s: INK, w: 1.6 }) + R(tx + 482, g - 56, 24, 20, "#140f12", { s: INK, w: 1.2 }) + P(poly([[tx + 472, g - 64], [tx + 494, g - 80], [tx + 516, g - 64]]), "#3a2e2c", { s: INK, w: 1.4 });
+  s += R(0, g, W, H - g, lin([[0, "#2a2a36"], [1, "#1a1a24"]]), { s: INK, w: 1.6 });
+  // the Ash Widow, at the middle doorway; the ground lit by her
+  s += E(tx + 278, g, 90, 10, K.fire, { op: 0.25 }) + C(tx + 278, g - 100, 120, glow(K.fire, 0.35));
+  s += fig(ashWidow, tx + 278, g, 196, {});
+  return { vb: `0 0 ${W} ${H}`, title: "The Ash Widow at the door of the burned-out Mariner Theatre on the docks", body: s };
+});
+
+// ----- Chapter 16: the drowned village at low tide and the long pier at dusk
+piece("vignette-ch16", () => {
+  const W = 1185, H = 300, hz = 176;
+  let s = R(0, 0, W, H, lin([[0, "#2a2448"], [0.45, "#5a3a62"], [0.75, "#a0586a"], [1, "#e0a070"]]));
+  s += C(780, hz, 220, glow("#ffc890", 0.45));
+  s += stars(161, 0, 4, W, 60, 20);
+  // the sea and the mudflats, shining with the sky
+  s += R(0, hz, W, H - hz, lin([[0, "#7a5a7a"], [1, "#3a3050"]]));
+  s += P(sm([[0, hz + 6], [180, hz + 8], [420, hz + 20], [560, hz + 44], [600, H, 1], [0, H, 1]]), lin([[0, "#7a5a6a"], [0.4, "#4e3c4c"], [1, "#2e2434"]]), { s: INK, w: 1.4 });
+  s += S(`M30,${hz + 40}Q160,${hz + 30} 280,${hz + 52}M60,${hz + 80}Q220,${hz + 66} 400,${hz + 96}M120,${hz + 110}Q260,${hz + 100} 470,${hz + 122}`, "#c88a8a", 3, { op: 0.6 });
+  // reeds at the near edge
+  let rd = "";
+  const R0 = rng(5);
+  for (let x = 0; x < 230; x += 3.4) rd += `M${r(x)},${H}q${r(R0() * 6 - 3)},${r(-20 - R0() * 30)} ${r(R0() * 8 - 4)},${r(-34 - R0() * 30)}`;
+  s += S(rd, "#5a6a4a", 1.4);
+  // stumps of cottage walls, the dry well
+  for (const [x, w, h] of [[120, 40, 14], [200, 30, 10], [270, 46, 18], [360, 34, 12]]) s += P(poly([[x, hz + 40], [x, hz + 40 - h], [x + w * 0.3, hz + 40 - h * 1.3], [x + w * 0.6, hz + 40 - h * 0.8], [x + w, hz + 40 - h], [x + w, hz + 40]]), "#4a4448", { s: INK, w: 1.2 });
+  s += E(320, hz + 64, 14, 4, "#2a2228", { s: INK, w: 1.2 }) + R(306, hz + 56, 28, 8, "#5a5458", { s: INK, w: 1.2 });
+  // St Agnes: roofless nave walls and the tower, an empty bell frame at the top
+  const cx = 430, cb = hz + 46;
+  // the choir, faint, standing in rows in the roofless nave (behind its broken wall)
+  s += C(cx - 96, cb - 24, 50, glow("#7fc9b6", 0.25));
+  for (let i = 0; i < 6; i++) s += fig(ghost, cx - 138 + i * 16, cb + 10, 44, { op: 0.6, bonnet: i % 2 === 0 });
+  s += P(poly([[cx - 150, cb], [cx - 150, cb - 34], [cx - 136, cb - 38], [cx - 126, cb - 14], [cx - 100, cb - 10], [cx - 72, cb - 16], [cx - 60, cb - 36], [cx - 40, cb - 40], [cx - 40, cb]]), "#5a5458", { s: INK, w: 1.6 });
+  s += P(`M${cx - 56},${cb - 6}V${cb - 22}A6,6 0 0 1 ${cx - 44},${cb - 22}V${cb - 6}Z`, "#e0a070", { s: INK, w: 1.2, op: 0.9 }) + P(`M${cx - 146},${cb - 6}V${cb - 20}A5,5 0 0 1 ${cx - 136},${cb - 20}V${cb - 6}Z`, "#e0a070", { s: INK, w: 1.2, op: 0.9 });
+  s += R(cx - 40, cb - 140, 54, 140, shade("#6a6468", 0.12, 0.3), { s: INK, w: 1.8 });
+  s += P(poly([[cx - 46, cb - 140], [cx - 13, cb - 176], [cx + 20, cb - 140]]), "#4a4448", { s: INK, w: 1.6 });
+  s += P(`M${cx - 28},${cb - 92}V${cb - 120}A15,15 0 0 1 ${cx + 2},${cb - 120}V${cb - 92}Z`, "#e0a070", { s: INK, w: 1.4 });
+  s += S(`M${cx - 26},${cb - 112}H${cx}M${cx - 13},${cb - 112}V${cb - 104}`, "#3a3034", 2);              // the bell frame, its smallest place empty
+  // the long pier at dusk, with the arcade lights at the landward end (right)
+  s += pier(560, 1150, 214, 250, { arcade: false, headAt: "x0" });
+  s += C(1120, 180, 60, glow(K.lamp, 0.45)) + R(1090, 172, 95, 40, shade("#6a4a6e", 0.12, 0.3), { s: INK, w: 1.4 }) + P(`M1086,172Q1140,148 1190,172Z`, shade(K.violet, 0.12, 0.3), { s: INK, w: 1.4 });
+  for (let i = 0; i < 8; i++) s += C(1094 + i * 12, 168, 1.6, i % 2 ? K.lamp : K.redHi);
+  for (let i = 0; i < 4; i++) s += R(1098 + i * 21, 182, 12, 22, K.lamp, { s: INK, w: 0.8 });
+  // the tide coming in, small waves
+  let wv = "";
+  for (let i = 0; i < 26; i++) { const R1 = rng(i + 200); const x = 520 + R1() * 660, y = hz + 50 + R1() * 110; wv += `M${r(x)},${r(y)}q6,-4 12,0q6,-4 12,0`; }
+  s += S(wv, "#f0c8b8", 1.2, { op: 0.45 });
+  return { vb: `0 0 ${W} ${H}`, title: "Dusk at low tide: the drowned church tower in the Saltmarsh mud, the choir faint in its nave, and the long pier", body: s };
 });
 
 // =============================================================== run

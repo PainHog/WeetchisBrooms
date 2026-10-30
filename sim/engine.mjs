@@ -55,7 +55,10 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   function hurt(ch, k) {
     if (k <= 0) return;
     ch.hurt = Math.min(ch.hurtMax, ch.hurt + k); // "Hurt can't go past full."
-    if (ch.hurt >= ch.hurtMax && !ch.down) { ch.down = true; ch.everDown = true; }
+    if (ch.hurt >= ch.hurtMax && !ch.down) {
+      ch.down = true; ch.everDown = true;
+      if (st.innocent.guard === ch) st.innocent.guard = null; // guarding "ends if you go Down"
+    }
   }
   function heal(ch, k) {
     ch.hurt = Math.max(0, ch.hurt - k);
@@ -331,7 +334,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     st.round++;
     st.magicThisRound = false;
     T.defenceMod = 0;
-    st.innocent.guard = null;
+    // A guard isn't cleared here: it lasts "until the end of the threat's next turn" (threatActs ends it).
     st.shelter = new Set();
     // No guardian player: one call per episode (Carry the innocent, or Mend a Down witch).
     if (coven.guardianCall && !st.callUsed) {
@@ -360,8 +363,9 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       const cands = standing(coven.witches).filter(x => !acted.has(x)).sort((a, b) => freePool(b) - freePool(a));
       for (const ch of cands.slice(0, 2)) { if (!st.innocent.held) break; freeInnocent(ch); acted.add(ch); }
     }
-    // Pick a guard for a loose innocent nobody is carrying out.
-    if (innocentLoose() && !st.threat.broken) {
+    // Pick a guard for a loose innocent nobody is carrying out, unless one from last round still holds
+    // (a guard set in round 1 covers the round-2 threat turn, which comes after the characters act).
+    if (innocentLoose() && !st.threat.broken && !st.innocent.guard) {
       const cands = standing(coven.witches).filter(x => !acted.has(x)); // guarding is an action: only witches who haven't acted (a lured witch is in `acted`)
       if (cands.length > 1) {
         const guard = minBy(cands, x => attackPool(x).pool);
@@ -575,6 +579,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     }
     if (!R.bankLostAttacks) T.skip = 0; // "any more are wasted"
     T.lostLastRound = lost > 0;
+    st.innocent.guard = null; // guarding lasts "until the end of the threat's next turn"
   }
 
   /**

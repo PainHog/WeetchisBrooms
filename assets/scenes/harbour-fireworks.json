@@ -48,8 +48,8 @@
     {
       "key": "rocket-falls",
       "label": "Where the first rocket bursts white and falls burning onto the quay: the Ash Widow walks out of the sparks with Hannah in her grip",
-      "x": 2250,
-      "y": 840
+      "x": 2150,
+      "y": 870
     },
     {
       "key": "fireworks-barge",
@@ -114,11 +114,11 @@
       ]
     ],
     "threat": [
-      2200,
+      2100,
       800
     ],
     "innocent": [
-      2300,
+      2200,
       800
     ]
   }

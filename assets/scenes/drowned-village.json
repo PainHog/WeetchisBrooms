@@ -1,0 +1,104 @@
+{
+  "width": 3000,
+  "height": 2000,
+  "grid": 100,
+  "points": [
+    {
+      "key": "way-causeway",
+      "label": "The causeway from the birdwatchers' car park (a way in and out)",
+      "x": 1600,
+      "y": 250
+    },
+    {
+      "key": "way-reed-channel",
+      "label": "The reed channel by boat, from the hide (a way in and out)",
+      "x": 2650,
+      "y": 330
+    },
+    {
+      "key": "way-sea-wall",
+      "label": "Along the sea wall from the Harbour side (a way in and out)",
+      "x": 150,
+      "y": 285
+    },
+    {
+      "key": "way-mudflats",
+      "label": "The long walk across the mudflats to the beach under the long pier (a way out only)",
+      "x": 150,
+      "y": 1650
+    },
+    {
+      "key": "the-causeway",
+      "label": "The causeway: a raised path of old stones from the birdwatchers' car park out across the mud. The sea covers it at high tide",
+      "x": 1500,
+      "y": 640
+    },
+    {
+      "key": "reed-beds",
+      "label": "The reed beds: tall reeds and channels of black water. The hide stands on stilts, with a flat-bottomed boat tied below it",
+      "x": 2650,
+      "y": 270
+    },
+    {
+      "key": "village-street",
+      "label": "The village street: the stumps of cottage walls in the mud, a well with no water in it, a lane of cobbles",
+      "x": 1360,
+      "y": 1075
+    },
+    {
+      "key": "churchyard",
+      "label": "The churchyard: leaning stones, half buried, crusted with shells",
+      "x": 2400,
+      "y": 1600
+    },
+    {
+      "key": "st-agnes",
+      "label": "St Agnes's church: roofless walls round the nave, where the choir stands in rows. The tower is still whole, with an empty bell frame at the top",
+      "x": 2360,
+      "y": 1325
+    },
+    {
+      "key": "mudflats",
+      "label": "The mudflats: open, shining mud all the way to the sea and round the bay to the beach under the long pier. As Doom rises, so does the water",
+      "x": 1700,
+      "y": 1650
+    }
+  ],
+  "tokens": {
+    "coven": [
+      [
+        1500,
+        200
+      ],
+      [
+        1600,
+        200
+      ],
+      [
+        1700,
+        200
+      ],
+      [
+        1500,
+        300
+      ],
+      [
+        1600,
+        300
+      ],
+      [
+        1500,
+        400
+      ],
+      [
+        1600,
+        400
+      ]
+    ],
+    "threat": [
+      2300,
+      1300
+    ],
+    "innocent": null
+  }
+}
