@@ -899,6 +899,8 @@ function mirrorThief(c, p = {}) {
 function ghost(c, p = {}) {
   const lw = c.lw, g = "#9fd3c4", hair = p.hair ?? "#2c4a48";
   let s = "";
+  // arms hang at the sides; below the waist they fade into the water, mud or fog with the rest of the ghost
+  for (const sd of [-1, 1]) s += P(sm([[sd * 8.4, -76, 1], [sd * 10.8, -72], [sd * 11.6, -60], [sd * 11.8, -48, 1], [sd * 8.6, -48, 1], [sd * 8.4, -60]]), lin([[0, "#5f8f86", 0.85], [1, "#3e6a66", 0.15]]), { s: "#1c3a38", w: lw * 0.7 });
   s += P(sm([[-2.6, -78.4], [-8, -77.4], [-9.6, -74], [-9.4, -60], [-9.8, -50, 1], [9.8, -50, 1], [9.4, -60], [9.6, -74], [8, -77.4], [2.6, -78.4]]), lin([[0, "#5f8f86", 0.85], [1, "#3e6a66", 0.2]]), { s: "#1c3a38", w: lw * 0.8 });
   s += head(c, "#b9d5ca", { w: 0.92, ears: false, lw: lw * 0.8 });
   if (p.bonnet) s += P(sm([[-7.6, -84, 1], [-7.8, -93], [-5, -99], [0, -100.4], [5, -99], [7.8, -93], [7.6, -84, 1], [6, -88], [5.4, -94], [0, -95.6], [-5.4, -94], [-6, -88]]), "#56807a", { s: "#1c3a38", w: lw * 0.8 });
@@ -1329,7 +1331,7 @@ piece("part-one", () => {
   // the coven, walking along the harbour road: Rook a little apart, very still
   const base = 150;
   const cast = [["rook", rookMan, 150, 284, { look: 0.6 }], ["noor", noor, 262, 280, { look: 0.5 }], ["dana", dana, 348, 286, { look: 0.4 }], ["june", june, 430, 282, {}], ["marco", marco, 512, 287, { look: -0.4 }], ["quinn", quinn, 600, 281, { look: -0.5, mouth: "grin" }], ["tess", tess, 690, 285, { look: -0.6 }]];
-  for (const [k, fn, x, y, p] of cast) s += shadow(x + 6, y, 18, 3.2, 0.45) + fig(fn, x, y, base * HEIGHT[k], p);
+  for (const [k, fn, x, y, p] of cast) s += shadow(x + 6, y, 18, 3.2, 0.45) + fig(fn, x, y, base * HEIGHT[k], { ...p, fingers: true });
   return { vb: `0 0 ${W} ${H}`, title: "The coven walks along the harbour road at night, Old Town on the hill behind", body: G(s, { clip: cl }) + frameRect(W, H, 18) };
 });
 
