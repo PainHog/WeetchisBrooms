@@ -38,6 +38,7 @@ export const RULES = {
   damage: { critical: 3, success: 2, partial: 1, failure: 0 },
   surgeCost: 2,
   noWeaknessVanquish: 2, // "+2 without the Weakness"
+  hideQuiet: true,      // casting Hide never raises Exposure (v0.4: it counted as casting)
   potionYield: 2,       // potions a successful brew makes (a Critical makes one more)
   potionFree: true,     // using a potion needs no action (one potion per character per round)
   brewWithBook: true,   // the character researching the Book may also brew one potion that scene (instead of brewing taking its own action)

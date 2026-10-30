@@ -81,7 +81,7 @@ export function playEpisode({ coven, label, settings, rng }) {
    * (Life, Book, Sense); `buy` = Magic the roller spends on dice; both share the
    * +2 cap. Using a Power counts as using magic.
    */
-  function roll(ch, { rating, action, difficulty, power = true, free = 0, buy = 0, joiners = 0, spell = false }) {
+  function roll(ch, { rating, action, difficulty, power = true, free = 0, buy = 0, joiners = 0, spell = false, quiet = false }) {
     const powerFits = power && fits(ch, action);
     let extra = Math.min(free, R.bonusCap);
     extra += spend(ch, Math.min(buy, R.bonusCap - extra));
@@ -89,7 +89,7 @@ export function playEpisode({ coven, label, settings, rng }) {
     const r = readRoll(rng.roll(pool, 6), difficulty, { successFace: R.successFace, critSixes: R.critSixes });
     st.rolls[r.result]++;
     st.rollsByPhase[st.phase]++;
-    const usedMagic = powerFits || spell;
+    const usedMagic = (powerFits || spell) && !quiet;
     if (usedMagic && st.phase === "showdown") st.magicThisRound = true;
     return { ...r, pool, usedMagic };
   }
@@ -105,7 +105,7 @@ export function playEpisode({ coven, label, settings, rng }) {
   const minBy = (arr, f) => arr.reduce((best, x) => (best === null || f(x) < f(best) ? x : best), null);
   const surgeOk = (ch, keep) => ch.kind === "witch" && ch.surgedScene !== surgeKey() && ch.magic >= R.surgeCost + keep;
   const surgeKey = () => (st.phase === "showdown" ? "showdown" : st.scene); // the showdown counts as one scene
-  function surge(ch) { spend(ch, R.surgeCost); ch.surgedScene = surgeKey(); use(`surge:${ch.power}`); if (st.phase === "showdown") st.magicThisRound = true; }
+  function surge(ch, quiet = false) { spend(ch, R.surgeCost); ch.surgedScene = surgeKey(); use(`surge:${ch.power}`); if (st.phase === "showdown" && !quiet) st.magicThisRound = true; }
 
   // ------------------------------------------------------- lead pools
   function leadOptions(ch) {
@@ -258,13 +258,14 @@ export function playEpisode({ coven, label, settings, rng }) {
     spend(ch, 1);
     use("spell:hide");
     let surged = false;
-    if (ch.power === "voice" && surgeOk(ch, 0)) { surge(ch); surged = true; }
-    if (ch.power === "veil" && st.phase === "showdown" && st.place === "public" && surgeOk(ch, 0)) { surge(ch); st.veiledShowdown = true; }
-    const r = roll(ch, { rating: "craft", action: "hide", difficulty: 2, spell: true });
+    const quiet = R.hideQuiet; // "Casting Hide never raises Exposure."
+    if (ch.power === "voice" && surgeOk(ch, 0)) { surge(ch, quiet); surged = true; }
+    if (ch.power === "veil" && st.phase === "showdown" && st.place === "public" && surgeOk(ch, 0)) { surge(ch, quiet); st.veiledShowdown = true; }
+    const r = roll(ch, { rating: "craft", action: "hide", difficulty: 2, spell: true, quiet });
     if (works(r.result)) lowerExposure((r.result === RESULT.CRITICAL ? 2 : 1) + (surged ? 1 : 0));
     if (r.result === RESULT.PARTIAL || r.result === RESULT.FAILURE) {
       if (st.phase === "showdown") hurt(ch, 1);
-      else investigationCost(ch, true, true);
+      else investigationCost(ch, !quiet, true);
     }
   }
 
