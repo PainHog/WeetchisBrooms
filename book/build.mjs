@@ -405,6 +405,12 @@ try {
     if (r.status === 0) console.log(r.stdout.trim());
     else warn.push(`cover spread not built (needs python3 with pymupdf): ${(r.stderr || r.error?.message || "").trim().split("\n").pop()}`);
   }
+  // Document properties: the book's own title and author, not the renderer's name.
+  {
+    const files = readdirSync(DIST).filter(f => f.startsWith(`${FILE_STEM}_v${VERSION}`) && f.endsWith(".pdf")).map(f => join(DIST, f));
+    const r = spawnSync("python3", [join(BOOK, "tools", "pdf-meta.py"), `${BOOK_TITLE} — Version ${VERSION}`, AUTHOR, BOOK_DESCRIPTION, ...files], { encoding: "utf8" });
+    if (r.status !== 0) warn.push(`document properties not set (needs python3 with pymupdf): ${(r.stderr || r.error?.message || "").trim().split("\n").pop()}`);
+  }
   for (const e of entries) {
     const sp = spots[e.id];
     console.log(`  p${String(p1.found[e.id]).padStart(3)}  ${e.label ? e.label + " — " : ""}${e.title}${sp ? `   [+ ${sp.art} ${sp.h}in]` : ""}`);
