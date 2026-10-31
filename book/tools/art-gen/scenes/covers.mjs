@@ -386,6 +386,10 @@ function potion(A, x, base) {
   s += P(`M${x - 9},${base - 66} L${x + 9},${base - 66} L${x + 9},${base - 48} Q${x + 30},${base - 40} ${x + 30},${base - 18} Q${x + 30},${base} ${x},${base} Q${x - 30},${base} ${x - 30},${base - 18} Q${x - 30},${base - 40} ${x - 9},${base - 48} Z`, glass, { s: INK, w: 2.4 });
   s += P(`M${x - 8},${base - 80} L${x + 8},${base - 80} L${x + 7},${base - 64} L${x - 7},${base - 64} Z`, "#b88a5a", { s: INK, w: 2 });
   s += S(`M${x - 18},${base - 30} Q${x - 20},${base - 16} ${x - 12},${base - 8}`, "#ffffff", 2.4, 0.7);
+  // a paper label with a cross: a Healing potion, so its kind never rests on colour alone (ART-CHECKLIST 18; as in vignettes.mjs).
+  // It sits right of the thumb tip (which reaches about x + 7) and above the fingers, where the hand leaves the glass showing.
+  s += P(`M${x + 8},${base - 31} L${x + 24},${base - 31} L${x + 24},${base - 19} L${x + 8},${base - 19} Z`, "#f2ead8", { s: INK, w: 1.6 });
+  s += S(`M${x + 16},${base - 28.5} L${x + 16},${base - 21.5} M${x + 12.5},${base - 25} L${x + 19.5},${base - 25}`, "#2a5a3c", 2.4);
   return s;
 }
 

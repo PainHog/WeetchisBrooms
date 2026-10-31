@@ -2,11 +2,11 @@
 
 A fresh rules review of the v0.9 test edition, following `docs/REVIEW-PROCEDURE.md` §1. The reviewer only read the book and reports here: nothing else was changed.
 
-**What was read:** every chapter in `book/src/chapters/` in order (00 to 99, including `40-sheets.html`); the built PDF `book/dist/Witch_and_Ward_v0.9.pdf` (75 pages, built 2026-10-30 19:42) for tables, sheets and the six maps; `docs/CORE-RULES.md`; `book/REVIEW.md` (rulings 1–105, with 62–105 checked one by one); `docs/GLOSSARY.md`; `AGENTS.md`; `docs/DESIGN.md` §2.
+**What was read:** every chapter in `book/src/chapters/` in order (00 to 99, including `40-sheets.html`); the built PDF `book/dist/Witch_and_Ward_v0.9.pdf` (78 pages, built 2026-10-30 20:24) for tables, sheets and the six maps; `docs/CORE-RULES.md`; `book/REVIEW.md` (rulings 1–105, with 62–105 checked one by one); `docs/GLOSSARY.md`; `AGENTS.md`; `docs/DESIGN.md` §2.
 
-**Snapshot:** commit `ed234be`. The chapter files were last changed at 19:31–19:33, before the PDF was built, so the PDF matches them, except the credits page (see M4).
+**Snapshot:** the chapter text was read at commit `ed234be`. Since then (`7248d15`, `9df75c7`, `6fb169a`) only `book.css` changed (maps at full width), along with art files. The map labels are the same, apart from one line break. The PDF was rebuilt at 20:24 from that text, so it matches the chapters, the new credits line included.
 
-**Page numbers** are PDF pages (the footer number).
+**Page numbers** are pages of the 78-page PDF built at 20:24 (the footer number). An earlier 75-page build had the same pages up to p54; later pages moved by up to three.
 
 **Checked by script:** the odds table in Chapter 2 (exact binomial odds); every Clues, half, Toughness, season Toughness, attacks and Unmaking number in Chapters 9, 11, 14, 15 and 16 against the Chapter 6 table; the Unmaking odds in Chapter 7; and every die, total and result in every example. The scripts are summarised in Appendix B.
 
@@ -24,7 +24,7 @@ Two things need fixing before the book goes outside the table: what happens to t
 |---|---|
 | Blocker | 2 |
 | Confusing | 8 |
-| Minor | 30 |
+| Minor | 29 (M4 was fixed by the 20:24 rebuild and isn't counted) |
 | Differences between `CORE-RULES.md` and the chapters (each minor; the chapters win) | 18 |
 
 ---
@@ -32,7 +32,7 @@ Two things need fixing before the book goes outside the table: what happens to t
 ## Blockers
 
 ### B1. Carry in a showdown: where is the guardian afterwards, and whom can it carry?
-- **Where:** `14-ch04.html` (p15, the gifts table and "Playing the guardian well"); `17-ch07.html` (p24–25); `31-ch13.html` (p53); the "In its grip" paragraphs in `32-ch14.html` (p58), `33-ch15.html` (p63) and `34-ch16.html` (p68); guardian sheet (p71); quick reference (p73).
+- **Where:** `14-ch04.html` (p15, the gifts table and "Playing the guardian well"); `17-ch07.html` (p24–25); `31-ch13.html` (p53); the "In its grip" paragraphs in `32-ch14.html` (p59), `33-ch15.html` (p65) and `34-ch16.html` (p71); guardian sheet (p74); quick reference (p76).
 - **Quote:** "Take one person to a place it knows, such as the freed innocent out of a fight. It can’t carry the coven out of a showdown or past a threat." (Ch 4). "Once she is free, Rook (or the coven’s call) can Carry her to a place it knows, such as the Lantern House." (Ch 14).
 - **Problem:**
   - Read literally, the guardian goes with the person it carries, and nothing brings it back. Rook would then be at the Lantern House for the rest of the fight: no Shield, no Hold, no Ward dice. The simulator keeps the guardian in the fight after a Carry (`sim/engine.mjs`, the Carry branch), so the balance figures assume the opposite of the literal reading.
@@ -54,18 +54,18 @@ Two things need fixing before the book goes outside the table: what happens to t
 ## Confusing
 
 ### C1. Is researching the Book a searching lead? Only Chapters 13–16 say so (ruling 79)
-- **Where:** `13-ch03.html` (p11), `15-ch05.html` (p19), `16-ch06.html` (p21), quick reference (p73), against `31-ch13.html` (p54) and the Book lead in each episode (p57, p62, p67).
+- **Where:** `13-ch03.html` (p11), `15-ch05.html` (p19), `16-ch06.html` (p21), quick reference (p76), against `31-ch13.html` (p54) and the Book lead in each episode (p57, p63, p69).
 - **Quote:** Ch 3’s ratings table, Wits row: "Searching leads, researching the Book, studying the threat". Ch 5: "It is a lead using Wits, with +1 die (inside the +2 limit)". Ch 6: "Researching the Book is a lead using Wits at home." Ch 13: "researching the Book (a searching lead using Wits, +1 die, with no Exposure; one character per scene; Sight, Veil and Wild fit it)".
 - **Problem:** Ruling 79 is logged for Chapter 3, but Chapter 3 doesn’t have it. Its table lists Book research as a separate item from searching leads, which suggests Veil ("searching leads") doesn’t fit it. A Tess or Noor player reading Part One can’t tell whether they get +2 dice at home.
 - **Fix (wording):** Ch 3, Wits row: "Searching leads (researching the Book is one), studying the threat". Ch 5, Ch 6 and the quick reference: "a searching lead using Wits".
 
 ### C2. "a success" means a die in one sentence and a result in the next
-- **Where:** quick reference (p73: "Each 4, 5 or 6 is a success." then "a success gives 1 Clue, a Critical 2, a Partial 1 with a cost" and "a success does 2 damage"); witch sheet and quick reference: Magic (p70, p74: "a success gives 1 more Clue"); Ch 5 (p17: "plus 1 Clue on a success"); Ch 9 (p35: "Only a success frees them"); every episode’s Reveal lead and "In its grip" paragraph (p57–58, p62–63, p67–68).
+- **Where:** quick reference (p76: "Each 4, 5 or 6 is a success." then "a success gives 1 Clue, a Critical 2, a Partial 1 with a cost" and "a success does 2 damage"); witch sheet and quick reference: Magic (p73, p77: "a success gives 1 more Clue"); Ch 5 (p17: "plus 1 Clue on a success"); Ch 9 (p35: "Only a success frees them"); every episode’s Reveal lead and "In its grip" paragraph (p57 and p59, p63 and p65, p69 and p71).
 - **Problem:** Chapter 2 uses "success" for a die showing 4–6 and **Success** for a result. Elsewhere the lower-case word stands for the result. On the first-night handout, a newcomer can read "a success gives 1 Clue" as one Clue for each die that shows 4–6.
 - **Fix (wording):** always capitalise the result: "a Success gives 1 Clue", "only a Success frees them". Keep lower case only for dice ("each 4, 5 or 6 is a success").
 
 ### C3. Group checks: what does a Failure mean, and who is "worst"?
-- **Where:** `12-ch02.html` (p9); quick reference (p73).
+- **Where:** `12-ch02.html` (p9); quick reference (p76).
 - **Quote:** "Everyone rolls. It isn’t an action, so nobody uses their action on it. There is only one cost, and whoever rolled worst takes it."
 - **Problem:** The book doesn’t say whether a character who fails still gets there (does June reach the drowned village?), whether "worst" means the lowest result or the fewest successes, what happens on a tie, or that there is no cost when everyone succeeds. A Storyteller has to invent all four. (The simulator never uses group checks, so nothing depends on the answer.)
 - **Fix (wording, plus a small ruling):** "Everyone who gets a Success or a Partial manages it; the Storyteller says what a Failure means in the story. If anyone got a Partial or a Failure, there is one cost: the lowest result takes it (a Failure before a Partial; ties: roll a die among them)."
@@ -77,7 +77,7 @@ Two things need fixing before the book goes outside the table: what happens to t
 - **Fix (a one-line ruling):** "If the guardian takes the attack (Hold or Shield), it loses 1 Ward instead."
 
 ### C5. A Hold or a Shelter whose own cost puts the roller Down
-- **Where:** `14-ch04.html` (p15); `15-ch05.html` (p18); `17-ch07.html` (p24).
+- **Where:** `14-ch04.html` (p15); `15-ch05.html` (p17); `17-ch07.html` (p24).
 - **Quote:** "Hold: “works” means a Partial or better, and a Partial still costs 1 Hurt." Shelter: "It ends if you go Down."
 - **Problem:** A guardian with 4 Hurt that Holds and gets a Partial goes Down and fades home, but "the threat’s next attack must target the guardian". A witch with 3 Hurt whose Shelter is a Partial goes Down from its cost, so the Shelter "works" and ends at once. Neither order is stated (A13, A15).
 - **Fix (a one-line ruling each):** "If the guardian is Down when a Held attack comes, roll for it as usual." "A Shelter whose own cost puts you Down still protects until the end of the threat’s next turn" (or "ends at once"; either works, as long as the book says which).
@@ -89,7 +89,7 @@ Two things need fixing before the book goes outside the table: what happens to t
 - **Fix (a one-line ruling):** "If only one character is standing, it makes one attack."
 
 ### C7. The Hold paragraphs are hard to follow
-- **Where:** `17-ch07.html` (p24), "The threat’s turn"; `22-ch10.html` (p38), the Hold bullet; quick reference: Magic (p74).
+- **Where:** `17-ch07.html` (p24), "The threat’s turn"; `22-ch10.html` (p38), the Hold bullet; quick reference: Magic (p77).
 - **Quote:** "Taking the innocent isn’t an attack, so Hold can’t stop it. That is why the Storyteller rolls the d6 even for an attack Hold has aimed. If it shows 6, the signature move still happens (or the innocent is taken). Hold only aims attacks: … A move with no attack in it leaves Hold for the next attack."
 - **Problem:** Eight sentences cover five cases, out of order and partly repeated. The last case (a move with no attack) doesn’t exist among the six threats.
 - **Fix (wording):** a four-row table, "Hold and the d6":
@@ -99,7 +99,7 @@ Two things need fixing before the book goes outside the table: what happens to t
   - 6, the innocent is free and unguarded: they are taken (not an attack); Hold stays for the next attack.
 
 ### C8. The quick reference’s investigation paragraph is one 94-word sentence
-- **Where:** quick reference (p73), "Investigation (scenes)".
+- **Where:** quick reference (p76), "Investigation (scenes)".
 - **Quote:** "Each character takes one action: follow a lead out in the city (Heart, Wits or Reveal against the Lead Difficulty: a success gives 1 Clue, a Critical 2, a Partial 1 with a cost); research the Book at home (…); brew a potion at home; rest (clear all Hurt); cover up out in the city (Hide); or answer their Life (no roll; gain 1 Magic)."
 - **Problem:** This is the page new players read first, and the actions are hard to pick out.
 - **Fix (wording):** a six-line list, one action a line, as in Chapter 6’s table.
@@ -113,26 +113,26 @@ Two things need fixing before the book goes outside the table: what happens to t
 | M1 | `21-ch09.html` p32 | "About 59% Wins and 23% Losses. A witch goes Down in most episodes (61%)"; "about two episodes in five (39%)"; "Wins run from 67% (five witches) to 79%" | `sim/REPORT.md` now gives Hard 60% / 22% / 60%, Standard Down 38%, and a Standard range of 67–80% (after ruling 105). | Update the figures (only the printed numbers change, not a rule). |
 | M2 | `21-ch09.html` p32 | "from 36,000 simulated episodes" | Tells readers that software was used to test the game. It names no tool, but Richard’s standing rule is close. His call. | "from thousands of test games", or keep it. |
 | M3 | PDF properties | Creator "HeadlessChrome/153…", Producer "Skia/PDF m153" | The file properties name the software that made the PDF. AGENTS.md’s portal rule bans that in downloads. | Clear the properties when building. |
-| M4 | `01-credits.html` / PDF p2 | Source: "Pictures and maps: Temporary art made for this test edition…" | The line was added after the PDF was built, so the PDF lacks it. | Rebuild the PDF. |
-| M5 | `31-ch13.html` p53 | Noor: "Or, in a showdown, the threat’s Defence is 1 lower for everyone this round." Tess: "…or in a showdown for this round and the next (a casting roll’s cost becomes 1 Hurt)." Rook: "Mend (action): clear 2 Hurt from someone it touches." | Chapter 12 fills the sheets from Chapter 13, but these leave out "goes with Bind, starting after the Bind roll", "covers the whole coven’s casting; in a showdown it goes with Hide", and "itself included" (Ch 3, Ch 4). | Copy the Ch 3 and Ch 4 wording. |
-| M6 | Quick reference p73–74 | "a Down witch joins without one."; "Study the threat: Wits against Defence: 1 Clue."; "Hold only aims attacks: on a 6, an attacking move still happens…" | Leaves out the Lure exception for joining the Unmaking (ruling 100), the Partial cost and Critical 2 Clues for study, and ruling 85’s guard case. | "…a Down witch, or one who lost their action to Lure, joins without one"; "Study: Wits against Defence; a Success or Partial gives 1 Clue, a Critical 2"; add the guard row from C7. |
-| M7 | Tracker p72 | "Witches ____"; "Full: the innocent is lost and the threat escapes." | No box for n (characters), which sets Clues, attacks and the potion limit; the Doom line leaves out "unless already carried to safety". | Add "Characters (n) ____"; add the exception. |
+| M4 | `01-credits.html` / PDF p2 | Source: "Pictures and maps: Temporary art made for this test edition…" | **Fixed during the review:** the 75-page build lacked this line; the 20:24 rebuild (p2) has it. Not counted. | — |
+| M5 | `31-ch13.html` p52–53 | Noor: "Or, in a showdown, the threat’s Defence is 1 lower for everyone this round." Tess: "…or in a showdown for this round and the next (a casting roll’s cost becomes 1 Hurt)." Rook: "Mend (action): clear 2 Hurt from someone it touches." | Chapter 12 fills the sheets from Chapter 13, but these leave out "goes with Bind, starting after the Bind roll", "covers the whole coven’s casting; in a showdown it goes with Hide", and "itself included" (Ch 3, Ch 4). | Copy the Ch 3 and Ch 4 wording. |
+| M6 | Quick reference p76–77 | "a Down witch joins without one."; "Study the threat: Wits against Defence: 1 Clue."; "Hold only aims attacks: on a 6, an attacking move still happens…" | Leaves out the Lure exception for joining the Unmaking (ruling 100), the Partial cost and Critical 2 Clues for study, and ruling 85’s guard case. | "…a Down witch, or one who lost their action to Lure, joins without one"; "Study: Wits against Defence; a Success or Partial gives 1 Clue, a Critical 2"; add the guard row from C7. |
+| M7 | Tracker p75 | "Witches ____"; "Full: the innocent is lost and the threat escapes." | No box for n (characters), which sets Clues, attacks and the potion limit; the Doom line leaves out "unless already carried to safety". | Add "Characters (n) ____"; add the exception. |
 | M8 | `21-ch09.html` p32 | "No guardian player? Leave the “guardian called” box empty." | The box is empty at the start anyway, so the step reads as an instruction to do nothing. | "With a guardian player, cross out the “guardian called” box; without one, tick it when the coven calls." |
 | M9 | `18-ch08.html` p28 | "Each episode starts fresh: … and Doom, Exposure and Clues at 0." | Leaves out a Book page (half the Clues) and the generator’s reporter twist (Exposure 1). | "…Doom and Exposure at 0, and Clues at 0 unless the Book has a page on the threat." |
-| M10 | `17-ch07.html` p26; `GLOSSARY.md` | Results table: "Partial — The threat fled, or…"; glossary: "Partial — At least half the Difficulty but not all of it" | One word for a roll result and an episode result (A16); the glossary has only the first. | Add the episode meaning to the glossary, or call the episode result "Partial win" everywhere. |
-| M11 | `31-ch13.html` p52, `32-ch14.html` p57, `34-ch16.html` p66–67, `22-ch10.html` p40 | "An old man on her ward"; "The ward is two nurses short"; "a ward at Larkhaven General"; "night wards" | The glossary says Ward has "only this meaning in the rules". Lower-case hospital wards appear seven times. | Accept it (it’s lower case and never in a rule) and soften the glossary line, or use "unit" and "shift". |
+| M10 | `17-ch07.html` p25; `GLOSSARY.md` | Results table: "Partial — The threat fled, or…"; glossary: "Partial — At least half the Difficulty but not all of it" | One word for a roll result and an episode result (A16); the glossary has only the first. | Add the episode meaning to the glossary, or call the episode result "Partial win" everywhere. |
+| M11 | `31-ch13.html` p51, `32-ch14.html` p57, `34-ch16.html` p68–69, `22-ch10.html` p40, `23-ch11.html` p45–46 | "An old man on her ward"; "The ward is two nurses short"; "a ward at Larkhaven General"; "night wards"; "a short-staffed ward" | The glossary says Ward has "only this meaning in the rules". Lower-case hospital wards appear seven times. | Accept it (it’s lower case and never in a rule) and soften the glossary line, or use "unit" and "shift". |
 | M12 | Throughout | "Life call" / "call the guardian"; "Life scenes", "Closing scene"; "lead" / "leads the Unmaking"; "on any character’s turn"; "whoever hurt it last"; "Sight’s miss" / "Sight’s Surge" / "Sight’s miss Surge" | Small double meanings (A16): "call" and "scene" have two meanings, "lead" is also a verb, "turn" is never defined for characters, a threat takes damage rather than Hurt, and one effect has three names. | "During the characters’ part of a round" for "on any character’s turn"; "whoever last did it damage"; pick one name for "Sight’s miss". |
 | M13 | `GLOSSARY.md` | — | Missing terms the chapters use: group check, cost, talking lead, searching lead, Lead Difficulty, hidden place, public place, signature move, retreat, Win/Partial/Loss, w and n, Lantern House. | Add them. |
-| M14 | `16-ch06.html` p21; `21-ch09.html` p34 | "In each scene, every character takes one action, in any order."; "A lead can be followed again" | The book doesn’t say whether two characters may follow the same lead in the same scene (only the Book is limited to one a scene). | "Two characters can follow the same lead in a scene; each rolls for themselves." |
+| M14 | `16-ch06.html` p20; `21-ch09.html` p33 | "In each scene, every character takes one action, in any order."; "A lead can be followed again" | The book doesn’t say whether two characters may follow the same lead in the same scene (only the Book is limited to one a scene). | "Two characters can follow the same lead in a scene; each rolls for themselves." |
 | M15 | `15-ch05.html` p18; `17-ch07.html` p23 | "Each character uses at most one potion a round (or a scene)."; "The whole showdown counts as one scene for anything that works once per scene" | Read together, these could mean one potion per showdown. Chapter 7 settles it ("one per character a round"), but Chapter 5 doesn’t. | Ch 5: "…one potion a round in a showdown, or one a scene in the investigation." |
 | M16 | `12-ch02.html` p8 | "+1 die on your next roll this episode" | Must it go on the very next roll, even an unwanted defence roll? | "…on your next roll this episode (you can’t save it)." |
-| M17 | `22-ch10.html` p41; `34-ch16.html` p65 | Lure: "rolls Heart against Danger (no Power fits it, it isn’t casting, …)" | The book doesn’t say whether helpers or the character’s own Magic can add dice to this roll. | "Helpers and Magic can add dice as usual." |
+| M17 | `22-ch10.html` p41; `34-ch16.html` p68 | Lure: "rolls Heart against Danger (no Power fits it, it isn’t casting, …)" | The book doesn’t say whether helpers or the character’s own Magic can add dice to this roll. | "Helpers and Magic can add dice as usual." |
 | M18 | `16-ch06.html` p21; `14-ch04.html` p15 | "The guardian can also use Mend or Carry as its action" | Carry in the investigation has no effect in the rules (the threat has the innocent at the mark whatever the coven did, ruling 39). | Say it is for the story, or drop it from the investigation list. |
 | M19 | `21-ch09.html` p33 | "Standard. Dana, June and Quinn are the witches, and a fourth player plays Rook" | The running Cinders example (Ch 6–7) is Dana, Marco and June, at 9 Clues after scene 3; this one is a different coven at 9 Clues after scene 4. Readers following Cinders will trip. | Use Dana, Marco and June, or say "at another table". |
-| M20 | `32-ch14.html` p57, `33-ch15.html` p62, `34-ch16.html` p66 | "A nurse’s Life might fit here." | Across the three episodes only nurse and student get a "might fit" note; teacher, mechanic, shop worker and bus driver never do (A9). | Add one note per Life across the three episodes (Quinn and Finn’s choir, Marco and the lifeboat tractor, Tess and the Heights bus). |
+| M20 | `32-ch14.html` p57, `33-ch15.html` p63, `34-ch16.html` p68 | "A nurse’s Life might fit here." | Across the three episodes only nurse and student get a "might fit" note; teacher, mechanic, shop worker and bus driver never do (A9). | Add one note per Life across the three episodes (Quinn and Finn’s choir, Marco and the lifeboat tractor, Tess and the Heights bus). |
 | M21 | `22-ch10.html` p37 | "A threat has no numbers of its own. … Each stat block below repeats them." | Reads as a contradiction. | "A threat’s numbers come from the label, not the threat. Each stat block repeats them for convenience." |
 | M22 | `23-ch11.html` p44 | "Plan 4’s +2 Toughness is on top of the usual +2 …, so after that escape it comes back with 4 more." | "That escape" should be the one where Doom filled; a threat that fled didn’t complete its plan. | "If Doom fills with plan 4, the threat comes back with 4 more Toughness (2 for escaping, 2 for feeding)." |
-| M23 | Quick reference p73 | "1 / 1 · 2 / 3 · 2 / 3"; "Success no Hurt, Partial 1 Hurt, Failure Hit Hurt" | Slashes and dots mixed in one cell; "Hit Hurt" reads oddly. | Split Defence and Danger into two rows; "Failure: Hurt equal to Hit". |
+| M23 | Quick reference p76 | "1 / 1 · 2 / 3 · 2 / 3"; "Success no Hurt, Partial 1 Hurt, Failure Hit Hurt" | Slashes and dots mixed in one cell; "Hit Hurt" reads oddly. | Split Defence and Danger into two rows; "Failure: Hurt equal to Hit". |
 | M24 | `11-ch01.html` p6; `31-ch13.html` p54 | "Fog in the mornings, ferries, steep streets" | Close to the show’s San Francisco (DESIGN Q1 says "Not San Francisco"). A judgement call; the British place names already set it apart. | Optional: swap one image (sea mist, a tidal river, a castle hill). |
 | M25 | `17-ch07.html` p23 | "Some things take no action: helping a roll, using a potion, the guardian’s Shield, Sight’s miss Surge, and a Down witch joining the Unmaking." | Leaves out calling the guardian and a witch who lost their action to Lure joining the Unmaking. | Add both. |
 | M26 | `book/REVIEW.md` #88; `22-ch10.html` p41 | "Changes a threat’s move: for Richard’s approval" | The new Lure is already printed. | Confirm Richard approved it, and note that in the ruling. |
@@ -149,11 +149,11 @@ Two things need fixing before the book goes outside the table: what happens to t
 Apart from B1, B2, C1 and M15 above, the chapters agree with each other. These were checked and found consistent: casting (Ch 2, 4, 5, 7, 9); costs (Ch 2, 5, 6, 9); Down (Ch 3, 4, 6, 7); potions (Ch 5, 7, 9); the round order (Ch 7 and the Storyteller’s round box in Ch 9); the end of a round (every witch Down before a Broken threat flees); Seen (Ch 6, 7, 9); the Unmaking (Ch 4, 5, 7, 9); the season rules (Ch 8, 10, 12, 16); dice counts (Ch 1 and 12, up to 13 dice, or 14 with Craft 4).
 
 ### 1b. Chapters against the quick reference, sheets and tracker (line by line)
-- **Witch sheet (p70):** ratings, Hurt (4), Magic (5, no top limit), the Surge line, the spell list, the Magic spends and the Down note all match Ch 3 and Ch 5. Pass.
-- **Guardian sheet (p71):** ratings, Hurt (5), Ward (5), the gifts table (including "itself included") and the can’t-do paragraph match Ch 4 and Ch 13. Pass. (Carry wording: see B1.)
-- **Tracker (p72):** Doom 12 with the mark at 5; Exposure 5 boxes, box 5 crossed out at Standard and Hard; 20 Clue pips (the most needed is 20); 45 damage pips (the most is 40 plus returns); 5 potion lines; 12 round boxes. All match. Gaps: M7.
-- **Quick reference (p73):** the roll, Criticals, Partial, group check, costs, casting, extra dice, investigation, round order, actions, the threat’s d6, the Unmaking, gifts, the end and the numbers table all match Ch 2–7 and the Ch 6 table. Gaps: C2, C8, M6, M23.
-- **Quick reference: Magic (p74):** spells, Powers (Veil’s "whole coven" and Wild’s "after the Bind roll" both present), potions, innocent, showdown details, tracks and seasons all match. Gap: M6 (ruling 85).
+- **Witch sheet (p73):** ratings, Hurt (4), Magic (5, no top limit), the Surge line, the spell list, the Magic spends and the Down note all match Ch 3 and Ch 5. Pass.
+- **Guardian sheet (p74):** ratings, Hurt (5), Ward (5), the gifts table (including "itself included") and the can’t-do paragraph match Ch 4 and Ch 13. Pass. (Carry wording: see B1.)
+- **Tracker (p75):** Doom 12 with the mark at 5; Exposure 5 boxes, box 5 crossed out at Standard and Hard; 20 Clue pips (the most needed is 20); 45 damage pips (the most is 40 plus returns); 5 potion lines; 12 round boxes. All match. Gaps: M7.
+- **Quick reference (p76):** the roll, Criticals, Partial, group check, costs, casting, extra dice, investigation, round order, actions, the threat’s d6, the Unmaking, gifts, the end and the numbers table all match Ch 2–7 and the Ch 6 table. Gaps: C2, C8, M6, M23.
+- **Quick reference: Magic (p77):** spells, Powers (Veil’s "whole coven" and Wild’s "after the Bind roll" both present), potions, innocent, showdown details, tracks and seasons all match. Gap: M6 (ruling 85).
 
 ### 1c. Ready-made characters (Ch 13) against the creation rules (Ch 3)
 All six witches have 3, 2, 2, 1, with the 3 where their Power is used most. No two share a Power or a Life. Each has 4 Hurt and 5 Magic. Rook has 3, 2, 2, 5 Hurt and 5 Ward. The Ch 3 example witch (Ruth Penhale: Wild, teacher) and her season entry in Ch 8 (Nerve 1 to 2) agree. Only the Surge and Mend summaries fall short (M5).
@@ -310,8 +310,8 @@ No arithmetic errors found.
 ## 5. Plain English
 
 The book is mostly short and plain. The passages that are hard to follow are C7 (the Hold paragraphs), C8 (the quick reference’s investigation sentence), B2 (the Hush text), M21, M22, M23, M27 and M28. Two more could be shorter:
-- Ch 10 (p41) and Ch 16 (p65), Lure: 45 words before the italic details. Split it: "One attack. Then the standing character with the lowest Heart rolls Heart against Danger. On a Failure they lose their next action. (No Power fits this roll, it isn’t casting, and it never causes Hurt.)"
-- Quick reference: Magic (p74), "Showdown details": a 52-word sentence on Hold. Replace it with the C7 table.
+- Ch 10 (p41) and Ch 16 (p68), Lure: 45 words before the italic details. Split it: "One attack. Then the standing character with the lowest Heart rolls Heart against Danger. On a Failure they lose their next action. (No Power fits this roll, it isn’t casting, and it never causes Hurt.)"
+- Quick reference: Magic (p77), "Showdown details": a 52-word sentence on Hold. Replace it with the C7 table.
 
 ---
 
