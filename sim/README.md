@@ -119,7 +119,7 @@ package’s rule switches.
 | `notes.mjs` | Rule gaps found while building it, and what is and isn't modelled |
 | `run.mjs` | CLI → `REPORT.md` (targets, outcomes, usage, Powers, guardian, exact odds, sweeps, findings) |
 | `threats.mjs` | CLI → `REPORT-threats.md`: the six threats' signature moves over the whole grid, the three ready-made episodes against the targets, how often each move comes up, flags with tested fixes |
-| `sim.test.mjs` | The roll against hand-worked cases, exact odds, coven legality, determinism, track limits, and the signature moves (generic stays the default; Turned Spell plays as the generic 'heavy'; Hush is two attacks plus its rider; Drain is a plain attack plus its heal) |
+| `sim.test.mjs` | The roll against hand-worked cases, exact odds, coven legality, determinism, track limits, and the signature moves (generic stays the default; Turned Spell plays as the generic 'heavy'; Static is two attacks plus its rider; Drain is a plain attack plus its heal) |
 
 Still to come, as the book grows: seasons that use each threat's own move (`season.mjs` still uses the
 generic one), packages (`packages.mjs`) and agent playtests (`playtests/`). The core roll itself lives in `module/logic/rules.mjs`, shared with the Foundry system.

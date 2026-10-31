@@ -135,7 +135,7 @@ test("Turned Spell plays exactly as the generic 'heavy' move", () => {
   }
 });
 
-test("Hush is two attacks plus its rider; Drain is a plain attack plus its heal", () => {
+test("Static is two attacks plus its rider; Drain is a plain attack plus its heal", () => {
   let hushSame = 0, hushBit = 0, drainSame = 0, drainBit = 0;
   for (let seed = 0; seed < 200; seed++) for (const label of ["standard", "hard"]) {
     const players = 3 + (seed % 3), g = seed % 2 === 0;

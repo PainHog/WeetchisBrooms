@@ -37,7 +37,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     damageBy: Object.fromEntries(all.map(c => [c.id, 0])),
     callUsed: false, senseScene: -1, carefulRounds: 0,
     use: {},
-    muted: new Set(), // Hush: characters who can't cast on this round's turn
+    muted: new Set(), // Static: characters who can't cast on this round's turn
   };
   const half = () => Math.ceil(st.cluesNeeded / 2);
   if (season.bookPage) st.clues = half(); // "next time, start with half the Clues"
@@ -323,7 +323,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   /** Free a held innocent: Nerve against Defence; a Partial or better frees them. */
   function freeInnocent(ch) {
     use("free");
-    const careful = carefulRound() || st.muted.has(ch); // Hush: Force left off
+    const careful = carefulRound() || st.muted.has(ch); // Static: Force left off
     const r = roll(ch, { rating: "nerve", action: "free", difficulty: Math.max(1, effectiveDefence()), power: !careful, buy: ch.kind === "witch" ? Math.min(2, spareMagic(ch, RESERVE)) : 0 });
     if (R.freeNeedsSuccess ? r.result === RESULT.SUCCESS || r.result === RESULT.CRITICAL : works(r.result)) st.innocent.held = false;
     fightCost(ch, r.result);
@@ -345,7 +345,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
     if (st.round === 1 && R.threatFirst && !T.broken) threatActs(); // "In round 1 the threat acts first."
     if (standing(coven.witches).length === 0) return end("allDown");
     const acted = new Set();
-    // Hush and Lure land on a character's next turn: this round's for everyone who will act this
+    // Static and Lure land on a character's next turn: this round's for everyone who will act this
     // round (in round 1 the threat has just acted; in later rounds it acted after everyone's turn).
     st.muted = new Set();
     const turnFlags = () => {
@@ -410,7 +410,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
   }
 
   function guardianAct(gd) {
-    const mute = st.muted.has(gd); // Hush: no gift on this turn (Hold isn't casting)
+    const mute = st.muted.has(gd); // Static: no gift on this turn (Hold isn't casting)
     if (R.mendFree && !mute) { const t = mendTarget(); if (t && gd.ward >= 1) mend(gd, t); } // no action, once a round
     if (st.innocent.held && !st.threat.broken) return freeInnocent(gd); // free them first
     if (innocentLoose() && gd.ward >= 1 && !mute) { // Carry the innocent out
@@ -451,7 +451,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       const fresh = st.round > T.brokenRound || J.brokenFlees === "thisRound";
       return fresh ? unmake(ch, acted) : undefined;
     }
-    const muted = st.muted.has(ch);         // Hush: no casting on this turn
+    const muted = st.muted.has(ch);         // Static: no casting on this turn
     const careful = carefulRound() || muted; // either way: no Power, spell or potion
     // Free potion (no action, one per character per round), when the rule allows it.
     let usedPotion = false;
@@ -528,7 +528,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
 
   /** "The Unmaking (only against a Broken threat)." */
   function unmake(ch, acted) {
-    const avail = standing(coven.witches).filter(x => !acted.has(x) && !st.muted.has(x)); // Hush: can't lead or join as their action
+    const avail = standing(coven.witches).filter(x => !acted.has(x) && !st.muted.has(x)); // Static: can't lead or join as their action
     const leaders = avail.filter(x => x.magic >= 1);
     if (!leaders.length) return; // nobody can pay for the spell this round
     const leader = maxBy(leaders, x => x.ratings.craft);
@@ -602,7 +602,7 @@ export function playEpisode({ coven, label, settings, rng, season = {} }) {
       }
       case "plain": attackOn(target(4), 0); return; // yardstick: an ordinary 4–5 attack
       case "twoAttacks":                            // "attack two different characters" (ruling 63)
-      case "quietMan": {                            // Hush: …"the first one he hurts can't cast on their next action"
+      case "quietMan": {                            // Static: …"the first one he hurts can't cast on their next action"
         let hushed = false;
         for (const t of moveTargets(2)) {
           if (t.down) continue;

@@ -63,7 +63,7 @@ const FIX = {
   quietMan: {
     rider: () => {
       const strongest = ["standard", "hard"].every(L => SIX.every(m => P("quietMan", L).win <= P(m, L).win));
-      return `None needed for balance: ${strongest ? "Hush is already the hardest of the six at Standard and Hard, because it is two attacks" : "Hush is two attacks, as strong as the book's yardstick"}. The rider rarely bites, because a hushed witch still makes a plain Nerve attack and loses only her Power's 2 dice or a spell.`;
+      return `None needed for balance: ${strongest ? "Static is already the hardest of the six at Standard and Hard, because it is two attacks" : "Static is two attacks, as strong as the book's yardstick"}. The rider rarely bites, because a witch under Static still makes a plain Nerve attack and loses only her Power's 2 dice or a spell.`;
     },
     dead: () => "See the note under this table.",
   },
@@ -205,7 +205,7 @@ out("");
 // ---------------------------------------------------------------- 5. cells
 out("## 5. Win by cell, every move");
 out("");
-out(`Bold: more than ${OFF} points from the label's win target. The episode's own move is in its label's rows: Easy Hush, Standard Cinders, Hard Lure.`);
+out(`Bold: more than ${OFF} points from the label's win target. The episode's own move is in its label's rows: Easy Static, Standard Cinders, Hard Lure.`);
 out("");
 out("| Label | Players | Guardian player | " + MOVES.map(short).join(" | ") + " |");
 out("|---|---|---|" + "---|".repeat(MOVES.length));
@@ -265,9 +265,9 @@ for (const m of [yard, ...SIX]) {
   if (weaker) flag("dominated by a plain attack", THREATS.moves[m].name, `The coven wins more and goes Down less against it than if the threat simply attacked. ${desc}`, FIX[m]?.weak);
   if (m !== yard && LABELS.some(L => P(m, L).win < P(yard, L).win - DOMINANT)) flag("dominant", THREATS.moves[m].name, `More than ${DOMINANT} points of win harder than "two different characters" at ${LABELS.filter(L => P(m, L).win < P(yard, L).win - DOMINANT).map(L => NAME[L]).join(", ")}.`, FIX[m]?.strong);
 }
-// Hush's rider: Hush is "two attacks" plus "can't cast".
+// Static's rider: Static is "two attacks" plus "can't cast".
 const rider = LABELS.map(L => winVs("quietMan", "twoAttacks", L));
-if (rider.every(x => Math.abs(x) < DEAD)) flag("rider dead", "Hush's \"can't cast on their next action\"", `Hush against the same two attacks without it: ${LABELS.map((L, i) => `${NAME[L]} ${sgn(rider[i])}`).join(", ")} points of win; ${f1(u("quietMan", "hard", "hush:mutedTurn"))} turns without casting per Hard episode.`, FIX.quietMan.rider);
+if (rider.every(x => Math.abs(x) < DEAD)) flag("rider dead", "Static's \"can't cast on their next action\"", `Static against the same two attacks without it: ${LABELS.map((L, i) => `${NAME[L]} ${sgn(rider[i])}`).join(", ")} points of win; ${f1(u("quietMan", "hard", "hush:mutedTurn"))} turns without casting per Hard episode.`, FIX.quietMan.rider);
 const flagsOf = k => flags.filter(f => f.kind.startsWith(k)).length;
 if (!flags.length) out("No flags.");
 else {

@@ -182,7 +182,7 @@ export const THREATS = {
     "Ties go to the Storyteller; the simulator picks at random (ruling 63).",
     "Hold: an attacking move puts the guardian first and uses Hold up; a part of a move that isn't an attack (Lure's roll) ignores Hold, which stays for the next attack (rulings 64, 82, 88).",
     "A 6 still goes for a free innocent instead of the move (attacking their guard, or taking them), as before (Ch 7, ruling 85).",
-    "\"Next action\" (Hush, Lure) is the character's next turn: this round's in round 1, when the threat acts first, and next round's after that, when everyone has had their turn. A Down character keeps it until they are back up and take a turn (ruling 63).",
+    "\"Next action\" (Static, Lure) is the character's next turn: this round's in round 1, when the threat acts first, and next round's after that, when everyone has had their turn. A Down character keeps it until they are back up and take a turn (ruling 63).",
     "The player policies are REPORT.md's; nobody plays around a move (for example, nobody keeps Heart high against Lure or Magic low against Borrowed Face).",
   ],
   values: ["generic", "plain", "twoAttacks", "quietMan", "ashWidow", "mirrorThief", "nightNurse", "vesperCrane", "drownedChoir"],
@@ -199,12 +199,12 @@ export const THREATS = {
     },
     twoAttacks: {
       name: "Two different characters", short: "two attacks", yardstick: true,
-      doc: "The move for a threat with none, read by ruling 63: attack the most Hurt, then the next most Hurt, both standing. The book's yardstick for a new move ('about as strong as attack two different characters'). It is Hush without the 'can't cast'.",
+      doc: "The move for a threat with none, read by ruling 63: attack the most Hurt, then the next most Hurt, both standing. The book's yardstick for a new move ('about as strong as attack two different characters'). It is Static without the 'can't cast'.",
       ref: "Ch 7 move table; Ch 10 'Making your own threat'; REVIEW 63",
     },
     quietMan: {
-      name: "The Quiet Man: Hush", short: "Hush", threat: "The Quiet Man", episode: 1,
-      doc: "Attack two different characters (the most Hurt, then the next most Hurt). The first of them, in that order, who takes any Hurt can't cast on their next action. Under Shield, the guardian took the attack, so it is the one hurt. Can't cast = on that turn no Power dice, no Surge, no spell (so no leading or joining the Unmaking as their action), no potion and no guardian gift that takes an action (Mend, Carry). Not stopped: things outside their turn (defence rolls and their Power dice, Sight's miss, helping, Shield, a Down witch joining the Unmaking) and acts that aren't casting (a plain Nerve attack, freeing or studying with the Power left off, guarding, Hold). A second Hush before that turn changes nothing.",
+      name: "The Quiet Man: Static", short: "Static", threat: "The Quiet Man", episode: 1,
+      doc: "Attack two different characters (the most Hurt, then the next most Hurt). The first of them, in that order, who takes any Hurt can't cast on their next action. Under Shield, the guardian took the attack, so it is the one hurt. Can't cast = on that turn no Power dice, no Surge, no spell (so no leading or joining the Unmaking as their action), no potion and no guardian gift that takes an action (Mend, Carry). Not stopped: things outside their turn (defence rolls and their Power dice, Sight's miss, helping, Shield, a Down witch joining the Unmaking) and acts that aren't casting (a plain Nerve attack, freeing or studying with the Power left off, guarding, Hold). A second Static before that turn changes nothing.",
       ref: "Ch 10 The Quiet Man; REVIEW 63, 64",
     },
     ashWidow: {
