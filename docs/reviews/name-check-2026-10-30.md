@@ -10,3 +10,5 @@ A first web check only, not a legal search. The real title is Richard's to choos
 - No trademark record for "Witch and Ward" appeared in the results. Nearby marks are unrelated ("Wicked Witch", owned by Turner Entertainment for the Wizard of Oz films; "Good Witch's Kiss").
 
 **Still to do (before release):** search the USPTO trademark database (and the UK IPO and EUIPO if selling there) for the final title and close variants; check the title against the show's material (`docs/DESIGN.md` §2) and against Richard's other games.
+
+**Update, 2026-10-31:** fuller register and web searches (US register searched directly, UK register through UK IPO data) found no mark combining the two words; the EU register is still to search. Recorded in `docs/DESIGN.md` §2.

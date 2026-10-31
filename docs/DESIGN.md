@@ -46,6 +46,12 @@ The pitch gave no name. Richard chose *Witch & Ward* after the name check (§2),
 
   **What sets this game apart:** a bonded group of witches that **can grow beyond three**, a **guardian played by a player**, and witch life alongside the demon of the week. Make those the centrepiece.
 - **Run a full search before any store page, cover or logo:** DriveThruRPG, itch.io, Steam, Amazon toys and games, the USPTO and the UK IPO.
+- **Register and web searches, 2026-10-30/31: low risk so far.** No mark for "Witch & Ward", "Witch and Ward" or "Witches & Wards" on the US or UK register.
+  - **US register (USPTO, searched directly):** no record combining WITCH and WARD apart from THE LION, THE WITCH AND THE WARDROBE (C.S. Lewis). Nearby: WARD TRADING CARD GAME, a live registration (7486223, Ward Trading Card Company; class 28, trading card games).
+  - **UK register (UK IPO data, read through a third-party checker):** many "witch" game marks (WHICH WITCH? UK00004323997, ANY WITCH WAY UK00004082846, FIRE WITCH UK00004078839, a Witch-Fog application UK00004450552) and WARD marks held by companies named Ward (Ward Trade Marks Limited, UK00003342147, classes 9, 16 and 41). None combines the two words.
+  - **EU register:** not searched yet (no access on 30 and 31 October).
+  - **Stores and listings:** *Witch's Ward*, a free student video game on itch.io (a cosy familiar-care game from a University of Skövde course). "Witch ward" is also a common in-game term elsewhere (a 5e magic item, a Pathfinder hex), and RPGGeek lists an item called "Witch Ward". Nothing on Steam, DriveThruRPG, BoardGameGeek or Kickstarter with the title.
+  - **Still to do before a store page, cover or logo:** search the EU register by hand, confirm the UK marks on the official UK register, and ideally get a trademark attorney's clearance once the title is final. The title is still a working title.
 
 ## 3. Decisions log
 | Date | Decision | Notes |
