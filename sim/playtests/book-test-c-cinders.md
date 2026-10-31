@@ -473,7 +473,7 @@ None.
 
 ## 6. How it felt
 
-- **Was losing a real risk?** In the investigation, only through choices. The dice were kind (13 of 15 lead rolls worked, including a Critical), and all 15 Clues came by scene 4. The real risk came from the table's own decision to stay one more scene. In the fight, yes, but briefly. Round 1's two attacks (a hit on Quinn, then Cinders on everyone) put Quinn on 3 of 4 before anyone moved, and Hannah had to be freed on a roll of about 81%. Two Criticals in a row (8 and 5 damage) Broke the Ash Widow in round 1, so she attacked only once. Without those Criticals she would have had about 1 Toughness left and two more attacks at two Nerve 1 witches. The drills show how fast it goes wrong: two witches Down in one threat's turn (D3b, D2), and one failed Unmaking turning a Win into a Loss (D7).
+- **Was losing a real risk?** In the investigation, only through choices. The dice were kind (all 12 lead rolls worked: 8 Successes, 1 Critical and 3 Partials), and all 15 Clues came by scene 4. The real risk came from the table's own decision to stay one more scene. In the fight, yes, but briefly. Round 1's two attacks (a hit on Quinn, then Cinders on everyone) put Quinn on 3 of 4 before anyone moved, and Hannah had to be freed on a roll of about 81%. Two Criticals in a row (8 and 5 damage) Broke the Ash Widow in round 1, so she attacked only once. Without those Criticals she would have had about 1 Toughness left and two more attacks at two Nerve 1 witches. The drills show how fast it goes wrong: two witches Down in one threat's turn (D3b, D2), and one failed Unmaking turning a Win into a Loss (D7).
 - **Were Magic and potions spent?** Yes, nearly all of it. The coven had 24 Magic in all (5 each, plus 4 Lives) and ended with 1 (Tess). It went on two investigation Surges (June's Clue, Quinn's Clue), Marco's fight Surge, extra dice, brewing, Hide and the Unmaking. Five potions were brewed and five used, though two Healings were drunk at home on 1 Hurt each (half wasted), and the Binding was used on the blow that Broke her (wasted). Rook's call was used for its best purpose: carrying the freed innocent.
 - **Was there a dominant tactic?**
   1. **Flame's Surge plus a Blasting potion with the Weakness:** 7 damage on a Success and 8 on a Critical. That is over half of a four-witch Standard threat (12) in one action. With one more good hit, the threat Breaks in round 1 and attacks only once. It is the obvious opener for any coven with Marco. Strong, not unbeatable: on a Partial it is still 6 damage, but it needs 2 Magic and the potion.
@@ -481,12 +481,12 @@ None.
   3. **The call's Carry straight after freeing.** No action, no Ward, only casting, and the innocent's danger is gone. With no guardian player it is always right, and the book says so.
   
   Nothing felt unbeatable. The table didn't find a free spend or a skipped cost.
-- **How long did it take?** 32 minutes of setup, then about 2 hours 5 minutes of play: opening 5, five scenes at about 88 (including a 7-minute debate before scene 5), showdown 24 (6 of them teaching), closing 12. That is about 2 hours 40 minutes in all, inside Chapter 9's 2–3 hours, with a short fight (Chapter 9 expects about 3 rounds at Standard; this took 2).
+- **How long did it take?** 32 minutes of setup (the opening included), then about 2 hours 5 minutes of play: five scenes at about 88 (including a 7-minute debate before scene 5), showdown 24 (6 of them teaching), closing 12. That is about 2 hours 35 minutes in all, inside Chapter 9's 2–3 hours, with a short fight (Chapter 9 expects about 3 rounds at Standard; this took 2).
 - **Did each player get real choices?**
   - *Investigation:* yes, for all four. Quinn chose between Voice and the slow way. June chose between research, brewing and Surging, and Tess between searching, Hide and her Life. Theo's Marco (Wits 1) had the thinnest choices, but talking leads with his Life and brewing gave him a job every scene. He also rolled the scene's Critical.
   - *Keeping magic secret:* weak in the investigation. Exposure peaked at 1 of 4. With a Power, a city lead is 4–6 dice against 2, so only 1 of 7 casting leads had a cost, and Tess's Hide wiped it. In the public fight, round 1 became a casting round before the coven acted (defending with Sight and Veil), so the table cast freely. D7 is where secrecy really bit. In short: Exposure only bites in a long public fight or when Seen is close.
   - *Fighting:* yes. Free first or attack first, carry or guard, which potion on which attack, when to Surge, and whether to try the Unmaking now or wait. Nerve 1 witches had little to choose on defence (Issue 11).
-  - *Everyday life:* yes. The Lives were the night's biggest lever. The −1 Magic penalty (and "keep 2 Magic") talked three newcomers into playing a fifth scene with all the Clues in hand, which brought the fight to the fireworks. That is the everyday side of the game having real weight. Whether it's meant to be strong enough to pull a table into the public place with nothing else to gain is worth a look. Life dice came up on only 2 of 15 investigation rolls, below Chapter 9's "about one roll in three".
+  - *Everyday life:* yes. The Lives were the night's biggest lever. The −1 Magic penalty (and "keep 2 Magic") talked three newcomers into playing a fifth scene with all the Clues in hand, which brought the fight to the fireworks. That is the everyday side of the game having real weight. Whether it's meant to be strong enough to pull a table into the public place with nothing else to gain is worth a look. Life dice came up on only 2 of 16 investigation rolls, below Chapter 9's "about one roll in three".
 
 ---
 
@@ -500,3 +500,82 @@ None.
 
 Every roll, in order. For rated rolls: dice, Difficulty, successes and result (a Critical is a Success with two or more 6s; two 6s on a Partial stay a Partial). Raw d6 rows are move-table dice, tie-breaks and the setup pick. Rows marked "re-rolled until a 6" are drill re-rolls; every one is listed.
 
+| ID | Label | Dice | Rolled | Diff | Succ | Result |
+|---|---|---|---|---|---|---|
+| R001 | Setup: Theo can't choose a fighter (1-3 Dana, 4-6 Marco) | 1d6 | 4 | — | — | Marco |
+| R002 | Setup practice roll (doesn't count): Tess, Nerve 3, vaults the bus depot fence | 3 | 2, 5, 2 | 2 | 1 | Partial |
+| R003 | S1 Quinn: talking lead, the Tanner's Row families at the rest centre. Heart 3 + Life (teacher, calming the children) 1, Voice left off, not casting | 4 | 6, 2, 1, 3 | 2 | 1 | Partial |
+| R004 | S1 June: talking lead 1, Hannah Price at the fire station. Heart 2 + Sight 2, casting in the city | 4 | 4, 4, 2, 3 | 2 | 2 | Success |
+| R005 | S1 Tess: searching lead 3, Tanner's Row behind the tape. Wits 2 + Veil 2, casting in the city | 4 | 5, 1, 5, 2 | 2 | 2 | Success |
+| R006 | S2 Quinn: talking lead 2, Winnie Doyle at Seaview care home. Heart 3 + Voice 2, casting in the city | 5 | 1, 5, 1, 2, 3 | 2 | 1 | Partial |
+| R007 | S2 Marco: talking lead, the fire investigator whose van he fixes. Heart 2 + Life (mechanic) 1, not casting | 3 | 6, 3, 6 | 2 | 2 | Critical |
+| R008 | S2 Tess: searching lead 4, the newspaper archive. Wits 2 + Veil 2, casting in the city | 4 | 4, 4, 2, 2 | 2 | 2 | Success |
+| R009 | S2 June: research the Book (lead 5) at home. Wits 3 + Sight 2 + Book 1, no Exposure | 6 | 4, 5, 4, 1, 6, 1 | 2 | 4 | Success |
+| R010 | S2 June: brew (the Book researcher's extra roll). Craft 2 + 1 Magic, at home | 3 | 5, 6, 1 | 2 | 2 | Success |
+| R011 | S3 Marco: brew at home. Craft 2 + 1 Magic | 3 | 2, 4, 5 | 2 | 2 | Success |
+| R012 | S3 June: research the Book again (Weakness answer). Wits 3 + Sight 2 + Book 1, Sight Surge (+1 Clue, 2 Magic paid first), no Exposure | 6 | 1, 2, 1, 1, 4, 3 | 2 | 1 | Partial |
+| R013 | S3 Quinn: talking lead 1 again, Hannah (Weakness answer). Heart 3 + Voice 2, casting in the city | 5 | 4, 6, 2, 5, 4 | 2 | 4 | Success |
+| R014 | S4 Quinn: talking lead 2 again, Winnie (Weakness answer). Heart 3 + Voice 2, Voice Surge (+1 Clue, 2 Magic paid first), casting in the city | 5 | 1, 4, 1, 6, 3 | 2 | 2 | Success |
+| R015 | S4 Tess: searching lead 3 again, Tanner's Row (Weakness answer). Wits 2 + Veil 2 + 2 Magic, casting in the city | 6 | 2, 1, 5, 2, 1, 4 | 2 | 2 | Success |
+| R016 | S4 June: research the Book a third time (Weakness answer). Wits 3 + Sight 2 + Book 1, no Exposure | 6 | 2, 4, 4, 5, 1, 2 | 2 | 3 | Success |
+| R017 | S4 Marco: brew at home to refill after June and Quinn drank Healing. Craft 2 + 1 Magic | 3 | 5, 3, 3 | 2 | 1 | Partial |
+| R018 | S5 Tess: cover up (Hide) at Seaview care home. Craft 2 + Veil 2, 1 Magic, Difficulty 2, cost always Hurt | 4 | 6, 6, 2, 5 | 2 | 3 | Critical |
+| R019 | SD R1 Ash Widow attack 1, move table (1-3 last hurt her / 4-5 most Hurt / 6 Cinders; Hannah in grip) | 1d6 | 3 | — | — | — |
+| R020 | SD R1 attack 1 tie (all on 0 Hurt) (1 Marco, 2 June, 3 Quinn, 4 Tess) | 1d6 | 3 | — | — | Quinn |
+| R021 | SD R1 attack 1: Quinn defends. Nerve 1 + 2 Magic, no Power fits, not casting, vs Danger 3 | 3 | 5, 2, 2 | 3 | 1 | Failure |
+| R022 | SD R1 Ash Widow attack 2, move table (Hannah in grip) | 1d6 | 6 | — | — | — |
+| R023 | SD R1 Cinders on Marco: Nerve 3, no Power fits, vs Danger 3 (Hit 1) | 3 | 2, 2, 5 | 3 | 1 | Failure |
+| R024 | SD R1 Cinders on June: Nerve 1 + Sight 2, casting, vs Danger 3 (Hit 1) | 3 | 6, 2, 6 | 3 | 2 | Partial |
+| R025 | SD R1 Cinders on Quinn: Nerve 1, vs Danger 3 (Hit 1) | 1 | 4 | 3 | 1 | Failure |
+| R026 | SD R1 Cinders on Tess: Nerve 3 + Veil 2 + Critical die from R018, casting, vs Danger 3 (Hit 1) | 6 | 6, 6, 2, 1, 5, 6 | 3 | 4 | Critical |
+| R027 | SD R1 Tess frees Hannah: Nerve 3 + Critical die (R026) + 1 Magic, not casting, vs Defence 2 (only a Success frees) | 5 | 2, 1, 4, 3, 4 | 2 | 2 | Success |
+| R028 | SD R1 Marco attacks: Nerve 3 + Flame 2, Flame Surge (2 Magic) + Blasting potion, casting, vs Defence 2 | 5 | 6, 6, 3, 4, 1 | 2 | 3 | Critical |
+| R029 | SD R1 June casts Blast: Craft 2 + 1 Magic die (spell 1 Magic) + Binding potion, casting, vs Defence 2 | 3 | 1, 6, 6 | 2 | 2 | Critical |
+| R030 | SD R2 Unmaking: Marco leads (Craft 2, 1 Magic) + June, Quinn, Tess join (+6, 1 Magic each) + Marco's own Magic die + Quinn helps (+2), casting in public, vs Difficulty 4 | 10 | 2, 3, 4, 2, 6, 1, 4, 6, 2, 5 | 4 | 5 | Critical |
+| R031 | D2 ties: public, R2 threat's turn, attack 1 move table (Marco last hurt her but Down; June 3, Quinn 3, Tess 1; Hannah carried) | 1d6 | 3 | — | — | — |
+| R032 | D2 attack 1 tie (June 3, Quinn 3) (1-3 June, 4-6 Quinn) | 1d6 | 5 | — | — | Quinn |
+| R033 | D2 attack 1: Quinn defends, Nerve 1 + 1 Magic, vs Danger 3 | 2 | 5, 3 | 3 | 1 | Failure |
+| R034 | D2 attack 2 move table (Marco and Quinn Down; June 3, Tess 1) | 1d6 | 6 | — | — | — |
+| R035 | D2 Cinders on Tess: Nerve 3 + Veil 2, casting, vs Danger 3 (Hit 1) | 5 | 1, 1, 2, 1, 1 | 3 | 0 | Failure |
+| R036 | D3 Marco attacks: Nerve 3 + Flame 2 + June helps while Down (1 Magic) + Blasting potion (his own), vs Defence 2 (Toughness 6/12) | 6 | 3, 5, 2, 2, 3, 4 | 2 | 2 | Success |
+| R037 | D3 June, healed back up mid-round, casts Blast: Craft 2 (1 Magic, her last), vs Defence 2 (Toughness 11/12) | 2 | 1, 2 | 2 | 0 | Failure |
+| R038 | D3 Tess attacks: Nerve 3 + 1 Magic, vs Defence 2 (Toughness 11/12) | 4 | 4, 6, 2, 3 | 2 | 2 | Success |
+| R039 | D3b hidden, R2 threat's turn, attack 1 move table (nobody has hurt her this fight; June 3, Quinn 2, Marco 1, Tess 0) | 1d6 | 6 | — | — | — |
+| R040 | D3b Cinders on June: Nerve 1 + Sight 2, vs Danger 3 (Hit 1) | 3 | 1, 6, 5 | 3 | 2 | Partial |
+| R041 | D3b Cinders on Quinn: Nerve 1, vs Danger 3 (Hit 1) | 1 | 5 | 3 | 1 | Failure |
+| R042 | D3b Cinders on Marco: Nerve 3, vs Danger 3 (Hit 1) | 3 | 3, 3, 5 | 3 | 1 | Failure |
+| R043 | D3b Cinders on Tess: Nerve 3 + Veil 2, vs Danger 3 (Hit 1) | 5 | 1, 1, 5, 4, 4 | 3 | 3 | Success |
+| R044 | D3b attack 2 move table (June Down; Quinn 3, Marco 2, Tess 0; nobody has hurt her) | 1d6 | 4 | — | — | — |
+| R045 | D3b attack 2: Quinn defends, Nerve 1, no Magic spent (keeping 2 for the Unmaking), vs Danger 3 (Hit 2) | 1 | 6 | 3 | 1 | Failure |
+| R046 | D4 public R2: Marco attacks, Nerve 3 + Flame 2, Blasting potion named first, casting, vs Defence 2 | 5 | 1, 1, 2, 3, 1 | 2 | 0 | Failure |
+| R047 | D4 threat's turn attack 1 move table (Tess hurt her last; Quinn 2, Marco 2, June 1, Tess 0; Hannah carried) | 1d6 | 2 | — | — | — |
+| R048 | D4 attack 1: Tess defends, Nerve 3 + Veil 2, casting, vs Danger 3 (Hit 2) | 5 | 1, 4, 4, 4, 6 | 3 | 4 | Success |
+| R049 | D4 threat's turn attack 2 move table (Tess hurt her last; Quinn 2, Marco 2, June 1, Tess 0) | 1d6 | 4 | — | — | — |
+| R050 | D4 attack 2 tie (Quinn 2, Marco 2) (1-3 Quinn, 4-6 Marco) | 1d6 | 6 | — | — | Marco |
+| R051 | D4 attack 2: Marco defends, Nerve 3 + 1 Magic, vs Danger 3 (Hit 2) | 4 | 2, 4, 2, 5 | 3 | 2 | Partial |
+| R052 | D5 (Rook played) June casts Shelter on Rook: Craft 2 + 1 Magic die (spell 1 Magic), Difficulty 2 | 3 | 5, 3, 1 | 2 | 1 | Partial |
+| R053 | D6a (Rook played, Rook Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 5 | — | — | — |
+| R054 | D6a (Rook played, Rook Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 1 | — | — | — |
+| R055 | D6a (Rook played, Rook Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 6 | — | — | — |
+| R056 | D6a Cinders on Marco: Nerve 3, vs Danger 3 (Hit 1) | 3 | 5, 3, 2 | 3 | 1 | Failure |
+| R057 | D6a Cinders on June: Nerve 1 + Sight 2, vs Danger 3 (Hit 1) | 3 | 6, 6, 4 | 3 | 3 | Critical |
+| R058 | D6a Cinders on Quinn: Nerve 1, vs Danger 3 (Hit 1) | 1 | 6 | 3 | 1 | Failure |
+| R059 | D6a Cinders on Tess: Nerve 3 + Veil 2, vs Danger 3 (Hit 1) | 5 | 5, 6, 6, 6, 4 | 3 | 5 | Critical |
+| R060 | D6b (Rook played, Quinn Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 4 | — | — | — |
+| R061 | D6b (Rook played, Quinn Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 5 | — | — | — |
+| R062 | D6b (Rook played, Quinn Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 1 | — | — | — |
+| R063 | D6b (Rook played, Quinn Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 1 | — | — | — |
+| R064 | D6b (Rook played, Quinn Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 4 | — | — | — |
+| R065 | D6b (Rook played, Quinn Sheltered) attack 1 move table, re-rolled until a 6 | 1d6 | 6 | — | — | — |
+| R066 | D6b Cinders on Rook (its own): Nerve 2 + 1 Ward, vs Danger 3 (Hit 1) | 3 | 3, 4, 1 | 3 | 1 | Failure |
+| R067 | D6b Cinders on June, Shielded by Rook: Rook defends, Nerve 2, vs Danger 3 (Hit 1) | 2 | 1, 3 | 3 | 0 | Failure |
+| R068 | D6b Cinders on Marco: Nerve 3, vs Danger 3 (Hit 1) | 3 | 3, 4, 6 | 3 | 2 | Partial |
+| R069 | D6b Cinders on Tess: Nerve 3 + Veil 2, vs Danger 3 (Hit 1) | 5 | 2, 5, 2, 5, 2 | 3 | 2 | Partial |
+| R070 | D7 public R2: Marco attacks with Flame left off (not casting), Nerve 3 + 1 Magic, vs Defence 2 (Toughness 10/12) | 4 | 4, 1, 3, 2 | 2 | 1 | Partial |
+| R071 | D7 R2 Unmaking try 1 (the round was quiet until now): June leads Craft 2 + Quinn, Tess join (+4) + Quinn and Marco help (+2), casting in public, vs Difficulty 4 | 8 | 6, 6, 5, 2, 2, 1, 2, 2 | 4 | 3 | Partial |
+| R072 | D7 R3 Unmaking try 2 (last chance): June leads Craft 2 + Quinn, Tess, Marco join (+6) + Marco's Magic die (+1), casting in public, vs Difficulty 4 | 9 | 2, 3, 6, 2, 1, 5, 3, 5, 5 | 4 | 4 | Success |
+| R073 | D8 public R2 (Hannah free, guarded by Quinn) attack 1 move table, re-rolled until a 6 | 1d6 | 3 | — | — | — |
+| R074 | D8 public R2 (Hannah free, guarded by Quinn) attack 1 move table, re-rolled until a 6 | 1d6 | 6 | — | — | — |
+| R075 | D8 attack 1 (6, Hannah free): attacks her guard Quinn. Nerve 1 + 2 Magic, vs Danger 3 (Hit 2) | 3 | 6, 2, 3 | 3 | 1 | Failure |
+| R076 | D8 attack 2 move table (Hannah free, guarded by Quinn 3/4; Tess hurt her last; Marco 1, June 1, Tess 0) | 1d6 | 3 | — | — | — |
+| R077 | D8 attack 2: Tess defends, Nerve 3 + Veil 2, casting, vs Danger 3 (Hit 2) | 5 | 3, 2, 5, 1, 1 | 3 | 1 | Failure |

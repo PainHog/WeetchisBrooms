@@ -747,14 +747,13 @@ function backCover() {
   hall += P(poly([[wx(0, -1), stepTop], [wx(back, -1), fy(back)], [wx(back, 1), fy(back)], [wx(0, 1), stepTop]]), A.lin([[0, "#8a5a3a"], [1, "#5e3a26"]], 0, 0, 0, 1));   // floorboards
   for (const t of [-0.6, -0.2, 0.2, 0.6]) hall += S(`M${r(VPX + t * 55 * kd(0))},${stepTop} L${r(VPX + t * 55 * kd(back))},${r(fy(back))}`, "#4a2e1e", 1.2, 0.6);
   hall += P(poly([[VPX - 30 * kd(20), fy(20)], [VPX + 30 * kd(20), fy(20)], [VPX + 30 * kd(300), fy(300)], [VPX - 30 * kd(300), fy(300)]]), "#7a2e3a", { op: 0.85 });   // a runner rug
-  // stairs going up along the right wall, with a banister
+  // stairs going up along the right wall. No newel post or handrail: the stair's open side is behind Rook,
+  // and a post there stood 6 cm from the coat stand's pole, so the stand read as having two poles and a leaning stick.
   for (let i = 0; i < 8; i++) {
     const d0 = 120 + i * 26, rise = 19 * (i + 1);
     const yy = fy(d0) - rise * kd(d0), x0 = wx(d0, 1) - 80 * kd(d0);
     hall += P(poly([[x0, yy], [wx(d0, 1), yy], [wx(d0, 1), yy + 19 * kd(d0)], [x0, yy + 19 * kd(d0)]]), i % 2 ? "#a56a3e" : "#8f5a34", { s: "#4a2e1e", w: 0.8 });
   }
-  hall += S(`M${r(wx(110, 1) - 82 * kd(110))},${r(fy(110) - 95 * kd(110))} L${r(wx(320, 1) - 82 * kd(320))},${r(fy(320) - 250 * kd(320))}`, "#3a2416", 3);
-  hall += S(`M${r(wx(110, 1) - 82 * kd(110))},${r(fy(110) - 95 * kd(110))} L${r(wx(110, 1) - 82 * kd(110))},${r(fy(110))}`, "#3a2416", 4);   // newel post
   // a hanging light in the hall
   const hx = VPX - 10, hTop = cy(200);
   hall += S(`M${hx},${r(hTop)} L${hx},${r(hTop + 40 * kd(200))}`, "#2a1a12", 1.4);
