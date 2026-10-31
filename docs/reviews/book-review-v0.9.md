@@ -299,7 +299,7 @@ No arithmetic errors found.
 
 ## 4. Terminology, typos, cross-references, the show’s terms, AI
 
-- **Cross-references:** all 130 "Chapter N" references were listed and checked; each points to the chapter that holds the rule. **No wrong pointers.**
+- **Cross-references:** all 111 "Chapter N" references (not counting the chapter headings) were listed and checked; each points to the chapter that holds the rule. **No wrong pointers.**
 - **Typos:** a scripted scan for doubled words, stray spaces, missing spaces and unbalanced brackets or quotes found none. British spelling is consistent (Defence, colour, harbour).
 - **Terminology drift:** C2 (success/Success), M10 (Partial), M11 (ward), M12 (call, scene, lead, turn, "hurt it", the names for Sight’s miss).
 - **The show’s terms (`DESIGN.md` §2):** none found. Searched for Charmed, Charmed Ones, the Power of Three, whitelighter, darklighter, orbing, the Elders, the Source, Halliwell, Prescott, manor, triquetra, Book of Shadows, Vanquish, the sisters’ and guardian’s names, P3 and San Francisco. "Warden" and "Harm" (Richard’s other games) are also absent. The one judgement call is Larkhaven’s fog, ferries and steep streets (M24).
