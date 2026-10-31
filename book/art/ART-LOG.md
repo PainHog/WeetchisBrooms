@@ -4,7 +4,8 @@ The `ART-CHECKLIST.md` audit for the 32 pieces made by `book/tools/art-gen/scene
 (3 part pages, 16 chapter vignettes, 13 spots). Each piece was looked at full size (2× and 4×
 renders, with close crops of every figure's hands and face) and at print size (a vignette at
 7.1in × 1.8in, a part piece at 6.7in wide, each spot at its placed height of 3.0–5.3in in the
-built PDF). The cover, back cover, portraits and maps are another artist's; they are not logged here.
+built PDF). The 13 portraits, the cover, the back cover and the six print maps are logged in the
+last section, "Portraits, covers and maps".
 
 ## How to read the tables
 
@@ -40,11 +41,11 @@ Dana's earring on her right side are on the side facing the viewer; Dana's ring,
 badge and Noor's feather are on the far side (hidden or just showing). Check this before drawing a profile.
 
 **Threats (countable features):** the Quiet Man (2 eyes, pale; 2 arms, 5f; grey suit and hat; a glass
-radio valve held in his LEFT hand). The Ash Widow (2 eyes, ember orange; 2 arms, 5f where large; a
+radio valve on his LEFT side: in his left hand in the vignettes, in his left breast pocket on the portrait and cover). The Ash Widow (2 eyes, ember orange; 2 arms, 5f where large; a
 dress to the ground, hem burned and glowing; veil; bun with a half-burned blossom band). The Mirror
 Thief (a faceted mirror head, no eyes, ears or hair; 2 long arms, 5 long fingers each; 2 legs).
-The Night Nurse (2 dark-ringed eyes; 2 arms, 5f; veil cap, navy cape, white uniform; a white lily in
-her LEFT hand). Vesper Crane (2 eyes; 2 arms, 5f; silver bob; long plum coat; necklace of five vials).
+The Night Nurse (2 dark-ringed eyes; 2 arms, 5f; veil cap, navy cape, white uniform; a white lily on
+her LEFT side: in her left hand in the vignettes, pinned to the left of her cape on the portrait). Vesper Crane (2 eyes; 2 arms, 5f; silver bob; long plum coat; necklace of five vials).
 The Drowned Choir (each ghost: 2 eyes, mouth open singing; 2 arms at the sides fading out below the
 waist into water, mud or fog, with the rest of the ghost; no legs shown).
 
@@ -505,3 +506,352 @@ No figures.
 placed in their chapter-end gaps (3.0–5.3in tall), and the build reports no large unfilled gap.
 The contact sheet (40 dpi, 6 across) was looked at page by page: no art crowds the text, every spot
 sits centred in its gap, and no page went near-empty through reflow.
+
+---
+
+## Portraits, covers and maps
+
+The `ART-CHECKLIST.md` audit for the 21 pieces made by `book/tools/art-gen/scenes/portraits.mjs`
+(13 portraits), `book/tools/art-gen/scenes/covers.mjs` (the cover and the back-cover panel) and
+`tools/vtt-art/maps.mjs` (the six print maps). Each piece was looked at full size (2× renders, with
+4×–8× crops of every face, hand and prop) and at print size: a coven or guardian portrait at 1.2in,
+a threat portrait at 1.75in, the cover at 8.5 × 11in, the back panel at 4.4in, and each map at its
+placed width in the built PDF (the full 6.5in text width). Each piece was also looked at on its page
+in the built PDF (Ch 10 pp. 39–41, Ch 13 pp. 51–53, the map pages 58, 59, 64, 65, 70 and 71, and
+both covers).
+
+The portraits are busts, so most of them show no hands or legs; a "—" in the A / H column means no
+arm or hand is in the frame. Every portrait is front view: the character's RIGHT is the viewer's LEFT.
+
+### Fixed in this audit
+
+| Piece | Fault | Fix |
+|---|---|---|
+| `portrait-mirror-thief` | An eye on its own mirror head, peeping out by the stolen face. The reference sheet gives its head no eyes, ears or hair (the Ch 7 and Ch 10 vignettes have none) | Eye removed |
+| `portrait-mirror-thief` | Its left hand, seen from the back, had the thumb below the fingers, at the wrong edge | Thumb moved to the top edge, over the stolen face's rim |
+| `portrait-ash-widow` | The "loose strand" of hair started below the hairline, in the middle of the cheek, and read as a crack | The strand now falls from under the hairline |
+| `portrait-drowned-choir` | The four ghosts behind the lead singer were floating heads with no necks or bodies | Each has a neck and shoulders that fade into the water |
+| `portrait-dana-okafor`, `portrait-vesper-crane` (shared `mouth()`) | The lipstick shine sat below the lower lip, on the chin | Shine moved onto the lower lip |
+| `cover` | Marco's flame covered the tips of all four fingers of his raised hand, so they couldn't be counted | The flame hovers just above his fingertips; all five digits show |
+| `cover` | Noor's crow feather and its pocket were behind her hanging left arm: her symbol didn't show | Pocket and feather moved inward, clear of the arm |
+| `cover` | Tess's gold badge was hidden behind her left arm | Badge moved inward on her left chest, as on her portrait |
+| `cover` | Noor's potion was a green flask with no label: its kind rested on colour alone (rule 18) | A paper label with a cross (Healing), as in the vignettes |
+| `back-cover` | The stair's newel post and handrail stood a few centimetres from the coat stand's pole, so the stand read as having two poles and a leaning stick | Newel and handrail removed (the stair's open side is behind Rook) |
+| All six maps | Labels were drawn as text with a stroked paper halo, which Chromium prints as Type 3 fonts (the release gates forbid them) | Plain filled text on a measured, rounded paper tag; `maps.mjs` now fails if any print-map text has a stroke |
+| `map-radio-tower` | "Gardens of the big houses" touched "Way out only:" | Set on two lines, clear of it |
+
+### Portraits: the coven and the guardian
+
+Each portrait's head is the token's head (`tools/vtt-art/tokens.mjs`), the same as on the cover.
+
+#### portrait-dana-okafor
+| Object | Contact / support | OK |
+|---|---|---|
+| Denim jacket, scrubs, collar | On the body; cut by the frame bottom | OK |
+| Silver ring | Round the thumb's lower joint of her raised LEFT hand | OK |
+| Silver studs (2) | In both ear lobes | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Dana | 2 | 2, studs | Left arm raised / 5f, palm out, thumb toward her centre line; right arm out of frame | — | Ring on the viewer's right hand, her left thumb: OK. Short natural hair, scrubs V-neck under the jacket, as the sheet |
+
+#### portrait-marco-rossi
+| Object | Contact / support | OK |
+|---|---|---|
+| Wrench | Its handle gripped in his right fist; jaw clear of his face | OK |
+| Red rag | Standing in his left chest pocket | OK |
+| Rolled sleeve | Round his upper forearm | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Marco | 2 | 2 | Right arm up / fist: four finger divisions and the thumb across the front; left arm out of frame | — | Scar on the viewer's-left forearm (his right), rag at the viewer's right (his left), oil smudge on his right cheek: OK |
+
+#### portrait-june-takeda
+| Object | Contact / support | OK |
+|---|---|---|
+| Red notebook | Held flat to her chest by her LEFT hand: thumb on the cover, fingers behind the book | OK |
+| Round glasses | Arms run back to her ears under the bob; bridge on her nose | OK |
+| Hood | Down, behind her neck | OK |
+| Raindrops | On the window behind her | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| June | 2, glasses | under the bob | Left hand holds the book (thumb shows; four fingers behind it); right arm out of frame | — | Notebook in her left hand (the viewer's right): OK |
+
+#### portrait-quinn-abernathy
+| Object | Contact / support | OK |
+|---|---|---|
+| Whistle | On its ring, the cord's two ends running up behind the neck | OK |
+| Cardigan button | On the cardigan front | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Quinn | 2 | 2 (in the curls) | — | — | Whistle centred; curly red hair, freckles, violet cardigan: OK |
+
+#### portrait-tess-lindqvist
+| Object | Contact / support | OK |
+|---|---|---|
+| Braid | From behind her right ear, forward over her right shoulder; tied at the end | OK |
+| Badge, epaulette buttons | On the jacket | OK |
+| Tie | Knot under the collar, blade inside the jacket | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Tess | 2 | 2 | — | — | Braid and pale streak at the viewer's left (her right), badge at the viewer's right (her left): OK |
+
+#### portrait-noor-haddad
+| Object | Contact / support | OK |
+|---|---|---|
+| Seedling | Stem rises from the soil in the pot | OK |
+| Terracotta pot | Held in her RIGHT hand: four fingers under it, thumb round the near side | OK |
+| Crow feather | Standing in the apron pocket, its quill inside the pocket | OK |
+| Apron straps | Over her shoulders, joined to the bib | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Noor | 2 | covered by the scarf | Right hand / 5f (four fingers with soil under the nails, and the thumb); left arm out of frame | — | Feather in the pocket at the viewer's right (her left): OK |
+
+#### portrait-rook
+| Object | Contact / support | OK |
+|---|---|---|
+| Coat collar and lapels | On the coat | OK |
+| Coat button | On the coat front | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Rook (human) | 2, grey | 2 | — | — | Neck shows above the dark top (no beard shape); black swept-back hair with ragged ends; long grey coat with a high collar; symmetric: OK |
+
+### Portraits: the threats
+
+#### portrait-quiet-man
+| Object | Contact / support | OK |
+|---|---|---|
+| Trilby | On his head, the brim's shadow over his eyes | OK |
+| Radio valve | Standing in his left breast pocket, glowing | OK |
+| Tie, shirt collar | Under the jacket lapels | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Quiet Man | 2, pale | 2 | — | — | No mouth (as in the vignettes: "nothing else he lets you see"); valve on his left: OK |
+
+#### portrait-ash-widow
+| Object | Contact / support | OK |
+|---|---|---|
+| Veil | Falls from the crown of her head down behind her shoulders; charred, glowing edge | OK |
+| Blossom band | Across her hair: seven blossoms, two of them burned | OK |
+| Bun | On top of her head | OK |
+| Flames | Rising from the frame bottom behind her | OK |
+| Embers | Rising | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Ash Widow | 2, ember orange | 2 | — | — | Burned dress and veil, bun with a half-burned blossom band, as the sheet: OK |
+
+#### portrait-mirror-thief
+| Object | Contact / support | OK |
+|---|---|---|
+| Old mirror | Gilt oval frame; its top knob at the frame edge, the cord running up out of the picture to its nail | OK |
+| Cracks | In the glass | OK |
+| Stolen face | Held askew in front of its head by its left hand, the fingers curled over the rim | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Mirror Thief | 0 on its own head (the stolen face has 2) | 0 | Left arm up / 4 long fingers and the thumb on top; right arm out of frame | — | Faceted mirror head, no eyes, ears or hair: OK (fixed) |
+
+#### portrait-night-nurse
+| Object | Contact / support | OK |
+|---|---|---|
+| Veil cap and starched band | On her head; the veil falls behind to her shoulders | OK |
+| Cape | Fastened at the neck by a chain between two studs | OK |
+| Fob watch | Hangs from a pin on her bib (her right) | OK |
+| Lily | Pinned to her cape on her left with a pin; stem, leaf and three petals | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Night Nurse | 2, dark-ringed | 2 | — | — | Veil cap, navy cape, white uniform, lily on her left: OK. No cross or other emblem on the cap |
+
+#### portrait-vesper-crane
+| Object | Contact / support | OK |
+|---|---|---|
+| Books | Standing on the shelf planks, bottoms on the planks | OK |
+| Rosemary sprig | Pinned to her right lapel with a pin | OK |
+| Chain of five vials | Chain hangs round her neck and sags; each vial hangs from it on a short link | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Vesper Crane | 2, amber | under the bob | — | — | Silver bob, plum coat, five vials: OK |
+
+#### portrait-drowned-choir
+| Object | Contact / support | OK |
+|---|---|---|
+| Light shafts, bubbles | In the water; bubbles rise | OK |
+| Lead singer's shawl | Over her shoulders, cut by the frame bottom | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Lead singer | 2 | under her hair | — | — | Mouth open, singing: OK |
+| Ghosts behind (4) | 2 each | under the hair or caps | — | — | Each mouth open; necks and shoulders fade into the water (fixed): OK |
+
+### cover: the coven in Old Town under the Lantern House lamp
+One eye level for the whole picture (a camera 150 cm above the street); the street rises a little to
+the right, and every house, kerb and figure sits on that one ground plane. Heights in cm: Dana 180,
+Marco 172, June 155, Quinn 182, Tess 174, Noor 165, the same proportions as the reference sheet.
+
+| Object | Contact / support | OK |
+|---|---|---|
+| Moon, stars | Sky | OK |
+| The Heights: big houses and hedges | On the ridge line | OK |
+| Radio tower | Legs on the ridge; the rings round its top are arcs (a shape, not colour alone) | OK |
+| Lantern House chimney stack | Rises from the roof behind the cornice; stone cap on top | OK |
+| Chimney pots (2) | On the stack cap | OK |
+| Dormer gable with the round window | On the roof plane | OK |
+| Door, fanlight, doorstep | Door in the front wall; step on the pavement | OK |
+| Door lamp | Ring on the hook of an iron arm; the arm fixed to the wall by a plate | OK |
+| Neighbouring terraces, chimneys, dormer | On the same pavement line | OK |
+| Archway (a close) | In the right neighbour; steps climb away inside; a lamp at the far end | OK |
+| Kerb, pavement, cobbles | One ground plane; cobble rows get larger toward the viewer | OK |
+| Marco's flame | His Power: hovers just above the fingertips of his raised palm, its glow round the hand (fixed) | OK |
+| June's notebook | Held flat to her chest by her left hand: four fingers across its edge, thumb on the cover | OK |
+| Quinn's whistle | On a cord from behind the neck | OK |
+| Noor's potion | Held in her right hand round its body; label with a cross (fixed) | OK |
+| Noor's crow feather | Standing in her apron pocket (fixed: it was behind her arm) | OK |
+| Each witch's feet | Both shoes on the cobbles, each with a contact shadow and a lamp shadow falling away from the lamp | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Marco | 2 | 2 | 2 / 5f each (right raised, palm out; left hanging, oily) | 2, boots | Scar on his raised right forearm, rag at his left pocket, smudge on his right cheek: OK |
+| Tess | 2 | 2 | 2 / 5f each | 2 | Braid and streak at the viewer's left, badge at the viewer's right (fixed): OK |
+| June | 2, glasses | under the bob | 2 / 5f each (left holds the book) | 2 | Notebook in her left hand: OK |
+| Quinn | 2 | 2 | 2 / 5f each | 2 | Whistle centred: OK |
+| Dana | 2 | 2, studs | 2 / 5f each | 2, white trainers | Ring on her left thumb (the viewer's right): OK |
+| Noor | 2 | covered | 2 / 5f each (right holds the potion) | 2, boots | Feather in her left pocket (the viewer's right): OK |
+| Rook (bird), on the right chimney pot | 1 (side view) | — | wings folded | 2, feet on the pot's rim | Beak to the viewer's left, pale skin at the beak base: OK |
+| Quiet Man (tiny, in the archway, under 1in) | none shown (shadow under the brim) | — | 2 / simple hands | 2 (suit to the ground), contact shadow on the step | Grey suit, trilby, the valve's glow on his left: OK |
+
+### back-cover: Rook on the Lantern House doorstep
+One eye level (150 cm above the street); the hall goes back in one-point perspective to a single
+vanishing point. The doorway is 210 cm high; Rook (200 cm) is just shorter, as in Ch 4.
+
+| Object | Contact / support | OK |
+|---|---|---|
+| Door leaf | Opened inward against the hall's left wall, on its hinge side | OK |
+| Stone surround, fanlight, rays | Round the doorway | OK |
+| Hall floorboards, runner rug | Rug flat on the floor | OK |
+| Stairs | Up the hall's right wall, each step on the one below (no handrail now: fixed) | OK |
+| Hall light | Shade hangs on its cord from the ceiling | OK |
+| Coat stand | Three feet on the floor, with a contact shadow; pole; two hooks at the top | OK |
+| Yellow raincoat (June's) and violet scarf | Each hangs from a hook | OK |
+| Door lamp | Ring on the hook of an iron arm; the arm fixed to the wall by a plate | OK |
+| Bay window, its roof and sill | On the front wall, running out of the frame on the left | OK |
+| Neighbour's sash window | In its render wall, past the party wall | OK |
+| Black feather | Lying flat on the doorstep, with a shadow | OK |
+
+| Figure | E | Ea | A / H | L | L/R |
+|---|---|---|---|---|---|
+| Rook (human), on the doorstep | 2, grey | 2 | 2 / 5f each, hanging | 2, both shoes on the step, contact shadow | Same head as the portrait; long grey coat to below the knee, high collar, neck shows: OK |
+
+### Show and stereotype check (portraits and covers)
+
+No knot symbols; no glowing blue light or sparkles near Rook (the only lights are the gold lamps);
+the Lantern House is a narrow brick terrace, not a large detached house; the cover lettering is the
+book's own type, set by the page, not part of the art. No real faith symbols: the Night Nurse's cap
+has no cross, and Noor's headscarf is drawn plainly and with care. No figure is a likeness of an
+actor, a famous witch (*Sabrina*, *Practical Magic*, *Hocus Pocus*, *The Craft*, *Harry Potter*)
+or a brand mascot. Faces are drawn the same way for every skin tone and every age: no
+caricatured features.
+
+### Maps
+
+All six are top-down plans. Each was checked room by room against its chapter's list, way by way
+against its "Ways in" and "Ways out" lines, and for labels (rule 19) and colour (rule 18). In the
+built PDF each map spans the full text width, and its smallest label prints at 7.8 pt in Alegreya
+Sans or Fraunces (the book's fonts, embedded as Type 0; no Type 3, no fallback font). The build
+script warns when two labels' paper tags overlap; none do. Every way in or out is a double arrow
+inside the frame, with its own label. No meaning rests on colour alone: the print palette is
+greys, with red and green only on objects (a fire engine, stall awnings, nettles, a buoy) whose
+labels or shapes say what they are, and the one danger mark, where the first rocket falls, is a
+star-burst with a label. None of the maps has a legend, so no door style needs one: every door
+that matters is named in words.
+
+#### map-radio-tower (Ch 14, hidden place)
+| Room or way (book) | On the map | OK |
+|---|---|---|
+| The lane and the gate | Steep lane off the bottom edge; iron gate with its chain, "Iron gate, chain rusted through" | OK |
+| Chain-link fence round the hilltop | Fence all the way round, labelled | OK |
+| The transmitter hut | Brick hut with a door; racks and a desk inside; a cable from the hut to the tower | OK |
+| The yard | Gravel and nettles round the tower's four concrete feet | OK |
+| The tower | Lattice mast on four feet, ladder, platform; "six glowing valves hang at the top" | OK |
+| The cable trench | Covered trench from the hut, under the fence, to the observatory grounds | OK |
+| Observatory | Domed building by the path | OK |
+| Ways in and out: front gate, fence gap, cable trench | Three double arrows, each labelled | OK |
+| Way out only: the steep bank | Arrow down the bank, "Way out only: slide down the bank (too steep to climb)" | OK |
+| Guy wires | From the tower to three concrete anchors in the yard | OK |
+
+#### map-night-market (Ch 14, public place)
+| Room or way (book) | On the map | OK |
+|---|---|---|
+| The Market Street arch | Striped arch at the bottom | OK |
+| The lanes of stalls | Rows of stalls with awnings, "food, records, clothes, fortune-tellers" | OK |
+| St Bride's steps | The steps, with Grace's broadcast desk, its two speakers on stands and their cable | OK |
+| St Bride's market hall | Covered hall full of stalls; side doors onto Bell Street | OK |
+| The food yard | Long tables, a small stage, the salt-fish stall and its salt bins | OK |
+| The Harbour Steps | Stone stair from the food yard down to the harbour road | OK |
+| Cooper's Lane | Alley behind the chip shop ("Bea's flat above") | OK |
+| Fairy lights | Strung wall to pole and pole to pole across the lanes and the square | OK |
+| Four ways in and out | Four double arrows, each labelled | OK |
+
+#### map-mariner-theatre (Ch 15, hidden place)
+| Room or way (book) | On the map | OK |
+|---|---|---|
+| The front | Boarded doors under the canopy; the ticket booth; "Sign: Danger. Keep Out." | OK |
+| The foyer | Checked marble floor; "Grand staircase: ends in empty air" (its top broken off); "Wall of mirrors, cracked" | OK |
+| The stalls | Burnt seats in curved rows, fallen beams, "roof mostly sky" | OK |
+| The stage | Boards; the wedding arch at the back, "she sleeps here"; stairs down | OK |
+| The fly gallery | Walkways along both sides, "Fly gallery (high above)", drawn as a grid | OK |
+| Under the stage | Inset: damp dressing rooms, stairs up, "water at high tide" | OK |
+| Four ways in and out: front doors, stage door, loading dock (roller door half up), broken roof from the warehouse | Four double arrows, each labelled; a ladder up to the broken roof | OK |
+
+#### map-harbour-fireworks (Ch 15, public place)
+| Room or way (book) | On the map | OK |
+|---|---|---|
+| The quayside | "crowds, food vans and music"; food vans and a music stage | OK |
+| Hannah's fire engine | Parked on the quay | OK |
+| The fireboat | Moored at the quay by two lines to bollards | OK |
+| The fireworks barge | Out in the harbour, moored by a chain to a buoy | OK |
+| The ferry terminal | "glass hall", benches and gates | OK |
+| The fish market roof | Flat roof with an iron stair up, "people climb up here" | OK |
+| The promenade | Wide walk along the right edge | OK |
+| The harbour steps | Stone steps to the water, three small boats tied to them | OK |
+| Where the first rocket falls | Star-burst on the quay, labelled | OK |
+| Four ways in and out | Four double arrows, each labelled | OK |
+
+#### map-drowned-village (Ch 16, hidden place)
+| Room or way (book) | On the map | OK |
+|---|---|---|
+| The causeway | Raised stone path from the birdwatchers' car park across the mud | OK |
+| The reed beds | Reeds and black-water channels; the hide on stilts, with its flat-bottomed boat in the channel beside it | OK |
+| The village street | Cobbled lane, cottage wall stumps, "dry well" | OK |
+| The churchyard | Leaning stones inside the churchyard wall | OK |
+| St Agnes's church | Roofless nave; the tower with "empty bell frame" | OK |
+| The mudflats | Open mud to the sea; "low water: the tide comes in" | OK |
+| Ways in: causeway, reed channel by boat, sea wall from the Harbour | Three double arrows, each labelled | OK |
+| Way out only: the mudflat walk to the beach under the long pier | Arrow off the left edge, labelled | OK |
+
+#### map-long-pier (Ch 16, public place)
+| Room or way (book) | On the map | OK |
+|---|---|---|
+| The gates and the arcade | Gates at the landward end; the arcade with its machines; the candyfloss stall | OK |
+| The boardwalk | Planks over the water, benches, fishing rods with their lines from the rail into the sea | OK |
+| The halfway café | "Halfway café (closed)", with a long glass front | OK |
+| The pier head | Bandstand, coin telescopes, benches | OK |
+| The lifeboat ramp | Slipway from the pier head into the sea; a winch box at its top, its cable down the ramp into the water | OK |
+| The beach steps | Iron stair from the boardwalk down to the sand | OK |
+| Four ways in and out: gates, beach steps, lifeboat ramp, ferry landing | Four double arrows, each labelled; the ferry landing on the pier head's seaward side | OK |
+| Ch 13: "an arcade at one end and a lifeboat ramp at the other" | As drawn | OK |
+
+## Build check (portraits, covers and maps)
+
+Every changed SVG is well-formed (`node book/tools/preview-art.mjs`), has a `viewBox` and no fixed
+size, and has no `<image>`, `<script>`, filter or external link. The Foundry scene maps
+(`assets/scenes/*.webp`) came out byte-identical when the print maps were re-run. The built PDF
+(78 pages) has no text under 7.5 pt and no Type 3 fonts.
