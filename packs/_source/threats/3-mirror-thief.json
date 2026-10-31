@@ -15,7 +15,7 @@
     "weakness": "Its true reflection: make it look in an old mirror",
     "hiddenPlace": "Behind the mirrors of a closed department store",
     "publicPlace": "St Bride's market hall",
-    "signature": "Borrowed Face: attack the witch with the most Magic left; on a Failure they also lose 1 Magic.",
+    "signature": "Borrowed Face: attack the standing witch with the most Magic left, with Hit 1 higher; on a Failure they also lose 1 Magic (the guardian loses 1 Ward instead if it takes the attack by Hold or Shield). Ties: roll a die.",
     "notes": "",
     "signatureIsAttack": true
   }

@@ -223,7 +223,7 @@
         "weakness": "Water from the harbour, blessed by a coven",
         "hiddenPlace": "The burned-out theatre on the Docks",
         "publicPlace": "The harbour fireworks",
-        "signature": "Cinders: attack every character, but Hit is 1.",
+        "signature": "Cinders: one attack on each standing character, the guardian included, but Hit is 1. Shield, Shelter and Sight's miss each cover one of those attacks.",
         "notes": "",
         "signatureIsAttack": true
       },

@@ -15,7 +15,7 @@
     "weakness": "His own name spoken aloud, and salt",
     "hiddenPlace": "The old radio tower in the Heights",
     "publicPlace": "The Friday night market",
-    "signature": "Hush: attack two different characters; the first one he hurts can't cast on their next action.",
+    "signature": "Hush: attack two different characters (the most Hurt, then the next most Hurt, standing; ties: roll a die); the first one he hurts can't cast on their next action (no Power, spell or potion; for the guardian no Mend or Carry). It ends after that action, or at the end of the next round.",
     "notes": "",
     "signatureIsAttack": true
   }
