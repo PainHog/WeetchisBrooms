@@ -53,6 +53,9 @@ const ENGINE_HOOKS = [
   ["the guardian adds 1 Ward die to a witch's defence that could put her Down (study.wardDefend)",
     "free: held ? R.holdDice : 0, buy: danger ?",
     "free: (held ? R.holdDice : 0) + (settings.study?.wardDefend && danger && tgt.kind === \"witch\" && gd && !gd.down && gd.ward >= 2 ? spend(gd, 1, \"ward\") : 0), buy: danger ?"],
+  ["a Healing potion is used on a witch this many Hurt boxes short of Down, or Down (study.healBefore; the book's players wait until 1 short)",
+    "const before = coven.potions.length;\n      const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - 1);",
+    "const before = coven.potions.length;\n      const needHeal = coven.witches.filter(x => x.down || x.hurt >= x.hurtMax - (settings.study?.healBefore ?? 1));"],
   ["the brewer chooses each potion's kind (study.potionKind)",
     "const k = pick(POTION_ORDER);",
     "const k = settings.study?.potionKind ? settings.study.potionKind(coven, label) : pick(POTION_ORDER);"],
@@ -96,6 +99,8 @@ const unmakeTable = (s, L, tbl) => { s.rules.unmakeByWitches = false; s.numbers[
 /** +X Toughness for every coven at label L (tGuardian for guardian covens, the per-size row for the rest). */
 const flatToughness = (s, L, X) => { s.numbers[L].tGuardian = X; s.size.toughnessMod = { 2: X, 3: 3 + X, 4: X, 5: X }; };
 const count = (c, k) => c.potions.filter(x => x === k).length;
+/** The advice the recommended set adds, as the simulator's players play it (see KINDS). Filled in below KINDS. */
+let ADVICE;
 /** Potion kinds, players' choice (ruling 70). */
 const KINDS = {
   /** Blasting and Binding, whichever the coven has fewer of (ties: Blasting); never Healing. */
@@ -103,6 +108,7 @@ const KINDS = {
   /** As attack, but at Standard and Hard the coven first makes sure it has one Healing. */
   oneHealing: (c, L) => (L !== "easy" && !c.potions.includes("healing") ? "healing" : KINDS.attack(c)),
 };
+ADVICE = { wardUnmake: true, wardDefend: true, potionKind: KINDS.oneHealing, healBefore: 2 };
 /** A Critical rule: the book's, plus `extra(successes, sixes, dice, difficulty)` as another way to get one. */
 const critRule = extra => (faces, d, o) => {
   const r = readRoll(faces, d, o);
@@ -158,6 +164,7 @@ const V = [
   // Ward
   { id: "wardUnmake", miss: "ward", name: "The guardian helps the Unmaking with Ward (allowed now)", change: "Advice (Ch 4 or Ch 7) and the simulator's guardian", table: false, kind: "advice", hooked: true, make: study({ wardUnmake: true }) },
   { id: "wardBoth", miss: "ward", name: "…and adds a Ward die to a defence that could put a witch Down", change: "Advice and the simulator's guardian", table: false, kind: "advice", hooked: true, make: study({ wardUnmake: true, wardDefend: true }) },
+  { id: "wardUnmake4", miss: "ward", name: "4 Ward (was 5), and the guardian helps the Unmaking with it", change: "Ch 4 (Ward 5 → 4) and advice", table: false, kind: "rule", hooked: true, make: L => { const s = B(); s.rules.ward = 4; s.study = { wardUnmake: true }; return s; } },
   { id: "mendFree", miss: "ward", name: "Mend takes no action (once a round)", change: "Ch 4 gifts", table: false, kind: "rule", make: every(s => { s.rules.mendFree = true; }) },
   { id: "shield2", miss: "ward", name: "Shield twice a round", change: "Ch 4 gifts", table: false, kind: "rule", make: every(s => { s.rules.shieldPerRound = 2; }) },
   { id: "gUnmake1", miss: "ward", name: "The guardian joins the Unmaking for 1 Ward (+1 die)", change: "Ch 4, Ch 7", table: false, kind: "rule", make: every(s => { s.rules.guardianUnmake = 1; }) },
@@ -165,6 +172,7 @@ const V = [
 
   // Potions
   { id: "potNeed", miss: "potions", name: "Brewers choose kinds: Blasting and Binding, one Healing at Standard and Hard", change: "Advice (Ch 5) and the simulator's brewers", table: false, kind: "advice", hooked: true, make: study({ potionKind: KINDS.oneHealing }) },
+  { id: "potNeed2", miss: "potions", name: "…and Healing is used on a witch with 2 Hurt, not only 1 short of Down", change: "Advice (Ch 5, Ch 7 'Use your potions') and the simulator's players", table: false, kind: "advice", hooked: true, make: study({ potionKind: KINDS.oneHealing, healBefore: 2 }) },
   { id: "potAttack", miss: "potions", name: "Brewers make only Blasting and Binding", change: "Advice and the simulator's brewers", table: false, kind: "advice", hooked: true, make: study({ potionKind: KINDS.attack }) },
   { id: "yield1", miss: "potions", name: "A brew makes one potion (two on a Critical)", change: "Ch 5 potions", table: false, kind: "rule", make: every(s => { s.rules.potionYield = 1; }) },
   { id: "cap2", miss: "potions", name: "The coven carries at most 2 potions", change: "Ch 5 potions", table: false, kind: "rule", make: every(s => { s.rules.potionCap = 2; }) },
@@ -182,15 +190,18 @@ const V = [
 
   // The recommended set, and its checks
   { id: "recNumbers", miss: "set", name: "Set: Easy Unmaking +3 dice, Easy Toughness 4 × w, Hard Toughness 4 × w + 1", table: true, kind: "number", hooked: true, make: L => { const s = B(); if (L === "easy") { s.study = { unmakeCap: 3 }; s.numbers.easy.tWitch = 4; } if (L === "hard") flatToughness(s, "hard", 1); return s; } },
-  { id: "recAll", miss: "set", name: "Set + the two advice lines played (Ward in the Unmaking; brew by need)", table: true, kind: "number", hooked: true, make: L => { const s = B(); s.study = { wardUnmake: true, potionKind: KINDS.oneHealing }; if (L === "easy") { s.study.unmakeCap = 3; s.numbers.easy.tWitch = 4; } if (L === "hard") flatToughness(s, "hard", 1); return s; } },
-  { id: "recAll2", miss: "set", name: "Set + advice, seed 2", kind: "number", hooked: true, seed: 2, make: L => V.find(v => v.id === "recAll").make(L) },
-  { id: "recAll3", miss: "set", name: "Set + advice, seed 3", kind: "number", hooked: true, seed: 3, make: L => V.find(v => v.id === "recAll").make(L) },
+  { id: "recAdvice", miss: "set", name: "Set + the advice played (Ward help in the Unmaking and on a defence that could put a witch Down; brew by need; Healing at 2 Hurt)", table: true, kind: "number", hooked: true, make: L => { const s = V.find(v => v.id === "recNumbers").make(L); s.study = { ...(s.study || {}), ...ADVICE }; return s; } },
+  { id: "recAdvice2", miss: "set", name: "Set + advice, seed 2", table: true, kind: "number", hooked: true, seed: 2, make: L => V.find(v => v.id === "recAdvice").make(L) },
+  { id: "recAdvice3", miss: "set", name: "Set + advice, seed 3", table: true, kind: "number", hooked: true, seed: 3, make: L => V.find(v => v.id === "recAdvice").make(L) },
+  { id: "recWard4", miss: "set", name: "Set + advice + the guardian has 4 Ward (was 5)", table: true, kind: "number", hooked: true, make: L => { const s = V.find(v => v.id === "recAdvice").make(L); s.rules.ward = 4; return s; } },
+  { id: "recWard4s2", miss: "set", name: "Set + advice + Ward 4, seed 2", table: true, kind: "number", hooked: true, seed: 2, make: L => V.find(v => v.id === "recWard4").make(L) },
+  { id: "recWard4s3", miss: "set", name: "Set + advice + Ward 4, seed 3", table: true, kind: "number", hooked: true, seed: 3, make: L => V.find(v => v.id === "recWard4").make(L) },
 
   // Low Tide (Hard, Lure): the episode that uses Hard with its own threat
   { id: "lt:base", miss: "lure", name: "Low Tide as the book is", labels: ["hard"], make: () => { const s = B(); s.threat = "drownedChoir"; return s; } },
   { id: "lt:hT1", miss: "lure", name: "Low Tide, Hard Toughness 4 × w + 1", labels: ["hard"], make: () => { const s = B(); s.threat = "drownedChoir"; flatToughness(s, "hard", 1); return s; } },
   { id: "lt:hDanger4", miss: "lure", name: "Low Tide, Hard Danger 4", labels: ["hard"], make: () => { const s = B(); s.threat = "drownedChoir"; s.numbers.hard.attack = 4; return s; } },
-  { id: "lt:recAll", miss: "lure", name: "Low Tide, set + advice", labels: ["hard"], hooked: true, make: () => { const s = V.find(v => v.id === "recAll").make("hard"); s.threat = "drownedChoir"; return s; } },
+  { id: "lt:recAdvice", miss: "lure", name: "Low Tide, set + advice", labels: ["hard"], hooked: true, make: () => { const s = V.find(v => v.id === "recAdvice").make("hard"); s.threat = "drownedChoir"; return s; } },
 ];
 const byId = Object.fromEntries(V.map(v => [v.id, v]));
 
@@ -260,7 +271,8 @@ async function main() {
   const identical = Object.keys(baseCells).every(k => JSON.stringify(baseCells[k]) === JSON.stringify(hookedBase[k]));
   if (!identical) throw new Error("the hooked engine with no hooks set doesn't reproduce grid.mjs: fix ENGINE_HOOKS");
 
-  const ids = ["@rollMix", ...V.filter(v => v.id !== "base").map(v => v.id)];
+  const only = args.only ? args.only.split(",") : null;
+  const ids = only || ["@rollMix", ...V.filter(v => v.id !== "base").map(v => v.id)];
   const R = { base: digest(baseCells) };
   if (JOBS === 1) {
     for (const id of ids) R[id] = id === "@rollMix" ? rollMix({ runs: RUNS, seed: SEED }) : runVariant(byId[id], { runs: RUNS, seed: SEED, baseCells });
@@ -274,6 +286,13 @@ async function main() {
       w.on("exit", code => (code ? rej(new Error(`worker exit ${code}`)) : res()));
     })));
     process.stdout.write("\n");
+  }
+  if (only) {
+    for (const id of ["base", ...only]) {
+      console.log(fullRow(byId[id].name, R[id]));
+      console.log("   cells (3, 3g, 4, 4g, 5, 5g) " + LABELS.map(l => `${l}: ${cellsOf(l).map(k => f1(R[id].cell[k].win)).join(" ")}`).join(" | "));
+    }
+    return;
   }
   writeFileSync(OUT, report(R, { RUNS, SEED, identical }));
   console.log(`wrote ${OUT} in ${((Date.now() - t0) / 1000).toFixed(0)} s`);
