@@ -233,7 +233,7 @@ function marcoBody(A, look = 0) {
   s += E(el[0] + 6, el[1] - 40, 6, 3.5, oil, { op: 0.45 });
   s += palmHand(A, wr[0] + 2, wr[1] - 30, -6, mix(skin, "#e0b088", 0.3), { side: 1 });
   s += E(wr[0] - 4, wr[1] - 40, 7, 4, oil, { op: 0.4 }) + E(wr[0] + 12, wr[1] - 18, 5, 3, oil, { op: 0.35 });
-  s += flameInHand(A, wr[0] - 2, wr[1] - 92);
+  s += flameInHand(A, wr[0] - 2, wr[1] - 102);   // just above the fingertips (they end about wr - 86), so all five digits show
   s += neck(A, skin, 32, 205, y(0.165), ch.hd.chin);
   s += fill(A, `M${CX - 40},${r(y(0.158))} L${CX},${r(y(0.205))} L${CX + 40},${r(y(0.158))} L${CX + 46},${r(y(0.175))} L${CX},${r(y(0.225))} L${CX - 46},${r(y(0.175))} Z`, shirt, { s: false });
   for (const sd of [-1, 1]) s += fill(A, smooth([[CX + sd * 32, y(0.148)], [CX + sd * 74, y(0.16)], [CX + sd * 86, y(0.175)], [CX + sd * 56, y(0.205), 1], [CX + sd * 42, y(0.178)], [CX + sd * 34, y(0.163)]]), lt(shirt, 0.08), { w: 2.6 });
@@ -332,7 +332,7 @@ function tessBody(A, look = 0) {
     s += C(CX + sd * 96, y(0.187), 3.6, "#d9b55a", { s: INK, w: 1.4 });
   }
   for (const f of [0.36, 0.42, 0.47]) s += C(CX - 18, y(f), 3.8, "#d9b55a", { s: INK, w: 1.4 });
-  s += C(CX + 92, y(0.255), 12, "#d9b55a", { s: INK, w: 2.4 }) + C(CX + 92, y(0.255), 7, "none", { s: dk("#d9b55a", 0.35), w: 2 }) + C(CX + 89, y(0.25), 3, "#ffffff", { op: 0.6 });   // badge, her left chest
+  s += C(CX + 62, y(0.255), 12, "#d9b55a", { s: INK, w: 2.4 }) + C(CX + 62, y(0.255), 7, "none", { s: dk("#d9b55a", 0.35), w: 2 }) + C(CX + 59, y(0.25), 3, "#ffffff", { op: 0.6 });   // badge, her left chest (inside the arm, which covers CX + 81 outwards)
   for (const sd of [-1, 1]) s += hangArm(A, y, sd, { sw, col: navy, skin, w0: 66, w1: 52, cuff: dk(navy, 0.15) });
   s += neck(A, skin, 28, 200, y(0.17), ch.hd.chin);
   s += fill(A, poly([[CX - 28, y(0.152)], [CX - 3, y(0.18)], [CX - 26, y(0.19)], [CX - 38, y(0.165)]]), "#d4e3f2", { w: 2.2 }) + fill(A, poly([[CX + 28, y(0.152)], [CX + 3, y(0.18)], [CX + 26, y(0.19)], [CX + 38, y(0.165)]]), "#d4e3f2", { w: 2.2 });
@@ -354,8 +354,8 @@ function noorBody(A, look = 0) {
   s += S(`M${CX - 52},${r(y(0.232))} L${CX + 52},${r(y(0.232))}`, dk(apron, 0.3), 1.6, 0.8, { dash: "4 3" });
   s += E(CX - 30, y(0.6), 10, 4, "#4a3626", { op: 0.4 }) + E(CX + 34, y(0.66), 7, 3, "#4a3626", { op: 0.35 });   // soil marks
   // the apron pocket with the crow feather standing in it (her left, viewer's right, as on her portrait)
-  const pk = [CX + 22, y(0.44), CX + 84, y(0.51)];
-  s += ch.feather(A, [CX + 50, y(0.49)], [CX + 74, y(0.37)], 10);
+  const pk = [CX + 12, y(0.44), CX + 68, y(0.51)];                    // clear of her hanging left arm (inner edge about CX + 74)
+  s += ch.feather(A, [CX + 38, y(0.49)], [CX + 54, y(0.365)], 10);
   s += fill(A, `M${pk[0]},${r(pk[1])} L${pk[2]},${r(pk[1])} L${pk[2] - 2},${r(pk[3])} L${pk[0] + 2},${r(pk[3])} Z`, lt(apron, 0.06), { w: 2.4 });
   s += S(`M${pk[0] + 2},${r(pk[1] + 6)} L${pk[2] - 2},${r(pk[1] + 6)}`, dk(apron, 0.3), 1.4, 0.8, { dash: "3 3" });
   // left arm hangs

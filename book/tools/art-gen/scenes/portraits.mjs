@@ -203,7 +203,7 @@ export function mouth(A, o, skin) {
     if (lipstick) {
       s += P(`M${xl},${lc[0]} Q${CX - w * 0.25},${y - 6} ${CX},${y - 3} Q${CX + w * 0.25},${y - 6} ${xr},${lc[1]} Q${CX},${y + cv * 0.6} ${xl},${lc[0]} Z`, dk(lipstick, 0.12));
       s += P(`M${xl + 1},${lc[0]} Q${CX},${y + cv + 9} ${xr - 1},${lc[1]} Q${CX},${y + cv * 0.6} ${xl + 1},${lc[0]} Z`, lipstick);
-      s += E(CX - 2, y + cv * 0.5 + 4, w * 0.16, 1.6, "#ffffff", { op: 0.35 });
+      s += E(CX - 2, y + cv * 0.5 + 2.7, w * 0.14, 1.1, "#ffffff", { op: 0.35 });   // shine on the lower lip (the lip shows between y + cv/2 + 1.3 and + 4)
     } else {
       s += P(`M${xl + 3},${lc[0] + 2} Q${CX},${y + cv + 8} ${xr - 3},${lc[1] + 2} Q${CX},${y + cv + 2} ${xl + 3},${lc[0] + 2} Z`, lip, { op: 0.75 });
     }
@@ -876,7 +876,7 @@ function ashWidow(A) {
   s += shaded(A, hD, skin, { hi: 0.08, lo: 0.3 });
   s += P(`M120,200 L280,200 L280,260 L120,260 Z`, A.lin([[0, ember, 0], [1, ember, 0.3]]), { clip: A.clip(hD) });   // firelight from below
   s += face(A, { skin, eyes: { iris: "#ff8a2a", ir: 5.6, lash: 1, white: "#efe6dc" }, brows: { color: "#3a302c", tilt: 4, th: 4.5, arch: 2 }, nose: { w: 7 }, mouth: { kind: "sad", w: 20, lip: "#9a6a62" } });
-  s += S(`M152,152 Q150,190 160,214`, "#3a302c", 2.4, 0.9);   // a loose strand
+  s += S(`M154,126 Q147,176 160,214`, "#3a302c", 2.4, 0.9);   // a loose strand, falling from under the hairline
   const hairD = smooth([[142, 170], [138, 134], [150, 104], [176, 88], [CX, 84], [224, 88], [250, 104], [262, 134], [258, 170],
     [252, 146, 1], [244, 124], [222, 112], [CX, 108, 1], [178, 112], [156, 124], [148, 146, 1]]);
   s += fill(A, hairD, hair, { hi: 0.18 });
@@ -917,8 +917,7 @@ function mirrorThief(A) {
   }
   s += G(S(`M196,52 L210,150 L270,156 M130,168 L210,150 L204,280`, "#eef2f6", 1.4, 0.8), { clip: hc });
   s += P(hD, "none", { s: INK, w: LW });
-  // its own eye, peeping out where the stolen face doesn't cover
-  s += P(`M231,171 Q242,162 253,168 Q243,178 231,171 Z`, "#14101a", { s: INK, w: 1.4 }) + C(243, 170, 3.2, "#e9e6c4") + C(243, 170, 1.4, "#14101a");
+  // (no eye of its own: the reference sheet in book/art/ART-LOG.md gives its head no eyes, ears or hair)
   // the stolen face, pushed askew: a separate mask with a visible pale edge
   const tf = "rotate(-12 200 178) translate(-17 6)";
   const mD = headD({ top: 104, chin: 250, hw: 50, jaw: 0.82, chinW: 0.4, cheekY: 168, temple: 0.92 });
@@ -928,7 +927,7 @@ function mirrorThief(A) {
   // long thin silver fingers curled over the edge of the face (its left hand, viewer's right)
   s += fill(A, `M266,250 L288,242 L344,420 L304,420 Z`, coat, { w: 2.4 });                              // sleeve
   const finger = "#c3c7d3";
-  s += taper([[266, 246], [256, 256], [244, 258]], 8, 6, finger);                                       // thumb
+  s += taper([[270, 194], [260, 181], [248, 177]], 8, 6, finger);                                       // thumb, on top (left hand seen from the back, fingers to its right)
   for (const f of [[[266, 196], [252, 186], [238, 188], [228, 196]], [[268, 208], [250, 202], [234, 205], [224, 212]], [[268, 220], [250, 218], [236, 222], [228, 229]], [[266, 232], [254, 234], [244, 239], [238, 245]]]) s += taper(f, 8, 5, finger);
   s += shaded(A, smooth([[262, 190], [272, 188], [280, 204], [282, 228], [276, 246], [266, 250], [260, 228]]), finger, { w: 2.4, hi: 0.25, lo: 0.35 });   // back of the hand
   return s;
@@ -1054,9 +1053,12 @@ function drownedChoir(A) {
   for (const [x, w] of [[120, 40], [210, 30], [300, 44]]) s += P(`M${x - w / 2},0 L${x + w / 2},0 L${x + w * 1.6},400 L${x - w * 0.4},400 Z`, "#d8f2e8", { op: 0.06 });
   const rnd = rng(31);
   for (let i = 0; i < 14; i++) s += C(30 + rnd() * 340, 30 + rnd() * 330, 2 + rnd() * 3, "none", { s: "#d8f2e8", w: 1.2, op: 0.5 });
-  const place = (cx, cy, sc, o, op) => G(ghostFace(A, o), { tf: `translate(${cx} ${cy}) scale(${sc}) translate(-200 -170)`, op });
-  s += place(104, 112, 0.46, { cap: "flat" }, 0.55) + place(296, 108, 0.46, { long: true, strands: true }, 0.55);
-  s += place(86, 214, 0.56, { cap: "bonnet" }, 0.75) + place(314, 214, 0.56, { strands: true, hair: "#3a5450" }, 0.75);
+  // each ghost behind has a neck and shoulders that fade into the water (no floating heads)
+  const fade = A.mask(tag("rect", { x: 0, y: 0, width: 400, height: 460, fill: A.lin([[0, "#ffffff"], [0.2, "#ffffff"], [1, "#000000"]], 0, 262, 0, 400, true) }), 0, 0, 400, 460);
+  const shoulders = cloth => G(neck(A, "#b9d5ca", 22, 200, 300, 250) + fill(A, torsoD({ sw: 118, nw: 23, sy: 300 }), cloth, { hi: 0.1 }), { mask: fade });
+  const place = (cx, cy, sc, o, op) => G(shoulders(o.cloth ?? "#56716d") + ghostFace(A, o), { tf: `translate(${cx} ${cy}) scale(${sc}) translate(-200 -170)`, op });
+  s += place(104, 112, 0.46, { cap: "flat", cloth: "#4f6864" }, 0.55) + place(296, 108, 0.46, { long: true, strands: true, cloth: "#5d7672" }, 0.55);
+  s += place(86, 214, 0.56, { cap: "bonnet", cloth: "#5a706c" }, 0.75) + place(314, 214, 0.56, { strands: true, hair: "#3a5450", cloth: "#4c6662" }, 0.75);
   s += tag("rect", { x: 0, y: 0, width: 400, height: 400, fill: "#0e2a2c", opacity: 0.25 });
   // lead singer in front, with a shawl
   const shawl = "#3f5f5a";
